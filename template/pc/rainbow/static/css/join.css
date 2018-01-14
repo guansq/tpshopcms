@@ -1,0 +1,720 @@
+.clearfix{ *zoom:1;}
+.clearfix:after{  /*清除浮动*/
+    content: "200B";
+    height: 0;
+    font-size: 0;
+    display: block;
+    clear: both;
+}
+.font-my{ /*微软雅黑*/
+    font-family: "Microsoft Yahei";
+}
+
+.show-center-1224{  /*宽度1224的盒子居中显示*/
+    width: 1224px;
+    margin: 0 auto;
+}
+.children-a-100 a{ /*点击元素全部可触发*/
+    display: block;
+    width: inherit;
+    height: inherit;
+    color: inherit;
+}
+
+.main-header .header-l{
+    float: left;
+    margin-top: 21px;
+    margin-bottom: 31px;
+}
+.main-header .logo{
+    float: left;
+}
+.main-header .des{
+    float: left;
+    height: 18px;
+    padding-left: 16px;
+    margin-left: 14px;
+    margin-top: 12px;
+    font-size: 18px;
+    line-height: 18px;
+    color: #8c8c8c;
+    border-left: 1px solid #eee;
+}
+.main-header .header-r{
+    float: right;
+}
+.main-header li{
+    float: left;
+    height: 110px;
+    border-top: 3px solid transparent;
+    font-size:16px;
+    line-height: 110px;
+    color: #333;
+}
+.main-header li a{
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.main-header li:hover{
+    border-top-color: #e23435;
+    background-color: #fafafa;
+    color: #e23435;
+}
+.main-header li.active{
+    border-top-color: #e23435;
+    background-color: #fafafa;
+    color: #e23435;
+}
+
+.main-banner-warp{
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+.main-banner{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -960px;
+    width: 1920px;
+}
+.main-banner .btn-item{
+    position: absolute;
+    left: 1047px;
+    width: 250px;
+    height: 80px;
+    background: url("../images/join-banner-btn.png") no-repeat 0 0;
+    font-size: 30px;
+    line-height: 80px;
+    text-align: center;
+    color: #ffa608;
+}
+.join-btn{
+    top: 103px;
+}
+.selete-btn{
+    top: 218px;
+}
+
+.hot-brand{
+    padding-top: 100px;
+}
+.hot-brand .title{
+    padding-left: 200px;
+    height: 56px;
+    line-height: 56px;
+    font-size: 36px;
+    color: #222;
+    text-align: center;
+}
+.hot-brand .title span{
+    display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 12px;
+    width: 175px;
+    height: 1px;
+    background-color: #e23435;
+}
+.hot-brand .sub-title{
+    padding-right: 100px;
+    margin-bottom: 30px;
+    height: 24px;
+    letter-spacing: 3px;
+    line-height: 24px;
+    font-size: 24px;
+    color: #e23435;
+    text-align: center;
+    font-weight: normal;
+}
+.hot-brand .sub-title span{
+    display: inline-block;
+    margin-right: 40px;
+    margin-bottom: 9px;
+    width: 175px;
+    height: 1px;
+    background-color: #e23435;
+}
+.hot-brand .des{
+    line-height: 36px;
+    text-align: center;
+    font-size: 18px;
+    color: #444;
+}
+.hot-brand .pros-list{
+    width: 1320px;
+}
+.hot-brand .pros-list li{
+    float: left;
+    width: 330px;
+    height: 64px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.hot-brand .pros-list .pro-icon{
+    float: left;
+    width: 62px;
+    height: 64px;
+    background-image: url("../images/join-icon-list.png");
+    background-repeat:no-repeat;
+}
+.ico-food{
+    background-position: 0 0;
+}
+.ico-maintain{
+    background-position: -62px 0;
+}
+.ico-digital{
+    background-position: -124px 0;
+}
+.ico-fruits{
+    background-position: -186px 0;
+}
+.ico-clothes{
+    background-position: -248px 0;
+}
+.ico-drinks{
+    background-position: -310px 0;
+}
+.ico-snacks{
+    background-position: -372px 0;
+}
+.ico-pregnant{
+    background-position: -434px 0;
+}
+.hot-brand .pros-list .pro-name{
+    float: left;
+    height: 64px;
+    margin-left: 15px;
+    line-height: 64px;
+    color: #8c8c8c;
+    font-weight: normal;
+}
+.business-join{
+    padding-top: 80px;
+    text-align: center;
+}
+.business-join .title{
+    height: 56px;
+    line-height: 56px;
+    font-size: 36px;
+    color: #222;
+}
+.business-join .sub-title{
+    margin-bottom: 100px;
+    height: 24px;
+    letter-spacing: 3px;
+    line-height: 24px;
+    font-size: 24px;
+    color: #e23435;
+    font-weight: normal;
+}
+.business-join .business-list li{
+    float: left;
+    position: relative;
+    width: 286px;
+    height: 286px;
+    border: 1px solid #e6e6e6;
+    background-color: #f5f5f5;
+    margin-right: 24px;
+}
+.business-join .business-list .item-icon{
+    position: absolute;
+    z-index: 1;
+    left: 83px;
+    top: -62px;
+    width: 122px;
+    height: 122px;
+    background-image: url("../images/join-icon-list.png");
+    background-repeat:no-repeat;
+}
+.ico-business{
+    background-position:0 -74px;
+}
+.ico-cooperation{
+    background-position:-124px -74px;
+}
+.ico-standard{
+    background-position:-248px -74px;
+}
+.ico-more{
+    background-position:-372px -74px;
+}
+.business-join .business-list .item-title{
+    margin-top: 70px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 20px;
+    color: #333;
+}
+.business-join .business-list .item-des{
+    padding-left: 25px;
+    padding-right: 25px;
+    height: 60px;
+    overflow: hidden;
+    line-height: 30px;
+    font-size: 14px;
+    color: #999;
+}
+.business-join .business-list .item-btn{
+    display: inline-block;
+    margin-top: 20px;
+    width: 138px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    border: 1px solid #e23435;
+    color: #e23435;
+}
+.business-join .business-list .item-btn:hover{
+    color: #fff;
+    background-color:#e23435;
+}
+.join-step .title{
+    height: 80px;
+    line-height: 80px;
+    margin-top: 40px;
+    font-size: 24px;
+    color: #e23435;
+    text-align: center;
+}
+.join-step .title span{
+    display: inline-block;
+    height: 10px;
+    width: 200px;
+    margin-bottom: 3px;
+    background-image: url("../images/join-icon-list.png");
+    background-repeat: no-repeat;
+}
+.join-step .left-line{
+    background-position: -152px -582px;
+    margin-right: 5px;
+}
+.join-step .right-line{
+    background-position: -152px -592px;
+    margin-left: 5px;
+}
+.join-step .step-cont .left-pic{
+    float: left;
+}
+.join-step .step-cont .right-list{
+    float: left;
+    width: 662px;
+    overflow: hidden;
+}
+.join-step .step-cont .step-list{
+    width: 750px;
+}
+.join-step .right-list li{
+    float: left;
+    padding-top: 85px;
+    padding-left: 15px;
+    height: 135px;
+    width: 360px;
+}
+.join-step .right-list .left-icon{
+    float: left;
+    width: 142px;
+    height: 134px;
+    background-image: url("../images/join-icon-list.png");
+    background-repeat: no-repeat;
+}
+.ico-step1{
+    background-position: 0 -438px;
+}
+.ico-step2{
+    background-position: -142px -438px;
+}
+.ico-step3{
+    background-position: -284px -438px;
+}
+.ico-step4{
+    background-position: 0 -572px;
+}
+.join-step .right-list .step-title{
+    margin-left: 157px;
+    width: 120px;
+    height: 46px;
+    overflow: hidden;
+    line-height: 46px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #454545;
+}
+.join-step .right-list .step-num{
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    line-height: 32px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background: url("../images/join-icon-list.png") no-repeat -162px -612px;
+}
+.join-step .right-list .step-des{
+    margin-left: 157px;
+    width: 120px;
+    height: 26px;
+    overflow: hidden;
+    line-height: 26px;
+    font-size: 14px;
+    color: #737373;
+}
+
+.join-cooperation{
+    padding-top: 100px;
+}
+.join-cooperation .title{
+    padding-left: 190px;
+    height: 56px;
+    line-height: 56px;
+    font-size: 36px;
+    color: #222;
+    text-align: center;
+}
+.join-cooperation .title span{
+    display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 12px;
+    width: 175px;
+    height: 1px;
+    background-color: #e23435;
+}
+.join-cooperation .sub-title{
+    padding-right:40px;
+    margin-bottom: 30px;
+    height: 24px;
+    letter-spacing: 3px;
+    line-height: 24px;
+    font-size: 24px;
+    color: #e23435;
+    text-align: center;
+    font-weight: normal;
+}
+.join-cooperation .sub-title span{
+    display: inline-block;
+    margin-right: 40px;
+    margin-bottom: 9px;
+    width: 175px;
+    height: 1px;
+    background-color: #e23435;
+}
+.join-cooperation .des{
+    line-height: 36px;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #444;
+}
+.join-cooperation .tab-warp{
+    background-color: #f5f5f5;
+}
+.join-cooperation .tab-warp .tab-nav{
+    float: left;
+}
+.join-cooperation .tab-nav li{
+    position:relative;
+    padding-left: 20px;
+    width: 168px;
+    height: 104px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    cursor: pointer;
+}
+/*.join-cooperation .tab-nav li.last{
+    margin-bottom: 0;
+}*/
+.join-cooperation .tab-nav li:hover .tab-icon{
+    background-image: url("../images/join-tab1-hv.png");
+}
+.join-cooperation .tab-nav li:hover .tab-title{
+    color: #e23435;
+}
+.join-cooperation .tab-nav li:hover .white-arrow{
+    display: block;
+}
+
+.join-cooperation .tab-nav .checked .tab-icon{
+    background-image: url("../images/join-tab1-hv.png");
+}
+.join-cooperation .tab-nav .checked .tab-title{
+    color: #e23435;
+}
+.join-cooperation .tab-nav .checked .white-arrow{
+    display: block;
+}
+
+.join-cooperation .tab-nav .tab-icon{
+    float: left;
+    margin-top: 24px;
+    width: 51px;
+    height: 44px;
+    background-image: url("../images/join-tab1.png");
+    background-repeat: no-repeat;
+}
+.ico-tabitem1{
+    background-position: 0 0;
+}
+.ico-tabitem2{
+    background-position:-51px 0;
+}
+.ico-tabitem3{
+    background-position:-102px 0;
+}
+.ico-tabitem4{
+    background-position:-153px 0;
+}
+.ico-tabitem5{
+    background-position:-204px 0;
+}
+.ico-tabitem6{
+    background-position:-255px 0;
+}
+.join-cooperation .tab-nav .tab-title{
+    float: left;
+    padding-left: 10px;
+    width: 107px;
+    height: 104px;
+    line-height: 104px;
+    font-size: 16px;
+    color: #666;
+}
+.join-cooperation .tab-nav .white-arrow{
+    display: none;
+    position: absolute;
+    top: 44px;
+    right: -16px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: #fff;
+}
+
+.join-cooperation .tab-cont{
+    float: left;
+    width: 1036px;
+}
+.join-cooperation .tab-cont li{
+    width: 1036px;
+    display: none;
+}
+.join-cooperation .tab-cont li.active{
+    display: block;
+}
+.join-cooperation .tab-cont  .left-des{
+    float: left;
+    width: 240px;
+    padding-left: 40px;
+}
+.join-cooperation .left-des .des-title{
+    margin-top: 130px;
+    height: 120px;
+    line-height: 120px;
+    font-size: 22px;
+    color: #333;
+}
+.join-cooperation .left-des .des-cont{
+    line-height: 28px;
+    font-size: 16px;
+    color: #666;
+}
+.join-cooperation .left-des .more-btn{
+    display: block;
+    margin-top: 30px;
+    margin-left: 10px;
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e23435;
+}
+.join-cooperation .left-des .more-btn span{
+    display: inline-block;
+    margin-bottom:-7px;
+    margin-left: 20px;
+    width: 26px;
+    height: 26px;
+    background: url("../images/join-icon-list.png") no-repeat -203px -611px;
+}
+.join-cooperation .right-pic{
+    margin-top: 124px;
+    float: right;
+}
+
+.common-problem{
+    padding-top: 80px;
+}
+.common-problem .title{
+    height: 56px;
+    line-height: 56px;
+    font-size: 36px;
+    color: #222;
+    text-align: center;
+}
+.common-problem .sub-title{
+    margin-bottom: 40px;
+    height: 24px;
+    letter-spacing: 3px;
+    line-height: 24px;
+    font-size: 24px;
+    color: #e23435;
+    font-weight: normal;
+    text-align: center;
+}
+.common-problem .problem-warp{
+    width: 1224px;
+    overflow: hidden;
+}
+.common-problem .problem-list{
+    width:1310px;
+}
+.common-problem .problem-list li{
+    float: left;
+    width: 320px;
+    height: 108px;
+    margin-bottom: 120px;
+}
+.common-problem .problem-list .item-icon{
+    float: left;
+    width: 108px;
+    height: 108px;
+    margin-right: 20px;
+    background-image: url("../images/join-icon-list.png");
+    background-repeat:no-repeat;
+}
+.ico-mes{
+    background-position: 0 -208px;
+}
+.ico-seller{
+    background-position: -110px -208px;
+}
+.ico-cost{
+    background-position: -220px -208px;
+}
+.ico-management{
+    background-position: -330px -208px;
+}
+.ico-advantage{
+    background-position: 0 -318px;
+}
+.ico-cont{
+    background-position: -110px -318px;
+}
+.ico-help{
+    background-position: -220px -318px;
+}
+.ico-tel{
+    background-position: -330px -318px;
+}
+.common-problem .problem-list .item-title{
+    height: 40px;
+    line-height: 40px;
+    font-size:16px;
+    color: #888;
+}
+.common-problem .problem-list .item-des{
+    padding-right: 50px;
+    line-height: 20px;
+    font-size: 12px;
+    color: #888;
+}
+.common-problem .problem-more .problem-pic{
+    float: left;
+}
+.common-problem .problem-more .btn-more{
+    float: left;
+    margin-top: 100px;
+    margin-left: 120px;
+    width: 273px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #e23435;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+.common-problem .problem-more .btn-more i{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    margin-left: 10px;
+    margin-bottom: -8px;
+    background: url("../images/join-icon-list.png") no-repeat -203px -611px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

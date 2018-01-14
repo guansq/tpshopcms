@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>售后服务-交易纠纷</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="bg-f5">
+<include file="user/header"/>
+<div class="home-index-middle">
+	<div class="w1224">
+		<div class="g-crumbs">
+			<a href="{:U('Home/User/index')}">我的商城</a>
+			<i class="litt-xyb"></i>
+			<span>交易纠纷</span>
+		</div>
+		<div class="home-main">
+			<include file="user/menu"/>
+			<div class="ri-menu tradejf fr">
+				<div class="menumain p">
+					<div class="coup-tit p">
+						<h1>交易纠纷</h1>
+						<div class="tu">
+							<div class="sclq">
+								<i class="trade"></i>
+								<span><a href="">交易纠纷规则说明</a></span>
+								<div class="introducetrade">
+									<div class="pc">
+										<p>
+											<strong>什么是交易纠纷？</strong>
+											<br />
+											您在购买商城第三方卖家商品并享受其服务的过程中，
+											与卖家产生分歧，可视为交易纠纷。
+											在您无法与卖家协商处理一致时，
+											可申请交易纠纷单并由商城介入进行处理。
+										</p>
+										<p>
+											<strong>如何解决交易纠纷问题？</strong>
+											<br />
+											1、您需要根据纠纷问题及页面提示，申请相应类型的交易纠纷单。
+											<br />
+											2、申请交易纠纷单后，卖家会在24小时内（春节、国庆节假日期间除外）处理并回复您的纠纷单。
+											<br />
+											（1）卖家回复后，若您与卖家未达成一致，您可以继续回复卖家，或申请商城介入处理。
+											<br />
+											（2）若卖家超时未回复您的交易纠纷单，将会由商城自动介入处理您的问题。
+											<br />
+											（3）春节、国庆节假日期间，卖家回复时效为1个工作日。
+											<br />
+											3、您的交易纠纷单在商城介入后，商城交易纠纷专员会在24小时内处理您的问题。
+											<br />
+											4、商城交易纠纷专员处理过程中若有需要您举证的情况，请您根据专员举证建议，于交易纠纷单页面上传证据，专员会根据您和卖家提供的证据给出处理结果。
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="applyaum p ma-to-20">
+					<div class="cn-apply">
+						<a href="{:U('Order/dispute')}">可申请订单</a>
+						<a class="curp" href="{:U('Order/dispute_list')}">已申请记录</a>
+					</div>
+					<div class="warning">
+						<i class="las-warning"></i>
+						<span>目前您的部分订单可能无法申请。我们正逐步覆盖到说有卖家，若订单无法申请，请您至商品详情页联系卖家在线客服寻求帮助。</span>
+					</div>
+					<div class="orderlist-servecenter applyrecord">
+						<div class="returnmagament">
+							<div class="returngoods">
+								<div class="book-tit">
+									<ul>
+										<li class="sx1 s5clic" style="opacity: 1;"><if condition="$Request.param.complain_time_out eq 1">三个月前纠纷单<else/>三个月内纠纷单</if><i class="jt-x shorw"></i></li>
+										<li class="sx5">纠纷单详情</li>
+										<li class="sx2">纠纷类型</li>
+										<li class="sx3 s5clic" style="opacity: 1;">
+											<if condition="$Request.param.complain_state_type eq 1">
+												处理中
+												<elseif condition="$Request.param.complain_state_type eq 2"/>
+												已完成
+												<else/>
+												全部状态
+											</if>
+											<i class="jt-x shorl"></i></li>
+										<li class="sx4">操作</li>
+									</ul>
+								</div>
+								<div class="hid-derei sq_der" style="display: none;">
+									<ul>
+										<li><a href="{:U('Order/dispute_list')}">三个月内纠纷单</a></li>
+										<li><a href="{:U('Order/dispute_list',array('complain_time_out'=>1))}">三个月前纠纷单</a></li>
+									</ul>
+								</div>
+								<div class="hid-derei" style="display: none;">
+									<ul>
+										<li><a href="{:U('Order/dispute_list',array_merge(array('complain_time_out'=>I('complain_time_out',0)),array('complain_state_type'=>0)))}">全部状态</a></li>
+										<li><a href="{:U('Order/dispute_list',array_merge(array('complain_time_out'=>I('complain_time_out',0)),array('complain_state_type'=>1)))}">处理中</a></li>
+										<li><a href="{:U('Order/dispute_list',array_merge(array('complain_time_out'=>I('complain_time_out',0)),array('complain_state_type'=>2)))}">已完成</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<notempty name="list">
+							<div class="order-alone-li">
+								<foreach name="list" item="vo">
+									<table width="100%" border="" cellspacing="" cellpadding="">
+										<tr class="time_or">
+											<td colspan="6">
+												<div class="fl_ttmm">
+													<span class="time-num time">{$vo.complain_time|date='Y-m-d H:i:s',###}</span>
+													<span class="time-num">订单号：<em class="num">{$vo.order_sn}</em></span>
+													<span class="time-num">投诉商家：<em class="num">{$vo.store_name}<i class="ear"></i></em></span>
+													<!--<div class="dele"></div>-->
+												</div>
+											</td>
+										</tr>
+										<tr class="conten_or">
+											<td class="sx1">
+												<div class="duoal">
+													<notempty name="vo.order_goods_id"><img src="{$vo.order_goods_id|goods_thum_images=60,60}"/>
+														<div class="shop_name"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[order_goods_id]))}">{$goodsList[$vo[order_goods_id]]}</a></div>
+														<else/>
+														<img src="{$vo.complain_pic}" height="60"/>
+														<div class="shop_name">{$vo.complain_content}</div>
+													</notempty>
+												</div>
+											</td>
+											<td class="sx2">
+												<span class="xuname">{$vo.complain_subject_name}</span>
+											</td>
+											<td class="sx3"><span class="red">{$vo.complain_state}</span></td>
+											<td class="sx4">
+												<a class="nomarba" href="{:U('Order/dispute_info',array('complain_id'=>$vo[complain_id]))}">查看纠纷详情</a>
+											</td>
+										</tr>
+									</table>
+								</foreach>
+							</div>
+							<else/>
+							<p class="ncyekjl">--暂无记录--</p>
+						</notempty>
+						<div class="operating fixed" id="bottom">
+							{$page}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!--footer-s-->
+<include file="user/footer" />
+<!--footer-e-->
+<script type="text/javascript">
+	$(function(){
+		//退货记录和申请退货切换
+		$('.time-sala ul li').click(function(){
+			var twi = $('.time-sala ul li').index(this);
+			$('.returngoods').eq(twi).show().siblings('.returngoods').hide();
+			$(this).addClass('red').siblings().removeClass('red');
+		})
+	})
+	$(function(){
+		//下拉框
+		$('.s5clic').click(function(){
+			var ge = $('.s5clic').index(this);
+			$('.hid-derei').eq(ge).slideToggle(400).siblings('.hid-derei').hide();
+			$(this).animate({opacity:"1"},200,function(){
+				$(this).toggleClass('sxbb').siblings('.s5clic').removeClass('sxbb');
+			})
+		})
+	})
+</script>
+</body>
+</html>

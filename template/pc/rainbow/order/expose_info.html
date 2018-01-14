@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的举报-举报信息</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>举报信息</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+						<div class="menumain p">
+							<div class="goodpiece">
+								<h1>相关商品</h1>
+								<!--<a href=""><span class="co_blue">帮助</span></a>-->
+							</div>
+							<div class="jdxe_xq ma-to-10">
+								<div class="goods_infom">
+									<div class="fi_imgli">
+										<img height="100" src="{$expose.expose_goods_id|goods_thum_images=100,100}"/>
+									</div>
+									<div class="fi_fonri">
+										<p>商品名称：{$expose.expose_goods_name}</p>
+										<p>商品ID：{$expose.expose_goods_id}</p>
+										<p>被举报商家：{$store.store_name}</p>
+										<p>举报时间：{$expose.expose_time|date='Y-m-d H:i:s',###}</p>
+									</div>
+								</div>
+							</div>
+                            <div class="goodpiece ma-to-20 unfios">
+                                <h1>处理状态</h1>
+                            </div>
+                            <div class="mistake_afr">
+                                <if condition="$expose.expose_state eq 2">
+                                    <p class="gsinfo_xx">{$expose.expose_handle}</p>
+                                <else/>
+                                    <p class="gsinfo_xx">平台正在处理</p>
+                                </if>
+
+                            </div>
+							<div class="goodpiece ma-to-20 unfios">
+								<h1>举报类型</h1>
+							</div>
+							<div class="mistake_afr">
+								<p class="gsinfo_xx">{$expose.expose_type_name}</p>
+							</div>
+							<div class="goodpiece ma-to-20 unfios">
+								<h1>举报主题</h1>								
+							</div>
+							<div class="mistake_afr">
+								<p class="gsinfo_xx">{$expose.expose_subject_name}</p>
+							</div>
+							<div class="goodpiece ma-to-20 unfios">
+								<h1>举报内容</h1>
+								<!--<a href=""><span class="co_blue">帮助</span></a>-->
+							</div>
+							<div class="mistake_afr">
+								<p class="gsinfo_xx">{$expose.expose_content}</p>
+							</div>
+							<div class="goodpiece ma-to-20 unfios">
+								<h1>举报图片</h1>
+							</div>
+							<div class="mistake_afr">
+								<div class="smallimg_t">
+									<foreach name="expose.expose_pic" item="src1">
+									 <a href="{$src1}"><img src="{$src1}"/></a>
+									</foreach>
+								</div>
+							</div>
+							<p class="tips_jub">您可以在【<span>我的商城</span>】-【<a href="{:U('Order/expose_list')}">举报信息</a>】查询您的举报信息</p>
+							<div class="boxbutn_re">
+								<a class="cback" href="{:U('Order/expose_list')}">返回</a>
+							</div>
+						</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.choice_hobby').click(function(){
+					$(this).toggleClass('red');
+				})
+			})
+			
+		</script>
+	</body>
+</html>

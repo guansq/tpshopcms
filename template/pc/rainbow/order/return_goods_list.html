@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>退换货，返修</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>退换货，返修</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+			    		<div class="menumain p">
+				    		<div class="return-top p">
+				    			<ul>
+				    				<li><a href="{:U('Order/return_goods_index')}">可申请退换货</a></li>
+				    				<li  class="red"><a href="{:U('Order/return_goods_list')}">退换货记录</a></li>
+				    				<li><a href="{:U('Order/return_goods_refund')}">退款明细</a></li>
+				    			</ul>
+				    		</div>
+				    		<form action="" method="get" id="searchform">
+				    		<div class="greatco-se">
+				    			<div class="chx-se">
+				    				<input type="text" name="order_sn" id="order_sn" value="{$_GET['order_sn']}"  placeholder="订单编号"/>
+				    				<a href="javascript:$('#searchform').submit()">查询</a>
+				    			</div>
+				    		</div>
+			    			<div class="sheetbd spitysheet">
+				    			<table width="100%" border="" cellspacing="" cellpadding="">
+			    					<tr class="ttoda">
+			    						<td class="rt_1">返修/退换货编号</td>
+			    						<td class="rt_1">订单单号</td>
+			    						<td class="rt_2">商品名称</td>
+			    						<td class="rt_1">
+			    							<select class="sele_t" name="addtime" onchange="$('#order_sn').val('');$('#searchform').submit();">
+			    								<option value="">申请时间</option>
+			    								<option value="1" <if condition="$Request.param.addtime eq 1">selected='selected'</if>>最近三个月</option>
+			    								<option value="2" <if condition="$Request.param.addtime eq 2">selected='selected'</if>>三个月以前</option>
+			    							</select>
+			    						</td>
+			    						<td class="rt_1">
+			    							<select class="sele_t" name="status" onchange="$('#order_sn').val('');$('#searchform').submit();">
+			    								<option value="">全部状态</option>
+			    								<option value="-2" <if condition="$Request.param.status eq -2">selected='selected'</if>>已取消</option>
+			    								<option value="-1" <if condition="$Request.param.status eq -1">selected='selected'</if>>审核失败</option>
+			    								<option value="0" <if condition="$Request.param.status heq '0'">selected='selected'</if>>待审核</option>
+			    								<option value="1" <if condition="$Request.param.status eq 1">selected='selected'</if>>处理中</option>
+			    								<option value="2" <if condition="$Request.param.status eq 2">selected='selected'</if>>已发货</option>
+			    								<option value="3" <if condition="$Request.param.status eq 3">selected='selected'</if>>已收货</option>
+			    								<option value="4" <if condition="$Request.param.status eq 4">selected='selected'</if>>换货完成</option>
+			    								<option value="5" <if condition="$Request.param.status eq 5">selected='selected'</if>>退款完成</option>
+			    								<!--<option value="">待您评价</option>-->
+			    							</select>
+			    						</td>
+			    						<td class="rt_1">操作</td>
+			    					</tr>
+			    					<volist name="list" id="vo">
+			    					<tr class="testrac">
+			    						<td class="rt_1"><a class="co_blue" href="">{$vo.id}</a></td>
+			    						<td class="rt_1">
+			    							<a class="co_blue" href="{:U('Home/Order/order_detail',array('id'=>$vo['order_id']))}">{$vo.order_sn}</a>
+			    						</td>
+			    						<td class="rt_2 te-al-le">
+			    							<a class="co_blue" href="{:U('Home/Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+			    								{$goodsList[$vo[goods_id]]|getSubstr=0,25}
+			    							</a>
+			    						</td>
+			    						<td class="rt_1"><p class="lig6"><span>{$vo.addtime|date="Y-m-d",###}</span></p></td>
+			    						<td class="rt_1"><if condition="($vo[status] eq 1) AND ($vo[is_receive] eq 1)">填写发货单<else/>{$state[$vo[status]]}</if></td>
+			    						<td class="rt_1">
+			    							<p>
+			    								<a class="co_blue" href="{:U('Order/return_goods_info',array('id'=>$vo[id]))}">查看</a>
+			    								<!--<em>|</em><a class="co_blue" href="">评价</a>-->
+			    								<if condition="($vo[status] eq 2) AND ($vo[type] eq 0)"><em>|</em><a class="co_blue" href="">退款明细</a></if>
+			    							</p>
+			    						</td>
+			    					</tr>
+			    					</volist>
+			    				</table>
+			    			</div>
+			    			</form>
+			    			<div class="operating fixed">
+								<div class="fn_page clearfix" style="margin-top:10px">
+									{$page}
+								</div>
+							</div>
+			    		</div>
+			    		<div class="menumain ma-to-20 p">
+			    			<div class="goodpiece">
+								<h1>返修/退换货申请常见问题</h1>
+								<!--<a href=""><span class="co_blue">成长值说明<em class="thoma">></em></span></a>-->
+							</div>	
+							<div class="app-con">
+								<p>1.“申请”按钮若为灰色，可能是因为订单尚未完成或该商品正在返修/退换货中；</p>
+								<p>2. 查看&nbsp;
+								<tpshop sql="select * from `__PREFIX__article` where cat_id = 6  and is_open=1 limit 1" key="k2" item='v2'>
+			                    	<a class="co_blue" href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">售后政策</a>
+								</tpshop>
+							</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+	</body>
+</html>

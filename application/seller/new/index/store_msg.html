@@ -1,0 +1,182 @@
+<include file="public/head"/>
+<style>
+    .ncsc-goods-sku.ps-container {
+        height: 1px;
+        border: 0;
+        border-bottom: solid 1px #E6E6E6;
+        background: inherit;
+        box-shadow: inherit;
+    }
+    .content_show{
+        display: none;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>客服消息<i class="icon-angle-right"></i>系统消息</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Seller/Index/store_msg')}">系统消息</a></li>
+                </ul>
+            </div>
+            <div class="alert alert-block mt10">
+                <ul class="mt5">
+                    <li>1、管理员可以看见全部消息。</li>
+                    <li>2、只有管理员可以删除消息，删除后其他账户的该条消息也将被删除。</li>
+                </ul>
+            </div>
+            <form id="op">
+                <input type="hidden" id="action" name="action"/>
+                <table class="ncsc-default-table">
+                    <empty name="msg_list">
+                        <tr>
+                            <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                        </tr>
+                        <else/>
+                        <thead>
+                        <tr nc_type="table_header">
+                            <th class="w30">&nbsp;</th>
+                            <th class="w430">消息内容</th>
+                            <th class="w120">发送时间</th>
+                            <th class="w80 content_show">状态</th>
+                            <th class="w120">操作</th>
+                        </tr>
+                        <tr class="content_show">
+                            <td class="tc"><input type="checkbox" id="all" class="checkall" onclick="$('input[name*=\'sm_id\']').prop('checked', this.checked);"/></td>
+                            <td colspan="20">
+                                <label for="all">全选</label>
+                                <a onclick="check_action('del');" class="ncbtn-mini"><i class="icon-trash"></i>删除</a>
+                                <a onclick="check_action('open');" class="ncbtn-mini"><i></i>标记已读</a>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="msg_list" id="list">
+                            <tr class="store_msg_{$list[sm_id]}">
+                                <td class="trigger">
+                                    <input type="checkbox" class="checkitem tc" id="check_content_{$list[sm_id]}" name="sm_id[]" value="{$list.sm_id}"/>
+                                </td>
+                                <td class="tl content_{$list.sm_id}">{$list.content}</td>
+                                <td class="goods-time"><span>{$list.addtime|date='Y-m-d H:i',###}</span></td>
+                                <td class="goods-time content_show"><span id="see_content_{$list[sm_id]}"><if condition="$list.open eq 1">已阅<else/>未阅</if></span></td>
+                                <td class="nscs-table-handle">
+                                    <span>
+                                        <a onclick="showMsg('content_{$list.sm_id}');" class="btn-bluejeans" href="javascript:;">
+                                            <i class="icon-search"></i><p>查看</p>
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a onclick="del(this)" data-id="{$list[sm_id]}" class="btn-grapefruit">
+                                            <i class="icon-trash"></i><p>删除</p></a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="store_msg_{$list[sm_id]}">
+                                <td colspan="20">
+                                    <div class="ncsc-goods-sku ps-container"></div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                        <tfoot>
+                        <tr class="content_show">
+                            <th class="tc"><input type="checkbox" id="all2" class="checkall" onclick="$('input[name*=\'sm_id\']').prop('checked', this.checked);"/></th>
+                            <th colspan="10">
+                                <label for="all2">全选</label>
+                                <a onclick="check_action('del');" class="ncbtn-mini"><i class="icon-trash"></i>删除</a>
+                                <a onclick="check_action('open');" class="ncbtn-mini"><i></i>标记已读</a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="20">
+                                {$page}
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </empty>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    var is_admin = {$seller['is_admin']};
+    $(document).ready(function(){
+        if(is_admin == 1){
+            $('.content_show').css('display','table-row');  //还原显示，修复block显示结构混乱
+        }else{
+            $('.content_show').hide();
+        }
+    })
+    // 显示消息
+    function showMsg(content_id) {
+        layer.msg($('.'+content_id).html(), {time: 5000, icon: 6});
+        if (is_admin == 1) {
+            $('#check_' + content_id).prop('checked', true);
+            layer.confirm($('.' + content_id).html(), {
+                        btn: ['确定'] //按钮
+                    }, function (index) {
+                        $('#see_' + content_id).html('已阅');
+                        check_action('open')
+                        layer.close(index);
+                    }, function (index) {
+                        layer.close(index);
+                    }
+            );
+        }
+    }
+    // 删除操作
+    function del(t) {
+        if (is_admin == 1) {
+            layer.confirm('确定要删除吗？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        var msg_id = $(t).data('id');
+                        $.ajax({
+                            type: "POST",
+                            url: "{:U('index/del_store_msg')}",
+                            data: {sm_id: msg_id},
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.status == 1) {
+                                    layer.msg(data.msg, {icon: 1});
+                                    $('.store_msg_' + msg_id).html('');
+                                } else {
+                                    layer.msg(data.msg, {icon: 2});
+                                }
+                            }
+                        });
+                    }, function (index) {
+                        layer.close(index);
+                    }
+            );
+        }else{
+            layer.msg('你不是管理员，没有删除权限！！', {icon: 2});
+        }
+    }
+    function check_action(action){
+        var selected = $('input[name*="sm_id"]:checked');
+        if(selected.length < 1){
+            layer.msg('请至少选择一个条目',{icon:2});
+            return false;
+        }
+        $('#action').val(action);
+        $.ajax({
+            type: "POST",
+            url: "{:U('index/store_msg_batch')}",
+            data: $('#op').serialize(),
+            dataType: "json",
+            success: function (data) {
+                layer.open({content:data.msg, time:2000 ,end:function(layero, index){
+                    window.location.href="{:U('seller/index/store_msg')}";
+                }});
+            }
+        });
+//        $('#op').submit();
+    }
+</script>
+</body>
+</html>

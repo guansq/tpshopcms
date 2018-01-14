@@ -1,0 +1,89 @@
+<form id="op" action="{:U('Service/ask_handle')}" method="post">
+    <input type="hidden" id="operate" name="type"/>
+    <table class="ncsc-default-table">
+        <thead>
+        <tr  nc_type="table_header">
+            <th class="w30">&nbsp;</th>
+            <th class="w100">用户</th>
+            <th class="w200">咨询内容</th>
+            <th class="w100">商品</th>
+            <th class="w80">显示</th>
+            <th class="w80">咨询类型</th>
+            <th class="w120">咨询时间</th>
+            <th class="w120">操作</th>
+        </tr>
+        <if condition="count($comment_list) gt 0">
+            <tr>
+                <td class="tc"><input type="checkbox" id="all" class="checkall" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"/></td>
+                <td colspan="20">
+                    <label for="all">全选</label>
+                    <a onclick="check_action('show');" class="ncbtn-mini">显示</a>
+                    <a onclick="check_action('hide');" class="ncbtn-mini">隐藏</a>
+                    <a onclick="check_action('del');" class="ncbtn-mini">删除</a>
+                </td>
+            </tr>
+        </if>
+        </thead>
+        <tbody>
+        <if condition="count($comment_list) gt 0">
+        <volist name="comment_list" id="list">
+            <tr>
+                <td class="trigger"><input type="checkbox" class="checkitem tc" name="selected[]" value="{$list.id}"/></td>
+                <td>{$list.username}</td>
+                <td>{$list.content}</td>
+                <td><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$list[goods_id]))}">{$goods_list[$list[goods_id]]}</a></td>
+                <td><img width="20" height="20" src="__PUBLIC__/images/<if condition='$list[is_show] eq 1'>yes.png<else />cancel.png</if>" onclick="changeTableVal2('goods_consult','id','{$list.id}','is_show',this)"/></td>
+                <td>{$consult_type[$list[consult_type]]}</td>
+                <td>{$list.add_time|date='Y-m-d H:i:s',###}</td>
+                <td class="nscs-table-handle">
+                                <span><a href="{:U('Comment/consult_info',array('id'=>$list[id]))}" class="btn-bluejeans"><i class="icon-edit"></i>
+                                    <p>编辑</p></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="20">
+                    <div class="ncsc-goods-sku ps-container"></div>
+                </td>
+            </tr>
+        </volist>
+            <else/>
+            <tr>
+                <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+            </tr>
+        </if>
+        </tbody>
+        <tfoot>
+        <if condition="count($comment_list) gt 0">
+        <tr>
+            <th class="tc"><input type="checkbox" id="all2" class="checkall" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"/></th>
+            <th colspan="10">
+                <label for="all2">全选</label>
+                <a onclick="check_action('show');" class="ncbtn-mini">显示</a>
+                <a onclick="check_action('hide');" class="ncbtn-mini">隐藏</a>
+                <a onclick="check_action('del');" class="ncbtn-mini">删除</a>
+            </th>
+        </tr>
+        </if>
+        <tr>
+            <td colspan="20">
+                {$page}
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</form>
+<script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+    function check_action(action){
+        var selected = $('input[name*="selected"]:checked');
+        if(selected.length < 1){
+            layer.msg('请至少选择一个条目',{icon:2});
+            return false;
+        }
+        $('#operate').val(action);
+        $('#op').submit();
+    }
+</script>

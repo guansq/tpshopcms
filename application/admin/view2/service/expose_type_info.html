@@ -1,0 +1,71 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="{:U('Service/expose_type_list')}" title="返回举报类型列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>举报管理 - 新增</h3>
+        <h5>商城设置举报类型及处理被举报商品</h5>
+      </div>
+    </div>
+  </div>
+  <form id="add_form" method="post" enctype="multipart/form-data" action="">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label for="expose_type_name"><em>*</em>举报类型</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" id="expose_type_name" name="expose_type_name" class="input-txt">
+          <span class="err" id="err_expose_type_name"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="expose_type_desc"><em>*</em>举报类型描述</label>
+        </dt>
+        <dd class="opt">
+          <textarea name="expose_type_desc" rows="6" class="tarea" id="expose_type_desc"></textarea>
+          <p><span class="err" id="err_expose_type_desc"></span></p>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submitForm()" >确认提交</a></div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+    //按钮先执行验证再提交表单
+    function submitForm(){
+        $('span.err').hide();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Service/expose_type_info')}",
+            data: $('#add_form').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status === 1) {
+                    layer.msg(data.msg, {icon: 1,time: 1000}, function() {
+                        location.href = "{:U('Service/expose_type_list')}";
+                    });
+                } else if(data.status === 0) {
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                    $.each(data.result, function(index, item) {
+                        $('#err_' + index).text(item).show();
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                }
+            }
+        });
+    }
+</script> 
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+ <div id="layoutLeft" class="ncsc-layout-left">
+   <div id="sidebar" class="sidebar">
+     <div class="column-title" id="main-nav"><span class="ico-{$leftMenu.icon}"></span>
+       <h2>{$leftMenu.name}</h2>
+     </div>
+     <div class="column-menu">
+       <ul id="seller_center_left_menu">
+      	 <foreach name="leftMenu.child" item="vu">
+           <li class="<if condition='ACTION_NAME eq $vu[act] AND CONTROLLER_NAME eq $vu[op]'>current</if>">
+           		<a href="{:U("$vu[op]/$vu[act]")}"> {$vu.name}</a>
+           </li>
+	 	</foreach>
+      </ul>
+     </div>
+   </div>
+ </div>

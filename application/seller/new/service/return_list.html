@@ -1,0 +1,110 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>退款换货
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                	<li class=""><a href="{:U('Service/refund_list')}">退货退款</a></li>
+                    <li class="active"><a href="{:U('Service/return_list')}">换货维修</a></li>
+                </ul>
+            </div>
+            <div class="alert alert-block mt10">
+			  <ul class="mt5">
+			  	<li>1、换货/维修，无需平台审核，卖家与买家协商自行协商处理，不能达成一致时，买家可申请仲裁，请卖家填写好拒绝备注</li>
+			    <li>2、若退货申请相关商品已经发货，快递费用双方沟通协商，卖家同意换货时，卖家确认收到买家发回的货物，再做处理</li>
+			  </ul>
+			</div>
+            <form method="post" action="" id="search-form2">
+            <table class="search-form">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th>申请时间</th>
+                        <td class="w300">
+	                        <input name="add_time_begin" id="add_time_begin" type="text" class="text w100" value="" readonly="readonly">
+	                        <label class="add-on"><i class="icon-calendar"></i></label> – 
+	                        <input name="add_time_end" id="add_time_end" type="text" class="text w100" value="" readonly="readonly">
+	                        <label class="add-on"><i class="icon-calendar"></i></label>
+                        </td>
+                        <th>状态</th>
+                        <td class="w100">
+                            <select id="status" name="status" class="w90">
+                                <option value="">所有状态</option>
+                                <foreach name="state" item="vo" key="kk">
+                                <option value="{$kk}">{$vo}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                        <th class="w80">订单编号</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="" name="order_sn"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索"/></label></td>
+                    </tr>
+            </table>
+            </form>
+            <div id="ajax_return">
+				<table class="ncsc-default-table">
+				    <thead>
+				    <tr>
+				        <th class="w100">订单编号</th>
+				        <th class="w300">商品名称*数量</th>
+				        <th class="w100">申请类型</th>
+				        <th class="w120">申请日期</th>
+				        <th class="w80">状态</th>
+				        <th class="w120">操作</th>
+				    </tr>
+				    </thead>
+				    <tbody>
+				    <if condition="count($list) gt 0">
+				    <volist name="list" id="items">
+				        <tr class="bd-line">
+				            <td><a href="{:U('order/detail',array('order_id'=>$items['order_id']))}">{$items.order_sn}</a></td>
+				            <td>{$goods_list[$items['goods_id']]|getSubstr=0,25}*{$items.goods_num}</td>
+				            <td>
+				                <if condition="$items[type] eq 2">换货</if>
+				                <if condition="$items[type] eq 3">维修</if>
+				            </td>
+				            <td class="">{$items.addtime|date='Y-m-d H:i',###}</td>
+				            <td class="">{$state[$items[status]]}</td>
+				            <td class="nscs-table-handle">
+			                    <span>
+			                        <a href="{:U('Service/return_info',array('id'=>$items['id']))}" class="btn-bluejeans">
+			                        <if condition="($items[status] eq 0) OR ($items[status] eq 3)"><i class="icon-edit"></i><p>处理</p><else/><i class="icon-eye-open"></i><p>查看</p></if>
+			                        </a>
+			                    </span>
+			                   <if condition="$items[status] eq 2">
+				               <span>
+			               		<a href="{:U('Service/confirm_receive',array('id'=>$items['id']))}" class="btn-bluejeans"><i class="icon-check-sign"></i><p>收货</p></a>
+				               </span>
+				               </if>
+				            </td>
+				        </tr>
+				    </volist>
+				        <else/>
+				        <tr>
+				            <td colspan="20">无记录</td>
+				        </tr>
+				    </if>
+				    </tbody>
+				    <tfoot>
+				    <tr>
+				        <td colspan="20">
+				            {$page}
+				        </td>
+				    </tr>
+				    </tfoot>
+				</table>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function(){
+     	$('#add_time_begin').layDate(); 
+     	$('#add_time_end').layDate();
+    });
+</script>
+</body>
+</html>

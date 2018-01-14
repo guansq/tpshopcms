@@ -1,0 +1,122 @@
+<table class="ncsc-default-table order">
+  <thead>
+    <tr>
+      <th class="w10"></th>
+      <th colspan="2">商品</th>
+      <th class="w100">单价（元）</th>
+      <th class="w40">数量</th>
+      <th class="w100">买家</th>
+      <th class="w100">订单金额</th>
+      <th class="w90">交易状态</th>
+      <th class="w120">交易操作</th>
+    </tr>
+  </thead>
+  <if condition="empty($orderList) eq true">
+  	<tbody>
+  		<tr>
+      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    	</tr>
+      </tbody>
+  <else/> 
+  <volist name="orderList" id="list">  
+  <tbody>
+    <tr>
+      <td colspan="20" class="sep-row"></td>
+    </tr>
+    <tr>
+      <th colspan="20">
+      		<span class="ml10">订单编号：<em>{$list.order_sn}</em></span>
+		  	<span>下单时间：<em class="goods-time">{$list.add_time|date='Y-m-d H:i',###}</em></span>
+		  	<span>订单状态：<em class="goods-time">{$Think.config.ORDER_STATUS[$list[order_status]]}</em></span>
+      		<span class="fr mr10"><a href="{:U('Order/order_print',array('order_id'=>$list['order_id'],'template'=>'picking'))}" target="_blank" class="ncbtn-mini" title="打印配货单"><i class="icon-print"></i>打印配货单</a></span>
+       </th>
+    </tr>
+ 
+    <assign name="goodsList" value="$goodsArr[$list['order_id']]" />
+    <volist name="goodsList" id="good" key='k'>
+    <if condition="$k eq 1">
+     	<!--  第一行 -->
+     	<tr>
+	      <td class="bdl"></td>
+	      <td class="w70">
+	      <div class="ncsc-goods-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}" target="_blank"><img src="{$good['goods_id']|goods_thum_images=240,240}"  ></a></div></td>
+	      <td class="tl">
+	      	<dl class="goods-name">
+	          <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good['goods_name']}</a></dt>
+	        </dl>
+	      </td>
+	      <td><p>{$good['goods_price']}</p></td>
+	      <td>{$good['goods_num']}</td>
+	      <!-- S 合并TD -->
+	      <td class="bdl" rowspan="{$goodsArr[$list['order_id']]|count}">
+	      	<div class="buyer">{$list.consignee} <p member_id="5"></p>
+	          <div class="buyer-info"> <em></em>
+	            <div class="con">
+	              <h3><i></i><span>联系信息 </span></h3>
+	              <dl>
+	                <dt>姓名：</dt>
+	                <dd>{$list.consignee}</dd>
+	              </dl>
+	              <dl>
+	                <dt>电话：</dt>
+	                <dd>{$list.mobile}</dd>
+	              </dl>
+	              <dl>
+	                <dt>地址：</dt>
+	                <dd>{$list.address}</dd>
+	              </dl>
+	            </div>
+	          </div>
+	        </div>
+	      </td>
+	      <td class="bdl" rowspan="{$goodsArr[$list['order_id']]|count}">
+	      	<p class="ncsc-order-amount">{$list.total_amount}</p>
+	        <p class="goods-freight"><if condition="($list.shipping_price lt 0.01)">（免运费）<else />邮费:{$list.shipping_price}</if></p>
+	        <p class="goods-pay" title="支付方式：{$list.pay_name}">{$list.pay_name}</p>
+	      </td>
+	      <td class="bdl bdr" rowspan="{$goodsArr[$list['order_id']]|count}"><p>{$pay_status[$list[pay_status]]} </p>
+	        <!-- 物流跟踪 -->
+	        <p></p>
+	       </td>
+	      <!-- 取消订单 -->
+	      <td class="nscs-table-handle" rowspan="{$goodsArr[$list['order_id']]|count}">
+	      	<span><a href="{:U('order/detail',array('order_id'=>$list['order_id']))}" class="ncbtn-mint"><i class="icon-search"></i><p>详情</p></a></span>
+	      	<if condition="($list['order_status'] eq 3) or ($list['order_status'] eq 5)">
+		      	<span><a href="{:U('order/delete_order',array('order_id'=>$list['order_id']))}" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+	      	<else/>
+	      		<span><a href="javascript:void(0)" onclick="layer.alert('该订单不得删除!',{icon:2});" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+	      	</if>
+	        </td>
+	    </tr>
+    <else />
+    	<!--  非第一行 -->
+    	<tr>
+	      <td class="bdl"></td>
+	      <td class="w70">
+	      	<div class="ncsc-goods-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}" target="_blank"><img src="{$good['goods_id']|goods_thum_images=240,240}"  ></a></div>
+	      </td>
+	      <td class="tl">
+	      	<dl class="goods-name">
+	          <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good['goods_name']}</a></dt>
+	        </dl>
+	      </td>
+	      <td><p>{$good['goods_price']}</p></td>
+	      <td>{$good['goods_num']}</td>
+	     </tr>
+    </if>
+    </volist>
+   </tbody> 
+   </volist>
+  <tfoot>
+  	<tr>
+		<td colspan="20">{$page}</td>
+	</tr>
+   </tfoot>
+  </if>
+</table>
+ <script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+</script>

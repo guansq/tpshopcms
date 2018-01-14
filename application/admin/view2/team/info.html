@@ -1,0 +1,175 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <a class="back" href="{:U('Team/index')}" title="返回列表">
+        <i class="fa fa-arrow-circle-o-left"></i>
+      </a>
+      <div class="subject">
+        <h3>拼团管理 - 拼团详情</h3>
+        <h5>查看/编辑商家发布的拼团活动</h5>
+      </div>
+    </div>
+  </div>
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label>店铺名称</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.store.store_name}" readonly>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>拼团标题</label>
+        </dt>
+        <dd class="opt">
+          <a href="{:U('Home/Goods/goodsInfo',['goods_id'=>$teamActivity.goods_id,'item_id'=>$teamActivity.item_id])}">{$teamActivity.act_name}</a>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>拼团活动类型</label>
+        </dt>
+        <dd class="opt" id="team_type" data-type="{$teamActivity.team_type}">
+          <input type="text" class="readonly txt" value="{$teamActivity.team_type_desc}" readonly>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>参与拼团商品</label>
+        </dt>
+        <dd class="opt">
+          <a href="{:U('Home/Goods/goodsInfo',['goods_id'=>$teamActivity.goods_id,'item_id'=>$teamActivity.item_id])}">{$teamActivity.goods_name}</a>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row commission" style="display: none;">
+        <dt class="tit">
+          <label>团长佣金</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.bonus}" readonly>
+          <p class="notic">拼团成功后，开团人能获得的佣金</p>
+        </dd>
+      </dl>
+      <dl class="row luck" style="display: none;">
+        <dt class="tit">
+          <label>抽奖限量</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.stock_limit}" readonly>
+          <p class="notic">中奖人数(单位：人)</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>拼团价格</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.team_price}" readonly>
+          <p class="notic">商品拼团价格为该商品参加活动时的拼团价格</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>需要成团人数</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.needer}" readonly>
+          <p class="notic">需要多少人拼团才能成功(单位：人)</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>购买限制数</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.buy_limit}" readonly>
+          <p class="notic">限制购买商品个数,0为不限制(单位：个)</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>虚拟销售基数</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.virtual_num}" readonly>
+          <p class="notic">虚拟购买商品数(单位：个)</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>分享标题</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$teamActivity.share_title}" readonly>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>分享描述</label>
+        </dt>
+        <dd class="opt">
+          <textarea rows="6" readonly="readonly" class="readonly tarea">{$teamActivity.share_desc}</textarea>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>分享图片</label>
+        </dt>
+        <dd class="opt">
+          <a href="{$teamActivity.share_img}" class="pic-thumb-tip" onmouseover="layer.tips('<img src={$teamActivity.share_img}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"><i class="fa fa-picture-o"></i></a>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>状态</label>
+        </dt>
+        <dd class="opt">
+         	<label>{$teamActivity.status_desc}</label>
+        </dd>
+      </dl>
+    </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    initType();
+  });
+  function initType(){
+    var type = $("#team_type").data('type');
+    var commission = $('.commission');
+    var luck = $('.luck');
+    switch(parseInt(type))
+    {
+      case 0:
+        commission.hide();
+        luck.hide();
+        break;
+      case 1:
+        commission.show();
+        luck.hide();
+        break;
+      case 2:
+        commission.hide();
+        luck.show();
+        break;
+      default:
+        commission.hide();
+        luck.hide();
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>提现申请
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Finance/withdrawals')}">提现申请列表</a></li>
+                </ul>
+                <a class="ncbtn ncbtn-mint" href="{:U('Finance/add_edit_withdrawals')}" style="text-decoration: none;" title="可提现资金">可提现资金:{$store.store_money}</a>
+            </div>
+            <table class="search-form">
+                <form method="get" action="{:U('Finance/withdrawals')}" id="search-form2" onsubmit="check_form();">
+                    <input type="hidden" name="create_time" id="create_time" value="{$create_time}">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th>状态</th>
+                        <td class="w100">
+                            <select id="status" name="status" class="w90">
+                                <option value="">全部</option>
+                                <option value="0" <if condition="$_REQUEST['status'] heq '0'">selected</if>>申请中</option>
+                                <option value="1" <if condition="$_REQUEST['status'] eq 1">selected</if>>审核成功</option>
+                                <option value="-1" <if condition="$_REQUEST['status'] eq 1">selected</if>>审核失败</option>
+                                <option value="-2" <if condition="$_REQUEST['status'] eq -2">selected</if>>已作废</option>
+                                <option value="2" <if condition="$_REQUEST['status'] eq -2">selected</if>>已转账</option>
+                            </select>
+                        </td>
+                        <th class="w80">申请开始时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                        </td>
+                        <th class="w80">申请截止时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                        </td>
+                        <th class="w70">收款账号</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="{$Think.request.bank_card}" name="bank_card"/></td>
+                        <th class="w80">收款账户名</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="{$Think.request.realname}" name="realname"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w100">ID</th>
+                    <th class="w100">申请时间</th>
+                    <th class="w100">申请金额</th>
+                    <th class="w130 tl">银行名称</th>
+                    <th class="w130 tl">银行账号</th>
+                    <th class="w90 tl">银行账户</th>
+                    <th class="w90">状态</th>
+                    <th class="w90 tl">备注</th>
+                    <th class="w120">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <if condition="count($list) gt 0">
+                <volist name="list" id="v">
+                    <tr class="bd-line">
+                        <td>{$v.id}</td>
+                        <td>{$v.create_time|date="Y-m-d",###}</td>
+                        <td>{$v.money}</td>
+                        <td class="tl">{$v.bank_name}</td>
+                        <td class="tl">{$v.bank_card}</td>
+                        <td class="tl">{$v.realname}</td>
+                        <td>
+                            <if condition="$v[status] eq 0">申请中</if>
+                            <if condition="$v[status] eq 1">审核成功</if>
+                            <if condition="$v[status] eq -1">审核失败</if>
+                            <if condition="$v[status] eq -2">已作废</if>
+                            <if condition="$v[status] eq 2">已转账</if>
+                        </td>
+                        <td class="tl">{$v.remark|default='无'}</td>
+                       
+                        <td class="nscs-table-handle">
+                             <if condition="$v[status] eq 0">
+                             <span>
+                                 <a href="{:U('Finance/add_edit_withdrawals',array('id'=>$v['id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a>
+                             </span>
+                             <span>
+                                 <a onclick="del('{$v[id]}')" id="button-delete6" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+                             </span>
+                             </if> 
+                        </td>
+                    </tr>
+                	</volist>
+                    <else/>
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                </if>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$show}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function(){
+        $('#start_time').layDate();
+        $('#end_time').layDate();
+    });
+    function check_form(){
+        var start_time = $.trim($('#start_time').val());
+        var end_time =  $.trim($('#end_time').val());
+        if(start_time == '' ^ end_time == ''){
+            layer.alert('请选择完整的时间间隔', {icon: 2});
+            return false;
+        }
+        if(start_time !== '' && end_time !== ''){
+            $('#create_time').val(start_time+" - "+end_time);
+        }
+        if(start_time == '' && end_time == ''){
+            $('#create_time').val('');
+        }
+    }
+    // 删除操作
+    function del(id) {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        url: "/index.php?m=Seller&c=Finance&a=delWithdrawals&id=" + id,
+                        success: function (v) {
+                            layer.closeAll();
+                            var v = eval('(' + v + ')');
+                            if (v.hasOwnProperty('status') && (v.status == 1))
+                                location.href = "{:U('Finance/withdrawals')}";
+                            else
+                                layer.msg(v.msg, {icon: 2, time: 1000}); //alert(v.msg);
+                        }
+                    });
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

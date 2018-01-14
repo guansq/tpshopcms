@@ -1,0 +1,43 @@
+<style>
+.menu_check{
+	color:#e23435  !important; font-weight:bold
+}
+</style>
+<div class="le-menu fl">
+	<div class="menu-ul">
+		<ul>
+			<li class="ma"><i class="account-acc1"></i>交易中心</li>
+			<li><a <if condition="$Request.action eq 'order_list'">class ="menu_check"</if> href="{:U('Home/Order/order_list')}">我的订单</a></li>
+			<li><a <if condition="$Request.action eq 'virtual_list'">class ="menu_check"</if> href="{:U('Home/Virtual/virtual_list')}">虚拟订单</a></li>
+			<!--<li><a href="">我的预售</a></li>-->
+			<li><a <if condition="$Request.action eq 'comment'">class ="menu_check"</if> href="{:U('Home/Order/comment')}">我的评价</a></li>
+		</ul>
+		<ul>
+			<li class="ma"><i class="account-acc2"></i>资产中心</li>
+			<li><a <if condition="$Request.action eq 'coupon'">class ="menu_check"</if> href="{:U('Home/User/coupon')}">我的优惠券</a></li>
+			<li><a <if condition="$Request.action eq 'recharge'">class ="menu_check"</if> href="{:U('Home/User/recharge')}">账户余额</a></li>
+			<li><a <if condition="$Request.action eq 'account'">class ="menu_check"</if> href="{:U('Home/User/account')}">我的积分</a></li>
+		</ul>
+		<ul>
+			<li class="ma"><i class="account-acc3"></i>关注中心</li>
+			<li><a <if condition="$Request.action eq 'goods_collect'">class ="menu_check"</if> href="{:U('Home/User/goods_collect')}">我的收藏</a></li>
+			<!--<li><a href="">曾经购买</a></li>-->
+			<li><a <if condition="$Request.action eq 'visit_log'">class ="menu_check"</if> href="{:U('Home/User/visit_log')}">我的足迹</a></li>
+		</ul>
+		<ul>
+			<li class="ma"><i class="account-acc4"></i>个人中心</li>
+			<li><a <if condition="$Request.action eq 'info'">class ="menu_check"</if> href="{:U('Home/User/info')}">个人信息</a></li>
+			<li><a <if condition="$Request.action eq 'bind_auth'">class ="menu_check"</if> href="{:U('Home/User/bind_auth')}">账号绑定</a></li>
+			<li><a <if condition="$Request.action eq 'address_list'">class ="menu_check"</if> href="{:U('Home/User/address_list')}">地址管理</a></li>
+			<li><a <if condition="$Request.action eq 'safety_settings'">class ="menu_check"</if> href="{:U('Home/User/safety_settings')}">安全设置</a></li>
+		</ul>
+		<ul>
+			<li class="ma"><i class="account-acc5"></i>客户服务</li>
+			<!--<li><a href="">我的发票</a></li>-->
+			<li><a <if condition="$Request.action eq 'return_goods_index'">class ="menu_check"</if> href="{:U('Home/Order/return_goods_index')}">退款换货</a></li>
+			<!--<li><a <if condition="$Request.action eq 'consult'">class ="menu_check"</if> href="{:U('Home/Order/consult')}">购买咨询</a></li>-->
+			<li><a <if condition="$Request.action eq 'dispute'">class ="menu_check"</if> href="{:U('Home/Order/dispute')}">交易投诉</a></li>
+			<li><a <if condition="$Request.action eq 'expose_list'">class ="menu_check"</if> href="{:U('Home/Order/expose_list')}">违规举报</a></li>
+		</ul>
+	</div>
+</div>

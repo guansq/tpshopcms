@@ -1,0 +1,60 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>退款换货
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Order/return_list')}">退款换货</a></li>
+                </ul>
+            </div>
+            <table class="search-form">
+                <form method="post" onsubmit="return false" id="search-form2">
+                    <input type="hidden" name="order_by" value="id" />
+                    <input type="hidden" name="sort"  value="asc"/>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th>状态</th>
+                        <td class="w100">
+                            <select id="status" name="status" class="w90">
+                                <option value="">所有状态</option>
+                                <option value="0">未处理</option>
+                                <option value="1">处理中</option>
+                                <option value="2">已完成</option>
+                            </select>
+                        </td>
+                        <th class="w80">订单编号</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="" name="order_sn"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" onclick="ajax_get_table('search-form2',1)"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <div id="ajax_return">
+
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function(){
+        ajax_get_table('search-form2',1);
+
+    });
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/order/ajax_return_list/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('').append(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

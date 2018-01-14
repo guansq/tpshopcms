@@ -1,0 +1,93 @@
+<style>
+    .nav-tabs {
+    border-bottom: 1px solid #ddd;
+    margin-top: 20px;
+}
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    /*overflow: hidden;*/
+}
+.nav-tabs:before,.nav-tabs:after{
+    display: table;
+    clear: both;
+    content: " ";
+}
+.nav>li {
+    position: relative;
+    display: block;
+}
+.nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+}
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+.nscs-table-handle span a{
+    cursor: pointer;
+}
+</style>
+<ul class="nav nav-tabs">
+    <volist name="specList" id="list">
+    	<li id="{$list[id]}" <if condition="$i == 1"> class="active" </if>><a data-toggle="tab" href="javascript:void(0);" onclick="ajax_get_data({$list[id]});">{$list.name}</a></li>
+    </volist>
+</ul>
+<table class="ncsc-default-table" id="spec_item_table">
+    <thead>
+    <tr>
+        <th class="w20"></th>
+        <th class="w200 tl">规格名称</th>
+        <th class="w300 tl">规格项</th>
+        <th class="w100">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <empty name="specItemList">
+        <tr class="no-data-tr">
+            <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+        </tr>
+    <else/>
+    <volist name="specItemList" id="list2">
+        <tr class="bd-line">
+            <td></td>
+            <td class="tl">{$specList[$list2[spec_id]][name]}</td>
+            <td class="tl">
+                <input type="text" class="txt w200"  value="{$list2.item}" name="item[{$list2.id}]"/>
+                <span style="color:#F00; display:none;">请填写内容</span>
+            </td>
+            <td class="nscs-table-handle">
+                <span><a class="btn-grapefruit delItem" data-id="{$list2.id}"><i class="icon-trash"></i>
+                    <p>删除</p></a></span>
+            </td>
+        </tr>
+    </volist>
+    </empty>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="20">
+            <div style="text-align: center;margin-top:20px;"><label class="submit-border">
+                <input type="hidden" name="spec_id" value="{$spec_id}" />
+                <input id="submit" class="submit" value="提交" type="submit"></label>
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+</table>

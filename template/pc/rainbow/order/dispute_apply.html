@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>投诉申请</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/js/layer/layer.js"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="/">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<a href="{:U('Order/dispute')}">交易纠纷</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>纠纷申请</span>
+			    </div>
+			    <div class="apply-list-flowpath p">
+			    	<div class="flowpath">
+			    		<div class="line-flowpath">
+			    			<span class="green now"><i class="las-flo"></i><em>提交纠纷单</em></span>
+			    			<span><i class="las-flo2"></i><em>卖家处理</em></span>
+			    			<span><i class="las-flo3"></i><em>客户确认</em></span>
+			    			<span><i class="las-flo4"></i><em>完成</em></span>
+			    		</div>
+			    		<div class="warning">
+		    				<i class="las-warning"></i>
+		    				<span>重要提醒：商城平台销售商不会以任何理由，要求您点击任何网址链接进行退款操作。</span>
+		    				<span class="fr">没有满足条件的服务单？<a href="{:U('Order/return_goods_index')}">请点击申请</a></span>
+		    			</div>
+			    	</div>
+			    	<div class="applydamage">
+			    		<h2>申请纠纷单</h2>
+			    		<div class="formsinm">
+			    			<div class="titin_form p">
+			    				<span>
+									<em class="light">订单号：</em>
+									<em><a href="{:U('Order/order_detail',array('id'=>$order['order_id']))}">{$order.order_sn}</a></em>
+								</span>
+			    				<span>
+									<em class="light">订单时间：</em>
+									<em>{$order.add_time|date='Y-m-d H:i:s',###}</em>
+								</span>
+			    				<span class="teri"><a href="tencent://message/?uin={$store[store_qq]}&Site=TPshop商城&Menu=yes"><em class="num">{$store.store_name}<i class="ear"></i></em></a></span>
+			    			</div>
+			    			<div class="contcs_form p">
+			    				<div class="lort-l">
+			    					<div class="infoemx">
+			    						<!--只有一件商品时，商品名显示
+			    						大于一件商品时商品名不显示-->
+			    						<foreach name="order_goods" item="vo">
+                                            <a href="{:U('Goods/goodsInfo',array('id'=>$vo['goods_id']))}" target="_blank">
+                                                <img src="{$vo.goods_id|goods_thum_images=100,100}">
+                                            </a>
+		    							</foreach>
+		    							<if condition="count($order_goods) eq 1">
+                                        <a href="{:U('Goods/goodsInfo',array('id'=>$order_goods[0]['goods_id']))}" target="_blank">
+                                            <div class="aloneli">{$order_goods[0]['goods_name']}</div>
+                                        </a>
+                                        </if>
+		    						</div>
+			    				</div>
+			    				<div class="lort-r">
+			    					<span>订单总金额￥{$order.total_amount}</span>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<form action="" id="disputeform" method="post">
+			    		<div class="formsatrdad cantsubmit p"><!--cantsubmit控制售后服务单和纠纷提示信息的显示和隐藏还有提交按钮背景-->
+							<ul class="birth_jz">
+								<li class="serve_lifir"><em>*</em><span>纠纷类型：</span></li>
+								<li class="wifull">
+									<div class="choosetyp">
+										<select name="complain_subject_id" onchange="changeRefereeType()" id="complain_subject_id">
+											<option value="">请选择</option>
+											<foreach name="complain_subject" item="vv">
+											<option value="{$vv.subject_id}" title="{$vv.subject_desc}">{$vv.subject_name}</option>
+											</foreach>
+										</select>
+										<input type="hidden" name="order_id" value="{$order.order_id}">
+										<input type="hidden" name="store_id" value="{$order.store_id}">
+										<input type="hidden" name="store_name" value="{$store.store_name}">
+									</div>
+									<p class="jins tipcant" style="display:none;">
+										<i class="las-wty"></i>
+										<span></span>
+									</p>
+								</li>
+							</ul>
+							<!--纠纷类型无法提交时显示-s-->
+							<ul class="birth_jz tipcant" style="display:none;" id="birth_jzul">
+								<li class="serve_lifir"><em>*</em><span>选择服务单：</span></li>
+								<li class="wifull" id="wifulldata"></li>
+							</ul>
+							<!--纠纷类型无法提交时显示-e-->
+							<ul class="birth_jz">
+								<li class="serve_lifir"><em>*</em><span>问题描述：</span></li>
+								<li class="wifull">
+									<div class="choosetyp2">
+										<textarea onkeyup="checkfilltextarea('textarea','500')" id="complain_content" name="complain_content"  placeholder="请详细描述您的问题"></textarea>
+										<span><em id="zero">0</em>/500</span>
+									</div>
+									<p class="warjs">尊敬的用户，为了更好的解决您的问题，请您在问题描述中反馈具体纠纷问题，并上传相关证据图片，避免上传外部链接等内容，以免耽误您的纠纷处理。</p>
+								</li>
+							</ul>
+							<ul class="birth_jz">
+								<li class="serve_lifir"><em>&nbsp;</em><span>证据上传：</span></li>
+								<li class="wifull">
+									<div class="choosetyp3">
+										<ul id="imgli">
+											<li><a href="javascript:;" onclick="imgupload()"><img src="__STATIC__/images/tj.jpg"/></a></li>
+										</ul>
+									</div>
+									<p><em id="imgnum">0</em>/5 为了能够更快更好地解决问题，请您上传与卖家沟通的记录图片，每张图片大小不超过5M，最多上传5张</p>
+								</li>
+							</ul>
+							<ul class="birth_jz">
+								<li class="serve_lifir"><em>*</em><span>联系方式：</span></li>
+								<li class="wifull">
+									<div class="choosetyp4">
+										<span>{$user.nickname}-{$user.mobile}<i class="las-pd"></i></span>
+										<span class="nexyt">收货人-{$order.consignee}-{$order.mobile}<i class="las-pd"></i></span>
+										<input type="hidden" name="user_contact" value="{$order.consignee}-{$order.mobile}">
+									</div>
+								</li>
+							</ul>		
+							<ul class="birth_jz">
+								<li class="wifull">
+									<div class="choosetyp5">
+										<a href="javascript:;" id="disputesubmit" onclick="applysubmit()">确认提交</a>
+									</div>
+								</li>
+							</ul>		
+			    		</div>
+			    		</form>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			/**
+			 * 留言字数限制
+			 * tea ：要限制数字的class名
+			 * nums ：允许输入的最大值
+			 * zero ：输入时改变数值的ID
+			 */
+			function checkfilltextarea(tea,nums){
+			    var len = $(tea).val().length;
+			    if(len > nums){
+			        $(tea).val($(tea).val().substring(0,nums));
+					layer.msg('超出了最大输入字数!', {icon: 2});
+					return false;
+			    }
+			    var num = nums - len;
+			    num <= 0 ? $("#zero").text(0): $("#zero").text(num);  //防止出现负数
+			}
+			$(function(){
+				$('.choosetyp4 span').click(function(){
+					$(this).addClass('nexyt').siblings().removeClass('nexyt');
+				})
+			})
+			
+			function changeRefereeType(){
+				var complain_subject_id = $('#complain_subject_id').val();
+				var order_id = $('input[name=order_id]').val();
+				if(complain_subject_id != ''){
+					$.ajax({
+						type : 'post',
+						dataType : 'json',
+						data : {order_id:order_id,complain_subject_id:complain_subject_id},
+						url : "{:U('Order/checkType')}",
+						success:function(res){
+							if(res.data){
+								$('#birth_jzul').css('display','block');
+								$('#wifulldata').empty().append(res.data);
+							}else{
+								$('#birth_jzul').hide();
+							}
+							if(res.flag == 1){
+								$('.formsatrdad').removeClass('cantsubmit');
+								$('.jins').hide();
+							}else{
+								$('.formsatrdad').addClass('cantsubmit');
+								$('.jins').show();
+								$('.jins').find('span').empty().html(res.msg);
+							}
+						},
+            			error : function(XMLHttpRequest, textStatus, errorThrown) {
+            				layer.alert(errorThrown, {icon: 2});
+            			}
+					})
+				}
+			}
+			
+			function applysubmit(){
+				if($('#complain_subject_id').val() == ''){
+					layer.alert('请选择投诉类型', {icon: 2});
+					return false;
+				}
+				if($('.formsatrdad').hasClass('cantsubmit')){
+					return false;
+				}else{
+					if($('#complain_content').val() == ''){
+						layer.alert('请描述您的具体问题', {icon: 2});
+						return false;
+					}else{
+                        $.ajax({
+                            type : 'post',
+                            dataType : 'json',
+                            data : $('#disputeform').serialize(),
+                            url : "{:U('Order/dispute_apply')}",
+                            success:function(data){
+                                if(data.status==1){
+									layer.alert(data.msg, {icon: 1}, function () {
+										if(data.url){
+											window.location = data.url;
+										}else{
+											window.location.reload();
+										}
+									});
+                                }else{
+                                    layer.alert(data.msg, {icon: 2},function(){
+										if(data.url){
+											window.location = data.url;
+										}else{
+											window.location.reload();
+										}
+									});
+                                }
+                            },
+                            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                                layer.alert(errorThrown, {icon: 2});
+                            }
+                        })
+					}
+				}
+			}
+
+			function imgupload(){
+				var imgcount = $('#imgli').find('li').length;
+				$('#imgnum').html(imgcount-1);
+				if(imgcount<6){
+					GetUploadify2(1,'head_pic','dispute','add_img');
+				}else{
+					return false;
+				}
+			}
+			
+			function add_img(imgstr){
+				var listr = '<li onclick="delimg(\''+imgstr+'\',this)" data-img='+imgstr+'><img data-lazy-img="done" width="60" height="60" src="'+imgstr+'"></li>';
+				$('.choosetyp4').append('<input type="hidden" name="complain_pic[]" value="'+imgstr+'">');
+				$('#imgli').append(listr);
+			}
+
+            function delimg(file,t){
+                $.get(
+                        "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:file},function(){}
+                );
+                $(t).remove();
+                $("input[value='"+file+"']").remove();
+                var imgcount = $('#imgli').find('li').length;
+                $('#imgnum').html(imgcount-1);
+            }
+		</script>
+	</body>
+</html>

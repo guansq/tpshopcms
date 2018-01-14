@@ -1,0 +1,157 @@
+<include file="public/header" title="{$store.store_name}"/>
+<include file="public/header_nav" title="店铺详情" href="javascript:history.back(-1)"/>
+<div class="banner ban1">
+    <div class="mslide" id="slideTpshop">
+        <ul>
+            <!--广告表-->
+            <volist name="store[slide]" id="slide">
+                <li><a href="{$slide.url}">
+                    <img src="{$slide.img}">
+                </a></li>
+            </volist>
+        </ul>
+    </div>
+</div>
+<div class="dp_head">
+    <div class="maleri30">
+        <div class="dp_logo">
+            <img src="{$store.store_logo|default='__STATIC__/images/logo.png'}"/>
+        </div>
+        <div class="dp_dis">
+            <div class="dp_dis_s">
+                <span>{$store.store_name}</span>
+                <i></i>
+            </div>
+            <div class="dp_dis_x">
+                <!--<div class="dp_gz">-->
+                    <!--1.8万人关注-->
+                <!--</div>-->
+                <div class="dp_clic" data-id="{$Request.param.store_id}" id="favoriteStore">
+                    <i <if condition="$user_collect gt 0">class="red"</if>></i>
+                    <span>关注</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my sinhert dp_myshin ">
+    <div class="content">
+        <div class="floor w3">
+            <ul>
+                <li>
+                    <a href="{:U('Store/goods_list',['store_id'=>$store.store_id])}">
+                        <h2>{$total_goods}</h2>
+                        <p>全部商品</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('Store/goods_list',['store_id'=>$store.store_id,'sta'=>is_new])}">
+                        <h2>{:count($new_goods)}</h2>
+                        <p>新品</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:U('Store/goods_list',['store_id'=>$store.store_id,'sta'=>is_hot])}">
+                        <h2>{:count($hot_goods)}</h2>
+                        <p>热销</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--<div class="dp_adcer ma-to-20 ">-->
+   <!--<li><a href="{$store[mb_slide_url][$key]}"><img src="{$vimg}" width="100%" /></a></li>-->
+<!--</div>-->
+<!--<div class="madearea ma-to-20">-->
+    <!--<div class="maleri30">-->
+        <!--<p>三大自然稻米带-东北产区</p>-->
+        <!--<img src="__STATIC__/images/dol.png"/>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="nav-item ma-to-20">
+    <div class="maleri30">
+        <span>热卖单品 精挑细选</span>
+    </div>
+</div>
+<div class="floor guesslike dp_mb0">
+    <div class="likeshop">
+        <ul>
+            <foreach name="hot_goods" item="vo">
+                <li>
+                    <div class="similer-product">
+                        <a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+                            <img src="{$vo.goods_id|goods_thum_images=400,400}">
+                            <span class="similar-product-text">{$vo.goods_name}</span>
+                        </a>
+                        <span class="similar-product-price">
+                            ¥<span class="big-price">{$vo.shop_price}</span>
+                        </span>
+                    </div>
+                </li>
+            </foreach>
+        </ul>
+    </div>
+</div>
+<div class="nav-item more_dp">
+    <div class="maleri30">
+        <a href="{:U('Store/goods_list',array('store_id'=>$store[store_id]))}">
+            <span>更多</span>
+            <i></i>
+        </a>
+    </div>
+</div>
+<div class="store_nav p">
+    <ul>
+        <li>
+            <div class="n">
+                <a href="{:U('Store/about',array('store_id'=>$store[store_id]))}">
+                    <span>店铺详情</span>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div class="n">
+                <a href="">
+                    <img src="__STATIC__/images/class1.png"/>
+                    <span>店铺分类</span>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div class="n">
+                <a href="tel:{$store.store_phone}">
+                    <span>联系客服</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
+<script>
+    //收藏店铺
+    $('#favoriteStore').click(function () {
+        if (getCookie('user_id') == '') {
+            if(confirm('请先登录')){
+                window.location.href = "{:U('Mobile/User/login')}";
+            }
+        } else {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {store_id: $(this).attr('data-id')},
+                url: "{:U('Home/Store/collect_store')}",
+                success: function (data) {
+                    if (data.status == 1) {
+                        $('#favoriteStore').find('i').addClass('red');
+                        layer.open({content:data.msg,time:2});
+                    } else {
+                        layer.open({content:data.msg,time:2});
+                    }
+                }
+            });
+        }
+    });
+</script>

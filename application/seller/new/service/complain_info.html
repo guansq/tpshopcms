@@ -1,0 +1,314 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+  <include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>投诉管理</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="ncsc-flow-layout" id="ncscComplainFlow">
+  <div class="ncsc-flow-container">
+    <div class="title">
+      <h3>交易投诉申请</h3>
+    </div>
+    <div class="ncsc-flow-step">
+      <dl id="state_new" class="step-first current">
+        <dt>新投诉</dt>
+        <dd class="bg"></dd>
+      </dl>
+      <dl id="state_appeal" class="<if condition='$complain[complain_state] egt 1'>current</if>">
+        <dt>待申诉</dt>
+        <dd class="bg"></dd>
+      </dl>
+      <dl id="state_talk" class="<if condition='$complain[complain_state] egt 2'>current</if>">
+        <dt>对话中</dt>
+        <dd class="bg"></dd>
+      </dl>
+      <dl id="state_handle" class="<if condition='$complain[complain_state] egt 3'>current</if>">
+        <dt>待仲裁</dt>
+        <dd class="bg"></dd>
+      </dl>
+      <dl id="state_finish" class="<if condition='$complain[complain_state] eq 4'>current</if>">
+        <dt>已完成</dt>
+        <dd class="bg"></dd>
+      </dl>
+    </div>
+    <div class="ncsc-form-default">
+      <h3>投诉信息</h3>
+      <dl>
+        <dt>投&nbsp;&nbsp;诉&nbsp;&nbsp;人：</dt>
+        <dd>{$complain.user_name}{$complain.user_contact}</dd>
+        <dt>投诉主题：</dt>
+        <dd>{$complain.complain_subject_name}</dd>
+        <dt>投诉时间：</dt>
+        <dd>{$complain.complain_time|date='Y-m-d H:i:s',###}</dd>
+        <dt>投诉内容：</dt>
+        <dd>{$complain.complain_content}</dd>
+        <dt>投诉证据：</dt>
+        <dd>
+        	<empty name="complain.complain_pic">
+            	 暂无图片
+        	<else/>
+        	<foreach name="complain.complain_pic" item="vr">
+            	<a href="{$vr}" target="_blank" class="pic-thumb-tip"><img src="{$vr}" height="50" width="50"></a>
+            </foreach>
+        	</empty>
+        </dd>
+      </dl>
+      <h3>申诉信息</h3>
+      <if condition="$complain[complain_state] eq 1">
+      <form method="post" id="add_form" enctype="multipart/form-data">
+        <input name="complain_id" type="hidden" value="{$complain.complain_id}">
+        <dl>
+          <dt>申诉内容：</dt>
+          <dd>
+            <textarea class="w600" name="appeal_msg" rows="3"></textarea>
+          </dd>
+        </dl>
+        <dl>
+          <dt>上传申诉证据：</dt>
+          <dd id="appeal_pic">
+			<div class="ncsc-upload-btn"> 
+			<a href="javascript:void(0);">
+			<span>
+          	 <input type="button" hidefocus="true" onclick="upload_pic()" size="1" class="input-file" nc_type="change_store_banner">
+          	</span>
+            <p><i class="icon-upload-alt"></i>图片上传</p>
+            </a>
+          	</div>
+
+          </dd>
+        </dl>
+        <div class="bottom">
+          <label class="submit-border">
+            <input id="submit_button" type="button" class="submit" value="提交">
+          </label>
+          <label class=""><a href="javascript:history.go(-1);" class="ncbtn ml10"><i class="icon-reply"></i>返回列表</a></label>
+        </div>
+      </form>
+      <else/>
+      <dl>
+        <dt>申诉时间：</dt>
+        <dd>{$complain.appeal_time|date='Y-m-d H:i:s',###}</dd>
+        <dt>申诉内容：</dt>
+        <dd>{$complain.appeal_msg}</dd>
+        <dt>申诉证据：</dt>
+        <dd>
+            <empty name="complain.appeal_pic">
+            	暂无图片
+            <else/>
+            <foreach name="complain.appeal_pic" item="vr">
+            <a href="{$vr}" target="_blank" class="pic-thumb-tip"><img src="{$vr}" height="50" width="50"></a>
+            </foreach>
+            </empty>
+        </dd>
+      </dl>
+      </if>
+      <if condition="($complain[complain_state] gt 1) && ($complain[complain_state] lt 4)">
+      <h3>对话详情</h3>
+		<dl>
+		  <dt>对话记录：</dt>
+		  <dd>
+		    <div id="div_talk" class="div_talk"> </div>
+		  </dd>
+		</dl>
+		<dl>
+		  <dt>发布对话：</dt>
+		  <dd>
+		    <textarea id="complain_talk" class="w400"></textarea>
+		  </dd>
+		</dl>
+		<div class="bottom">
+		  <label class="submit-border"> <a id="btn_publish" class="submit">发布对话</a> </label>
+		  <label class="submit-border"> <a id="btn_refresh" class="submit">刷新对话</a> </label>
+		  <!--<label class="submit-border"> <a id="btn_handle" class="submit">提交仲裁</a> </label>-->
+		</div>
+		<form action="" method="post" id="handle_form">
+		  <input id="input_complain_id" type="hidden" value="{$complain.complain_id}" />
+		</form>
+		<div class="bottom"><a href="javascript:history.go(-1);" class="ncbtn"><i class="icon-reply"></i>返回列表</a></div>
+      </if>
+      
+      <if condition="$complain[complain_state] eq 4">
+      <h3>处理结果</h3>
+      <dl>
+        <dt>处理意见：</dt>
+        <dd>{$complain.final_handle_msg}</dd>
+        <dt>处理时间：</dt>
+        <dd>{$complain.appeal_time|date='Y-m-d H:i:s',###}</dd>
+      </dl>
+      </if>
+    </div>
+  </div>
+  
+<div class="ncsc-flow-item">
+  <div class="title">相关商品交易信息</div>
+    <notempty name="order_goods">
+      <div class="item-goods">
+        <dl>
+          <dt>
+            <div class="ncsc-goods-thumb-mini"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods[goods_id]))}" target="_blank"> <img src="{$order_goods[goods_id]|goods_thum_images=50,50}" /> </a></div>
+          </dt>
+          <dd><a href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods[goods_id]))}" target="_blank">
+          {$order_goods.goods_name} </a> &yen;{$order_goods.goods_price}&nbsp;*&nbsp;
+          {$order_goods.goods_num}<font color="#AAA">(数量)</font>
+                <span></span></dd>
+        </dl>
+      </div>
+    </notempty>
+
+  <div class="item-order">
+    <dl>
+      <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
+      <dd><if condition="$order[shipping_price] eq 0">（免运费）<else/>{$order.shipping_price}</if></dd>
+    </dl>
+    <dl>
+      <dt>订单总额：</dt>
+      <dd><strong>&yen;{$order.order_amount}</strong></dd>
+    </dl>
+    <dl class="line">
+      <dt>订单编号：</dt>
+      <dd><a href="{:U('Order/detail',array('order_id'=>$order[order_id]))}" target="_blank"> {$order.order_sn} </a><a href="javascript:void(0);" class="a">更多<i class="icon-angle-down"></i>
+        <div class="more"> <span class="arrow"></span>
+          <ul>
+                <li>付款单号：<span>{$order.transaction_id}</span></li>
+                <li>支付方式：<span>{$order.pay_name}</span></li>
+    			<li>下单时间：<span>{$order.add_time|date='Y-m-d H:i:s',###}</span></li>
+                <li>付款时间：<span>{$order.pay_time|date='Y-m-d H:i:s',###}</span></li>
+          </ul>
+        </div>
+        </a></dd>
+    </dl>
+        <dl class="line">
+      <dt>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</dt>
+      <dd>{$order.consignee}<a href="javascript:void(0);" class="a">更多<i class="icon-angle-down"></i>
+        <div class="more"><span class="arrow"></span>
+          <ul>
+            <li>收货地址：<span>{$regionLits[$order['province']]},{$regionLits[$order['city']]},
+                    			{$regionLits[$order['district']]},{$order.address}</span></li>
+            <li>联系电话：<span>{$order.mobile}</span></li>
+          </ul>
+        </div>
+        </a>
+        <div><span member_id="3"></span></div>
+      </dd>
+    </dl>
+  </div>
+</div>
+
+
+</div>
+<script type="text/javascript">
+    $('#submit_button').click(function(){
+        $.ajax({
+            type:'Post',
+            url:"{:U('Service/complain_appeal')}",
+            data:$('#add_form').serialize(),
+            dataType:'JSON',
+            success:function(data){
+                if(data.status == 1){
+                    layer.alert(data.msg,{icon:1});
+                    window.location=data.url;
+                }else{
+                    layer.alert(data.msg,{icon:2});
+                }
+            },
+            error:function(){
+
+
+            }
+        })
+    })
+$(document).ready(function(){
+    get_complain_talk();
+    $("#btn_publish").click(function(){
+        if($("#complain_talk").val()=='') {
+            layer.alert("对话不能为空",{icon:2});
+        }else {
+            publish_complain_talk();
+        }
+    });
+    $("#btn_refresh").click(function(){
+        get_complain_talk();
+    });
+    $("#btn_handle").click(function(){
+        layer.confirm('确认提交仲裁,提交后管理员将做出裁决', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $("#handle_form").submit();
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    });
+});
+function get_complain_talk() {
+    $("#div_talk").empty();
+    $.ajax({
+        type:'POST',
+        url:"{:U('Service/get_complain_talk')}",
+        cache:false,
+        data:{complain_id:$('#input_complain_id').val()},
+        dataType:'json',
+        error:function(){
+            $("#div_talk").append("<p class='admin'>"+"目前没有对话"+"</p>");
+        },
+        success:function(talk_list){
+            if(talk_list.length >= 1) {
+                for(var i = 0; i < talk_list.length; i++)
+                {
+                    $("#div_talk").append("<p class='"+talk_list[i].css+"'>"+talk_list[i].talk+"</p>");
+                }
+            }
+            else {
+                $("#div_talk").append("<p class='admin'>"+"目前没有对话"+"</p>");
+            }
+        }
+	});
+}
+function publish_complain_talk() {
+      $.ajax({
+            type:'POST',
+                url:"{:U('Service/publish_complain_talk')}",
+                cache:false,
+                data:{complain_id:$('#input_complain_id').val(),complain_talk:$("#complain_talk").val()},
+                dataType:'json',
+                error:function(){
+                    layer.alert("对话发送失败",{icon:2});
+                },
+                success:function(talk_list){
+                    if(talk_list == 'success') {
+                        $("#complain_talk").val('');
+                        get_complain_talk();
+                        layer.alert("对话发送成功",{icon:1});
+                    }
+                    else {
+                        layer.alert("对话发送失败",{icon:2});
+                    }
+                }
+        });
+}
+
+function return_imgs(imgarr)
+{
+	for(var i=0;i<imgarr.length;i++){
+		var imgstr = '<br/><a href="'+imgarr[i]+'"><input type="hidden" name="appeal_pic[]" value="'+imgarr[i]+'"><img src="'+imgarr[i]+'" height="100"></a>'
+	    $('#appeal_pic').append(imgstr);
+	}
+}
+
+function upload_pic(){
+	var imgnum = $('input[name*="appeal_pic"]').length;
+	if(imgnum == 5){
+		layer.alert('最多可上传5张凭证图片',{icon:2});
+		return false;
+	}
+	GetUploadify(5,'appeal_pic','seller','return_imgs');
+}
+</script>
+	</div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

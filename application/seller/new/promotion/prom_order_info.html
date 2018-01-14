@@ -1,0 +1,255 @@
+<include file="public/head"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.config.js"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.all.min.js"/>
+<script type="text/javascript" charset="utf-8" src="__ROOT__/public/plugins/Ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>订单促销管理</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="normal"><a href="{:U('Promotion/prom_goods_list')}">订单促销列表</a></li>
+                    <li class="active"><a href="{:U('Promotion/prom_goods_info')}">新增/编辑活动</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="promotion">
+                    <input type="hidden" name="id" value="{$info.id}">
+                    <input type="hidden" id="coupon_count" value="{$coupon_list|count}">
+                    <dl>
+                        <dt><i class="required">*</i>促销活动名称：</dt>
+                        <dd>
+                            <input class="w400 text" type="text" name="title" id="title" value="{$info.title}" maxlength="30"/>
+                            <span class="err" id="err_title"></span>
+                            <p class="hint">请填写促销活动标题</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>促销活动类型：</dt>
+                        <dd>
+                            <select id="prom_type" name="type" class="select">
+                                <option value="0" <if condition="$info[type] eq 0">selected</if>>满额打折</option>
+                                <option value="1" <if condition="$info[type] eq 1">selected</if>>满额优惠金额</option>
+                                <!--<option value="2" <if condition="$info[type] eq 2">selected</if>>满额送积分</option>-->
+                                <option value="3" <if condition="$info[type] eq 3">selected</if>>满额送优惠券</option>
+                            </select>
+                            <span class="err" id="err_type">fasdd</span>
+                            <p class="hint">请选择促销活动类型</p>
+                        </dd>
+                    </dl>
+                    <dl id="expression">
+                        <dt><i class="required">*</i>折扣：</dt>
+                        <dd>
+                            <input name="expression" value="{$info.expression}" type="text" class="text w130"/>
+                            <span class="err" id="err_expression"></span>
+                            <p class="hint">% 折扣值(1-100 如果打9折，请输入90)</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>需要满足的金额：</dt>
+                        <dd>
+                            <input name="money" id="money" value="{$info.money}"  onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" type="text" class="text w130"/>
+                            <span></span>
+                            <p class="hint">单位：元</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>开始时间：</dt>
+                        <dd>
+                            <input id="start_time" name="start_time" value="{$info.start_time}" type="text" class="text w130"/><em class="add-on"><i class="icon-calendar"></i></em><span></span>
+                            <span class="err" id="err_start_time"></span>
+                            <p class="hint">团购开始时间</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>结束时间：</dt>
+                        <dd>
+                            <input id="end_time" name="end_time" value="{$info.end_time}" type="text" class="text w130"/><em class="add-on">
+                            <i class="icon-calendar"></i></em>
+                            <span class="err" id="err_end_time"></span>
+                            <p class="hint">团购结束时间</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>宣传图片：</dt>
+                        <dd>
+                            <div class="ncsc-goods-default-pic">
+                                <div class="goodspic-uplaod">
+                                    <div class="upload-thumb">
+                                        <img id="prom_img2" src="{$info.prom_img|default='/public/images/default_goods_image_240.gif'}">
+                                    </div>
+                                    <input id="prom_img" name="prom_img" value="{$info.prom_img}" type="hidden">
+                                    <span class="err" id="err_prom_img"></span>
+                                    <p class="hint">上传宣传图片；支持jpg、gif、png格式上传，建议使用<font color="red">尺寸800x800像素以上、大小不超过1M的正方形图片</font>。</p>
+                                    <div class="handle">
+                                        <div class="ncsc-upload-btn">
+                                            <a onclick="GetUploadify(1,'prom_img','activity','img_call_back')">
+                                                <p><i class="icon-upload-alt"></i>图片上传</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="demo"></div>
+                        </dd>
+                    </dl>
+                    <dl hidden>
+                        <dt>适合用户范围：</dt>
+                        <dd>
+                            <ul class="ncsc-form-checkbox-list">
+                                <foreach name="level" item="vo">
+                                    <li>
+                                        <label>
+                                            <input class="checkbox" type="checkbox" <if condition="strripos($info['group'],$vo['level_id'].'') nheq false">checked</if> name="group[]" value="{$vo.level_id}">
+                                            {$vo.level_name}</label>
+                                    </li>
+                                </foreach>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>活动描述：</dt>
+                        <dd>
+                            <textarea placeholder="请输入活动描述" id="post_content" name="description" class="tarea w700">{$info.description}</textarea>
+                            <span></span>
+
+                            <p class="hint">活动描述</p>
+                        </dd>
+                    </dl>
+                    <div class="bottom"><label class="submit-border">
+                        <input type="button" onclick="adsubmit()" class="submit" value="提交"></label>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+            	var url="{:url('Admin/Ueditor/index',array('savePath'=>'activity'))}";
+	            var ue = UE.getEditor('post_content',{
+	                serverUrl :url,
+	                zIndex: 999,
+	                initialFrameWidth: "100%", //初化宽度
+	                initialFrameHeight: 350, //初化高度            
+	                focus: false, //初始化时，是否让编辑器获得焦点true或false
+	                maximumWords: 99999, removeFormatAttributes: 'class,style,lang,width,height,align,hspace,valign',//允许的最大字符数 'fullscreen',
+	                pasteplain:false, //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+	                autoHeightEnabled: true
+	            });
+	            
+                function adsubmit(){
+                    if($('input[name=expression]').val() ==''){
+                        layer.msg('优惠不能为空',{icon:2});return false;
+                    }
+                    var type = parseInt($("#prom_type").val());
+                    var expression = $('#expression').val()
+                    if (type == 3 && expression == 0){
+                        layer.msg('请选择优惠券',{icon:2});return false;
+                    }
+                    $('#submit').attr('disabled',true);
+                    $.ajax({
+                        type: "POST",
+                        url: "{:U('Promotion/prom_order_save')}",
+                        data: $('#promotion').serialize(),
+                        async:false,
+                        dataType: "json",
+                        error: function () {
+                            layer.alert("服务器繁忙, 请联系管理员!");
+                        },
+                        success: function (data) {
+                            if (data.status == 1) {
+                                layer.msg(data.msg,{icon: 1,time: 2000})
+                                window.location.href = "{:U('Seller/Promotion/prom_order_list')}";
+                            } else {
+                                $('#submit').attr('disabled',false);
+                                var ss='';
+                                $.each(data.result, function (index, item) {
+                                    ss += item+',</br>';
+                                });
+                                layer.msg(ss, {icon: 2,time: 3000});
+                            }
+                        }
+                    });
+                }
+
+                function selectGoods(){
+                    var goods_id = [];
+                    //过滤选择重复商品
+                    $('input[name*="goods_id"]').each(function(i,o){
+                        goods_id.push($(o).val());
+                    });
+                    var url = '/index.php?m=Seller&c=Promotion&a=search_goods&goods_id='+goods_id+'&t='+Math.random();
+                    layer.open({
+                        type: 2,
+                        title: '选择商品',
+                        shadeClose: true,
+                        shade: 0.3,
+                        area: ['70%', '80%'],
+                        content: url,
+                    });
+                }
+                function call_back(table_html)
+                {
+                    layer.closeAll('iframe');
+                    $('#goods_list').append(table_html);
+                }
+
+                function img_call_back(fileurl_tmp) {
+                    $("#prom_img").val(fileurl_tmp);
+                    $("#prom_img2").attr('src', fileurl_tmp);
+                }
+                $("#prom_type").on("change",function(){
+                    var type = parseInt($("#prom_type").val());
+                    var coupon_count = $('#coupon_count').val()
+                    if (type == 3 && coupon_count <= 0){
+                        layer.msg('没有可选择的优惠券',{icon:2});
+                    }
+                    switch(type){
+                        case 0:{
+                            expression = '<dt><i class="required">*</i>折扣：</dt>'
+                                    + '<dd><input type="text" name="expression" pattern="^\\d+$" value="" class="input-txt">'
+                                    + '<p class="hint">% 折扣值(1-100 如果打9折，请输入90)</p></dd>';
+                            break;
+                        }
+                        case 1:{
+                            expression = '<dt><i class="required">*</i>立减金额：</dt>'
+                                    + '<dd><input type="text" name="expression" pattern="^\\d+(\\.\\d+)?$" value="" class="input-txt">'
+                                    + '<p class="hint">立减金额（元）</p></dd>';
+                            break;
+                        }
+                        case 2:{
+                            expression = '<dt><i class="required">*</i>出售金额：</dt>'
+                                    + '<dd><input type="text" name="expression" pattern="^\\d+(\\.\\d+)?$" value="" class="input-txt">'
+                                    + '<p class="hint">出售金额（元）</p></dd>';
+                            break;
+                        }
+                        case 3:{
+                            expression = '<dt><i class="required">*</i>代金券：</dt><dd><select name="expression" id="expression"><option value="0">请选择</option>'
+                                + '<foreach name="coupon_list" item="v"><option value="{$v.id}" <if condition="$v[id] eq $info[expression]">selected</if>>{$v.name}</option></foreach></select>'
+                                + '<p class="hint">请选择代金券</p></dd>';
+                            break;
+                        }
+                        case 4:{
+                            expression = '<dt><label><i class="required">*</i>买M送N：</dt>'
+                                    + '<dd><input type="text" name="expression" pattern="\\d+\/\\d+" value="" class="input-txt">'
+                                    + '<p class="hint">买几件送几件（如买3件送1件: 3/1）</p></dd>';
+                            break;
+                        }
+                    }
+                    $("#expression").html(expression);
+                });
+
+                $(document).ready(function(){
+                    $('#start_time').layDate();
+                    $('#end_time').layDate();
+
+                    $("#prom_type").trigger('change');
+                    $('input[name=expression]').val("{$info.expression}");
+                })
+
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

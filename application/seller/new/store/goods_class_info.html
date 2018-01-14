@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商家中心</title>
+<link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+</head>
+<body>
+<div class="w340">
+<div class="eject_con">
+  <div id="warning" class="alert alert-error"></div>
+  <form id="handlepost" method="post" target="_parent" action="">
+        <dl>
+      <dt><i class="required">*</i>分类名称：</dt>
+      <dd>
+        <input class="text w200" type="text" name="cat_name" id="cat_name" value="{$info.cat_name}">
+      </dd>
+    </dl>
+    <dl>
+      <dt>上级分类：</dt>
+      <dd>
+		<select name="parent_id" id="parent_id" value="{$menu.parent_id}">	
+			<option value="0">顶级菜单</option>		
+			<foreach name="parent" item="v">
+				<option value="{$v.cat_id}" <if condition="$v[cat_id] eq $info[parent_id]"> selected="selected"</if>>&nbsp;&nbsp;|--{$v.cat_name}</option>
+			</foreach>
+		</select>      
+      </dd>
+    </dl>
+    <dl>
+      <dt>显示状态：</dt>
+      <dd>
+        <label>
+          <input type="radio" name="is_show" value="1" <if condition="$info[is_show] eq 1">checked</if>>
+          是</label>
+        <label>
+          <input type="radio" name="is_show" value="0" <if condition="$info[is_show] eq 0">checked</if>>
+          否</label>
+      </dd>
+    </dl>
+        <dl>
+      <dt>是否导航显示：</dt>
+      <dd>
+        <label>
+          <input type="radio" name="is_nav_show" value="1" <if condition="$info[is_nav_show] eq 1">checked</if>>
+          是</label>
+        <label>
+          <input type="radio" name="is_nav_show" value="0" <if condition="$info[is_nav_show] eq 0">checked</if>>
+          否</label>
+      </dd>
+    </dl>
+        <dl>
+      <dt>是否首页推荐：</dt>
+      <dd>
+        <label>
+          <input type="radio" name="is_recommend" value="1" <if condition="$info[is_recommend] eq 1">checked</if>>
+          是</label>
+        <label>
+          <input type="radio" name="is_recommend" value="0" <if condition="$info[is_recommend] eq 0">checked</if>>
+          否</label>
+      </dd>
+    </dl>
+    <dl>
+      <dt>排序：</dt>
+      <dd>
+        <input class="text w60" type="text" name="cat_sort" value="{$info.cat_sort|default=10}">
+      </dd>
+    </dl>
+    <div class="bottom">
+        <label class="submit-border"><input type="hidden" name="cat_id" value="{$info.cat_id}">
+        <input type="button" onclick="dataSave()" class="submit" value="提交"></label>
+    </div>
+  </form>
+</div>
+</div>	
+<script type="text/javascript">
+	function dataSave(){
+		if($('input[name="cat_name"]').val() == ''){
+			layer.msg('分类名称不能为空', {icon: 3});
+			return;
+		}
+		$.ajax({
+			url : "{:U('Store/goods_class_save')}",
+			data : $('#handlepost').serialize(),
+			type : 'post',
+			dataType : 'json',
+			success :function(data){
+				if(data.status==1){
+					window.parent.call_back(1);	
+				}else{
+					window.parent.call_back(0);
+				}						
+			}			
+		});		
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>商家入驻</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+	<link href="__STATIC__/css/common.min.css" rel="stylesheet" type="text/css" />
+	<link href="__STATIC__/css/qt_style.css" rel="stylesheet" type="text/css" />
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__PUBLIC__/js/pc_common.js"></script>
+</head>
+<body>
+<include file="public/sign-header"/>
+<div class="gome-wrap bg">
+	<div style="position: relative;top: -40px;left: 350px;">
+    	<a href="/" target="_blank" class="item fl"><img height="60" width="160" src="{$tpshop_config['shop_info_store_logo']}"></a>
+    </div>
+	<div class="gome-layout-area">
+        <ul class="gome-nav">
+            <li><a href="{:U('Newjoin/index')}" target="_blank">招商首页</a></li>
+        	<tpshop sql="select * from `__PREFIX__article_cat` where parent_id=2" key="k" item='v'>
+            	<li><a href="{:U('Newjoin/question',array('cat_id'=>$v[cat_id]))}" target="_blank">{$v.cat_name}</a></li>
+            </tpshop>
+        </ul>
+    </div>
+</div>
+
+<div class="gome-layout-area pb50 clearfix">
+    	<ul class="steps clearfix">
+        	<li class="first cur ok"><b>1</b><span class="going"></span><em class="f">入驻须知</em></li>
+        	<li><b>2</b><span></span><em class="f">填写公司信息</em></li>
+        	<li><b>3</b><span></span><em class="f">填写店铺信息</em></li>
+        	<li><b>4</b><span></span><em class="f">资质上传</em></li>
+        	<li class="last"><b>5</b><em class="f">等待审核</em></li>
+        </ul>
+        <div class="settled-agreement-table pb50">
+        	<div class="agreement-title"><span>联系方式</span></div>
+        	<form action="" id="contact_info" method="post">
+            	<table cellpadding="0" cellspacing="0" border="0" class="information-table">
+            		<tbody><tr>
+                		<th class="fw700 pr7">卖家入驻联系人信息
+                    	</th><td class="color01">用于入驻过程中接收平台官方反馈的入驻通知，请务必填写正确</td>
+                	</tr>
+            		<tr>
+                		<th><em class="em-red">*</em>联系人姓名：
+                    	</th><td width="495"><input maxlength="20" type="text" id="contacterName" name="contacts_name" class="input260 fl" value="{$apply.contacts_name}" onblur="checkEmpty(this.value,'contacterName','联系人姓名','');"><span id="contacterNameSpan" style="display:none"></span></td>
+                	</tr>
+            		<tr>
+                		<th><em class="em-red">*</em>联系人手机：
+                    	</th><td><input maxlength="11" type="text" id="contacterMobile" name="contacts_mobile" class="input260 fl" value="{$apply.contacts_mobile}" onblur="checkEmpty(this.value,'contacterMobile','联系人手机','mobile');"><span id="contacterMobileSpan" style="display:none"></span></td>
+                	</tr>
+            		<tr>
+                		<th><em class="em-red">*</em>联系人电子邮箱：
+                    	</th><td><input maxlength="32" type="text" id="email" name="contacts_email" class="input260 fl" value="{$apply.contacts_email}" onblur="checkEmpty(this.value,'email','联系人电子邮箱','email');"><span id="emailSpan" style="display:none"></span></td>
+                	</tr>
+                	<tr>
+                        <th><em class="em-red">*</em>申请类型：</th>
+                        <td>
+                        	<input style="width: 14px; height: 12px;" type="radio" id="isThreeinone" name="apply_type" value="1">个人入驻
+                        	<input style="width: 14px; height: 12px;" type="radio" id="isThreeinone" name="apply_type" checked value="0">企业入驻
+                        </td>
+                    </tr>
+            	</tbody></table></form>
+            	<div class="gome-btn">
+                	<a href="javascript:nextStep();" class="gome-btn-red">下一步,填写公司信息</a>
+            	</div>
+        	</div>
+    	</div>
+<input type="hidden" id="mobileRegex" value="^(13[0-9]{9})|(14[57][0-9]{8})|(15[012356789][0-9]{8})|(170[0-9]{8})|(18[0-9]{9})$"/>
+<include file="public/footer"/>
+<script>
+
+function checkEmpty(value, id, msg, type) {
+	var _email = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	var _phone = /^((\+?[0-9]{2,4}\-[0-9]{3,4}\-)|([0-9]{3,4}\-))?([0-9]{7,8})(\-[0-9]+)?$/;
+//	var _mobile = new RegExp(document.getElementById("mobileRegex").value);
+	var _mobile = /^1[0-9]{10}$/;
+	var _zip = /^[0-9][0-9]{5}$/;
+	var _positiveInteger = /^[0-9]*[1-9][0-9]*$/;
+	if(value == "" ||  ($.trim(value)).length == 0){
+		var v = document.getElementById(id+"Span");
+		v.innerHTML = "请填写" + msg;
+		v.className="warning-text1";
+		v.style.display="block";
+		//输入框样式添加warning
+		$("#"+id).addClass("warning");
+	} else {
+		if ((type == "email" && !(_email.test(value))) || (type == "phone" && !(_phone.test(value))) || (type == "mobile" && !(_mobile.test(value))) || (type == "zip" && !(_zip.test(value)))  || (type == "positiveInteger" && !(_positiveInteger.test(value)))) {
+			var v = document.getElementById(id+"Span");
+			if (type == "positiveInteger") {
+				msg = msg + "(正整数)"
+			}
+			v.innerHTML = "格式错误，请正确填写" + msg;
+			v.className="warning-text2";
+			v.style.display="block";
+			$("#"+id).addClass("warning");
+			return;
+		} else {
+			document.getElementById(id+"Span").className="";
+			document.getElementById(id+"Span").innerHTML="";
+			document.getElementById(id+"Span").style.display="none";
+			$("#"+id).removeClass("warning");
+			return 1;
+		}
+	}
+}
+
+function nextStep(){
+	if (checkEmpty($("#contacterName").val(),'contacterName','联系人姓名','') != 1) {
+//		alert("联系人姓名，填写有误");
+		$("#contacterName").focus();
+		return;
+	}
+	if (checkEmpty($("#contacterMobile").val(),'contacterMobile','联系人手机','mobile') != 1) {
+//		alert("联系人手机，填写有误");
+		$("#contacterMobile").focus();
+		return;
+	}
+	if (checkEmpty($("#email").val(),'email','联系人电子邮箱','email') != 1) {
+//		alert("联系人电子邮箱，填写有误");
+		$("#email").focus();
+		return;
+	}
+	document.getElementById('contact_info').submit();
+}
+</script>
+</body>
+</html>

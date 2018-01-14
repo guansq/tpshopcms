@@ -1,0 +1,160 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>投诉管理</h3>
+        <h5>商城对商品交易投诉管理及仲裁</h5>
+      </div>
+      <ul class="tab-base nc-row">
+      <li><a href="{:U('Service/complain_list',array('complain_state'=>1))}" class="<if condition='$complain_state eq 1'>current</if>"><span>新投诉</span></a></li>
+      <li><a href="{:U('Service/complain_list',array('complain_state'=>2))}" class="<if condition='$complain_state eq 2'>current</if>"><span>对话中</span></a></li>
+      <li><a href="{:U('Service/complain_list',array('complain_state'=>3))}" class="<if condition='$complain_state eq 3'>current</if>"><span>待仲裁</span></a></li>
+      <li><a href="{:U('Service/complain_list',array('complain_state'=>4))}" class="<if condition='$complain_state eq 4'>current</if>"><span>已完成</span></a></li>
+      <li><a href="{:U('Service/complain_subject_list')}" ><span>主题设置</span></a></li>
+      <li><a href="{:U('Service/complain_setting')}" ><span>时效设置</span></a></li></ul>    
+   	</div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>在投诉时效内，买家可对订单进行投诉，投诉主题由管理员在后台统一设置</li>
+      <li>投诉时效可在系统设置处进行设置</li>
+      <li>点击详细，可查看投诉。被投诉店铺可进行回复进行申诉。申诉成功后，投诉双方进行对话</li>
+      <li>会员可确认结束纠纷单，若会员对于卖家的处理不满意可以申请仲裁，最后由后台管理员进行仲裁操作</li>
+    </ul>
+  </div>
+   <div class="flexigrid">
+		<div class="mDiv">
+			<div class="ftitle">
+				<h3>商家投诉列表</h3>
+				<h5>(共{$pager->totalRows}条记录)</h5>
+			</div>
+			<div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+			<div class="sDiv">
+                <form method="post">
+                    <div class="sDiv2">
+                    <select name="qtype" class="select">
+                        <option value="user_name">投诉人&nbsp;&nbsp;</option>
+                        <option value="store_name">被投商家&nbsp;&nbsp;</option>
+                    </select>
+                    <input type="text" size="30" name="q" class="qsbox" placeholder="搜索相关数据...">
+                    <input type="submit" class="btn" value="搜索">
+                    </div>
+                </form>
+			</div>
+		</div>
+		<div class="hDiv">
+			<div class="hDivBox">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+					<tr>
+						<th class="sign" axis="col0">
+							<div style="width: 24px;"><i class="ico-check"></i></div>
+						</th>
+						<th align="center" abbr="article_title" axis="col3" class="">
+							<div style="text-align: center; width: 100px;" class="">投诉人</div>
+						</th>
+						<th align="center" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: center; width: 200px;" class="">投诉内容</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">投诉图片</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 150px;" class="">投诉时间</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 100px;" class="">投诉主题</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 100px;" class="">被投商家</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 50px;" class="">投诉人ID</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 50px;" class="">商家ID</div>
+						</th>
+						<th align="center" axis="col1" class="handle">
+							<div style="text-align: center; width: 100px;">操作</div>
+						</th>
+						<th style="width:100%" axis="col7">
+							<div></div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="bDiv" style="height: auto;">
+			<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="lists" item="vo" key="k" >
+						<tr>
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">{$vo.user_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.complain_content}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">
+								<foreach name="vo.complain_pic" item="vr">
+								<a href="{$vr}" target="_blank" class="pic-thumb-tip"><img src="{$vr}" height="36" width="36"></a>
+								</foreach>
+								</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 150px;">{$vo.complain_time|date='Y-m-d H:i:s',###}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">{$vo.complain_subject_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">{$vo.store_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 50px;">{$vo.user_id}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 50px;">{$vo.store_id}</div>
+							</td>
+							<td align="center" class="handle">
+								<div style="text-align: center; width: 170px; max-width:170px;">
+									<if condition="$vo[complain_state] lt 4">
+									<a class="btn orange" href="{:U('Service/complain_detail',array('complain_id'=>$vo[complain_id]))}"><i class="fa fa-gavel"></i>处理</a>
+									<else/>
+									<a class="btn orange" href="{:U('Service/complain_detail',array('complain_id'=>$vo[complain_id]))}"><i class="fa fa-list-alt"></i>查看</a>
+									</if>
+								</div>
+							</td>
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="iDiv" style="display: none;"></div>
+		</div>
+		<!--分页位置-->{$page} 
+	</div>
+</div>
+<script type="text/javascript">
+
+</script> 
+</body>
+</html>

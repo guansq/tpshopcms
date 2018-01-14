@@ -1,0 +1,207 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>店铺管理 - 查看会员“{$apply.seller_name}”的店铺注册信息</h3>
+                <h5>店铺的审核续费及经营类目结算周期操作</h5>
+            </div>
+        </div>
+    </div>
+    <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+            <th colspan="20">公司及联系人信息</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="">公司名称：</th>
+            <td>{$apply.company_name}</td>
+            <th>公司网址：</th>
+            <td colspan="20">{$apply.company_website}</td>
+        </tr>
+        <tr>
+            <th>公司所在地：</th>
+            <td>{$province_name},{$city_name},{$district_name}</td>
+            <th>公司详细地址：</th>
+            <td>{$apply.company_address}</td>
+            <th>固定电话：</th>
+            <td>{$apply.company_telephone}</td>
+        </tr>
+        <tr>
+            <th>邮政编码：</th>
+            <td>{$apply.company_zipcode}</td>
+            <th>电子邮箱：</th>
+            <td>{$apply.company_email}</td>
+            <th>传真：</th>
+            <td>{$apply.company_fax}</td>
+        </tr>
+        <tr>
+            <th>联系人姓名：</th>
+            <td>{$apply.contacts_name}</td>
+            <th>联系人电话：</th>
+            <td>{$apply.contacts_mobile}</td>
+            <th>联系人邮箱：</th>
+            <td>{$apply.contacts_email}</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+            <th colspan="20">营业执照信息（副本）</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>营业执照号：</th>
+            <td>{$apply.business_licence_number}</td>
+            <th>营业执照有效期：</th>
+            <td>{$apply.business_date_start} - {$apply.business_date_end}</td>
+            <th>法定经营范围：</th>
+            <td>{$apply.business_scope}</td>
+        </tr>
+        <tr>
+            <th>注册资本:</th><td>{$apply.reg_capital}</td>
+            <th>组织机构代码:</th><td>{$apply.orgnization_code}</td>
+            <th>一般纳税人证明:</th><td>{$apply.reg_capital}</td>
+        </tr>
+        <tr>
+            <th>法人代表姓名:</th><td>{$apply.legal_person}</td>
+            <th>纳税类型税码:</th><td>{$apply.tax_rate}%</td>
+            <th>税务登记号码:</th><td>{$apply.attached_tax_number}</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+            <th colspan="20">开户银行信息：</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="w150">银行开户名：</th>
+            <td>{$apply.bank_account_name}</td>
+        </tr>
+        <tr>
+            <th>公司银行账号：</th>
+            <td>{$apply.bank_account_number}</td>
+        </tr>
+        <tr>
+            <th>开户银行支行名称：</th>
+            <td>{$apply.bank_branch_name}</td>
+        </tr>
+        <tr>
+            <th>开户银行所在地：</th>
+            <td colspan="20">{$bank_province_name},{$bank_city_name}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+            <th colspan="20">店铺经营信息</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th class="w150">卖家账号：</th>
+            <td>{$apply.seller_name}</td>
+        </tr>
+        <tr>
+            <th class="w150">店铺名称：</th>
+            <td>{$apply.store_name}</td>
+        </tr>
+        <tr>
+            <th>店铺等级：</th>
+            <td>（开店费用：{$store_grade.sg_price} 元/年）</td>
+        </tr>
+        <tr>
+            <th class="w150">店铺负责人：</th>
+            <td>{$apply.store_person_name}</td>
+        </tr>
+        <tr>
+            <th>负责人手机号码：</th>
+            <td>{$apply.store_person_mobile}</td>
+        </tr>
+        <tr>
+            <th>负责人QQ号码：</th>
+            <td>{$apply.store_person_qq}</td>
+        </tr>
+        <tr>
+            <th>负责人邮箱：</th>
+            <td>{$apply.store_person_email}</td>
+        </tr>
+        <tr>
+            <th>店铺分类：</th>
+            <td>{$apply.sc_name}
+            </td>
+        </tr>
+        <tr>
+            <th>经营类目：</th>
+            <td colspan="2"><table id="table_category" class="type" cellspacing="0" cellpadding="0" border="0">
+                <thead>
+                <tr>
+                    <th>分类1</th>
+                    <th>分类2</th>
+                    <th>分类3</th>
+                    <th>比例</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="bind_class_list" item="vo">
+                    <tr>
+                        <td>{$vo.class_1_name}</td>
+                        <td>{$vo.class_2_name}</td>
+                        <td>{$vo.class_3_name}</td>
+                        <td>{$vo.commis_rate}%</td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+            <th colspan="20">证件信息：</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>企业营业执照副本：</th>
+            <td colspan="20"><a nctype="nyroModal" href="{$apply.business_licence_cert}"> <img src="{$apply.business_licence_cert}" alt=""> </a></td>
+        </tr>
+        <tr>
+            <th>税务登记证复印件：</th>
+            <td colspan="20"><a nctype="nyroModal" href="{$apply.taxpayer_cert}"> <img src="{$apply.taxpayer_cert}" alt=""> </a></td>
+        </tr>
+        <tr>
+            <th>织机构代码证复印件：</th>
+            <td colspan="20"><a nctype="nyroModal" href="{$apply.orgnization_cert}"> <img src="{$apply.orgnization_cert}" alt=""> </a></td>
+        </tr>
+        <tr>
+            <th>法人身份证：</th>
+            <td colspan="20"><a nctype="nyroModal" href="{$apply.legal_identity_cert}"> <img src="{$apply.legal_identity_cert}" alt=""> </a></td>
+        </tr>
+        <tr>
+            <th>店铺负责人身份证：</th>
+            <td colspan="20"><a nctype="nyroModal" href="{$apply.store_person_cert}"> <img src="{$apply.store_person_cert}" alt=""> </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

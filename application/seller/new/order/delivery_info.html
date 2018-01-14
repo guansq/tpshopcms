@@ -1,0 +1,281 @@
+<include file="public/head"/>
+<style>
+    table {
+        border-collapse: inherit !important;
+    }
+
+    .ncsc-order-contnet thead td {
+        background-color: #f5f5f5;
+    }
+
+    .ncsc-order-contnet tfoot td {
+        padding: 10px 0;
+    }
+
+    .ncsc-order-contnet h3 {
+        background-color: #f5f5f5;
+        clear: both;
+        color: #000;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 22px;
+        padding: 5px 0 5px 12px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .ncsc-order-contnet td .sum em {
+        color: #c00;
+        font: 16px/24px Verdana, Arial;
+        margin: 0 4px;
+        vertical-align: bottom;
+    }
+
+    .ncsc-order-info {
+        min-height: 224px;
+        height: 224px;
+    }
+
+    .ncsc-order-details {
+        border-right: 0;
+        height: 100%;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>发货设置</div>
+            <div class="main-content" id="mainContent">
+                <form id="delivery-form" action="{:U('Order/deliveryHandle')}" method="post">
+                    <input type="hidden" name="order_id" value="{$order.order_id}">
+                    <div class="ncsc-oredr-show">
+                        <div class="ncsc-order-info" style="height:auto; min-height:auto">
+                            <div class="ncsc-order-condition">
+                                <a href="{:U('Order/order_print',array('order_id'=>$order['order_id'],'template'=>'picking'))}" target="_blank" class="ncbtn ncbtn-grapefruit mt5"
+                                   data-original-title="打印订单"><i class="fa icon-print"></i>打印订单</a>
+                            </div>
+                        </div>
+                        <!-- 基本信息 -->
+                        <div class="ncsc-order-contnet">
+                            <div class="ncsc-order-info">
+
+                                <div class="ncsc-order-details" style="width:50%">
+                                    <div class="title">订单信息</div>
+                                    <div class="content">
+                                        <dl>
+                                            <dt>订单编号：</dt>
+                                            <dd>{$order.order_sn}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>下单时间：</dt>
+                                            <dd>{$order.add_time|date='Y-m-d H:i',###}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>配送方式：</dt>
+                                            <dd>{$order.shipping_name}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>配送费用：</dt>
+                                            <dd>{$order.shipping_price}</dd>
+                                        </dl>
+                                        <dl>
+                                            <dt>配送单号：</dt>
+                                            <dd><input class="text" name="invoice_no" id="invoice_no" value="{$order.invoice_no}" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+
+                                <!--发货状态下修改订单号-->
+                               
+                                    <div class="ncsc-order-details" style="width:50%">
+                                        <div class="title">收货信息</div>
+                                        <div class="content">
+                                            <dl>
+                                                <dt>收货人：</dt>
+                                                <dd>{$order.consignee}</dd>
+                                            </dl>
+                                            <dl>
+                                                <dt>电子邮件：</dt>
+                                                <dd>{$order.email}</dd>
+                                            </dl>
+                                            <dl>
+                                                <dt>地址：</dt>
+                                                <dd>{$order.address}</dd>
+                                            </dl>
+                                            <dl>
+                                                <dt>电话：</dt>
+                                                <dd>{$order.mobile}</dd>
+                                            </dl>
+                                            <dl>
+                                                <dt>发票抬头：</dt>
+                                                <dd>{$order.invoice_title}</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                
+
+                            </div>
+                            <div class="ncsc-order-contnet">
+                                <!-- 商品信息 -->
+                                <table class="ncsc-default-table order" style="margin-top:30px">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="8">
+                                            <dl class="freight"><h3>商品信息</h3></dl>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w10">&nbsp;</th>
+                                        <th colspan="2">商品</th>
+                                        <th class="w120">单价(元)</th>
+                                        <th class="w60">数量</th>
+                                        <th class="w100">规格属性</th>
+                                        <th class="w100">会员折扣价</th>
+                                        <th class="w100">选择发货</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="orderGoods" id="good">
+                                        <tr class="bd-line">
+                                            <td>&nbsp;</td>
+                                            <td class="w50">
+                                                <div class="pic-thumb">
+                                                    <a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}"><img
+                                                            src="{$good['goods_id']|goods_thum_images=200,200}"></a></div>
+                                            </td>
+                                            <td class="tl">
+                                                <dl class="goods-name">
+                                                    <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good.goods_name}</a></dt>
+                                                </dl>
+                                            </td>
+                                            <td>{$good.goods_price}<p class="green"></p></td>
+                                            <td>{$good.goods_num}</td>
+                                            <td>{$good.spec_key_name}</td>
+                                            <td>{$good.goods_total}</td>
+                                            <td>
+                                                <if condition="$good['is_send'] eq 1">
+                                                    	已发货
+                                                <elseif condition="$good['unsend'] eq 1" />
+                                                		已申请退货
+                                                <else/>
+                                                    <input type="checkbox" name="goods[]" value="{$good.rec_id}" checked="checked">
+                                                </if>
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="20">
+                                            <dl class="sum">
+                                                <dt>小计：</dt>
+                                                <dd><em>{$order.goods_price}</em>元</dd>
+                                            </dl>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!--发货状态下课修改订单号-->
+        					<if condition="$order['shipping_status'] neq 1">
+                            <div class="ncsc-form-goods" style="margin-top:30px">
+                                <h3 id="demo1">操作</h3>
+                                <dl>
+                                    <dt>发货单备注</dt>
+                                    <dd>
+                                        <textarea name="note" placeholder="请输入操作备注" class="textarea h60 w400 valid"></textarea>
+                                        <span></span>
+
+                                        <p class="hint">备注字不能超过140个汉字</p>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>可执行操作</dt>
+                                    <dd>
+                                        <if condition="$order['shipping_status'] neq 1">
+                                            <a href="javascript:void(0)" class="ncbtn ncbtn-grapefruit mt5" onclick="dosubmit()">确认发货</a>
+                                        </if>
+                                        <a href="javascript:history.go(-1)" class="ncbtn ncbtn-grapefruit mt5">返回</a>
+                                    </dd>
+                                </dl>
+                            </div>
+                            </if>
+                            <!-- 操作记录 -->
+                            <div class="ncsc-order-contnet">
+                                <table class="ncsc-default-table order">
+                                    <thead>
+                                    <tr>
+                                        <td colspan="20">
+                                            <dl class="freight"><h3>发货记录</h3></dl>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w100">操作者(商家)</th>
+                                        <th class="w160">发货时间</th>
+                                        <th class="w100">发货单号</th>
+                                        <th class="w100">收货人</th>
+                                        <th class="w200">快递公司</th>
+                                        <th class="w80">备注</th>
+                                        <th class="w200">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="delivery_record" id="log">
+                                        <tr class="bd-line">
+                                            <td class="w100">{$log.seller_name}</td>
+                                            <td class="w160">{$log.create_time|date='Y-m-d H:i:s',###}</td>
+                                            <td class="w100">{$log.invoice_no}</td>
+                                            <td class="w100">{$log.consignee}</td>
+                                            <td class="w100">{$log.shipping_name}</td>
+                                            <td class="w80">{$log.note}</td>
+                                            <td class="w200"><a href="http://www.kuaidi100.com/" target="_blank">查看物流</a></td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function dosubmit() {
+        var a = [];
+        $('input[name*=goods]').each(function (i, o) {
+            if ($(o).is(':checked')) {
+                a.push($(o).val());
+            }
+        });
+        if (a.length == 0) {
+            layer.alert('未选择发货商品，或订单商品已申请退货', {icon: 2});  //alert('请选择发货商品');
+            return;
+        }
+        if ($('#invoice_no').val() == '') {
+            layer.alert('请输入配送单号', {icon: 2});  // alert('请输入配送单号');
+            return;
+        }
+        $.ajax({
+            type : "POST",
+            url:"{:U('Order/deliveryHandle')}",
+            data :  $('#delivery-form').serialize(),
+            dataType:'JSON',
+            success: function(data){
+                if(data.status==1){
+                    layer.alert(data.msg, {icon: 1});
+                    window.location.href = data.url;
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                    window.location.href = data.url;
+                }
+            }
+        });
+//        $('#delivery-form').submit();
+    }
+</script>
+</body>
+</html>

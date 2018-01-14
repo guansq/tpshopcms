@@ -1,0 +1,111 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>分销商品<i class="icon-angle-right"></i>获佣记录</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" id="handlepost">
+                	<input type="hidden" name="result_url" value="Distribut/rebate_log">
+                	<input type="hidden" name="id" value="{$rebate_log.id}">
+                    <input type="hidden" name="user_id" value="{$rebate_log.user_id}">                        
+                    <input type="hidden" id="status" name="status" value="{$rebate_log[status]}">
+                    <div class="ncsc-form-goods active" id="tab_tongyong">
+                        <h3 id="demo1">获佣用户</h3>
+                        <dl>
+                            <dt>获佣用户id</dt>
+                            <dd>{$rebate_log[user_id]}</dd>
+                        </dl>
+                        <dl>
+                            <dt>获佣用户名</dt>
+                            <dd>
+                                 {$rebate_log.user_name}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>获佣订单</dt>
+                            <dd>
+                            	<a href="{:U('order/detail',array('order_id'=>$rebate_log[order_id]))}">{$rebate_log.order_sn}</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>获佣金额</dt>
+                            <dd>
+                                {$rebate_log.money}
+                            </dd> 
+                        </dl>
+                        <dl>
+                            <dt>获佣用户级别</dt>
+                            <dd>
+								 {$rebate_log.level} 
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>分成记录生成时间</dt>
+                            <dd>
+                                 {$rebate_log.create_time|date="Y-m-d H:i",###}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>状态</dt>
+                            <dd>
+                                 <if condition="$rebate_log[status] eq 0">未付款</if>
+                                 <if condition="$rebate_log[status] eq 1">已付款</if>
+                                 <if condition="$rebate_log[status] eq 2">等待分成</if>
+                                 <if condition="$rebate_log[status] eq 3">已分成</if>
+                                 <if condition="$rebate_log[status] eq 4">已取消</if>         
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>确定分成或者取消时间</dt>
+                            <dd>
+                                 {$rebate_log.create_time|date="Y-m-d H:i",###}     
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>备注</dt>
+                            <dd>
+                                <textarea  id="remark" name="remark" class="textarea h60 w400 valid">{$rebate_log.remark}</textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input nctype="formSubmit" class="submit" value="保存" type="submit" >
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+ 
+$(document).ready(function(){
+  
+	$("#handlepost").validate({
+		debug: false, //调试模式取消submit的默认提交功能   
+		focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
+        onkeyup: false,   
+        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form   
+        	form.submit();   //提交表单   
+        },  
+        ignore:":button",	//不验证的元素
+        rules:{
+        	remark:{
+        		required:true
+        	},
+        }, 
+        messages:{
+        	remark:{
+        		required:"请填备注"
+        	}
+        }
+	});
+	
+});
+
+</script>
+</body>
+</html>

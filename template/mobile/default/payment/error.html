@@ -1,0 +1,29 @@
+<include file="public/header" title="支付失败"/>
+<div class="completionpay">
+    <div class="maleri30">
+        <div class="llog"><img src="{$tpshop_config['shop_info_store_logo']}"/></div>
+        <div class="heses">
+            <div class="zbzim"><img src="__STATIC__/images/icogantanhao-sb.png"/></div>
+            <p class="success"><span class="red">抱歉订单支付失败！</span></p>
+            <if condition="$master_order_sn neq ''">
+                <p class="ddnum"><span>订单号：</span><span>{$master_order_sn}</span></p>
+                <p class="ddnum"><span>付款金额：</span><span class="red">{$sum_order_amount}</span><span>元</span></p>
+                <else />
+                <p class="ddnum"><span>订单号：</span><span>{$order['order_sn']}</span></p>
+                <p class="ddnum"><span>付款金额：</span><span class="red">{$order['order_amount']}</span><span>元</span></p>
+            </if>
+
+            <p class="ddnum"><span>您可以重新支付</span></p>
+            <div class="ddxq-succ">
+                <if condition="$master_order_sn neq ''">
+                    <a href="{:U('Mobile/Order/order_list')}">订单详情</a>
+                    <else/>
+                    <a href="{:U('/Mobile/Order/order_detail',array('id'=>$order['order_id']))}">订单详情</a>
+                </if>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

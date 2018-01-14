@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <title>举报中心</title>
+    <style type="text/css">
+	.w {width: 990px;margin: 0 auto;}
+	html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, address, big, cite, code, del, em, font, img, ins, small, strong, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend {
+	    margin: 0;
+	    padding: 0;
+	}
+	body {
+	    font: 12px/150% Arial,Verdana,"\5b8b\4f53";
+	    color: #666;
+	    background: #fff;
+	    _background-image: url(about:blank);
+	    _background-attachment: fixed;
+	}
+	a img { border: 0;}
+	a { color: #666;text-decoration: none;}
+	img {vertical-align: middle;}
+	ol, ul {list-style: none;}
+     #ud-jbtype .msg-text{ float: left;height: 36px;width: 126px;}
+     #ud-jbtype .li-item { width: 148px; height: 58px;box-sizing: border-box;}
+	</style>
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__PUBLIC__/js/global.js" type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/css/jubao.css" source="widget"/>
+    <script src="__PUBLIC__/js/layer/layer.js"></script>
+</head>
+<body>
+
+<!--  /widget/header/header.vm -->
+<div id="l-header">
+    <div class="w">
+        <div class="b-logo-box">
+            <a href="/" target="_blank" class="logo-link">
+                <img src="__STATIC__/images/logo2.png" alt="TP商城" width="183" height="62" class="logo-sub">
+            </a>
+        </div>
+        <ul class="b-subnav-box">
+            <li class="nav-current">
+                <a href="#" target="_self">举报中心</a>
+            </li>
+            <li class="nav-jd">
+                <a href="/" target="_blank"><span class="txt-sub">返回商城首页</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--/ /widget/header/header.vm -->
+
+<div class="l-wrap">
+    <form  name="reportInfoForm" id="reportInfoForm" method="post"  class="form-inline">
+        <input type="hidden" name="expose_goods_id" value="{$goods.goods_id}"/>
+        <input type="hidden" name="expose_goods_name" value="{$goods.goods_name}"/>
+        <input type="hidden" name="expose_store_id" value="{$store.store_id}"/>
+        <input type="hidden" name="expose_store_name" value="{$store.store_name}"/>
+        <input type="hidden" name="expose_type_id" id="expose_type_id" value=""/>
+        <input type="hidden" name="expose_type_name" id="expose_type_name" value=""/>
+        <input type="hidden" name="expose_subject_id" id="expose_subject_id" value=""/>
+        <input type="hidden" name="expose_subject_name" id="expose_subject_name" value=""/>
+	    <!--/widget/ud-crumbs/ud-crumbs.vm -->
+	    <div class="w crumb_position">
+	        <a href="">举报中心</a>&nbsp;&gt;&nbsp;
+	        <strong class="crumb-curr">举报违规伪劣商品</strong>
+	    </div>
+	    <!--/ /widget/ud-crumbs/ud-crumbs.vm -->
+	    <div class="w l-main">
+
+	        <!--  /widget/ud-pinfo/ud-pinfo.vm -->
+            <div class="re-model-wrap">
+                <div class="re-model-hd">
+                    <h3 class="title">商品信息</h3>
+                </div>
+                <dl class="re-model-s01 b-simply-box">
+                    <dt class="h-simply-img">
+                        <a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}" target="_blank">
+                            <img alt="100*100" height="100" src="{$goods.goods_id|goods_thum_images=100,100}" onerror="//misc.360buyimg.com/lib/skin/e/i/error-12.gif"></a>
+                    </dt>
+                    <dd class="h-simply-info">
+                        <p class="p-name">
+                            	商品名称:<a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}" target="_blank"> {$goods.goods_name}</a>
+                        </p>
+                        <ul class="p-info-list">
+                            <li class="sub-item">商品编号: {$goods.goods_sn}</li>
+                            <li class="sub-item">商品分类：{$goods.category}</li>
+                            <li class="sub-item" id="categorys">商品标题：{$goods.goods_remark}</li>
+                            <li class="sub-item">被举报商家：{$store.store_name}</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+	        <!--/ /widget/ud-pinfo/ud-pinfo.vm -->
+
+	        <!--  /widget/ud-jbtype/ud-jbtype.vm -->
+		    <div class="re-model-wrap" id="ud-jbtype">
+	    <div class="re-model-hd">
+	        <h3 class="title">举报类型</h3>
+	    </div>
+	    <div class="re-model-bd">
+	        <ul class="re-jbtype-box" id="firstType">
+	        	<foreach name="expose_type" item="vo">
+	            <li class="li-item" data-type="{$vo.expose_type_id}" title="{$vo.expose_type_desc}">
+	                {$vo.expose_type_name}<s class="icon-on"></s>
+	            </li>
+	    		</foreach>
+	            <li> <div class="msg-text">更多举报类型正在开发中</div></li>
+	        </ul>
+	    </div>
+	</div>
+
+	        <!--/ /widget/ud-jbtype/ud-jbtype.vm -->
+	        <div class="re-model-wrap">
+	            <div class="re-model-hd">
+	                <h3 class="title">
+	                    <span class="txt-red">*</span> 您认为该商品信息在哪方面是错误的
+	                    <small class="txt-gray">（仅可以选择一项）</small>
+	                </h3>
+	            </div>
+	            <div class="re-model-bd" id="expose_ajax">
+
+	            </div>
+	        </div>
+	        <!--  -->
+	        <div class="re-model-wrap ud-upload">
+	            <div class="re-model-hd">
+	                <h3 class="title">
+	                    <span class="txt-red">*</span>
+	                   	 上传证明
+                        <small class="msg-succ" id="uploadSucc" style="display:none"><s class="icon-succ16"></s>已添加凭证</small>
+                        <small class="msg-error" id="uploadError" style="display:none"><s class="icon-import16"></s>请添加凭证</small>
+	                </h3>
+	            </div>
+	            <div class="re-model-bd">
+	                <dl class="re-explain-box">
+	                    <dt class="h-img-box">
+	                        <img src="__STATIC__/images/loadz_03.jpg" width="60" height="60" alt="示例"></dt>
+	                    <dd class="h-img-info">
+	                        <h5 class="title">凭证示例要求</h5>
+	                        <p>请您提供能证明出售违禁品的截图，要求凭证清晰完整无修改。</p>
+	                    </dd>
+	                </dl>
+	                <div class="re-upload-box">
+	                    <span class="fl-text">上传：</span>
+	                    <div class="upload-img-box">
+	                        <div class="img-lists">
+	                            <ul class="img-list-ul" id="imgBox">
+                                    <li class="upload-btn" id="upload-btn">
+                                        <a href="javascript:void(0);" onclick="imgupload()" class="add-img-btn" id="upload"><b class="re-icon-add"></b></a>
+                                    </li>
+	                            </ul>
+	                        </div>
+	                        <div class="img-utips">
+	                            	可上传5张，上传图片格式为JPG，JPEG，PNG<br>每张大小5M以内
+	                        </div>
+	                        <div class="clear"></div>
+
+                            <div class="img-bigbox" style="display: none;">
+                                <img data-lazy-img="done" title="" src="//img30.360buyimg.com/shaidan/jfs/t2830/246/3826455497/41517/ac669904/57981e4dNff73dc29.jpg" class="" width="350" id="bigImg">
+                                <span id="delButton"class="img-del hide" onclick="delImg(this)" data-img="">删除图片</span>
+                            </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+
+	        <div class="re-model-wrap">
+                <div class="re-model-hd">
+                    <h3 class="title">相关订单号
+                        <small class="msg-text">（请您在此处添加要举报商品的相关订单号）</small>
+                    </h3>
+                </div>
+                <div class="re-model-bd">
+                    <div class="re-form-wrap">
+                        <label class="h-label">订单：</label>
+                        <input type="text" name="expose_order_sn" id="expose_order_sn" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" class="g-text" maxlength="18">
+                    </div>
+                </div>
+            </div>
+	        <p class="ud-jblink">
+	            	您可以在【我的举报】-【<a href="{:U('Order/expose_list')}">举报信息</a>】查询您的举报信息
+	        </p>
+	        <div class="btn-groups">
+	            <input type="button" value="提交举报" class="btn-s01" onclick="addReport();">
+	        </div>
+
+	    </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function(){
+        //选中菜单高亮
+        //一级举报类型跳转
+        $("#ud-jbtype .li-item").click(function(){
+        	$(this).siblings().removeClass('re-on');
+        	$(this).addClass("re-on");
+            var type_id = $(this).attr("data-type");
+            $('#expose_type_id').val(type_id);
+            $('#expose_type_name').val($(this).text());
+             $.ajax({
+               	   type:'POST',
+                   url:"{:U('Order/get_expose_subject')}",
+                   cache:false,
+                   data:{expose_type_id:type_id},
+                   dataType:'html',
+                   error:function(){
+					   layer.msg('网络请求失败!', {icon: 2});
+                   },
+                   success:function(subject){
+					   $('#expose_ajax').empty().append(subject);
+                   }
+             });
+        });
+    });
+
+    //二级举报类型选择
+    function subject_onclick(obj){
+    	$('#expose_subject_id').val($(obj).attr('data-type'));
+    	$('#expose_subject_name').val($(obj).text());
+        if($(obj).hasClass("re-on")) {
+            $(obj).removeClass("re-on")
+        } else {
+            $(obj).addClass("re-on").siblings(".li-item").removeClass("re-on")
+        }
+    }
+
+	function imgupload(){
+		var imgcount = $('#imgBox').find('li').length;
+		if(imgcount<6){
+			GetUploadify2(1,'head_pic','dispute','add_img');
+		}else{
+			return false;
+		}
+	}
+
+	function add_img(imgstr){
+		var listr = '<li class="li-item" onclick="delimg(\''+imgstr+'\',this)" data-img='+imgstr+'><img width="60px" height="60px" alt="" src="'+imgstr+'"><input type="hidden" name="expose_pic[]" value="'+imgstr+'"></li>'
+		$('#imgBox').append(listr);
+	}
+    /**
+     * 删除图片
+     * @param file
+     * @param t
+     */
+    function delimg(file,t){
+        $.get(
+                "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:file},function(){}
+        );
+        $(t).remove();
+    }
+    function addReport(){
+    	var expose_type_id = $('#expose_type_id').val();
+    	if(expose_type_id == ''){
+			layer.msg('请选择举报类型!', {icon: 2});
+			return false;
+    	}
+        $.ajax({
+            type:'POST',
+            url:'home/Order/expose',
+            data:$('#reportInfoForm').serialize(),
+            dataType:'JSON',
+            success:function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1});
+                    window.location=data.url;
+                }else{
+                    layer.msg(data.msg, {icon: 2});
+                }
+            },
+            error:function(){
+                layer.msg('网络连接失败，稍后再试！', {icon: 2});
+            }
+        })
+//    	$('#reportInfoForm').submit();
+    }
+</script>
+</body>
+</html>

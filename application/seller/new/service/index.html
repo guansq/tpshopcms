@@ -1,0 +1,64 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>商品评论
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Comment/index')}">商品评论列表</a></li>
+                </ul>
+            </div>
+            <form id="search-form2" method="post" onsubmit="return false">
+                <table class="search-form">
+                    <tr>
+                        <td></td>
+                        <th class="w70">评论内容</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" placeholder="搜索评论内容" name="content"/></td>
+                        <th class="w70">用户</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" placeholder="搜索用户" name="nickname"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" onclick="ajax_get_table('search-form2',1)" value="搜索" /></label></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="ajax_return">
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Public/foot"/>
+<script>
+    // 删除操作
+    function del(id,t)
+    {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    location.href = $(t).data('href');
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+
+    $(document).ready(function(){
+        ajax_get_table('search-form2',1);
+    });
+
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/Comment/ajaxindex/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('').append(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

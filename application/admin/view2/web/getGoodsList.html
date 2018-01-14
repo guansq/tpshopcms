@@ -1,0 +1,70 @@
+<notempty name="goods_list">
+<ul class="dialog-goodslist-s2">
+	<foreach name="goods_list" item="val">
+    <li>
+    <div onclick="select_recommend_goods({$val['goods_id']});" class="goods-pic">
+    	<span class="ac-ico"></span><span class="thumb size-72x72"><i></i>
+        <img goods_id="{$val['goods_id']}" goods_price="{$val['shop_price']}" market_price="{$val['market_price']}" 
+        title="{$val['goods_name']}" goods_name="{$val['goods_name']}" src="{$val.goods_id|goods_thum_images=240,240}" onload="javascript:DrawImage(this,72,72);" /></span></div>
+    <div class="goods-name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$val[goods_id]))}" target="_blank">{$val['goods_name']}</a></div>
+    </li>
+    </foreach>
+   <div class="clear"></div>
+</ul>
+<div id="show_recommend_goods_page" class="">{$show_page}</div>
+<script type="text/javascript">
+	//$('#show_recommend_goods .paginate_button a').ajaxContent({
+		//target:'#show_recommend_goods_list'
+	//});
+	
+function DrawImage(ImgD,FitWidth,FitHeight){
+    var image=new Image();
+    image.src=ImgD.src;
+    if(image.width>0 && image.height>0)
+    {
+        if(image.width/image.height>= FitWidth/FitHeight)
+        {
+            if(image.width>FitWidth)
+            {
+                ImgD.width=FitWidth;
+                ImgD.height=(image.height*FitWidth)/image.width;
+            }
+            else
+            {
+                ImgD.width=image.width;
+                ImgD.height=image.height;
+            }
+        }
+        else
+        {
+            if(image.height>FitHeight)
+            {
+                ImgD.height=FitHeight;
+                ImgD.width=(image.width*FitHeight)/image.height;
+            }
+            else
+            {
+                ImgD.width=image.width;
+                ImgD.height=image.height;
+            }
+        }
+    }
+}
+
+$(function(){
+	 $('#show_recommend_goods_page').on('click','a', function() {
+			if($(this).attr('target') == '_blank'){
+				window.open($(this).attr('href'));
+			}else if($(this).attr('href') != '#'){
+				$('#show_recommend_goods_list').load($(this).attr('href'));
+			}else{
+				return false;
+			}
+		    return false;
+	});
+})
+</script>
+<else/>
+<p class="no-record">没有符合条件的记录</p>
+<div class="clear"></div>
+</notempty>

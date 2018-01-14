@@ -1,0 +1,160 @@
+<include file="public/head"/>
+<style>
+    button, input, select, textarea {
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+    select[multiple], select[size] {
+        height: auto;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>发货设置</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a>{$plugin.name}配送区域配置</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="addEditBrandForm" onsubmit="return check_form();">
+                    <input type="hidden" name="id" value="{$setting.shipping_area_id}">
+                    <dl>
+                        <dt><i class="required">*</i>配送区域名称</dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$setting.shipping_area_name}" name="shipping_area_name"/>
+                            <p class="hint">配送区域名称。例如：珠三角地区.</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            首&nbsp;&nbsp;重
+                            <select name="config[first_weight]">
+                                <for start="500" end="8000" step="500" name="v">
+                                    <option value="{$v}" <if condition="$setting[config][first_weight] eq $v">selected="selected"</if> >{$v}</option>
+                                </for>
+                            </select>
+                            克以内费用
+                        </dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$setting.config.money}" name="config[money]" maxlength="10" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                            <p class="hint">单位：元</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            续重每
+                            <select name="config[second_weight]">
+                                <for start="500" end="8000" step="500" name="v">
+                                    <option value="{$v}" <if condition="$setting[config][second_weight] eq $v">selected="selected"</if> >{$v}</option>
+                                </for>
+                            </select>
+                            克或其零数的费用
+                        </dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$setting.config.add_money}" name="config[add_money]" maxlength="10" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                            <p class="hint">单位：元</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            配送区域
+                        </dt>
+                        <dd>
+                            <ul class="ncsc-form-checkbox-list" id="area_list">
+                                <volist name="select_area" id="area">
+                                    <li>
+                                        <label>
+                                            <input class="checkbox" type="checkbox" checked name="area_list[]" value="{$area.region_id}">
+                                            {$area.name}</label>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            配送区域名称：
+                        </dt>
+                        <dd>
+                            <select class="select" name="province" id="province" size="6" onChange="get_city(this,0)">
+                                <option value="0">请选择省份</option>
+                                <volist name="province" id = "p">
+                                    <option value="{$p.id}">{$p.name}</option>
+                                </volist>
+                            </select>
+                            <select class="select" name="city" id="city" size="6"  onChange="get_area(this)">
+                                <option value="0">请选择城市</option>
+                            </select>
+                            <select class="select" name="district" size="6" id="district">
+                                <option value="0">请选择</option>
+                            </select>
+                            <a onclick="addArea();" class="ncsc-btn" href="javascript:void(0);"><i class="icon-plus"></i>添加</a>
+                        </dd>
+                    </dl>
+                    <div class="bottom"><label class="submit-border">
+                        <input type="submit" class="submit" value="提交"></label>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                function check_form(){
+                    var shipping_area_name = $.trim($('input[name="shipping_area_name"]').val());
+                    if(shipping_area_name == ''){
+                        layer.msg('请输入配送区域名称',{icon:2});
+                        return false;
+                    }
+                    return true;
+                }
+                //  添加配送区域
+                function addArea(){
+                    //
+                    var province = $("#province").val(); // 省份
+                    var city = $("#city").val();        // 城市
+                    var district = $("#district").val(); // 县镇
+                    var text = '';  // 中文文本
+                    var tpl = ''; // 输入框 html
+                    var is_set = 0; // 是否已经设置了
+
+                    // 设置 县镇
+                    if(district > 0){
+                        text = $("#district").find('option:selected').text();
+                        tpl = '<li><label><input class="checkbox" type="checkbox" checked name="area_list[]" value="'+district+'">'+text+'</label></li>';
+                        is_set = district; // 街道设置了不再设置市
+                    }
+                    // 如果县镇没设置 就获取城市
+                    if(is_set == 0 && city > 0){
+                        text = $("#city").find('option:selected').text();
+                        tpl = '<li><label><input class="checkbox" type="checkbox" checked name="area_list[]" value="'+city+'">'+text+'</label></li>';
+                        is_set = city;  // 市区设置了不再设省份
+
+                    }
+                    // 如果城市没设置  就获取省份
+                    if(is_set == 0 && province > 0){
+                        text = $("#province").find('option:selected').text();
+                        tpl = '<li><label><input class="checkbox" type="checkbox" checked name="area_list[]" value="'+province+'">'+text+'</label></li>';
+                        is_set = province;
+
+                    }
+
+                    var obj = $("input[class='checkbox']"); // 已经设置好的复选框拿出来
+                    var exist = 0;  // 表示下拉框选择的 是否已经存在于复选框中
+                    $(obj).each(function(){
+                        if($(this).val() == is_set){  //当前下拉框的如果已经存在于 复选框 中
+                            layer.alert('已经存在该区域', {icon: 2});  // alert("已经存在该区域");
+                            exist = 1; // 标识已经存在
+                        }
+                    })
+                    if(!exist)
+                        $('#area_list').append(tpl); // 不存在就追加进 去
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

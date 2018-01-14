@@ -1,0 +1,102 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>举报管理</h3>
+        <h5>商城设置举报类型及处理被举报商品</h5>
+      </div>
+      <ul class="tab-base nc-row"><li><a href="{:U('Service/expose_list',array('expose_state'=>1))}" class="<if condition='$expose_state eq 1'>current</if>"><span>未处理</span></a></li>
+      <li><a href="{:U('Service/expose_list',array('expose_state'=>2))}" class="<if condition='$expose_state eq 2'>current</if>"><span>已处理</span></a></li>
+      <li><a href="{:U('Service/expose_type_list')}"><span>类型设置</span></a></li>
+      <li><a href="{:U('Service/expose_subject_list')}" class="current"><span>主题设置</span></a></li></ul>   
+   	</div>
+  </div>
+    <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>会员可根据举报主题，举报违规商品</li>
+    </ul>
+  </div>
+   <div class="flexigrid">
+		<div class="mDiv">
+			<div class="ftitle">
+				<h3>举报主题列表</h3>
+				<h5>(共{$pager->totalRows}条记录)</h5>
+			</div>
+			<div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+		</div>
+		<div class="hDiv">
+			<div class="hDivBox">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+					<tr>
+						<th class="sign" axis="col0">
+							<div style="width: 24px;"><i class="ico-check"></i></div>
+						</th>
+						<th align="left" abbr="article_title" axis="col3" class="">
+							<div style="text-align: left; width: 150px;" class="">举报类型</div>
+						</th>
+						<th align="left" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: left; width: 300px;" class="">举报主题</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">操作</div>
+						</th>
+						<th style="width:100%" axis="col7">
+							<div></div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="tDiv"><div class="tDiv2"><div class="fbutton">
+			<a href="{:U('Service/expose_subject_info')}"><div class="add"><span><i class="fa fa-plus"></i>新增数据</span></div></a>
+			</div></div><div style="clear:both"></div>
+		</div>
+		<div class="bDiv" style="height: auto;">
+			<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="list" item="vo" key="k" >
+						<tr>
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 150px;">{$vo.expose_subject_type_name}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 300px;">{$vo.expose_subject_content}</div>
+							</td>
+							<td align="center" class="handle">
+								<div style="text-align: center; width: 170px; max-width:170px;">
+									<a class="btn red" onclick="delfunc(this)" href="javascript:;" data-id="{$vo['expose_subject_id']}" data-url="{:U('Service/expose_subject_del')}"><i class="fa fa-trash-o"></i>删除</a>
+								</div>
+							</td>
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="iDiv" style="display: none;"></div>
+		</div>
+		<!--分页位置-->{$page} 
+	</div>
+</div>
+<script type="text/javascript">
+
+</script> 
+</body>
+</html>

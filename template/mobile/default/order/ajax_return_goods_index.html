@@ -1,0 +1,31 @@
+<foreach name="order_list" item="vo">
+<div class="orderlistshpop tuharecha mabo20 p">
+    <div class="maleri30">
+        <div class="returntolist">
+            <div class="list-top-re">
+                <span class="fl">订单编号：{$vo.order_sn}</span>
+                <span class="red fr">{$vo.order_status_desc}</span>
+            </div>
+            <div class="list-top-re als">
+                <span>下单时间：{$vo.add_time|date='Y-m-d H:i:s',###}</span>
+            </div>
+        </div>
+        <foreach name="vo.goods_list" item="goods">
+        <div class="sc_list se_sclist paycloseto">
+            <div class="shopimg fl">
+                <img src="{$goods.goods_id|goods_thum_images=100,100}">
+            </div>
+            <div class="deleshow fr">
+                <div class="deletes">
+                    <a class="daaloe">{$goods.goods_name}</a>
+                </div>
+                <div class="qxatten">
+                    <p class="weight"><span>数量：</span><span>x{$goods.goods_num}</span></p>
+                    <a class="closeannten" href="{:U('Order/return_goods',array('rec_id'=>$goods[rec_id]))}">申请售后</a>
+                </div>
+            </div>
+        </div>
+        </foreach>
+    </div>
+</div>
+</foreach>

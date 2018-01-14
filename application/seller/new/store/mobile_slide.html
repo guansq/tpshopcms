@@ -1,0 +1,114 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺设置</div>
+    <div class="main-content" id="mainContent">
+<style>
+.mb-sliders li { width: 225px; height: 168px; display: inline-block; padding: 3px; margin: 3px; border: 1px solid #ccc; }
+.mb-sliders img { max-width: 100%; max-height: 100%; display: block; margin: 3px auto; }
+.img-wrapper { width: 220px; height: 80px; overflow: hidden; }
+</style>
+<div class="tabmenu">
+    <ul class="tab pngFix">
+	  	<li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+	  	<li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+	  	<li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+	  	<li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+        <li <if condition="ACTION_NAME eq 'getpoint'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/getpoint')}">拾取店铺坐标</a></li>
+	</ul>	
+</div>
+<div class="alert alert-block mt10">
+  <ul>
+    <li>1、可以在此处对手机店铺进行设置，修改后的设置需要点击“保存修改”按钮进行保存</li>
+    <li>2、可以拖拽“轮播”图片以调整顺序，无图片的不予轮播显示</li>
+    <li>3、跳转URL必须带有“http://”，商品ID必须为数字且为本店发布的商品，非法数据将被自动过滤掉</li>
+    <li>4、默认手机店铺页面显示的最多20条推荐商品，可以在“出售中的商品”中进行设置</li>
+  </ul>
+</div>
+<div class="ncsc-form-default">
+  <form method="post" action="" enctype="multipart/form-data" id="my_store_form">
+    <!--<dl>
+      <dt>页头背景图：</dt>
+      <dd class="mb-sliders">
+                <p>暂无图片</p>
+                <p><input type="file" name="mb_title_img" /></p>
+        <p class="hint">手机店铺页面头部背景图片，默认为白色纯色背景，推荐图片大小640x200</p>
+      </dd>
+    </dl>-->
+    <dl>
+      <dt>轮播：</dt>
+      <dd>
+        <p class="hint">手机店铺页面头部区域下方的轮播图片展示，最多可上传5张图片，推荐图片大小640x240</p>
+      </dd>
+    </dl>
+    <div class="flexslider">
+	    <ul class="slides">
+	      <foreach name="store_slide" item="vo" key="k">
+	      <li> <img src="{$vo}"> </li>
+	      </foreach>
+	    </ul>
+	</div>
+        <ul class="ncsc-store-slider sortable">
+		<for start="0" end="5">
+	         <li>
+		        <input type="hidden" id="imgpath_{$i}" name="store_slide[]" value="{$store_slide[$i]}">
+		        <div class="picture">
+				 <img  id="srcpath_{$i}"  <empty name="store_slide[$i]">src="__PUBLIC__/images/not_adv.jpg"<else />src="{$store_slide[$i]}"</empty>>
+		          <a href="javascript:;" onclick="ClearPicArr3(this);clear_img({$i});" class="del" title="移除">X</a> </div>
+		        <div class="url">
+					<label>跳转URL...</label>
+		          <input type="text" class="text w150" name="store_slide_url[]" value="<empty name="store_slide_url[$i]">http://<else />{$store_slide_url[$i]}</empty>" />
+		        </div>
+		        <div class="ncsc-upload-btn"> <a href="javascript:;"> <span>
+		          <input type="button" hidefocus="true" size="1" class="input-file" onClick="upload_img('{$i}')" />
+		          </span>
+		          <p><i class="icon-upload-alt"></i> 图片上传 </p>
+		          </a> 
+		        </div>
+		      </li>
+	      </for>
+          </ul>
+    <div class="bottom">
+      <label class="submit-border">
+        <input type="submit" class="submit" value="保存修改" />
+      </label>
+    </div>
+  </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.flexslider-min.js"></script> 
+<script>
+
+var turn = 0;
+function upload_img(i){
+	turn = i;
+	GetUploadify(1,'mobile_slide','seller','callback');
+}
+
+function callback(img_str){
+	$('#imgpath_'+turn).val(img_str);
+	$('#srcpath_'+turn).attr('src',img_str);
+}
+
+$(window).load(function() {
+	$('.flexslider').flexslider();
+});
+
+function ClearPicArr3(o)
+{
+   var val= $(o).siblings('img').attr('src');
+    $.get(
+        "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:val},function(){}
+    );
+}
+function clear_img(i){
+    $('#srcpath_'+ i).attr('src','__PUBLIC__/images/not_adv.jpg');
+    $('#imgpath_'+ i).val('');
+}
+</script> 
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

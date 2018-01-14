@@ -1,0 +1,247 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path">
+    	<i class="icon-desktop"></i>商家管理中心
+    	<i class="icon-angle-right"></i>售后服务
+    	<i class="icon-angle-right"></i>换货记录
+    </div>
+    <div class="main-content" id="mainContent">
+<div class="ncsc-flow-layout">
+  <div class="ncsc-flow-container">
+    <div class="title">
+      <h3>换货维修服务</h3>
+    </div>
+    <if condition="$return_goods['is_receive'] eq 1">
+    <div id="saleRefundReturn">
+      <div class="ncsc-flow-step">
+        <dl class="step-first current">
+          <dt>买家申请换货</dt>
+          <dd class="bg"></dd>
+        </dl>
+        <dl class="<if condition='($return_goods[status] egt 1) OR ($return_goods[status] eq -1)'>current</if>">
+          <dt>卖家审核申请</dt>
+          <dd class="bg"> </dd>
+        </dl>
+        <dl class="<if condition='$return_goods[status] egt 2'>current</if>">
+          <dt>商品寄回给卖家</dt>
+          <dd class="bg"> </dd>
+        </dl>
+        <dl class="<if condition='$return_goods[status] egt 3'>current</if>">
+          <dt>确认收货，重新发货</dt>
+          <dd class="bg"> </dd>
+        </dl>
+      </div>
+     </div>
+     <else/>
+      <div id="saleRefund">
+      <div class="ncsc-flow-step">
+        <dl class="step-first current">
+          <dt>买家申请换货</dt>
+          <dd class="bg"></dd>
+        </dl>
+        <dl class="<if condition='($return_goods[status] egt 1) OR ($return_goods[status] eq -1)'>current</if>">
+          <dt>卖家审核换货申请</dt>
+          <dd class="bg"> </dd>
+        </dl>
+        <dl class="<if condition='$return_goods[status] eq 4'>current</if>">
+          <dt>换货完成</dt>
+          <dd class="bg"> </dd>
+        </dl>
+      </div>
+      </div>
+     </if>
+    <div class="ncsc-form-default">
+      <h3>买家换货申请</h3>
+      <dl>
+        <dt>换货编号：</dt>
+        <dd>{$return_goods.id}</dd>
+      </dl>
+      <dl>
+        <dt>申请人（买家）：</dt>
+        <dd>{$user.nickname}</dd>
+      </dl>
+      <dl>
+        <dt>换货原因：</dt>
+        <dd>{$return_goods.reason}</dd>
+      </dl>
+      <dl>
+        <dt>换货说明：</dt>
+        <dd>{$return_goods.describe} </dd>
+      </dl>
+      <dl>
+        <dt>凭证上传：</dt>
+        <dd>
+        	<ul class="ncsc-evidence-pic">
+        	  <foreach name="return_goods[imgs]" item="vo">
+              <li><a href="{$vo}" nctype="nyroModal" rel="gal" target="_blank"> <img class="show_image" src="{$vo}"></a></li>
+              </foreach>
+            </ul>
+        </dd>
+      </dl>
+      <form id="post_form" method="post" action="{:U('Service/return_info')}">
+        <input type="hidden" name="id" value="{$return_goods.id}" />
+        <h3>商家处理意见</h3>
+        <dl>
+          <dt><i class="required">*</i>是否同意：</dt>
+          <dd>
+          	<if condition="$return_goods[status] eq 0">
+            <label class="mr20"><input type="radio" class="radio vm" name="status" value="1" checked/>同意</label>
+            <label><input type="radio" class="radio vm" name="status" value="-1"/>拒绝</label>
+            <span class="error"></span>
+            <else/>
+            <if condition="$return_goods[status] egt 1">同意<elseif condition="$return_goods[status] eq -2" />已取消<else/>不同意</if>
+            </if>
+          </dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>备注信息：</dt>
+          <dd>
+           <if condition="$return_goods[status] eq 0">
+            <textarea name="remark" id="remark" rows="2" class="textarea w300"></textarea>
+            <span class="error"></span>
+            <p class="hint">只能提交一次，请认真选择。<br> 卖家同意后先确认收到买家寄回的原件，再按用户要求重新发货，未发货的可直接重新发货。<br>不同意时买家可以向平台投诉或申请仲裁。</p>
+            <else/>{$return_goods.remark}
+           </if>
+          </dd>
+        </dl>
+       </form>
+        <if condition="$return_goods[checktime] gt 0">
+        <dl>
+        	<dt><i class="required">*</i>处理时间：</dt>
+         	<dd>{$return_goods.checktime|date='Y-m-d H:i:s',###}</dd>
+        </dl>
+        </if>
+        <if condition="($return_goods[is_receive] eq 1) AND ($return_goods[delivery] neq '')">
+        	<h3>用户发货信息</h3>
+        	<dl><dt>快递公司：</dt><dd> {$return_goods[delivery][express_name]}</dd></dl>
+        	<dl><dt>快递费用：</dt><dd> {$return_goods[delivery][express_fee]} </dd></dl>
+        	<dl><dt>快递单号：</dt><dd> {$return_goods[delivery][express_sn]} </dd></dl>
+        	<dl><dt>发货时间：</dt><dd> {$return_goods[delivery][express_time]}</dd></dl>
+        </if>
+        <if condition="($return_goods[is_receive] eq 1) AND ($return_goods[seller_delivery] neq '')">
+        	<h3>重新发货信息</h3>
+        	<dl><dt>快递公司：</dt><dd> {$return_goods[seller_delivery][express_name]}</dd></dl>
+        	<dl><dt>快递单号：</dt><dd> {$return_goods[seller_delivery][express_sn]} </dd></dl>
+        	<dl><dt>操作时间：</dt><dd> {$return_goods[seller_delivery][express_time]}</dd></dl>
+        </if>
+      	<if condition="$return_goods[status] eq 3">
+	      	<form id="delivery_form" method="post" action="{:U('Service/return_info')}">
+	          <input type="hidden" name="id" value="{$return_goods.id}" />
+	          <h3>重新发货信息</h3>
+	          <dl>
+		           <dt><i class="required">*</i>快递公司：</dt><dd><input type="text" name="seller_delivery[express_name]"/></dd>
+		      </dl>
+			  <dl>
+			  	  <dt><i class="required">*</i>快递单号：</dt><dd><input type="text" name="seller_delivery[express_sn]"/></dd>
+			  </dl>
+			</form>
+        </if>
+        <div class="bottom">
+          <if condition="$return_goods[status] eq 0">
+          <label class="submit-border">
+            <a class="submit" id="confirm_button">确定</a>
+          </label>
+          </if> 
+          <if condition="$return_goods[status] eq 2">
+          <label class="submit-border">
+            <a class="submit" href="{:U('Service/confirm_receive',array('id'=>$return_goods['id']))}">确认收货</a>
+          </label>
+          </if>
+          <if condition="$return_goods[status] eq 3">
+          <label class="submit-border">
+            <a class="submit" href="javascript:;" onclick="redelivery()">确定发货</a>
+          </label> 
+          </if>
+          <label class="submit-border">
+            <a href="javascript:history.go(-1);" class="submit"><i class="icon-reply"></i>返回列表</a>
+          </label>
+        </div>
+    </div>
+  </div>
+  
+<div class="ncsc-flow-item">
+  <div class="title">相关商品交易信息</div>
+  <div class="item-goods">
+      <dl>
+        <dt>
+          <div class="ncsc-goods-thumb-mini"><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$return_goods['goods_id']))}">
+            <img src="{$return_goods.goods_id|goods_thum_images=60,60}"/></a></div>
+        </dt>
+        <dd><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$return_goods['goods_id']))}">{$order_goods.goods_name}</a>
+            &yen;{$order_goods.goods_price} * {$order_goods.goods_num} <font color="#AAA">(数量)</font>
+            <span></span>
+        </dd>
+      </dl>
+  </div>
+  <div class="item-order">
+    <dl>
+      <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
+      <dd>{$order.shipping_price|default='（免运费）'}</dd>
+    </dl>
+    <dl>
+      <dt>订单总额：</dt>
+      <dd><strong>&yen;{$order.order_amount}</strong> </dd>
+    </dl>
+    <dl class="line">
+      <dt>订单编号：</dt>
+      <dd><a target="_blank" href="{:U('Order/detail',array('order_id'=>$order[order_id]))}">{$return_goods.order_sn}</a>
+      		<a href="javascript:void(0);" class="a">更多<i class="icon-angle-down"></i>
+        <div class="more"> <span class="arrow"></span>
+          <ul>
+            <li>付款单号：<span>{$order.transaction_id}</span></li>
+            <li>支付方式：<span>{$order.pay_name}</span></li>
+            <li>下单时间：<span>{$order.add_time|date='Y-m-d H:i:s',###}</span></li>
+            <li>付款时间：<span><if condition="$order[pay_time] gt 0">{$order.pay_time|date='Y-m-d H:i:s',###}<else/>待付款</if></span></li>
+          </ul>
+        </div>
+        </a> </dd>
+    </dl>
+    <dl class="line">
+      <dt>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</dt>
+      <dd>{$order.consignee}<a href="javascript:void(0);" class="a">更多<i class="icon-angle-down"></i>
+        <div class="more"><span class="arrow"></span>
+          <ul>
+            <li>收货地址：<span>{$order.address}</span></li>
+            <li>联系电话：<span>{$order.mobile}</span></li>
+          </ul>
+        </div>
+        </a>
+        <div><span member_id="{$order.user_id}"></span></div>
+      </dd>
+    </dl>
+  </div>
+</div></div>
+<script type="text/javascript">
+$(function(){
+    $("#confirm_button").click(function(){
+    	if($('#remark').val() == ''){
+			layer.alert('请填写处理意见', {icon: 2});
+			return false;
+    	}
+        $("#post_form").submit();
+    });
+});
+
+function redelivery(){
+	var flag = true;
+   	$('input[name*="seller_delivery"]').each(function(i,o){
+   		if($(o).val() == '' && flag){
+            layer.alert('请输入完整的快递信息!', {icon: 2});
+            flag = false;
+   		}
+   	})
+   	if(flag){
+   	 	$('#delivery_form').submit();
+   	}else{
+   		return false;
+   	}
+}
+</script>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

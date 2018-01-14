@@ -1,0 +1,57 @@
+<include file="public/header" title="品牌街"/>
+<include file="public/header_nav" title="品牌街" href="{:U('Index/index')}"/>
+		<div class="banner">
+			<img src="__STATIC__/images/func_02.jpg"/>
+		</div>
+		<div class="banner ban1 brandbanner">
+			<div class="maleri30">
+				<div class="mslide" id="brandstr">
+				    <ul>
+                        <foreach name="recommendGoods" key="k" item="vg">
+                            <li>
+                                <foreach name="vg" item="v">
+                                    <a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$v[goods_id]))}">
+                                        <img src="{$v.goods_id|goods_thum_images=200,200}" alt="">
+                                        <p class="red">￥{$v.shop_price}</p>
+                                        <p class="lineu">￥{$v.market_price}</p>
+                                    </a>
+                                </foreach>
+                            </li>
+                        </foreach>
+				    </ul>
+				</div>
+			</div>
+			<div class="signte">
+				<i class="l"></i>
+				<i class="r"></i>
+			</div>
+		</div>
+		<div class="tuijbrand">
+			<h2 class="titb ma-to-20">推荐大牌</h2>
+			<div class="brandlistall">
+				<ul>
+				<volist name="brand_list" id="bl">
+					<li><a href="{:U('Goods/goodsList',array('brand_id'=>$bl['id']))}"><img src="{$bl['logo']}"/></a></li>
+				</volist>
+				</ul>
+			</div>
+		</div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//轮播
+			$(function(){
+			    $('#brandstr').swipeSlide({
+			        continuousScroll:true,
+			        speed : 3000,
+			        transitionType : 'cubic-bezier(0.22, 0.69, 0.72, 0.88)',
+			        firstCallback : function(i,sum,me){
+			            me.find('.dot').children().first().addClass('cur');
+			        },
+			        callback : function(i,sum,me){
+			            me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+			        }
+			    });
+			});
+		</script>
+	</body>
+</html>

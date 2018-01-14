@@ -1,0 +1,133 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>优惠券面额管理</h3>
+        <h5>商城设置优惠券面额</h5>
+      </div>
+		<ul class="tab-base nc-row">
+			<li><a href="{:U('Coupon/index')}"><span>店铺优惠券</span></a></li>
+			<li><a href="{:U('Coupon/coupon_price_list')}" class="current"><span>面额设置</span></a></li>
+		</ul>
+   	</div>
+  </div>
+    <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>设置优惠券面额，用于店铺添加优惠券使用。</li>
+    </ul>
+  </div>
+   <div class="flexigrid">
+		<div class="mDiv">
+			<div class="ftitle">
+				<h3>优惠券面额列表</h3>
+				<h5>(共{$pager->totalRows}条记录)</h5>
+			</div>
+			<div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+		</div>
+		<div class="hDiv">
+			<div class="hDivBox">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+					<tr>
+						<th class="sign" axis="col0">
+							<div style="width: 24px;"><i class="ico-check"></i></div>
+						</th>
+						<th align="left" abbr="article_title" axis="col3" class="">
+							<div style="text-align: left; width: 150px;" class="">面额ID</div>
+						</th>
+						<th align="left" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: left; width: 300px;" class="">金额</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">操作</div>
+						</th>
+						<th style="width:100%" axis="col7">
+							<div></div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	   <div class="tDiv">
+		   <div class="tDiv2">
+			   <div class="fbutton">
+				   <a href="{:U('Coupon/coupon_price_info')}">
+					   <div class="add"><span><i class="fa fa-plus"></i>新增数据</span></div>
+				   </a>
+			   </div>
+		   </div>
+		   <div style="clear:both"></div>
+	   </div>
+		<div class="bDiv" style="height: auto;">
+			<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="couponPriceList" item="vo" key="k" >
+						<tr>
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 150px;">{$vo.coupon_price_id}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 300px;">{$vo.coupon_price_value}元</div>
+							</td>
+							<td align="center" class="handle">
+								<div style="text-align: center; width: 170px; max-width:170px;">
+									<a class="btn red" href="{:U('Coupon/coupon_price_info',array('coupon_price_id'=>$vo[coupon_price_id]))}"><i class="fa fa-edit"></i>编辑</a>
+									<a class="btn red" onclick="del_coupon_price(this)" href="javascript:;" data-id="{$vo.coupon_price_id}" data-url="{:U('Coupon/coupon_price_del')}"><i class="fa fa-trash-o"></i>删除</a>
+								</div>
+							</td>
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="iDiv" style="display: none;"></div>
+		</div>
+		<!--分页位置-->{$page} 
+	</div>
+</div>
+<script type="text/javascript">
+	function del_coupon_price(obj){
+		layer.confirm('确认删除？', {
+					btn: ['确定','取消'] //按钮
+				}, function(){
+					// 确定
+					$.ajax({
+						type : 'post',
+						url : $(obj).attr('data-url'),
+						data : {act:'del',del_id:$(obj).attr('data-id')},
+						dataType : 'json',
+						success : function(data){
+							layer.closeAll();
+							if(data.code == 1){
+								layer.msg(data.msg, {icon: 1});
+								$(obj).parent().parent().parent().remove();
+							}else{
+								layer.alert(data.msg, {icon: 2});
+							}
+						}
+					})
+				}, function(index){
+					layer.close(index);
+				}
+		);
+	}
+</script> 
+</body>
+</html>

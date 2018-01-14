@@ -1,0 +1,82 @@
+<!--footer-s-->
+<include file="public/footer" />
+<!--footer-e-->
+<!--侧边栏-s-->
+<div class="slidebar_alo">
+	<ul>
+		<li class="re_cuso"><a target="_blank" href="" >客服服务</a></li>
+		<li class="re_wechat">
+			<a target="_blank" href="" >微信关注</a>
+			<div class="rtipscont" style=""> 
+				<span class="arrowr-bg"></span> 
+				<span class="arrowr"></span> 
+				<img src="__STATIC__/images/qrcode.png" /> 
+				<p class="tiptext">扫码关注官方微信<br>先人一步知晓促销活动</p>
+			</div>
+		</li>
+		<li class="re_phone">
+			<a target="_blank" href="" >手机商城</a>
+			<div class="rtipscont rstoretips" style=""> 
+				<span class="arrowr-bg"></span> 
+				<span class="arrowr"></span> 
+				<img src="__STATIC__/images/qrcode.png" /> 
+				<p class="tiptext">扫码关注官方微信<br>先人一步知晓促销活动</p>
+			</div>
+		</li>
+		<li class="re_top"><a target="_blank" href="javascript:void(0);" >回到顶部</a></li>
+	</ul>
+</div>
+<!--侧边栏-e-->
+<script>
+    //用户中心统一确认提示框
+    function verConfirm(msg , callback){
+        layer.confirm(msg, {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                location.href=callback;
+            }
+        );
+    }
+    //显示密码安全等级
+    function securityLevel(sValue) {
+        var modes = 0;
+        //正则表达式验证符合要求的
+        if (sValue.length < 6 ) return modes;
+        if (/\d/.test(sValue)) modes++; //数字
+        if (/[a-z]/.test(sValue)) modes++; //小写
+        if (/[A-Z]/.test(sValue)) modes++; //大写
+        if (/\W/.test(sValue)) modes++; //特殊字符
+        $('.lowzg').eq(modes-1).addClass('red').siblings('.lowzg').removeClass('red');
+    };
+//侧边栏 (单首页)
+$(function(){
+	//鼠标滑过二维码显示隐藏
+	$('.slidebar_alo li').hover(function(){
+		$(this).find('.rtipscont').animate({
+			opacity:"1",
+			left:"-182px"
+		})
+	},function(){
+		$(this).find('.rtipscont').animate({
+			opacity:"0",
+			left:"0px"
+		})
+	})
+	$(".slidebar_alo .re_top").click(function () {
+		//回到顶部
+	    var speed=300;//滑动的速度
+	    $('body,html').animate({ scrollTop: 0 }, speed);
+	    return false;
+	});
+	//回到顶部显示隐藏
+	$(window).scroll(function ()
+	{
+		var st = $(this).scrollTop();
+		if(st == 0){
+			$('.re_top').hide(300)
+		}else{
+			$('.re_top').show(300)
+		}
+	});
+});
+</script>

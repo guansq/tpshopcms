@@ -1,0 +1,394 @@
+<include file="public/layout" />
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>商品管理</h3>
+        <h5>商城所有商品索引及管理</h5>
+      </div>
+      <ul class="tab-base nc-row">
+      <li><a class="current" href="javascript:;" data-state="" onclick="get_goods_list(this)"><span>所有商品</span></a></li>
+      <li><a href="javascript:;" data-state="0" onclick="get_goods_list(this)"><span>等待审核</span></a></li>
+      <li><a href="javascript:;" data-state="1" onclick="get_goods_list(this)"><span>审核通过</span></a></li>
+      <li><a href="javascript:;" data-state="2" onclick="get_goods_list(this)"><span>审核失败</span></a></li>
+      <li><a href="javascript:;" data-state="3" onclick="get_goods_list(this)"><span>违规下架</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div id="explanation" class="explanation" style="color: rgb(44, 188, 163); background-color: rgb(237, 251, 248); width: 99%; height: 100%;">
+    <div id="checkZoom" class="title"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span title="收起提示" id="explanationZoom" style="display: block;"></span>
+    </div>
+    <ul>
+      <li>平台可以强制下架商家违规的产品，对于商家发布的商品需要审核.</li>
+      <li>上架，当商品处于非上架状态时，前台将不能浏览该商品，店主可控制商品上架状态</li>
+      <li>违规下架，当商品处于违规下架状态时，前台将不能购买该商品，只有管理员可控制商品违规下架状态，并且商品只有重新编辑后才能上架</li>
+    </ul>
+  </div>
+  <div class="flexigrid">
+    <div class="mDiv">
+      <div class="ftitle">
+        <h3>商品列表</h3>
+        <h5></h5>
+      </div>
+	<form action="" id="search-form2" class="navbar-form form-inline" method="post" onsubmit="return false">
+      <div class="sDiv">
+        <div class="sDiv2">           
+          <select name="cat_id" id="cat_id" class="select">
+            <option value="">所有分类</option>
+            <foreach name="categoryList" item="v" key="k" >
+                <option value="{$v['id']}"> {$v['name']}</option>
+            </foreach>
+          </select>
+          <select name="brand_id" id="brand_id" class="select">
+            <option value="">所有品牌</option>
+                <foreach name="brandList" item="v" key="k" >
+                   <option value="{$v['id']}">{$v['name']}</option>
+                </foreach>
+          </select>
+          <input type="hidden" name="goods_state" id="goods_state">
+          <input type="hidden" name="is_on_sale" id="is_on_sale">
+          <!--排序规则-->
+          <input type="hidden" name="orderby1" value="goods_id" />
+          <input type="hidden" name="orderby2" value="desc" />
+          <input type="text" size="30" name="key_word" class="qsbox" placeholder="搜索词...">
+          <input type="button" onclick="ajax_get_table('search-form2',1)" class="btn" value="搜索">
+        </div>
+      </div>
+     </form>
+    </div>
+    <div class="hDiv">
+      <div class="hDivBox">
+        <table cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th align="left" abbr="article_title" axis="col6" class="">
+                <div style="text-align: left; width:50px;" class="" onclick="sort('goods_id');">商品id</div>
+              </th>
+              <th align="left" abbr="ac_id" axis="col4" class="">
+                <div style="text-align: left; width: 300px;" class="" onclick="sort('goods_name');">商品名称</div>
+              </th>
+              <th align="center" abbr="article_show" axis="col6" class="">
+                <div style="text-align: center; width: 100px;" class="" onclick="sort('goods_sn');">货号</div>
+              </th>
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 200px;" class="" onclick="sort('cat_id');">分类</div>
+              </th>
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('shop_price');">价格</div>
+              </th>
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="">库存</div>
+              </th>                        
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('is_recommend');">推荐</div>
+              </th>                       
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('is_new');">新品</div>
+              </th>                                     
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('is_hot');">热卖</div>
+              </th>  
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('is_on_sale');">商品状态</div>
+              </th>
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="" onclick="sort('goods_state');">审核状态</div>
+              </th>
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 100px;" class="">店铺名称</div>
+              </th>  
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 50px;" class="">店铺类型</div>
+              </th>                                        
+              <th align="center" abbr="article_time" axis="col6" class="">
+                <div style="text-align: center; width: 120px;">操作</div>
+              </th>
+              <th style="width:100%" axis="col7">
+                <div></div>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+     <!--
+    <div class="tDiv">
+      <div class="tDiv2">
+        <div class="fbutton">
+       
+          <a href="{:U('Admin/goods/addEditGoods')}">
+          <div class="add" title="添加商品">
+            <span><i class="fa fa-plus"></i>添加商品</span>
+          </div>
+          </a> 
+         
+          </div> 
+      </div>
+      <div style="clear:both"></div>
+    </div>-->
+    <div class="bDiv" style="height: auto;">
+     <!--ajax 返回 --> 
+      <div id="ajax_return" cellpadding="0" cellspacing="0" border="0"></div>      
+    </div>
+
+     </div>
+</div>
+<script>
+    $(document).ready(function(){	
+	
+		 // 表格行点击选中切换
+		$('#ajax_return').on('click','table>tbody >tr',function(){
+            if(!$(this).hasClass('spe_select')){
+                $(this).toggleClass('trSelected');
+
+                var checked = $(this).hasClass('trSelected');
+                $(this).find('input[type="checkbox"]').attr('checked',checked);
+            }
+		});
+		// 刷选条件 鼠标 移动进去 移出 样式
+		$(".hDivBox > table > thead > tr > th").mousemove(function(){
+			$(this).addClass('thOver');
+		}).mouseout(function(){
+			$(this).removeClass('thOver');
+		});
+		
+		// 复选框事件 不联动父类
+		$('#ajax_return').on('click','table>tbody >tr input',function(e){			
+			//alert('bbb');
+			e.stopPropagation();
+		})		
+		
+	});
+</script>
+<script>
+    $(document).ready(function () {
+        // ajax 加载商品列表
+        ajax_get_table('search-form2', 1);
+
+    });
+
+    // ajax 抓取页面 form 为表单id  page 为当前第几页
+    function ajax_get_table(form, page) {
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type: "POST",
+            url: "/index.php?m=Admin&c=goods&a=ajaxGoodsList&p=" + page,//+tab,
+            data: $('#' + form).serialize(),// 你的formid
+            success: function (data) {
+                $("#ajax_return").html('');
+                $("#ajax_return").append(data);
+            }
+        });
+    }
+
+    // 点击排序
+    function sort(field) {
+        $("input[name='orderby1']").val(field);
+        var v = $("input[name='orderby2']").val() == 'desc' ? 'asc' : 'desc';
+        $("input[name='orderby2']").val(v);
+        ajax_get_table('search-form2', cur_page);
+    }
+
+    // 删除操作
+    function del(id) {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    layer.closeAll();
+                    $.ajax({
+                        url: "/index.php?m=Admin&c=goods&a=delGoods&id=" + id,
+                        success: function (v) {
+                            var v = eval('(' + v + ')');
+                            if (v.hasOwnProperty('status') && (v.status == 1))
+                                ajax_get_table('search-form2', cur_page);
+                            else
+                                layer.msg(v.msg, {icon: 2, time: 1000}); //alert(v.msg);
+                        }
+                    });
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+
+    //获取选中商品id
+    function get_select_goods_id_str() {
+        if ($('input[name="goods_id\[\]"]:checked').length == 0)
+            return false;
+        var goods_arr = Array();
+        $('input[name="goods_id\[\]"]:checked').each(function () {
+            goods_arr.push($(this).val());
+        });
+        var goods_id_str = goods_arr.join(',');
+        return goods_id_str
+    }
+
+    act = '';//操作变量
+    //批量操作
+    function fuc_change(obj) {
+        var fuc_val = $(obj).children('option:selected').val();
+        if (fuc_val == 0) {
+            //推荐
+            act = 'recommend';
+            $('#act_button').removeClass('disabled');
+            reset_state();
+        } else if (fuc_val == 1) {
+            act = 'new';
+            $('#act_button').removeClass('disabled');
+            reset_state();
+            //新品
+        } else if (fuc_val == 2) {
+            act = 'hot';
+            $('#act_button').removeClass('disabled');
+            reset_state();
+            //热卖
+        } else if (fuc_val == 3) {
+            act = 'examine';
+            $('#state_id').show();
+            $('#act_button').addClass('disabled');
+            $("#state_id option:first").prop("selected", 'selected');
+            //审核商品
+        } else {
+            act = '';
+            $('#act_button').addClass('disabled');
+            reset_state();
+            //恢复默认
+        }
+    }
+
+    //重置审核操作
+    function reset_state() {
+        $("#state_id option:first").prop("selected", 'selected');
+        $('#state_id').hide();
+    }
+
+    //审核操作
+    function state_change(obj) {
+        var state_val = $(obj).children('option:selected').val();
+        if (state_val == '') {
+            $('#act_button').addClass('disabled');
+        } else {
+            $('#act_button').removeClass('disabled');
+        }
+    }
+
+    //批量操作提交
+    function act_submit() {
+        var ids = get_select_goods_id_str();
+        if (ids == false) {
+            layer.alert('请勾选要操作的商品', {icon: 2});
+            return;
+        }
+        var fun_id = $('#func_id').find("option:selected").val();
+        var goods_state = $('#state_id').children('option:selected').val();
+        if(fun_id == 3 && goods_state == 2){
+            layer.prompt({title: '请输入操作备注(<b style="color:red;">必填</b>)', formType: 2}, function(text, index){
+        		layer.close(index);
+        		request_net(ids, text);
+            });
+        }else{
+            request_net(ids , '无备注');
+        }
+    }
+    
+    function request_net(ids , text){
+    	if(text == ""){
+    		layer.alert('请填写备注', {icon: 2,time: 3000});
+    	}else {
+    		var goods_state = $('#state_id').children('option:selected').val();
+            $.ajax({
+                type: "POST",
+                url: "/index.php?m=Admin&c=goods&a=act",//+tab,
+                data: {act: act,goods_state:goods_state,goods_ids: ids, reason: text},
+                dataType: 'json',
+                success: function (data) {
+                    if(data.status == 1){
+                        layer.alert(data.msg, {
+                            icon: 1,
+                            closeBtn: 0
+                        }, function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        layer.alert(data.msg, {icon: 2,time: 3000});
+                    }
+
+                },
+                error:function(){
+                    layer.alert('网络异常', {icon: 2,time: 3000});
+                }
+            });
+        }
+    }
+
+    function get_goods_list(obj){
+    	 var state = $(obj).attr('data-state');
+    	 $('.tab-base').find('a').removeClass('current')
+    	 $(obj).addClass('current');
+    	 if(state == '3') {
+    		 $("#is_on_sale").val(2);
+    		 $("#goods_state").val('');
+    	 }else{
+    		 $("#is_on_sale").val('');
+    		 $("#goods_state").val(state);
+    	 }
+    	 ajax_get_table('search-form2', 1);
+    }
+
+    function takeoff(obj){
+    	var reasonhtml = '<div class="dialog_body" style="position: relative;">';
+    	reasonhtml += '<div class="dialog_content" style="margin: 0px; padding: 0px;">';
+    	reasonhtml += '<div class="ncap-form-default">';
+    	reasonhtml += '<dl class="row">';
+    	reasonhtml += '<dt class="tit">违规商品货号</dt><dd class="opt">'+$(obj).attr('goods_sn')+'</dd></dl>';
+    	reasonhtml += '<dl class="row">';
+    	reasonhtml += '<dt class="tit">违规商品名称</dt><dd class="opt">'+$(obj).attr('goods_name')+'</dd></dl>';
+ 		reasonhtml += '<dl class="row"><dt class="tit">';
+	    reasonhtml += '<label for="close_reason">违规下架理由</label>';
+	    reasonhtml += '<input type="hidden" id="take_goods_id" value="'+$(obj).attr('goods_id')+'"></dt>';
+	    reasonhtml += '<dd class="opt">';
+	    reasonhtml += ' <textarea rows="6" class="tarea" cols="60" name="close_reason" id="close_reason"></textarea>';
+	    reasonhtml += ' </dd></dl>';
+	    reasonhtml += '<div class="bot"><a href="javascript:void(0);" onclick="takeoff_goods();" class="ncap-btn-big ncap-btn-green" nctype="btn_submit">确认提交</a></div>';
+	    reasonhtml += '</div></div></div>'
+    	layer.open({
+	   		  type: 1,
+	   		  title:'违规下架理由',
+	   		  skin: 'layui-layer-rim', //加上边框
+	   		  area: ['620px', '340px'], //宽高
+	   		  content: reasonhtml
+    	});
+    }
+    
+    function takeoff_goods(){
+          $.ajax({
+              type: "POST",
+              url: "/index.php?m=Admin&c=goods&a=act",//+tab,
+              data: {act:'takeoff',is_on_sale:2,goods_ids:$('#take_goods_id').val(),reason:$('#close_reason').val()},
+              dataType: 'json',
+              success: function (data) {
+                  if(data.status == 1){
+                      layer.alert(data.msg, {
+                          icon: 1, closeBtn: 0
+                      }, function(){
+                          window.location.reload();
+                      });
+                  }else{
+                      layer.alert(data.msg, {icon: 2,time: 3000});
+                  }
+              },
+              error:function(){
+                  layer.alert('网络异常', {icon: 2,time: 3000});
+              }
+          }); 	
+    }
+</script>
+</body>
+</html>

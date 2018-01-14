@@ -1,0 +1,189 @@
+<include file="public/head"/>
+<style>
+
+
+.ncsc-order-contnet {
+    margin-top: 10px;
+}
+
+.ncsc-default-table tbody td{
+	text-align: left;
+}
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>拆分订单</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" action="{:U('Order/split_order')}" id="split_order">
+                    <div class="ncsc-form-goods active" id="tab_tongyong">
+                        <h3 id="demo1">拆分订单</h3>
+                        <dl>
+                            <dt>费用信息:</dt>
+                            <dd>
+                            	<input type="hidden" name="order_id" value="{$order.order_id}">
+                                订单总额：{$order.total_amount} = 商品总价：{$order.goods_price}+运费:{$order.shipping_price}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>收货人：</dt>
+                            <dd style="width: 66%;border-right: 1px solid #E6E6E6">{$order.consignee}&nbsp; {$order.mobile} <p class="hint">温馨提示：原单商品不可全部移除</p></dd>
+                            <dd style="width: 17%;border-left:0;padding-left: 17px;margin-top: 12px">
+                                <a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="window.location.reload();"><p>重置</p></a>
+                                <label class="submit-border">
+                                    <input nctype="formSubmit" class="submit" value="添加拆分" type="button" onclick="add_split()">
+                                </label>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>原单商品列表：</dt>
+                            <dd id="old_goods">
+                                <div class="form-group" id="origin" >
+                                       	<div class="ncsc-order-contnet">
+                                       		<table class="ncsc-default-table order">
+                                       			<thead>
+	                                       			<tr>
+	                                       				<th class="w10">&nbsp;</th>
+										                <td ccolspan="2">商品名称</td>
+										                <td class="w120">规格</td>         
+										                <td class="w100">价格</td>								                
+										                <td class="w80">原购数</td>
+										                <td class="w100">数量</td>
+										                <td class="w80" style="text-align:center">操作</td>
+										            </tr>
+									            </thead>
+									            <tbody>
+									            <foreach name="orderGoods" item="vo">
+									            	<tr>
+									            		<td class="w10">&nbsp;</td>
+										                <td >{$vo.goods_name}</td>            
+										                <td >{$vo.spec_key_name}</td>
+										                <td >{$vo.goods_price}</td>
+										                <td >{$vo.goods_num}</td>
+										                <td><input type="text" class="text input-sm" name="old_goods[{$vo.rec_id}]" rel="{$vo.rec_id}" value="{$vo.goods_num}"></td>
+										                <td style="text-align:center"><a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="delNewRow(this)"><p>删除</p></a></td>
+									           		</tr>
+									           </foreach>
+									           </tbody>
+                                       		</table>
+                                       	   </div>
+                                       </div>                                   
+                                       <div class="form-group">                                       
+                                            <div class="ncsc-order-contnet" id="goods_td">
+                                            </div>                                                                                                                                                      
+	                                   </div>  
+                            </dd>
+                        </dl>
+                        <dl id="last_tr">
+                            <dt><i class="required">*</i>管理员备注：</dt>
+                            <dd>
+                                <textarea  name="admin_note" class="textarea h60 w400 valid">{$order.admin_note|htmlspecialchars_decode}</textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input nctype="formSubmit" class="submit" value="保存" type="button" onclick="checkSubmit()">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+var no = 1;
+$(function(){
+	add_split();
+});
+
+function add_split(){
+	var new_order = '';
+	new_order += '<dl id="new_'+no+'" class="new_split"><dt>新单商品列表:</dt><dd id="new">'                      
+	new_order += $('#origin').html(); 
+	new_order += '<div class="col-xs-1 pull-right"><a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="javascript:$(this).parent().parent().parent().remove();"style="margin-right: 20px;margin-top:10px"><p>删除</p></a></div>'
+	new_order += '</dd></dl>';
+	$('#last_tr').before(new_order);
+	$('#new_'+no+' .input-sm').each(function(i,o){
+		var name = $(this).attr('name');
+		$(this).attr('name',no+'_'+name);
+	});
+	no++;
+}
+
+
+function delNewRow(obj){
+	//判断是原单还是新单商品删除
+	var dlId = $(obj).closest("dd").attr("id");
+	var length = $(obj).closest("table").find("tr").length;
+	//原单
+	if(dlId == "old_goods"){
+		if(length == 2){
+			layer.alert('原单商品不可全部移除', {icon: 2});
+			return;
+		}
+		$(obj).parent().parent().remove();
+	}else{
+		//新单
+		if(length == 2){
+			$(obj).closest("dl").remove();
+		}else{
+			$(obj).closest("tr").remove();
+		}
+	}
+}
+ 
+var b = {$goods_num_arr};
+
+function checkSubmit(){
+	var a = [],g = [];
+	$('input[name*=old_goods]').each(function(i,o){
+		var rec_id = $(o).attr('rel');
+		if(!a[rec_id]){
+			a[rec_id] = 0;
+		}
+		a[rec_id] = a[rec_id] + parseInt($(o).val());
+	});
+	
+	$('#origin .input-sm').each(function(){
+		g.push($(this).val());
+	});
+    var goodnum = 0;
+    $('.input-sm').each(function(){
+        if(parseInt($(this).val()) < 1 || $(this).val()==''){
+            goodnum++;
+        };
+    });
+    if(goodnum>0){
+        layer.alert('商品购买数量不能为 0 件', {icon: 2});
+        return false;
+    }
+	if($('.new_split').length == 0){
+		layer.alert("请至少拆分一单", {icon: 2});
+		return false;
+	}
+	if(g.length == 0){
+		layer.alert('原单商品不可全部移除', {icon: 2});
+		return false;
+	}
+	for(var k in b){
+
+		if(a[k] > parseInt(b[k]['goods_num'])){
+			var lt = a[k] - parseInt(b[k]['goods_num']);
+			layer.alert('商品：'+b[k]['goods_name']+',购买总数量大于原订单购买数'+lt+'件', {icon: 2});
+			return false;
+		}
+		if(a[k] < parseInt(b[k]['goods_num'])){
+			var lt = parseInt(b[k]['goods_num']) - a[k];
+			layer.alert('商品：'+b[k]['goods_name']+',购买总数量少于原订单购买数'+lt+'件', {icon: 2});
+			return false;
+		}
+	}
+
+	$('#split_order').submit();
+}
+</script>
+</body>
+</html>

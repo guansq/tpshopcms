@@ -1,0 +1,159 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>选择商品分类</div>
+        <div class="main-content" id="mainContent">
+            <!-- S setp -->
+            <notempty name="goods">
+                <div class="tabmenu">
+                    <ul class="tab pngFix">
+                        <li class="active">
+                            <a href="{:U('Seller/Goods/addStepOne',array('goods_id'=>$goods['goods_id']))}">选择分类</a>
+                        </li>
+                        <li class="normal">
+                            <a href="{:U('Seller/Goods/addEditGoods',array('goods_id'=>$goods['goods_id']))}">编辑商品</a>
+                        </li>
+                    </ul>
+                </div>
+                <else/>
+                <ul class="add-goods-step">
+                    <li class="current"><i class="icon icon-list-alt"></i>
+                        <h6>STEP.1</h6>
+                        <h2>选择商品分类</h2>
+                        <i class="arrow icon-angle-right"></i> </li>
+                    <li><i class="icon icon-edit"></i>
+                        <h6>STEP.2</h6>
+                        <h2>填写商品详情</h2>
+                        <i class="arrow icon-angle-right"></i> </li>
+                    <li><i class="icon icon-camera-retro "></i>
+                        <h6>STEP.3</h6>
+                        <h2>上传商品图片</h2>
+                        <i class="arrow icon-angle-right"></i> </li>
+                    <li><i class="icon icon-ok-circle"></i>
+                        <h6>STEP.4</h6>
+                        <h2>商品发布成功</h2>
+                    </li>
+                </ul>
+            </notempty>
+            <!--S 分类选择区域-->
+            <div class="wrapper_search">
+                <div class="wp_sort">
+                    <div id="dataLoading" class="wp_data_loading">
+                        <div class="data_loading">加载中...</div>
+                    </div>
+                    <div id="class_div" class="wp_sort_block">
+                        <div class="sort_list">
+                            <div class="wp_category_list">
+                                <div id="class_div_1" class="category_list ps-container ps-active-y">
+                                    <ul>
+                                        <volist name="goodsCategoryLevelOne" id="goods_category">
+                                            <li> <a href="javascript:void(0)" data-title="{$goods_category.name}" data-goods-cat-id="{$goods_category.id}"><i class="icon-double-angle-right"></i>{$goods_category.name}</a></li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sort_list">
+                            <div class="wp_category_list blank">
+                                <div id="class_div_2" class="category_list ps-container" style="">
+                                    <ul>
+                                    </ul>
+                                    <div class="ps-scrollbar-x-rail" style="width: 15px; display: none; left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 264px; display: none; right: 3px;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+                            </div>
+                        </div>
+                        <div class="sort_list sort_list_last">
+                            <div class="wp_category_list blank">
+                                <div id="class_div_3" class="category_list ps-container" style="">
+                                    <ul>
+                                    </ul>
+                                    <div class="ps-scrollbar-x-rail" style="width: 15px; display: none; left: 0px; bottom: 3px;"><div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 264px; display: none; right: 3px;"><div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert">
+                    <dl class="hover_tips_cont">
+                        <dt id="commodityspan"><span style="color:#F00;">请选择商品类别</span></dt>
+                        <dt id="commoditydt" style="display: none;" class="current_sort">您当前选择的商品类别是：</dt>
+                        <dd id="commoditydd"></dd>
+                    </dl>
+                </div>
+                <div class="wp_confirm">
+                    <form method="get" action="{:U('Seller/Goods/addEditGoods')}">
+                        <input name="cat_id3" value="{$goods.cat_id3}" type="hidden">
+                        <input name="goods_id" value="{$goods.goods_id}" type="hidden">
+                        <div class="bottom tc">
+                            <label class="submit-border"><input disabled="disabled" id="submit" value="下一步，填写商品信息" class="submit" style=" width: 200px;" type="submit"></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script type="text/javascript">
+    $('#class_div_1').perfectScrollbar();
+    $(function(){
+        $(document).on("click", '#class_div_1 a', function (e) {
+            var ul3 = $('#class_div_3').find('ul');
+            ul3.empty().parents('.wp_category_list').addClass('blank');
+            $('#submit').attr('disabled','disabled');
+            $('#commodityspan').hide();
+            $('#commoditydt').show();
+            $('#commoditydd').show().html($(this).attr('data-title'));
+            $('#class_div_1').find('a').removeClass('classDivClick');
+            $(this).addClass('classDivClick');
+            $.ajax({
+                type: "POST",
+                url: "{:U('Seller/Index/goods_category')}",
+                dataType: 'json',
+                data: {parent_id: $(this).attr('data-goods-cat-id')},
+                success: function (data) {
+                    var ul = $('#class_div_2').find('ul');
+                    ul.empty().parents('.wp_category_list').removeClass('blank');
+                    var html = '';
+                    $.each(data, function (n, value) {
+                        html += '<li> <a href="javascript:void(0)" data-title="'+value.name+'"  data-goods-cat-id="'+value.id+'"><i class="icon-double-angle-right"></i>'+value.name+'</a></li>';
+                    });
+                    ul.append(html);
+                }
+            });
+        })
+        $(document).on("click", '#class_div_2 a', function (e) {
+            $('#submit').attr('disabled','disabled');
+            $('#class_div_2').find('a').removeClass('classDivClick');
+            $(this).addClass('classDivClick');
+            var cat_1 = $('#class_div_1').find('.classDivClick');
+            $('#commoditydd').empty().html(cat_1.attr('data-title')+'<i class="icon-double-angle-right"></i>'+$(this).attr('data-title'));
+            $.ajax({
+                type: "POST",
+                url: "{:U('Seller/Index/goods_category')}",
+                dataType: 'json',
+                data: {parent_id: $(this).attr('data-goods-cat-id')},
+                success: function (data) {
+                    var ul = $('#class_div_3').find('ul');
+                    ul.empty().parents('.wp_category_list').removeClass('blank');
+                    var html = '';
+                    $.each(data, function (n, value) {
+                        html += '<li> <a href="javascript:void(0)" data-title="'+value.name+'" data-goods-cat-id="'+value.id+'"><i class="icon-double-angle-right"></i>'+value.name+'</a></li>';
+                    });
+                    ul.append(html);
+                }
+            });
+        })
+        $(document).on("click", '#class_div_3 a', function (e) {
+            $('#submit').removeAttr('disabled');
+            $('#class_div_3').find('a').removeClass('classDivClick');
+            $(this).addClass('classDivClick');
+            var cat_1 = $('#class_div_1').find('.classDivClick');
+            var cat_2 = $('#class_div_2').find('.classDivClick');
+            $('#commoditydd').empty().html(cat_1.attr('data-title')+'<i class="icon-double-angle-right"></i>'+cat_2.attr('data-title')+'<i class="icon-double-angle-right"></i>'+$(this).attr('data-title'));
+            $("input[name=cat_id3]").attr('value',$(this).attr('data-goods-cat-id'));
+        })
+    })
+
+</script>
+</body>
+</html>

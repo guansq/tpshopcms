@@ -1,0 +1,92 @@
+<include file="public/head"/>
+<style>
+    .ncsc-goods-sku.ps-container {
+        height: 1px;
+        border: 0;
+        border-bottom: solid 1px #E6E6E6;
+        background: inherit;
+        box-shadow: inherit;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>商品咨询</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Seller/Service/ask_list')}">商品咨询列表</a></li>
+                </ul>
+            </div>
+            <table class="search-form">
+                <form method="post" id="search-form2">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th class="w80">搜索评论内容</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" name="content" placeholder="搜索评论内容"/></td>
+                        <th class="w80">搜索用户</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" name="nickname" placeholder="搜索用户"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="button" class="submit" value="搜索" onclick="ajax_get_table('search-form2',1)"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <div id="ajax_return"></div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    // 删除操作
+    function del(id,t)
+    {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    location.href = $(t).data('href');
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+
+    function op(){
+        //获取操作
+        var op_type = $('#operate').find('option:selected').val();
+        if(op_type == 0){
+            layer.msg('请选择操作', {icon: 1,time: 1000});   //alert('请选择操作');
+            return;
+        }
+        //获取选择的id
+        var selected = $('input[name*="selected"]:checked');
+        var selected_id = [];
+        if(selected.length < 1){
+
+            layer.msg('请选择项目', {icon: 1,time: 1000}); //            alert('请选择项目');
+            return;
+        }
+        $(selected).each(function(){
+            selected_id.push($(this).val());
+        })
+        $('#op').find('input[name="selected"]').val(selected_id);
+        $('#op').find('input[name="type"]').val(op_type);
+        $('#op').submit();
+    }
+    $(document).ready(function(){
+        ajax_get_table('search-form2',1);
+    });
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/Service/ajax_ask_list/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('').append(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>

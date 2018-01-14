@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商家中心</title>
+<link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/global.js"></script>
+</head>
+<body>
+<div class="dialog_content w600" style="margin: 0px; padding: 0px;"><style>
+#gcategory select {margin-left:4px}
+</style>
+<div class="ncsc-form-default">
+  <form method="post" action="" target="_parent" name="store_bind_class_form" id="store_bind_class_form">
+    <input type="hidden" name="form_submit" value="ok">
+    <input id="goods_class" name="goods_class" type="hidden" value="">
+    <dl>
+      <dt>选择分类：</dt>
+      <dd id="gcategory">
+             <select name="cat_id" id="cat_id" onchange="get_category(this.value,'cat_id_2','0');" style="width:auto;">
+               <option value="0">请选择商品分类</option>                                      
+                    <foreach name="cat_list" item="v" key="k" >                                                                                          
+                      <option value="{$v['id']}" <if condition="$v['id'] eq $level_cat['1']">selected="selected"</if> >
+                      		{$v['name']}
+                      </option>
+                    </foreach>
+             </select>
+             <select name="cat_id_2" id="cat_id_2" onchange="get_category(this.value,'cat_id_3','0');" class="class-select">
+	              <option value="0">请选择商品分类</option>
+	         </select>
+	         <select name="cat_id_3" id="cat_id_3" class="class-select">
+	              <option value="0">请选择商品分类</option>
+	         </select>
+      </dd>
+    </dl>
+    <div class="bottom">
+      <label class="submit-border"><input type="button" id="btn_add_bind_class" onclick="gosubmit()" class="submit" value="提交"></label>
+    </div>
+  </form>
+</div>
+ 
+</div>
+<script>
+function gosubmit(){
+	var cat_id = $('#cat_id').val();
+	var cat_id2 = $('#cat_id_2').val();
+	var cat_id3 = $('#cat_id_3').val();
+	if(cat_id == 0 || cat_id2 == 0 || cat_id3 == 0){
+		layer.msg('请选择完整分类', {icon: 2});
+		return false;
+	}
+	$.ajax({
+		type:'post',
+		url:"{:U('Store/get_bind_class')}",
+		data:{class_1:cat_id,class_2:cat_id2,class_3:cat_id3},
+		dataType : 'json',
+		success : function(data){
+			if(data.status==1){
+				layer.msg('操作成功', {icon: 3});
+				window.parent.location.reload();
+			}else{
+				layer.alert(data.msg, {icon: 2});
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

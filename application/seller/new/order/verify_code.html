@@ -1,0 +1,113 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>虚拟兑码订单</div>
+    <div class="main-content" id="mainContent">
+      <div class="tabmenu">
+	  <ul class="tab pngFix">
+	  <li class="normal"><a  href="{:U('Order/virtual_list')}">所有订单</a></li>
+	  <li class="normal"><a  href="{:U('Order/virtual_list',array('pay_status'=>0))}">待付款</a></li>
+	  <li class="normal"><a  href="{:U('Order/virtual_list',array('pay_status'=>1))}">已付款</a></li>
+	  <li class="normal"><a  href="{:U('Order/virtual_list',array('order_status'=>4))}">已完成</a></li>
+	  <li class="normal"><a  href="{:U('Order/virtual_list',array('order_status'=>3))}">已取消</a></li>
+	  <li class="active"><a  href="{:U('Order/verify_code')}">兑换码兑换</a></li>
+	  </ul>
+	</div>
+	<div class="ncsc-vr-order-exchange">
+	    <dl>
+	      <dt><h3>电子兑换码</h3></dt>
+	      <dd>
+	        <input class="vr-code" name="vr_code" type="text" id="vr_code" placeholder="请输入买家提供的电子兑换码" maxlength="18"  />
+	        <label class="error" id="vr_code_waring" for="vr_code" style="display: inline;"></label>
+	        <span></span>
+	        <div class="ncsc-keyboard">
+			<button onclick="demo(this,1)">1</button>
+			<button onclick="demo(this,1)">2</button>
+			<button onclick="demo(this,1)">3</button>
+			<button onclick="demo(this,1)">4</button>
+			<button onclick="demo(this,1)">5</button>
+			<button onclick="demo(this,1)">6</button>
+			<button onclick="demo(this,1)">7</button>
+			<button onclick="demo(this,1)">8</button>
+			<button onclick="demo(this,1)">9</button>
+			<button onclick="demo(this,1)">0</button>
+			<button class="cn" onclick="demo(this,2)">清除</button>
+			<button class="cn" onclick="demo(this,3)">后退</button>
+			<label class="enter-border">
+	        <input type="button" id="_submit" class="enter" value="提交验证">
+	      	</label>
+			</div><p class="hint">请输入买家提供的兑换码，核对无误后提交，每个兑换码抵消单笔消费。</p>
+	      </dd>
+	    </dl>
+	    
+	    <div class="bottom">
+	      
+	    </div>
+	</div>
+	<table class="ncsc-default-table order">
+	  <thead>
+	    <tr>
+	      <th class="w10"></th>
+	      <th colspan="20" class="tl"></th>
+	    </tr>
+	    <tr>
+	      <th class="w10"></th>
+	      <th class="w150">兑换码</th>
+	      <th colspan="2">商品</th>
+	      <th>订单号</th>
+	      <th>下单留言</th>
+	    </tr>
+	  </thead>
+	  <tbody id="order_panel"></tbody>
+	</table>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+    function demo(obj,tip){
+        if(tip==1){
+            var con=document.getElementById('vr_code').value;
+            document.getElementById('vr_code').value=con+obj.innerHTML;
+        }else if(tip==2){
+            document.getElementById('vr_code').value="";
+        }else if(tip==3){
+            var con=document.getElementById('vr_code').value;
+            document.getElementById('vr_code').value=con.slice(0,-1);
+        }
+    }
+    
+    $(document).ready(function(){
+        function exPost() {
+    		$('#vr_code_waring').html('');
+    		$.ajax({
+    			type:'post',
+    			url:"{:U('Order/verify_code')}",
+    			data:{'vr_code':$('#vr_code').val()},
+    			dataType : 'json',
+    			success : function(data){
+    				if (data == null) return false;
+    				if(data.status == 1){
+    					layer.msg('兑换成功', {icon: 1});
+    			        $('#order_panel').prepend(data.content);
+    			        $('#vr_code').val('').focus();
+    				}else{
+    					$('#vr_code_waring').show().html(data.error);return false;
+    					//layer.alert(data.msg, {icon: 2});
+    				}
+    			}
+    		});
+        }
+    	$('#_submit').on('click',function(){
+    		exPost();
+    	});
+        $(document).keydown(function(e) {
+            if (e.keyCode == 13) {
+                exPost();
+            }
+        });
+    });
+</script>
+</body>
+</html>

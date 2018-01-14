@@ -1,0 +1,183 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>仓库中的商品</div>
+<div class="main-content" id="mainContent">
+      
+	<div class="tabmenu">
+	  <ul class="tab pngFix">
+	  <li class="<if condition='$_GET[is_on_sale] eq 0'>active<else/>normal</if>"><a  href="{:U('Goods/goods_offline',array('is_on_sale'=>0))}">仓库中的商品</a></li>
+	  <li class="<if condition='$_GET[is_on_sale] eq 2'>active<else/>normal</if>"><a  href="{:U('Goods/goods_offline',array('is_on_sale'=>2))}">违规的商品</a></li>
+	  </ul>
+	</div>
+	<form method="get" action="">
+	  <table class="search-form">
+	    <input type="hidden" name="act" value="goods_offline" />
+	    <tr>
+	      <td>&nbsp;</td>
+	      <th>供货商</th>
+	      <td class="w160">
+	       <select name="suppliers_id" class="w150">
+	        <option value="0">请选择...</option>
+	        <foreach name="suppliers_list" item="sup">
+	        <option value="{$sup.suppliers_id}" >{$sup.suppliers_name}</option>
+	        </foreach>
+	       </select>
+	      </td>
+	      <th>本店分类</th>
+	      <td class="w160">
+	          <select name="store_cat_id1" id="store_cat_id1" class="select">
+	              <option value="">本店分类</option>
+	              <foreach name="store_goods_class_list" item="v" key="k" >
+	                  <option value="{$v['cat_id']}"> {$v['cat_name']}</option>
+	              </foreach>
+	          </select>
+	      </td>
+	      <if condition="$_GET[is_on_sale] eq 0">
+	      <th>审核状态</th>
+	      <td class="w90">
+	        <select name="goods_state">
+	          	<option value="">请选择...</option>
+	            <option value="0" <if condition="$_GTE[goods_state] heq 0">selected</if>>待审核</option>
+	            <option value="1" <if condition="$_GTE[goods_state] eq 1">selected</if>>审核通过</option>
+	            <option value="2" <if condition="$_GTE[goods_state] eq 2">selected</if>>未通过</option>
+	          </select>
+	      </td>
+	      </if>
+	      <td class="w160"><input type="text" class="text" name="key_word" value="" placeholder="搜索词"/></td>
+	      <td class="tc w70"><label class="submit-border"><input type="submit" class="submit" value="搜索" /></label></td>
+	    </tr>
+	  </table>
+	</form>
+	<if condition="$_GET[is_on_sale] eq 2">
+	<table class="ncsc-default-table">
+	  <thead>
+	    <tr nc_type="table_header">
+	      <th class="w30">ID</th>
+	      <th class="w50"></th>
+	      <th>商品名称</th>
+	      <th class="w180">违规禁售原因</th>
+	      <th class="w100">价格</th>
+	      <th class="w100">库存</th>
+	      <th class="w200">操作</th>
+	    </tr>
+	      <!--<tr>
+	      <td class="tc"><input type="checkbox" id="all" class="checkall"/></td>
+	      <td colspan="10"><label for="all">全选</label>
+	        <a href="javascript:void(0);" class="ncbtn-mini" nc_type="batchbutton" uri="" name="commonid" confirm="您确定要删除吗?"><i class="icon-trash"></i>删除</a>
+	      </tr>-->
+	      </thead>
+	  	  <tbody>
+	  	  	  <foreach name="goodsList" item="vo">
+		      <tr>
+		      <td class="trigger"><i class="icon-plus-sign" nctype="ajaxGoodsList"></i>{$vo.goods_id}</td>
+		      <td><div class="pic-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo['goods_id']))}" target="_blank">
+		      	<img src="{$vo.goods_id|goods_thum_images=50,50}"/></a></div>
+		      </td>
+		      <td class="tl">
+		      	<dl class="goods-name">
+		          <dt style="max-width: 450px !important;">
+		          <if condition="$vo[is_virtual] eq 1"><span class="type-virtual" title="虚拟兑换商品">虚拟</span></if>
+		          <a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo['goods_id']))}" target="_blank">{$vo.goods_name|getSubstr=0,33}</a></dt>
+		          <dd>商家货号：{$vo.goods_sn}</dd>
+		        </dl>
+		      </td>
+		      <td>{$vo.close_reason}</td>
+		      <td><span>&yen;{$vo.shop_price}</span></td>
+		      <td><span>{$vo.store_count}件</span></td>
+		      <td class="nscs-table-handle tr">
+			  	<span><a href="{:U('Goods/goodsUpLine',array('goods_ids'=>$vo['goods_id']))}" class="btn-bluejeans"><i class="icon-refresh"></i><p>重新申请审核</p> </a></span>
+		      	<span><a href="{:U('Goods/addEditGoods',array('goods_id'=>$vo['goods_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p> </a></span>
+		        <span><a href="javascript:void(0);" onclick="del('{$vo[goods_id]}')" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+		      </td>
+		      </tr>
+		      </foreach>
+	      </tbody>
+	      <tfoot>
+		    <tr>
+		       <td colspan="20">{$page}</td>
+		    </tr>
+		  </tfoot>
+	  </table>
+	  <else/>
+	  <table class="ncsc-default-table">
+	  <thead>
+	    <tr nc_type="table_header">
+	      <th class="w30">ID</th>
+	      <th class="w50"></th>
+	      <th>商品名称</th>
+	      <th class="w80">上架</th>
+	      <th class="w80">审核状态</th>
+	      <th class="w100">价格</th>
+	      <th class="w100">库存</th>
+	      <th class="w100">操作</th>
+	    </tr>
+	      <!--<tr>
+	      <td class="tc"><input type="checkbox" id="all" class="checkall"/></td>
+	      <td colspan="10"><label for="all">全选</label>
+	        <a href="javascript:void(0);" class="ncbtn-mini" nc_type="batchbutton" uri="" name="commonid" confirm="您确定要删除吗?"><i class="icon-trash"></i>删除</a>
+	      </tr>-->
+	      </thead>
+	  	  <tbody>
+	  	  	  <foreach name="goodsList" item="vo">
+		      <tr>
+		      <td class="trigger"><i class="icon-plus-sign" nctype="ajaxGoodsList"></i>{$vo.goods_id}</td>
+		      <td><div class="pic-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo['goods_id']))}" target="_blank">
+		      <img src="{$vo.goods_id|goods_thum_images=50,50}"/></a></div></td>
+		      <td class="tl">
+		      	<dl class="goods-name">
+		          <dt style="max-width: 450px !important;">
+		          <if condition="$vo[is_virtual] eq 1"><span class="type-virtual" title="虚拟兑换商品">虚拟</span></if>
+		          <a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo['goods_id']))}" target="_blank">{$vo.goods_name|getSubstr=0,33}</a></dt>
+		          <dd>商家货号：{$vo.goods_sn}</dd>
+		        </dl>
+		      </td>
+		      <td><img width="20" height="20" src="__PUBLIC__/images/<if condition='$vo[is_on_sale] eq 1'>yes.png<else />cancel.png</if>" <if condition="$vo[goods_state] neq 1">onclick="layer.msg('该商品需通过审核才能上架',{icon:2});"<else/>onclick="changeTableVal2('goods','goods_id','{$vo.goods_id}','is_on_sale',this)"</if> /></td>
+		      <td>{$state[$vo[goods_state]]}</td>
+		      <td><span>&yen;{$vo.shop_price}</span></td>
+		      <td><span>{$vo.store_count}件</span></td>
+		      <td class="nscs-table-handle tr">
+		      	<span><a href="{:U('Goods/addEditGoods',array('goods_id'=>$vo['goods_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p> </a></span>
+		        <span><a href="javascript:void(0);" onclick="del('{$vo[goods_id]}')" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+		      </td>
+		      </tr>
+		      </foreach>
+	      </tbody>
+	      <tfoot>
+		    <tr>
+		       <td colspan="20">{$page}</td>
+		    </tr>
+		  </tfoot>
+	  </table>
+	  </if>
+   </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script>
+// 删除操作
+function del(id) {
+	layer.confirm('确定要删除吗？', {
+				btn: ['确定','取消'] //按钮
+			}, function(){
+				// 确定
+				$.ajax({
+					url: "/index.php?m=Seller&c=goods&a=delGoods&id=" + id,
+					success: function (v) {
+						layer.closeAll();
+						var v = eval('(' + v + ')');
+						if (v.hasOwnProperty('status') && (v.status == 1))
+							ajax_get_table('search-form2', cur_page);
+						else
+							layer.msg(v.msg, {icon: 2, time: 1000}); //alert(v.msg);
+					}
+				});
+			}, function(index){
+				layer.close(index);
+			}
+	);
+}
+</script>
+</body>
+</html>

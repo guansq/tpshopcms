@@ -1,0 +1,61 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>用户转账</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form action="" id="delivery-form" method="post">
+                    <input type="hidden" name="group_id" value="{$detail.group_id}" />
+                    <div class="ncsc-form-goods">
+                        <!--<h3 id="demo1"></h3>-->
+                        <dl>
+                            <dt>退还说明：</dt>
+                            <dd>
+                                <p class="hint">
+                                    1.退款将退还商品占订单价格比例的积分<br/>
+                                    2.退款将扣除购买该商品时送出的积分对应的金额&nbsp;(&nbsp;以免被刷积分&nbsp;)<br/>
+                                    3.退款将扣除订单活动价+优惠卷抵扣价等比例的金额
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i> 退还金额：</dt>
+                            <dd>
+                                <input type="text" name="return_goods_price" readonly value="{$return_goods_price}" class="text w400">
+                                <p class="hint">将从你的平台待结账资金里面转账给用户</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i> 退还积分：</dt>
+                            <dd>
+                                <input type="text" name="return_integral" readonly value="{$return_integral}" class="text w400">
+                                <p class="hint">用户下单是花费的积分将按等比例退回</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>操作备注：</dt>
+                            <dd>
+                                <textarea name="desc" placeholder="请输入操作备注" rows="3" class="tarea">{$_REQUEST['desc']|default="退货退款到余额"}</textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <div>
+	                            <input type="hidden" name="return_goods_id" value="{$_GET['return_goods_id']}" />
+                                <input class="submit" value="提交" type="submit" style="float:left;margin: 10px">
+                                <input class="submit" value="返回" type="button" onclick="history.go(-1)" style="float:left;margin: 10px">
+                            </div>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+</script>
+</body>
+</html>

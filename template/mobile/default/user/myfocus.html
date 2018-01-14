@@ -1,0 +1,129 @@
+<include file="public/header" title="我的关注" body=""/>
+<include file="public/header_nav" title="我的关注" href="{:U('User/index')}" />
+<if	condition="($storeNum == 0)	AND	($goodsNum == 0)">
+    <!--没有关注-s-->
+    <div class="comment_con p">
+        <div class="none"><img src="__STATIC__/images/none.png"><br><br>亲，此处还没有关注哦~</div>
+    </div>
+    <!--没有关注-e-->
+<else/>
+    <div class="two-bothshop">
+        <div class="maleri30">
+            <ul>
+                <a href="{:U('User/myfocus',array('focus_type'=>0))}">
+                    <li class="<if condition='$Request.param.focus_type == 0'>red</if>">
+                        <span>关注的商品</span><span>({$goodsNum})</span>
+                    </li>
+                </a>
+                <a href="{:U('User/myfocus',array('focus_type'=>1))}">
+                    <li class="<if condition='$Request.param.focus_type != 0'>red</if>">
+                        <span>关注的店铺</span><span>({$storeNum})</span>
+                    </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+
+    <if condition="$Request.param.focus_type eq 0">
+    <!--关注的商品-s-->
+    <div class="attention-shoppay">
+        <foreach name="goodsList" item="goods">
+            <div class="orderlistshpop p">
+                <div class="maleri30">
+                    <a href="">
+                        <div class="sc_list se_sclist paycloseto">
+                            <div class="shopimg fl">
+                                <a href="{:U('/Mobile/Goods/goodsInfo',array('id'=>$goods.goods_id))}">
+                                    <img src="{$goods.goods_id|goods_thum_images=400,400}">
+                                </a>
+                            </div>
+                            <div class="deleshow fr">
+                                <div class="deletes">
+                                    <a href="{:U('/Mobile/Goods/goodsInfo',array('id'=>$goods.goods_id))}">
+                                        <span class="similar-product-text">{$goods.goods_name}</span>
+                                    </a>
+                                </div>
+                                <div class="prices">
+                                    <p class="sc_pri"><span>￥</span><span>{$goods.shop_price}</span></p>
+                                </div>
+                                <div class="qxatten">
+                                    <p class="weight"><span>{$goods.comment_count}</span><span>条评价</span></p>
+                                    <a class="closeannten" href="{:U('/Mobile/User/del_goods_focus',array('collect_id'=>$goods.collect_id))}">取消关注</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </foreach>
+    </div>
+    <!--关注的商品-s-->
+    <else/>
+    <!--关注的店铺-s-->
+    <div class="attention-shoppay">
+        <foreach name="storeList" item="store">
+            <div class="orderlistshpop p">
+                <div class="maleri30">
+                    <a href="">
+                        <div class="sc_list se_sclist paycloseto mandplea">
+                            <div class="shopimg fl">
+                                <a href="{:U('/Mobile/Store/index',array('store_id'=>$store.store_id))}">
+                                    <img src="{$store.store_logo|goods_thum_images=400,400}">
+                                </a>
+                            </div>
+                            <div class="deleshow fr">
+                                <div class="deletes">
+                                    <a href="{:U('/Mobile/Store/index',array('store_id'=>$store.store_id))}">
+                                        <span class="similar-product-text">{$store.store_name}</span>
+                                    </a>
+                                </div>
+                                <div class="prices">
+                                    <i class="lxx w{:floor($store.store_servicecredit)}"></i><!--w1,w2,w3,w4,w5分别对应1-5颗心-->
+                                </div>
+                                <div class="qxatten">
+                                    <p class="weight"><span>{$store.store_collect}</span><span>人关注</span></p>
+                                    <a class="closeannten" href="{:U('/Mobile/User/del_store_focus',array('log_id'=>$store.log_id))}">取消关注</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </foreach>
+    </div>
+    <!--关注的店铺-e-->
+    </if>
+</if>
+<div id="getmore"  style="font-size:.32rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both;display: none">
+    <a >已显示完所有记录</a>
+</div>
+<script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.two-bothshop ul li').click(function(){
+            $(this).addClass('red').siblings().removeClass('red');
+            var gs = $('.two-bothshop ul li').index(this);
+            $('.attention-shoppay').eq(gs).show().siblings('.attention-shoppay').hide();
+        });
+    });
+    
+    var page = 1;
+    function ajax_sourch_submit()
+    {
+        page += 1;
+        $.ajax({
+            type : "GET",
+            url:"{:U('Mobile/User/myfocus',null,'')}/is_ajax/1/p/"+page+"/focus_type/{$Request.param.focus_type}",
+            success: function(data) {
+                if($.trim(data) === '') {
+                    $('#getmore').show();
+                } else {
+                    $(".attention-shoppay").append(data);
+                }
+            }
+        });
+   }
+</script>
+</body>
+</html>

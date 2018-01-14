@@ -1,0 +1,631 @@
+
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link href="http://www.tpshop.cn/admin/templates/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="http://www.tpshop.cn/admin/resource/font/css/font-awesome.min.css" rel="stylesheet" />
+<link href="http://www.tpshop.cn/admin/resource/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="http://www.tpshop.cn/data/resource/js/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">html, body { overflow: visible;}</style>
+<script type="text/javascript">
+var SITEURL = 'http://www.tpshop.cn/shop';
+var MEMBER_SITE_URL = 'http://www.tpshop.cn/member';
+var RESOURCE_SITE_URL = 'http://www.tpshop.cn/data/resource';
+var MICROSHOP_SITE_URL = 'http://www.tpshop.cn/microshop';
+var CIRCLE_SITE_URL = 'http://www.tpshop.cn/circle';
+var ADMIN_TEMPLATES_URL = 'http://www.tpshop.cn/admin/templates/default';
+var LOADING_IMAGE = "http://www.tpshop.cn/admin/templates/default/images/loading.gif";
+var ADMIN_RESOURCE_URL = 'http://www.tpshop.cn/admin/resource';
+</script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery-ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/admin.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/dialog/dialog.js" id="dialog_js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/flexigrid.js"></script>
+
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/common.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/jquery.mousewheel.js"></script>
+</head>
+<body style="background-color: #FFF; overflow: auto;">
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery.picTip.js"></script>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<script type="text/javascript">
+var SHOP_SITE_URL = "http://www.tpshop.cn/shop";
+var UPLOAD_SITE_URL = "http://www.tpshop.cn/data/upload";
+</script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>首页管理</h3>
+        <h5>商城首页模板及广告设计</h5>
+      </div>
+      <ul class="tab-base nc-row">
+		<li><a href="{:U('Web/floorList')}"><span>板块区</span></a></li>
+		<li><a href="{:U('Web/editFocus')}"><span>焦点区</span></a></li>
+		<li><a href="{:U('Web/editPromotion')}" class="current"><span>促销区</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>最多可以加五组，每组五个商品。</li>
+      <li>所有相关设置完成，使用底部的“更新板块内容”前台展示页面才会变化。</li>
+    </ul>
+  </div>
+  <form id="sale_list_form" method="post" name="form1">
+    <input type="hidden" name="web_id" value="121">
+    <input type="hidden" name="code_id" value="121">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">促销区布局块预览</dt>
+        <dd class="opt sale-layout">
+                              <dl sale_id="5">
+            <dt class="title">
+              <h4>新品上架</h4>
+              <input name="sale_list[5][recommend][name]" value="新品上架" type="hidden">
+              <a href="JavaScript:del_sale_list(5);" class="ncap-btn-mini del"><i class="fa fa-trash"></i>删除</a><a href="JavaScript:show_sale_dialog(5);" class="ncap-btn-mini edit"><i class="fa fa-pencil-square-o"></i>编辑</a> </dt>
+            <dd>
+              <ul>
+                                                <li>
+                  <div class="goods-thumb"><img title="爵爷商务皮鞋 秋款男士正装 前系带 金属尖头低帮单鞋 黑色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05000683915287946_240.jpg"/></div>
+                  <input name="sale_list[5][goods_list][102592][goods_id]" value="102592" type="hidden">
+                  <input name="sale_list[5][goods_list][102592][market_price]" value="" type="hidden">
+                  <input name="sale_list[5][goods_list][102592][goods_name]" value="爵爷商务皮鞋 秋款男士正装 前系带 金属尖头低帮单鞋 黑色 38" type="hidden">
+                  <input name="sale_list[5][goods_list][102592][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102592][goods_pic]" value="shop/store/goods/16/16_05000683915287946_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="纯色透气圆头单鞋男真皮方跟低帮鞋前系带男士皮鞋 棕色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05003068354931461_240.jpg"/></div>
+                  <input name="sale_list[5][goods_list][102700][goods_id]" value="102700" type="hidden">
+                  <input name="sale_list[5][goods_list][102700][market_price]" value="" type="hidden">
+                  <input name="sale_list[5][goods_list][102700][goods_name]" value="纯色透气圆头单鞋男真皮方跟低帮鞋前系带男士皮鞋 棕色 38" type="hidden">
+                  <input name="sale_list[5][goods_list][102700][goods_price]" value="88.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102700][goods_pic]" value="shop/store/goods/16/16_05003068354931461_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="优质超纤皮男鞋纯色前系带尖头低帮皮鞋 棕色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05002911543965426_240.jpg"/></div>
+                  <input name="sale_list[5][goods_list][102649][goods_id]" value="102649" type="hidden">
+                  <input name="sale_list[5][goods_list][102649][market_price]" value="" type="hidden">
+                  <input name="sale_list[5][goods_list][102649][goods_name]" value="优质超纤皮男鞋纯色前系带尖头低帮皮鞋 棕色 38" type="hidden">
+                  <input name="sale_list[5][goods_list][102649][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102649][goods_pic]" value="shop/store/goods/16/16_05002911543965426_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="爵爷2015春秋商务正装男士皮鞋透气超纤皮男鞋 黑色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05003062100708546_240.jpg"/></div>
+                  <input name="sale_list[5][goods_list][102688][goods_id]" value="102688" type="hidden">
+                  <input name="sale_list[5][goods_list][102688][market_price]" value="" type="hidden">
+                  <input name="sale_list[5][goods_list][102688][goods_name]" value="爵爷2015春秋商务正装男士皮鞋透气超纤皮男鞋 黑色 38" type="hidden">
+                  <input name="sale_list[5][goods_list][102688][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102688][goods_pic]" value="shop/store/goods/16/16_05003062100708546_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="日常休闲鞋男士豆豆鞋驾车真皮男鞋英伦皮鞋 黄色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05001210537684207_240.jpg"/></div>
+                  <input name="sale_list[5][goods_list][102604][goods_id]" value="102604" type="hidden">
+                  <input name="sale_list[5][goods_list][102604][market_price]" value="168.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102604][goods_name]" value="日常休闲鞋男士豆豆鞋驾车真皮男鞋英伦皮鞋 黄色 38" type="hidden">
+                  <input name="sale_list[5][goods_list][102604][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[5][goods_list][102604][goods_pic]" value="shop/store/goods/16/16_05001210537684207_240.jpg" type="hidden">
+                </li>
+                                              </ul>
+            </dd>
+          </dl>
+                    <dl sale_id="3">
+            <dt class="title">
+              <h4>热卖商品</h4>
+              <input name="sale_list[3][recommend][name]" value="热卖商品" type="hidden">
+              <a href="JavaScript:del_sale_list(3);" class="ncap-btn-mini del"><i class="fa fa-trash"></i>删除</a><a href="JavaScript:show_sale_dialog(3);" class="ncap-btn-mini edit"><i class="fa fa-pencil-square-o"></i>编辑</a> </dt>
+            <dd>
+              <ul>
+                                                <li>
+                  <div class="goods-thumb"><img title="冬装男装立领 男式纯棉T恤男士加厚加绒保暖打底衫 白色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999727187217105_240.png"/></div>
+                  <input name="sale_list[3][goods_list][102020][goods_id]" value="102020" type="hidden">
+                  <input name="sale_list[3][goods_list][102020][market_price]" value="" type="hidden">
+                  <input name="sale_list[3][goods_list][102020][goods_name]" value="冬装男装立领 男式纯棉T恤男士加厚加绒保暖打底衫 白色 M" type="hidden">
+                  <input name="sale_list[3][goods_list][102020][goods_price]" value="73.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102020][goods_pic]" value="shop/store/goods/15/15_04999727187217105_240.png" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015秋新款男装男式牛仔裤男休闲商务长裤子韩版修身直筒 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999963827312369_240.jpg"/></div>
+                  <input name="sale_list[3][goods_list][102165][goods_id]" value="102165" type="hidden">
+                  <input name="sale_list[3][goods_list][102165][market_price]" value="" type="hidden">
+                  <input name="sale_list[3][goods_list][102165][goods_name]" value="2015秋新款男装男式牛仔裤男休闲商务长裤子韩版修身直筒 图片色 28" type="hidden">
+                  <input name="sale_list[3][goods_list][102165][goods_price]" value="81.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102165][goods_pic]" value="shop/store/goods/15/15_04999963827312369_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015秋冬新款韩版女羽绒棉服女立领修身显瘦棉衣短款棉服外套 红色 L" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999931964380007_240.jpg"/></div>
+                  <input name="sale_list[3][goods_list][102126][goods_id]" value="102126" type="hidden">
+                  <input name="sale_list[3][goods_list][102126][market_price]" value="163.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102126][goods_name]" value="2015秋冬新款韩版女羽绒棉服女立领修身显瘦棉衣短款棉服外套 红色 L" type="hidden">
+                  <input name="sale_list[3][goods_list][102126][goods_price]" value="103.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102126][goods_pic]" value="shop/store/goods/12/12_04999931964380007_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="新款女装韩版修身A字斗篷棉衣加厚保暖短外套大毛领连帽羽绒棉服 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999920485539383_240.jpg"/></div>
+                  <input name="sale_list[3][goods_list][102070][goods_id]" value="102070" type="hidden">
+                  <input name="sale_list[3][goods_list][102070][market_price]" value="188.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102070][goods_name]" value="新款女装韩版修身A字斗篷棉衣加厚保暖短外套大毛领连帽羽绒棉服 蓝色 M" type="hidden">
+                  <input name="sale_list[3][goods_list][102070][goods_price]" value="118.00" type="hidden">
+                  <input name="sale_list[3][goods_list][102070][goods_pic]" value="shop/store/goods/12/12_04999920485539383_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015秋冬新款女装女式韩版修身短款棉衣棉服羽绒棉衣女 粉色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999938698283696_240.png"/></div>
+                  <input name="sale_list[3][goods_list][101680][goods_id]" value="101680" type="hidden">
+                  <input name="sale_list[3][goods_list][101680][market_price]" value="162.00" type="hidden">
+                  <input name="sale_list[3][goods_list][101680][goods_name]" value="2015秋冬新款女装女式韩版修身短款棉衣棉服羽绒棉衣女 粉色 M" type="hidden">
+                  <input name="sale_list[3][goods_list][101680][goods_price]" value="112.00" type="hidden">
+                  <input name="sale_list[3][goods_list][101680][goods_pic]" value="shop/store/goods/12/12_04999938698283696_240.png" type="hidden">
+                </li>
+                                              </ul>
+            </dd>
+          </dl>
+                    <dl sale_id="1">
+            <dt class="title">
+              <h4>疯狂抢购</h4>
+              <input name="sale_list[1][recommend][name]" value="疯狂抢购" type="hidden">
+              <a href="JavaScript:del_sale_list(1);" class="ncap-btn-mini del"><i class="fa fa-trash"></i>删除</a><a href="JavaScript:show_sale_dialog(1);" class="ncap-btn-mini edit"><i class="fa fa-pencil-square-o"></i>编辑</a> </dt>
+            <dd>
+              <ul>
+                                                <li>
+                  <div class="goods-thumb"><img title="2015冬季新款棉衣女修身大码羽绒棉服女士短款韩版连帽冬季防寒服 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_039f2d0f136e6927e9cfa6fff35e077_240.jpg"/></div>
+                  <input name="sale_list[1][goods_list][101559][goods_id]" value="101559" type="hidden">
+                  <input name="sale_list[1][goods_list][101559][market_price]" value="118.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101559][goods_name]" value="2015冬季新款棉衣女修身大码羽绒棉服女士短款韩版连帽冬季防寒服 蓝色 M" type="hidden">
+                  <input name="sale_list[1][goods_list][101559][goods_price]" value="88.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101559][goods_pic]" value="shop/store/goods/12/12_039f2d0f136e6927e9cfa6fff35e077_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015新款冬装棉衣外套女中长款大码加厚毛领羽绒棉服韩版修身棉袄 粉色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_cc322b39c176a5ae261b62795d46258_240.jpg"/></div>
+                  <input name="sale_list[1][goods_list][101598][goods_id]" value="101598" type="hidden">
+                  <input name="sale_list[1][goods_list][101598][market_price]" value="169.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101598][goods_name]" value="2015新款冬装棉衣外套女中长款大码加厚毛领羽绒棉服韩版修身棉袄 粉色 M" type="hidden">
+                  <input name="sale_list[1][goods_list][101598][goods_price]" value="119.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101598][goods_pic]" value="shop/store/goods/12/12_cc322b39c176a5ae261b62795d46258_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015夏季新款鱼嘴凉鞋超高跟防水台夜店鞋透气网纱粗跟女鞋 粉色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/6/6_04847714326505496_240.jpg"/></div>
+                  <input name="sale_list[1][goods_list][101429][goods_id]" value="101429" type="hidden">
+                  <input name="sale_list[1][goods_list][101429][market_price]" value="138.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101429][goods_name]" value="2015夏季新款鱼嘴凉鞋超高跟防水台夜店鞋透气网纱粗跟女鞋 粉色 34" type="hidden">
+                  <input name="sale_list[1][goods_list][101429][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[1][goods_list][101429][goods_pic]" value="shop/store/goods/6/6_04847714326505496_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="秋冬季时尚单鞋 糖果色亮面浅口细跟职业女鞋 漆皮镜面尖头高跟鞋 白色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/17/17_05000574018138552_240.jpg"/></div>
+                  <input name="sale_list[1][goods_list][102433][goods_id]" value="102433" type="hidden">
+                  <input name="sale_list[1][goods_list][102433][market_price]" value="199.00" type="hidden">
+                  <input name="sale_list[1][goods_list][102433][goods_name]" value="秋冬季时尚单鞋 糖果色亮面浅口细跟职业女鞋 漆皮镜面尖头高跟鞋 白色 34" type="hidden">
+                  <input name="sale_list[1][goods_list][102433][goods_price]" value="119.00" type="hidden">
+                  <input name="sale_list[1][goods_list][102433][goods_pic]" value="shop/store/goods/17/17_05000574018138552_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="秋季新款糖果色细跟单鞋 浅口真皮尖头高跟鞋 杏色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/17/17_05000548082598798_240.jpg"/></div>
+                  <input name="sale_list[1][goods_list][102265][goods_id]" value="102265" type="hidden">
+                  <input name="sale_list[1][goods_list][102265][market_price]" value="199.00" type="hidden">
+                  <input name="sale_list[1][goods_list][102265][goods_name]" value="秋季新款糖果色细跟单鞋 浅口真皮尖头高跟鞋 杏色 34" type="hidden">
+                  <input name="sale_list[1][goods_list][102265][goods_price]" value="119.00" type="hidden">
+                  <input name="sale_list[1][goods_list][102265][goods_pic]" value="shop/store/goods/17/17_05000548082598798_240.jpg" type="hidden">
+                </li>
+                                              </ul>
+            </dd>
+          </dl>
+                    <dl sale_id="2">
+            <dt class="title">
+              <h4>猜您喜欢</h4>
+              <input name="sale_list[2][recommend][name]" value="猜您喜欢" type="hidden">
+              <a href="JavaScript:del_sale_list(2);" class="ncap-btn-mini del"><i class="fa fa-trash"></i>删除</a><a href="JavaScript:show_sale_dialog(2);" class="ncap-btn-mini edit"><i class="fa fa-pencil-square-o"></i>编辑</a> </dt>
+            <dd>
+              <ul>
+                                                <li>
+                  <div class="goods-thumb"><img title="酷迪璐新品男式夹克外套男士pu皮衣韩版休闲绒布接男装 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011806114146918_240.jpg"/></div>
+                  <input name="sale_list[2][goods_list][102865][goods_id]" value="102865" type="hidden">
+                  <input name="sale_list[2][goods_list][102865][market_price]" value="188.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102865][goods_name]" value="酷迪璐新品男式夹克外套男士pu皮衣韩版休闲绒布接男装 蓝色 M" type="hidden">
+                  <input name="sale_list[2][goods_list][102865][goods_price]" value="128.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102865][goods_pic]" value="shop/store/goods/18/18_05011806114146918_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015新款保暖加绒修身衬衫 白色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011800162520471_240.jpg"/></div>
+                  <input name="sale_list[2][goods_list][102835][goods_id]" value="102835" type="hidden">
+                  <input name="sale_list[2][goods_list][102835][market_price]" value="198.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102835][goods_name]" value="2015新款保暖加绒修身衬衫 白色 M" type="hidden">
+                  <input name="sale_list[2][goods_list][102835][goods_price]" value="98.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102835][goods_pic]" value="shop/store/goods/18/18_05011800162520471_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="酷迪璐冬装男士加棉加厚长袖衬衫格子夹克衬衫 灰色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011789584196803_240.jpg"/></div>
+                  <input name="sale_list[2][goods_list][102805][goods_id]" value="102805" type="hidden">
+                  <input name="sale_list[2][goods_list][102805][market_price]" value="198.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102805][goods_name]" value="酷迪璐冬装男士加棉加厚长袖衬衫格子夹克衬衫 灰色 M" type="hidden">
+                  <input name="sale_list[2][goods_list][102805][goods_price]" value="108.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102805][goods_pic]" value="shop/store/goods/18/18_05011789584196803_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015新款秋冬男式PU皮夹克外贸 海宁男士立领休闲修身外套 黑色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011764627052815_240.jpg"/></div>
+                  <input name="sale_list[2][goods_list][102751][goods_id]" value="102751" type="hidden">
+                  <input name="sale_list[2][goods_list][102751][market_price]" value="308.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102751][goods_name]" value="2015新款秋冬男式PU皮夹克外贸 海宁男士立领休闲修身外套 黑色 M" type="hidden">
+                  <input name="sale_list[2][goods_list][102751][goods_price]" value="158.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102751][goods_pic]" value="shop/store/goods/18/18_05011764627052815_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015秋冬新款 全棉男式牛仔裤直筒型 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_05002060806639307_240.jpg"/></div>
+                  <input name="sale_list[2][goods_list][102633][goods_id]" value="102633" type="hidden">
+                  <input name="sale_list[2][goods_list][102633][market_price]" value="139.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102633][goods_name]" value="2015秋冬新款 全棉男式牛仔裤直筒型 图片色 28" type="hidden">
+                  <input name="sale_list[2][goods_list][102633][goods_price]" value="89.00" type="hidden">
+                  <input name="sale_list[2][goods_list][102633][goods_pic]" value="shop/store/goods/15/15_05002060806639307_240.jpg" type="hidden">
+                </li>
+                                              </ul>
+            </dd>
+          </dl>
+                    <dl sale_id="4">
+            <dt class="title">
+              <h4>热评商品</h4>
+              <input name="sale_list[4][recommend][name]" value="热评商品" type="hidden">
+              <a href="JavaScript:del_sale_list(4);" class="ncap-btn-mini del"><i class="fa fa-trash"></i>删除</a><a href="JavaScript:show_sale_dialog(4);" class="ncap-btn-mini edit"><i class="fa fa-pencil-square-o"></i>编辑</a> </dt>
+            <dd>
+              <ul>
+                                                <li>
+                  <div class="goods-thumb"><img title="韩版品牌直筒修身牛仔裤 秋冬男士长裤休闲牛仔裤 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999958412070501_240.jpg"/></div>
+                  <input name="sale_list[4][goods_list][102150][goods_id]" value="102150" type="hidden">
+                  <input name="sale_list[4][goods_list][102150][market_price]" value="132.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102150][goods_name]" value="韩版品牌直筒修身牛仔裤 秋冬男士长裤休闲牛仔裤 图片色 28" type="hidden">
+                  <input name="sale_list[4][goods_list][102150][goods_price]" value="82.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102150][goods_pic]" value="shop/store/goods/15/15_04999958412070501_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="冬装男装爆款 男式纯棉T恤男士加厚加绒保暖打底衫 黑色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999724012252809_240.jpg"/></div>
+                  <input name="sale_list[4][goods_list][102005][goods_id]" value="102005" type="hidden">
+                  <input name="sale_list[4][goods_list][102005][market_price]" value="129.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102005][goods_name]" value="冬装男装爆款 男式纯棉T恤男士加厚加绒保暖打底衫 黑色 M" type="hidden">
+                  <input name="sale_list[4][goods_list][102005][goods_price]" value="69.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102005][goods_pic]" value="shop/store/goods/15/15_04999724012252809_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015冬款新品 男式拼接长袖加厚加绒保暖V领T恤男装不倒绒 酒红 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999707884947293_240.jpg"/></div>
+                  <input name="sale_list[4][goods_list][101930][goods_id]" value="101930" type="hidden">
+                  <input name="sale_list[4][goods_list][101930][market_price]" value="125.00" type="hidden">
+                  <input name="sale_list[4][goods_list][101930][goods_name]" value="2015冬款新品 男式拼接长袖加厚加绒保暖V领T恤男装不倒绒 酒红 M" type="hidden">
+                  <input name="sale_list[4][goods_list][101930][goods_price]" value="65.00" type="hidden">
+                  <input name="sale_list[4][goods_list][101930][goods_pic]" value="shop/store/goods/15/15_04999707884947293_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="2015秋季新款男士长袖t恤潮纯棉秋长袖修身韩版青年体恤运动小衫 白拼枣红 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999618551849829_240.jpg"/></div>
+                  <input name="sale_list[4][goods_list][101807][goods_id]" value="101807" type="hidden">
+                  <input name="sale_list[4][goods_list][101807][market_price]" value="135.00" type="hidden">
+                  <input name="sale_list[4][goods_list][101807][goods_name]" value="2015秋季新款男士长袖t恤潮纯棉秋长袖修身韩版青年体恤运动小衫 白拼枣红 M" type="hidden">
+                  <input name="sale_list[4][goods_list][101807][goods_price]" value="65.00" type="hidden">
+                  <input name="sale_list[4][goods_list][101807][goods_pic]" value="shop/store/goods/15/15_04999618551849829_240.jpg" type="hidden">
+                </li>
+                                <li>
+                  <div class="goods-thumb"><img title="品牌男装牛仔裤纯棉商务男裤男式牛仔裤 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999961053663021_240.jpg"/></div>
+                  <input name="sale_list[4][goods_list][102157][goods_id]" value="102157" type="hidden">
+                  <input name="sale_list[4][goods_list][102157][market_price]" value="159.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102157][goods_name]" value="品牌男装牛仔裤纯棉商务男裤男式牛仔裤 图片色 28" type="hidden">
+                  <input name="sale_list[4][goods_list][102157][goods_price]" value="89.00" type="hidden">
+                  <input name="sale_list[4][goods_list][102157][goods_pic]" value="shop/store/goods/15/15_04999961053663021_240.jpg" type="hidden">
+                </li>
+                                              </ul>
+            </dd>
+          </dl>
+                              <div class="clear" id="add_list"></div>
+          <div class="add-sale"><a class="ncap-btn" href="JavaScript:add_sale_list();">新增商品推荐模块</a></div>
+        </dd>
+      </dl>
+      <div class="bot"><a href="index.php?act=web_config&op=html_update&web_id=121" class="ncap-btn-big ncap-btn-green">更新板块内容</a></div>
+    </div>
+  </form>
+</div>
+
+<!-- 促销区商品推荐模块 -->
+
+<div id="sale_list_dialog" style="display:none;">
+  <div class="s-tips"><i></i>小提示：单击查询出的商品选中，双击已选择的可以删除，最多5个，保存后生效。</div>
+      <div class="ncap-form-default" select_sale_id="5">
+    <dl class="row">
+      <dt class="tit">商品推荐模块标题名称</dt>
+      <dd class="opt">
+        <input name="sale_list[5][recommend][name]" value="新品上架" type="text" class="w200">
+        <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+      </dd>
+    </dl>
+  </div>
+  <div class="ncap-form-all" select_sale_id="5">
+    <dl class="row">
+      <dt class="tit">已选商品</dt>
+      <dd class="opt">
+        <ul class="dialog-goodslist-s1 goods-list">
+                              <li>
+            <div onDblClick="del_sale_goods(102592);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102592);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102592"
+                title="爵爷商务皮鞋 秋款男士正装 前系带 金属尖头低帮单鞋 黑色 38" goods_name="爵爷商务皮鞋 秋款男士正装 前系带 金属尖头低帮单鞋 黑色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05000683915287946_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102592" target="_blank">爵爷商务皮鞋 秋款男士正装 前系带 金属尖头低帮单鞋 黑色 38</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102700);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102700);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102700"
+                title="纯色透气圆头单鞋男真皮方跟低帮鞋前系带男士皮鞋 棕色 38" goods_name="纯色透气圆头单鞋男真皮方跟低帮鞋前系带男士皮鞋 棕色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05003068354931461_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="88.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102700" target="_blank">纯色透气圆头单鞋男真皮方跟低帮鞋前系带男士皮鞋 棕色 38</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102649);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102649);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102649"
+                title="优质超纤皮男鞋纯色前系带尖头低帮皮鞋 棕色 38" goods_name="优质超纤皮男鞋纯色前系带尖头低帮皮鞋 棕色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05002911543965426_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102649" target="_blank">优质超纤皮男鞋纯色前系带尖头低帮皮鞋 棕色 38</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102688);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102688);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102688"
+                title="爵爷2015春秋商务正装男士皮鞋透气超纤皮男鞋 黑色 38" goods_name="爵爷2015春秋商务正装男士皮鞋透气超纤皮男鞋 黑色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05003062100708546_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102688" target="_blank">爵爷2015春秋商务正装男士皮鞋透气超纤皮男鞋 黑色 38</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102604);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102604);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102604"
+                title="日常休闲鞋男士豆豆鞋驾车真皮男鞋英伦皮鞋 黄色 38" goods_name="日常休闲鞋男士豆豆鞋驾车真皮男鞋英伦皮鞋 黄色 38" src="http://www.tpshop.cn/data/upload/shop/store/goods/16/16_05001210537684207_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102604" target="_blank">日常休闲鞋男士豆豆鞋驾车真皮男鞋英伦皮鞋 黄色 38</a></div>
+          </li>
+                            </ul>
+      </dd>
+    </dl>
+  </div>
+    <div class="ncap-form-default" select_sale_id="3">
+    <dl class="row">
+      <dt class="tit">商品推荐模块标题名称</dt>
+      <dd class="opt">
+        <input name="sale_list[3][recommend][name]" value="热卖商品" type="text" class="w200">
+        <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+      </dd>
+    </dl>
+  </div>
+  <div class="ncap-form-all" select_sale_id="3">
+    <dl class="row">
+      <dt class="tit">已选商品</dt>
+      <dd class="opt">
+        <ul class="dialog-goodslist-s1 goods-list">
+                              <li>
+            <div onDblClick="del_sale_goods(102020);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102020);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102020"
+                title="冬装男装立领 男式纯棉T恤男士加厚加绒保暖打底衫 白色 M" goods_name="冬装男装立领 男式纯棉T恤男士加厚加绒保暖打底衫 白色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999727187217105_240.png"
+                onload="javascript:DrawImage(this,72,72);" goods_price="73.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102020" target="_blank">冬装男装立领 男式纯棉T恤男士加厚加绒保暖打底衫 白色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102165);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102165);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102165"
+                title="2015秋新款男装男式牛仔裤男休闲商务长裤子韩版修身直筒 图片色 28" goods_name="2015秋新款男装男式牛仔裤男休闲商务长裤子韩版修身直筒 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999963827312369_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="81.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102165" target="_blank">2015秋新款男装男式牛仔裤男休闲商务长裤子韩版修身直筒 图片色 28</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102126);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102126);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102126"
+                title="2015秋冬新款韩版女羽绒棉服女立领修身显瘦棉衣短款棉服外套 红色 L" goods_name="2015秋冬新款韩版女羽绒棉服女立领修身显瘦棉衣短款棉服外套 红色 L" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999931964380007_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="103.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102126" target="_blank">2015秋冬新款韩版女羽绒棉服女立领修身显瘦棉衣短款棉服外套 红色 L</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102070);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102070);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102070"
+                title="新款女装韩版修身A字斗篷棉衣加厚保暖短外套大毛领连帽羽绒棉服 蓝色 M" goods_name="新款女装韩版修身A字斗篷棉衣加厚保暖短外套大毛领连帽羽绒棉服 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999920485539383_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="118.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102070" target="_blank">新款女装韩版修身A字斗篷棉衣加厚保暖短外套大毛领连帽羽绒棉服 蓝色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(101680);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101680);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101680"
+                title="2015秋冬新款女装女式韩版修身短款棉衣棉服羽绒棉衣女 粉色 M" goods_name="2015秋冬新款女装女式韩版修身短款棉衣棉服羽绒棉衣女 粉色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_04999938698283696_240.png"
+                onload="javascript:DrawImage(this,72,72);" goods_price="112.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101680" target="_blank">2015秋冬新款女装女式韩版修身短款棉衣棉服羽绒棉衣女 粉色 M</a></div>
+          </li>
+                            </ul>
+      </dd>
+    </dl>
+  </div>
+    <div class="ncap-form-default" select_sale_id="1">
+    <dl class="row">
+      <dt class="tit">商品推荐模块标题名称</dt>
+      <dd class="opt">
+        <input name="sale_list[1][recommend][name]" value="疯狂抢购" type="text" class="w200">
+        <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+      </dd>
+    </dl>
+  </div>
+  <div class="ncap-form-all" select_sale_id="1">
+    <dl class="row">
+      <dt class="tit">已选商品</dt>
+      <dd class="opt">
+        <ul class="dialog-goodslist-s1 goods-list">
+                              <li>
+            <div onDblClick="del_sale_goods(101559);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101559);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101559"
+                title="2015冬季新款棉衣女修身大码羽绒棉服女士短款韩版连帽冬季防寒服 蓝色 M" goods_name="2015冬季新款棉衣女修身大码羽绒棉服女士短款韩版连帽冬季防寒服 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_039f2d0f136e6927e9cfa6fff35e077_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="88.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101559" target="_blank">2015冬季新款棉衣女修身大码羽绒棉服女士短款韩版连帽冬季防寒服 蓝色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(101598);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101598);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101598"
+                title="2015新款冬装棉衣外套女中长款大码加厚毛领羽绒棉服韩版修身棉袄 粉色 M" goods_name="2015新款冬装棉衣外套女中长款大码加厚毛领羽绒棉服韩版修身棉袄 粉色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/12/12_cc322b39c176a5ae261b62795d46258_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="119.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101598" target="_blank">2015新款冬装棉衣外套女中长款大码加厚毛领羽绒棉服韩版修身棉袄 粉色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(101429);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101429);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101429"
+                title="2015夏季新款鱼嘴凉鞋超高跟防水台夜店鞋透气网纱粗跟女鞋 粉色 34" goods_name="2015夏季新款鱼嘴凉鞋超高跟防水台夜店鞋透气网纱粗跟女鞋 粉色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/6/6_04847714326505496_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101429" target="_blank">2015夏季新款鱼嘴凉鞋超高跟防水台夜店鞋透气网纱粗跟女鞋 粉色 34</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102433);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102433);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102433"
+                title="秋冬季时尚单鞋 糖果色亮面浅口细跟职业女鞋 漆皮镜面尖头高跟鞋 白色 34" goods_name="秋冬季时尚单鞋 糖果色亮面浅口细跟职业女鞋 漆皮镜面尖头高跟鞋 白色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/17/17_05000574018138552_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="119.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102433" target="_blank">秋冬季时尚单鞋 糖果色亮面浅口细跟职业女鞋 漆皮镜面尖头高跟鞋 白色 34</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102265);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102265);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102265"
+                title="秋季新款糖果色细跟单鞋 浅口真皮尖头高跟鞋 杏色 34" goods_name="秋季新款糖果色细跟单鞋 浅口真皮尖头高跟鞋 杏色 34" src="http://www.tpshop.cn/data/upload/shop/store/goods/17/17_05000548082598798_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="119.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102265" target="_blank">秋季新款糖果色细跟单鞋 浅口真皮尖头高跟鞋 杏色 34</a></div>
+          </li>
+                            </ul>
+      </dd>
+    </dl>
+  </div>
+    <div class="ncap-form-default" select_sale_id="2">
+    <dl class="row">
+      <dt class="tit">商品推荐模块标题名称</dt>
+      <dd class="opt">
+        <input name="sale_list[2][recommend][name]" value="猜您喜欢" type="text" class="w200">
+        <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+      </dd>
+    </dl>
+  </div>
+  <div class="ncap-form-all" select_sale_id="2">
+    <dl class="row">
+      <dt class="tit">已选商品</dt>
+      <dd class="opt">
+        <ul class="dialog-goodslist-s1 goods-list">
+                              <li>
+            <div onDblClick="del_sale_goods(102865);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102865);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102865"
+                title="酷迪璐新品男式夹克外套男士pu皮衣韩版休闲绒布接男装 蓝色 M" goods_name="酷迪璐新品男式夹克外套男士pu皮衣韩版休闲绒布接男装 蓝色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011806114146918_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="128.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102865" target="_blank">酷迪璐新品男式夹克外套男士pu皮衣韩版休闲绒布接男装 蓝色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102835);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102835);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102835"
+                title="2015新款保暖加绒修身衬衫 白色 M" goods_name="2015新款保暖加绒修身衬衫 白色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011800162520471_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="98.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102835" target="_blank">2015新款保暖加绒修身衬衫 白色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102805);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102805);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102805"
+                title="酷迪璐冬装男士加棉加厚长袖衬衫格子夹克衬衫 灰色 M" goods_name="酷迪璐冬装男士加棉加厚长袖衬衫格子夹克衬衫 灰色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011789584196803_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="108.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102805" target="_blank">酷迪璐冬装男士加棉加厚长袖衬衫格子夹克衬衫 灰色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102751);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102751);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102751"
+                title="2015新款秋冬男式PU皮夹克外贸 海宁男士立领休闲修身外套 黑色 M" goods_name="2015新款秋冬男式PU皮夹克外贸 海宁男士立领休闲修身外套 黑色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/18/18_05011764627052815_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="158.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102751" target="_blank">2015新款秋冬男式PU皮夹克外贸 海宁男士立领休闲修身外套 黑色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102633);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102633);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102633"
+                title="2015秋冬新款 全棉男式牛仔裤直筒型 图片色 28" goods_name="2015秋冬新款 全棉男式牛仔裤直筒型 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_05002060806639307_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="89.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102633" target="_blank">2015秋冬新款 全棉男式牛仔裤直筒型 图片色 28</a></div>
+          </li>
+                            </ul>
+      </dd>
+    </dl>
+  </div>
+    <div class="ncap-form-default" select_sale_id="4">
+    <dl class="row">
+      <dt class="tit">商品推荐模块标题名称</dt>
+      <dd class="opt">
+        <input name="sale_list[4][recommend][name]" value="热评商品" type="text" class="w200">
+        <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+      </dd>
+    </dl>
+  </div>
+  <div class="ncap-form-all" select_sale_id="4">
+    <dl class="row">
+      <dt class="tit">已选商品</dt>
+      <dd class="opt">
+        <ul class="dialog-goodslist-s1 goods-list">
+                              <li>
+            <div onDblClick="del_sale_goods(102150);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102150);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102150"
+                title="韩版品牌直筒修身牛仔裤 秋冬男士长裤休闲牛仔裤 图片色 28" goods_name="韩版品牌直筒修身牛仔裤 秋冬男士长裤休闲牛仔裤 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999958412070501_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="82.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102150" target="_blank">韩版品牌直筒修身牛仔裤 秋冬男士长裤休闲牛仔裤 图片色 28</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102005);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102005);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102005"
+                title="冬装男装爆款 男式纯棉T恤男士加厚加绒保暖打底衫 黑色 M" goods_name="冬装男装爆款 男式纯棉T恤男士加厚加绒保暖打底衫 黑色 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999724012252809_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="69.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102005" target="_blank">冬装男装爆款 男式纯棉T恤男士加厚加绒保暖打底衫 黑色 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(101930);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101930);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101930"
+                title="2015冬款新品 男式拼接长袖加厚加绒保暖V领T恤男装不倒绒 酒红 M" goods_name="2015冬款新品 男式拼接长袖加厚加绒保暖V领T恤男装不倒绒 酒红 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999707884947293_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="65.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101930" target="_blank">2015冬款新品 男式拼接长袖加厚加绒保暖V领T恤男装不倒绒 酒红 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(101807);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(101807);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="101807"
+                title="2015秋季新款男士长袖t恤潮纯棉秋长袖修身韩版青年体恤运动小衫 白拼枣红 M" goods_name="2015秋季新款男士长袖t恤潮纯棉秋长袖修身韩版青年体恤运动小衫 白拼枣红 M" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999618551849829_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="65.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=101807" target="_blank">2015秋季新款男士长袖t恤潮纯棉秋长袖修身韩版青年体恤运动小衫 白拼枣红 M</a></div>
+          </li>
+                    <li>
+            <div onDblClick="del_sale_goods(102157);" class="goods-pic"> <span class="ac-ico" onClick="del_sale_goods(102157);"></span> <span class="thumb size-72x72"><i></i><img select_goods_id="102157"
+                title="品牌男装牛仔裤纯棉商务男裤男式牛仔裤 图片色 28" goods_name="品牌男装牛仔裤纯棉商务男裤男式牛仔裤 图片色 28" src="http://www.tpshop.cn/data/upload/shop/store/goods/15/15_04999961053663021_240.jpg"
+                onload="javascript:DrawImage(this,72,72);" goods_price="89.00" market_price="" /></span></div>
+            <div class="goods-name"><a href="http://www.tpshop.cn/shop/index.php?act=goods&goods_id=102157" target="_blank">品牌男装牛仔裤纯棉商务男裤男式牛仔裤 图片色 28</a></div>
+          </li>
+                            </ul>
+      </dd>
+    </dl>
+  </div>
+      <div id="select_sale_list" style="display:none;"></div>
+  <div class="ncap-form-all">
+    <dl class="row">
+      <dt class="tit">选择要展示的推荐商品</dt>
+      <dd class="opt">
+        <div class="search-bar" id="gcategory">
+          <label>排序
+            <select name="goods_order" id="goods_order">
+              <option value="goods_salenum" selected>出售数量</option>
+              <option value="goods_click" >浏览数量</option>
+              <option value="evaluation_count" >评论数量</option>
+              <option value="goods_collect" >收藏数量</option>
+            </select>
+          </label>
+          分类
+          <input type="hidden" id="cate_id" name="cate_id" value="0" class="mls_id" />
+          <input type="hidden" id="cate_name" name="cate_name" value="" class="mls_names" />
+          <select>
+            <option value="0">-请选择-</option>
+                                    <option value="1">服饰鞋帽</option>
+                        <option value="2">礼品箱包</option>
+                        <option value="3">家居家装</option>
+                        <option value="256">数码办公</option>
+                        <option value="308">家用电器</option>
+                        <option value="470">个护化妆</option>
+                        <option value="530">珠宝手表</option>
+                        <option value="593">食品饮料</option>
+                        <option value="662">运动健康</option>
+                        <option value="730">汽车用品</option>
+                        <option value="825">玩具乐器</option>
+                        <option value="888">厨具</option>
+                        <option value="959">母婴用品</option>
+                        <option value="1037">虚拟充值</option>
+                                  </select>
+          <input type="text" value="" name="order_goods_name" id="order_goods_name" placeholder="输入商品名称或SKU编号" class="txt 150">
+          <a href="JavaScript:void(0);" onClick="get_goods_list();" class="ncap-btn">查询</a></div>
+      </dd>
+    </dl>
+    <div id="show_sale_goods_list"></div>
+  </div>
+  <div class="bot"><a href="JavaScript:void(0);" onClick="update_sale();" class="ncap-btn-big ncap-btn-green"><span>保存</span></a></div>
+</div>
+<script src="http://www.tpshop.cn/admin/resource/js/jquery.ajaxContent.pack.js"></script>
+<script src="http://www.tpshop.cn/data/resource/js/common_select.js"></script>
+<script src="http://www.tpshop.cn/data/resource/js/waypoints.js"></script>
+<script src="http://www.tpshop.cn/admin/resource/js/web_index.js"></script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

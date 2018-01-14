@@ -1,0 +1,344 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+<div class="fixed-bar">
+  <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+    <div class="subject">
+      <h3>投诉管理</h3>
+      <h5>商城对商品交易投诉管理及仲裁</h5>
+    </div>
+  </div>
+</div>
+<div class="ncap-order-style">
+  <div class="ncap-order-flow">
+    <ol class="num5">
+      <li  id="state_new" class="current">
+        <h5>新投诉</h5>
+        <i class="fa fa-arrow-circle-right"></i> </li>
+      <li id="state_appeal" class="<if condition='$complain[complain_state] egt 1'>current</if>">
+        <h5>待申诉</h5>
+        <i class="fa fa-arrow-circle-right"></i> </li>
+      <li id="state_talk" class="<if condition='$complain[complain_state] egt 2'>current</if>">
+        <h5>对话中</h5>
+        <i class="fa fa-arrow-circle-right"></i> </li>
+      <li id="state_handle" class="<if condition='$complain[complain_state] egt 3'>current</if>">
+        <h5>待仲裁</h5>
+        <i class="fa fa-arrow-circle-right"></i> </li>
+      <li id="state_finish" class="<if condition='$complain[complain_state] eq 4'>current</if>">
+        <h5>已完成</h5>
+      </li>
+    </ol>
+  </div>
+  <div class="ncap-order-details">
+    <ul class="tabs-nav">
+      <li class="current"><a href="javascript:void(0);">订单详情</a></li>
+          </ul>
+    <div class="tabs-panels">
+      <div class="misc-info">
+        <dl>
+          <dt>店铺名称：</dt>
+          <dd><a href="{:U('Home/Store/index',array('store_id'=>$complain[store_id]))}" target="_blank"> {$complain.store_name} </a></dd>
+          <dt>订单状态：</dt>
+          <dd>待发货</dd>
+          <dt>订单号：</dt>
+          <dd><a href="{:U('Order/detail',array('order_id'=>$complain[order_id]))}"> {$order.order_sn}</a></dd>
+          <dt>下单时间：</dt>
+          <dd>{$order.add_time|date='Y-m-d H:i:s',###}<dt>订单总额：</dt>
+          <dd>￥{$order.order_amount}</dl>
+      </div>
+      <div class="goods-info">
+        <h4><notempty name="order_goods">投诉的商品<else/>投诉详情</notempty></h4>
+        <table>
+            <notempty name="order_goods">
+                <thead>
+                <tr>
+                    <th colspan="2">商品名称</th>
+                    <th>数量</th>
+                    <th>价格</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a style="text-decoration:none;" href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods[goods_id]))}" target="_blank">
+                        <img width="50" src="{$order_goods[goods_id]|goods_thum_images=50,50}"/> </a></td>
+                    <td><p><a href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods[goods_id]))}" target="_blank">{$order_goods.goods_name} </a></p>
+
+                        <p></p></td>
+                    <td>{$order_goods.goods_num}</td>
+                    <td>￥{$order_goods.goods_price}</td>
+                </tr>
+                </tbody>
+            </notempty>
+          <tfoot>
+            <tr>
+              <td colspan="100">&nbsp;&nbsp;投诉内容  <div class="complain-intro">{$complain.complain_content}</div></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="ncap-form-default">
+    <div class="title">
+      <h3>投诉信息</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">投诉状态：</dt>
+      <dd class="opt">待仲裁</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">投诉主题：</dt>
+      <dd class="opt">{$complain.complain_subject_name}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">投诉人：</dt>
+      <dd class="opt">{$complain.user_name}{$complain.user_contact}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">投诉证据：</dt>
+      <dd class="opt">
+         <empty name="complain.complain_pic">
+           	 暂无图片
+         <else/>
+         <foreach name="complain.complain_pic" item="vr">
+            <a href="{$vr}" target="_blank" class="pic-thumb-tip"><img src="{$vr}" height="50" width="50"></a>
+         </foreach>
+         </empty>
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">投诉时间：</dt>
+      <dd class="opt">{$complain.complain_time|date='Y-m-d H:i:s',###}</dd>
+    </dl>
+  </div>
+  <if condition="$complain[complain_state] gt 1">
+  <div class="ncap-form-default">
+    <div class="title">
+      <h3>申诉详情</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">被投诉店铺：</dt>
+      <dd class="opt">{$complain.store_name}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">申诉证据：</dt>
+      <dd class="opt">
+            <empty name="complain.appeal_pic">暂无图片
+            <else/>
+            <foreach name="complain.appeal_pic" item="vr">
+            <a href="{$vr}" target="_blank" class="pic-thumb-tip"><img src="{$vr}" height="50" width="50"></a>
+            </foreach>
+            </empty>
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit"> 申诉时间：</dt>
+      <dd class="opt">{$complain.appeal_time|date='Y-m-d H:i:s',###}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">申诉内容：</dt>
+      <dd class="opt">{$complain.appeal_msg}</dd>
+    </dl>
+  </div>
+  </if>
+  <if condition="$complain[complain_state] egt 2">
+  <div class="ncap-form-default">
+    <div class="title">
+      <h3>对话详情</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">对话记录：</dt>
+      <dd class="opt">
+        <div id="div_talk" class="div_talk"> </div>
+      </dd>
+    </dl>
+    <if condition="$complain[complain_state] lt 4">
+    <dl cass="row">
+      <dt class="tit">发布对话：</dt>
+      <dd class="opt">
+        <textarea id="complain_talk" class="tarea"></textarea>
+        <div>
+        <a href="JavaScript:void(0);" id="btn_refresh" class="ncap-btn">刷新对话</a><a href="JavaScript:void(0);" id="btn_publish" class="ncap-btn">发布对话</a>
+        </div>
+        </dd>
+    </dl>
+    </if>
+   </div>
+   </if>
+  <if condition="$complain[complain_state] lt 4">
+  <div class="ncap-form-default">
+    <div class="title">
+      <h3>投诉处理</h3>
+    </div>
+    <dl class="row" id="close_complain">
+      <dd class="opt"><div class="bot">
+      <form method='post' id="verify_form" action="{:U('Service/complain_verify')}">
+          <input name="complain_id" type="hidden" value="{$complain.complain_id}" />
+          <a id="close_button" class="ncap-btn-big ncap-btn-green" href="javascript:void(0)"><span>关闭投诉</span></a>
+          <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="history.go(-1)"><span>返回</span></a>
+        </form></div></dd>
+    </dl>
+    <form method='post' id="close_form" action="{:U('Service/complain_close')}">
+        <dl class="row complain_dialog">
+          <dt class="tit">处理意见  <input name="complain_id" type="hidden" value="{$complain.complain_id}" />
+          </dt>
+          <dd class="opt">
+            <textarea id="final_handle_message" name="final_handle_message" class="tarea"></textarea>
+          </dd>
+        </dl>
+        <div class="bot complain_dialog"><a id="btn_handle_submit" class="ncap-btn-big ncap-btn-green" href="javascript:void(0)">确认提交</a> <a id="btn_close_cancel" class="ncap-btn-big ncap-btn-green" href="javascript:void(0)">取消</a></div>
+    </form>
+  </div>
+  <else/>
+   <div class="ncap-form-default">
+    <div class="title">
+      <h3>处理详情</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">处理意见：</dt>
+      <dd class="opt">{$complain.final_handle_msg}</dd>
+    </dl>
+    <dl>
+      <dt class="tit">处理时间：</dt>
+      <dd class="opt">{$complain.final_handle_time|date='Y-m-d H:i:s',###}</dd>
+    </dl>
+    <div class="bot"><a href="{:U('Service/complain_list')}" class="ncap-btn-big ncap-btn-green">返回</a></div>
+  	</div>
+  </if>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $(".complain_dialog").hide();
+    $("#verify_button").click(function(){
+        layer.confirm('确认审核此投诉吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $("#verify_form").submit();
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    });
+    $("#close_button").click(function(){
+        $("final_handle_message").text('');
+        $(".complain_dialog").show();
+        $("#close_complain").hide();
+    });
+    $("#btn_handle_submit").click(function(){
+        if($("#final_handle_message").val()=='') {
+            layer.alert('处理意见不能为空且必须小于255个字符', {icon: 2});
+        }
+        else {
+            layer.confirm('确认关闭此投诉？', {
+                        btn: ['确定','取消'] //按钮
+                    }, function(){
+                        // 确定
+                        $("#close_form").submit();
+                    }, function(index){
+                        layer.close(index);
+                    }
+            );
+        }
+    });
+    $("#btn_close_cancel").click(function(){
+        $(".complain_dialog").hide();
+        $("#close_complain").show();
+    });
+
+});
+</script>
+
+  <script type="text/javascript">
+$(document).ready(function(){
+    get_complain_talk();
+    $("#btn_publish").click(function(){
+        if($("#complain_talk").val()=='') {
+            layer.alert('对话不能为空', {icon: 2});
+        }
+        else {
+            publish_complain_talk();
+        }
+    });
+    $("#btn_refresh").click(function(){
+        get_complain_talk();
+    });
+});
+function get_complain_talk() {
+    $("#div_talk").empty();
+    $.ajax({
+        type:'POST',
+        url:"{:U('Service/get_complain_talk')}",
+        cache:false,
+        data:"complain_id={$complain.complain_id}",
+        dataType:'json',
+        error:function(){
+            $("#div_talk").append("<p class='admin'>"+"目前没有对话"+"</p>");
+        },
+        success:function(talk_list){
+            if(talk_list.length >= 1) {
+                for(var i = 0; i < talk_list.length; i++)
+                {
+                    var link = "<p class='"+talk_list[i].css+"'>"+talk_list[i].talk+"</p>";
+                    $("#div_talk").append(link);
+                }
+            }
+            else {
+                $("#div_talk").append("<p class='admin'>"+"目前没有对话"+"</p>");
+            }
+        }
+	});
+}
+function publish_complain_talk() {
+        $.ajax({
+            type:'POST',
+                url:"{:U('Service/publish_complain_talk')}",
+                cache:false,
+                data:"complain_id={$complain.complain_id}&complain_talk="+$("#complain_talk").val(),
+                dataType:'json',
+                error:function(){
+                    layer.alert("对话发送失败", {icon:2});
+                },
+                success:function(talk_list){
+                    if(talk_list == 'success') {
+                        $("#complain_talk").val('');
+                        get_complain_talk();
+                        layer.alert("对话发送成功", {icon:1});
+                    }
+                    else {
+                        layer.alert("对话发送失败", {icon:2});
+                    }
+                }
+        });
+}
+
+function forbit_talk(talk_id) {
+        $.ajax({
+            type:'POST',
+                url:"{:U('Service/forbit_talk')}",
+                cache:false,
+                data:"talk_id="+talk_id,
+                dataType:'json',
+                error:function(){
+                    layer.alert("对话屏蔽失败",{icon:2});
+                },
+                success:function(talk_list){
+                    if(talk_list == 'success') {
+                        get_complain_talk();
+                        layer.alert("对话屏蔽成功", {icon:1});
+                    }
+                    else {
+                        layer.alert("对话屏蔽失败",{icon:2});
+                    }
+                }
+        });
+}
+</script>
+
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

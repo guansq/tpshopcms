@@ -1,0 +1,76 @@
+server
+    {
+        listen 80;
+        server_name tpshop.app;
+        index index.html index.htm index.php default.html default.htm default.php;
+        root  /home/vagrant/Code/tpshop;
+		charset utf-8;
+        location ~* ^/(public|install|application|thinkphp|template|plugins|backup|extend|runtime|topthink|vendor)/.*\.(php|php5)$
+        {
+          deny all;
+        }
+
+       location / {
+            index  index.htm index.html index.php;
+            if (!-e $request_filename){
+                #地址作为将参数rewrite到index.php上。tp框架接收s参数为controller和action，不少框架都利用这种方式来实现伪pathinfo模式（pathinfo为php功能，nginx并不支持）
+                rewrite ^/(.*)$ /index.php?s=$1 last;
+                break;
+            }
+        }
+        #上面的正则能解决不带xx.php的，这条正则是为了rewrite url中带index.php/admin/admin/login这种，思路是一样的，将index.php后的字符串当成参数
+        location ~ /.*\.php/ {
+                    rewrite ^(.*?/?)(.*\.php)(.*)$ /$2?s=$3 last;
+            break;
+        }
+        location ~ \.php/?.*$ {
+    	    root  /home/vagrant/Code/tpshop;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+
+            fastcgi_intercept_errors off;
+            fastcgi_buffer_size 16k;
+            fastcgi_buffers 4 16k;
+            fastcgi_connect_timeout 300;
+            fastcgi_send_timeout 300;
+            fastcgi_read_timeout 300;
+
+        }
+
+	location ~.*\.(jpg|png|jpeg)$
+      	{
+	        root  /home/vagrant/Code/tpshop;
+       	    #expires 30d;
+        }
+
+        # js css缓存一小时
+       location ~.*\.(js|css)$ {
+           root  /home/vagrant/Code/tpshop;
+           #expires 1h;
+       }
+
+        #error_page   404   /404.html;
+
+        location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$
+        {
+            expires      30d;
+        }
+
+        location ~ .*\.(js|css)?$
+        {
+            expires      12h;
+        }
+
+        location ~ /\.ht {
+            deny all;
+        }
+
+        access_log off;
+        error_log  /var/log/nginx/tpshop.app-error.log error;
+        ssl_certificate     /etc/nginx/ssl/tpshop.app.crt;
+        ssl_certificate_key /etc/nginx/ssl/tpshop.app.key;
+    }

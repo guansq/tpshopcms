@@ -1,0 +1,113 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>统计结算<i class="icon-angle-right"></i>店铺概况
+		</div>
+		<div class="main-content" id="mainContent">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active"><a href="{:U('Report/saleList')}">店铺概况</a></li>
+				</ul>
+			</div>
+			<table class="search-form">
+				<form method="get" action="{:U('Report/saleList')}" id="search-form2" onsubmit="check_form();">			
+					<tr>
+						<td>&nbsp;</td>
+						<th class="w80">申请开始时间</th>
+						<td class="w100">
+							<input type="text" style="width: 90px;" class="text w90" name="start_time"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+						</td>
+						<th class="w80">申请截止时间</th>
+						<td class="w100">
+							<input type="text" style="width: 90px;" class="text w90" name="end_time" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+						</td>
+						<td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索"/></label></td>
+					</tr>
+				</form>
+			</table>
+			<table class="ncsc-default-table">
+				<thead>
+				<tr>
+					<th class="w50">ID</th>
+					<th class="w120">商品名称</th>
+					<th class="w120">商品货号</th>
+					<th class="w120">数量</th>
+					<th class="w120">售价</th>
+					<th class="w120">出售日期</th>
+				</tr>
+				</thead>
+				<tbody>
+				<empty name="list">
+					<tr>
+						<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+					</tr>
+					<else/>
+					<foreach name="list" item="vo" key="k" >
+						<tr class="bd-line">
+							<td>{$vo.order_id}</td>
+							<td>{$vo.goods_name}</td>
+							<td>{$vo.goods_sn}</td>
+							<td>{$vo.goods_num}</td>
+							<td>{$vo.goods_price}</td>
+							<td>{$vo.add_time|date="Y-m-d",###}</td>
+						</tr>
+					</foreach>
+				</empty>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="20">
+						{$page}
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+	$(document).ready(function(){
+ 
+            // 起始位置日历控件
+               laydate.skin('molv');//选择肤色
+               laydate({
+                 elem: '#start_time',
+                 format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+                 festival: true, //显示节日
+                 istime: false,
+                 choose: function(datas){ //选择日期完毕的回调
+                        compare_time($('#start_time').val(),$('#end_time').val());
+                 }
+               });
+
+                // 结束位置日历控件
+               laydate({
+                 elem: '#end_time',
+                 format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+                 festival: true, //显示节日
+                 istime: false,
+                 choose: function(datas){ //选择日期完毕的回调
+                          compare_time($('#start_time').val(),$('#end_time').val());
+                 }
+               });	
+ 
+	});
+	function check_form(){
+		var start_time = $.trim($('#start_time').val());
+		var end_time =  $.trim($('#end_time').val());
+		if(start_time == '' ^ end_time == ''){
+			layer.alert('请选择完整的时间间隔', {icon: 2});
+			return false;
+		}
+		if(start_time !== '' && end_time !== ''){
+			$('#timegap').val(start_time+" - "+end_time);
+		}
+		if(start_time == '' && end_time == ''){
+			$('#timegap').val('');
+		}
+	}
+</script>
+</body>
+</html>

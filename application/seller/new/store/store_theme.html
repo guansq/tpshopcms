@@ -1,0 +1,84 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺设置</div>
+    <div class="main-content" id="mainContent">
+	<div class="tabmenu">
+	    <ul class="tab pngFix">
+		  	<li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+		  	<li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+		  	<li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+		  	<li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+            <li <if condition="ACTION_NAME eq 'getpoint'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/getpoint')}">拾取店铺坐标</a></li>
+		</ul>	  
+	</div>
+	<div class="ncsc-store-templet">
+	  <dl class="current-style">
+	    <dt class="templet-thumb"><img src="{$static_path}/style/{$store.store_theme}/images/preview.jpg" id="current_theme_img" /></dt>
+	    <dd>店铺模版名称：<strong id="current_template">{$store.store_theme}</strong></dd>
+	    <dd>店铺风格名称：<strong id="current_style">{$template[$store[store_theme]][truename]}</strong></dd>
+	    <dd>店铺名称：<strong>{$store.store_name}</strong></dd>
+	    <dd><a href="{:U('Home/Store/index',array('store_id'=>$store[store_id]))}" class="ncbtn">店铺首页</a></dd>
+	  </dl>
+	  <h3>可用主题</h3>
+	  <div class="templet-list">
+	    <ul>
+	      <foreach name="template" item="vo" key="k">
+	      <li>
+	        <dl>
+	          <dt>
+		          <a href="javascript:void(0)" onclick="preview_theme(this);"  data-img="{$static_path}/style/{$k}/screenshot.jpg">
+		          	<img id="themeimg_{$k}" src="{$static_path}/style/{$k}/images/preview.jpg">
+		          </a>
+	          </dt>
+	          <dd>模版名称：{$vo.truename}</dd>
+	          <dd>风格名称：{$k}</dd>
+	          <dd class="btn"> <a href="javascript:use_theme('{$k}');" class="ncbtn"><i class="icon-cogs"></i>使用</a> 
+	          <a href="javascript:;" onclick="preview_theme(this);"  data-img="{$static_path}/style/{$k}/screenshot.jpg"  class="ncbtn"><i class="icon-zoom-in"></i>预览</a> </dd>
+	        </dl>
+	      </li>
+	      </foreach>
+	    </ul>
+	  </div>
+	</div>
+<input type="hidden" id="themepath" value="{$static_path}">
+<script>
+
+function use_theme(style){
+	$.ajax({
+		url : "{:U('Store/setting_save')}",
+  		type:'post',
+  		data:{store_theme:style,act:'update',themepath:$('#themepath').val()},
+  		dataType:'json',
+  		success:function(res){                   
+			if(res.status == 1){
+				layer.msg('设置成功', {icon: 3});
+				window.location.reload();
+			}else{
+				layer.alert(res.msg, {icon: 2});
+			}
+  		}
+  	})
+}
+
+function preview_theme(obj){
+	layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: true,
+		  shadeClose: true,
+		  area: ['1080', '100%'],
+		  offset: 't',
+		  skin: 'layui-layer-rim',
+		  content: "<img src='"+$(obj).attr('data-img')+"'>"
+	});
+}
+
+</script>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

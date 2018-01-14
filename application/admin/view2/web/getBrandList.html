@@ -1,0 +1,29 @@
+<notempty name="brand_list">
+<ul class="brands dialog-brandslist-s2">
+  <foreach name="brand_list" item="bd">
+  <li>
+    <div class="brands-pic" onclick="select_brand({$bd.id});"><span class="ac-ico"></span><span class="thumb size-88x29"><i></i>
+    <img brand_id="{$bd.id}" title=" {$bd.name}" brand_name="{$bd.name}" src="{$bd.logo}" onload="javascript:DrawImage(this,88,30);" /></span></div>
+    <div class="brands-name">{$bd.name}</div>
+  </li>
+  </foreach>
+</ul>
+<div id="show_page_brand" class="">{$show_page}</div>
+<script type="text/javascript">
+$(function(){
+	 $('#show_page_brand').on('click','a', function() {
+			if($(this).attr('target') == '_blank'){
+				window.open($(this).attr('href'));
+			}else if($(this).attr('href') != '#'){
+				$('#show_brand_list').load($(this).attr('href'));
+			}else{
+				return false;
+			}
+		    return false;
+	});
+})
+</script>
+<else/>
+<p class="no-record">没有符合条件的记录</p>
+<div class="clear"></div>
+</notempty>

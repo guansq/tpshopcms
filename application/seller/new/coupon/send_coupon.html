@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>发送优惠券</title>
+    <link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="__PUBLIC__/static/font/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/waypoints.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery.validation.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/common.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/myFormValidate.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/static/js/html5shiv.js"></script>
+    <script src="__PUBLIC__/static/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .search-form {
+            border-top: solid 1px #E6E6E6;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgb(230, 230, 230);
+        }
+    </style>
+</head>
+<body style="min-width:0px;">
+<div class="ncsc-layout wrapper" style="width: 1000px;margin: 0px;">
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="main-content" id="mainContent">
+            <table class="search-form">
+                <form action="" id="search-form2" method="post" onsubmit="return false">
+                    <input type="hidden" name="cid" value="{$cid}">
+                    <tr>
+                        <td><a onclick="doconfirm()" title="确定发送优惠券" class="ncbtn ncbtn-aqua">确定发送优惠券</a></td>
+                        <th class="w120">                
+	                        <select name="level_id" id="level_id" class="w120">
+			                    <option value="0">所有会员</option>
+			                    <option value="-1">店铺关注会员</option>
+			                    <foreach name="level" item="vo">
+			                        <option value="{$vo['level_id']}" <if condition="$vo[level_id] eq $level_id">selected</if>> {$vo['level_name']}</option>
+			                    </foreach>
+			                </select>
+               	 		</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" name="nickname" value="{$nickname}" placeholder="会员昵称"/></td>
+                        <th class="w70">手机号码</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text"  name="mobile" value="" /></td>
+                        <th class="w80">email</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="" name="email"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" onclick="ajax_get_table('search-form2',1)"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <form method="post" action="" id="form-user">
+                <input type="hidden" name="cid" id="cid" value="{$cid}">
+                <div id="ajax_return"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        ajax_get_table('search-form2',1);
+    });
+
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/Coupon/ajax_get_user/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('').append(data);
+            }
+        });
+    }
+
+    function doconfirm(){
+        if($("input[type='checkbox']:checked").length == 0)
+        {
+            layer.alert('请选择会员', {icon: 2}); //alert('请选择商品');
+            return false;
+        }else{
+            $('#form-user').submit();
+        }
+    }
+</script>
+</body>
+</html>

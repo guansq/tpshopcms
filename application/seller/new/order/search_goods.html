@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>选择商品</title>
+<link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+<style>
+.ncsc-layout-right {
+    float: center;
+    width: 100%;
+}
+
+.ncsc-default-table{
+	width:90%;
+}
+
+.search-form{
+	width:90%;
+}
+
+.ncsc-default-table tbody td{
+	text-align: left;
+}
+
+</style>
+</head>
+<body>
+<div class="ncsc-layout wrapper">
+	<div id="layoutRight" class="ncsc-layout-right">
+		<form method="post" action="{:U('Order/search_goods')}" id="search-form2">
+		  <input type="hidden" name="shipping_status" id="shipping_status" value="">
+		  <table class="search-form">
+		    <tr>
+		      <th>商品分类</th>
+		      <td class="w120">
+		      	<select name="cat_id" id="cat_id" >
+	                    <option value="">所有分类</option>
+	                        <foreach name="categoryList" item="v" key="k" >
+		                       <if condition="in_array($v[id],$cat_id0)">
+	                           		<option value="{$v['id']}" <if condition="$v[id] eq $cat_id">selected</if> ><?php echo  str_pad('',($v[level] * 5),'-',STR_PAD_LEFT);  ?> {$v['name']}</option>
+	                           </if>
+				 			</foreach>
+	                  </select>
+		      </td>
+		      <th>品牌</th>
+		      <td class="w120">
+		      	<select name="brand_id" id="brand_id" >
+	                 <option value="">所有品牌</option>
+	                     <foreach name="brandList" item="v" key="k" >
+	                        <option value="{$v['id']}" <if condition="$v[id] eq $brand_id">selected</if> >{$v['name']}</option>
+						 </foreach>
+	            </select>
+		      </td>
+		      <th>新品/推荐</th>
+		      <td class="w120">
+			      <select name="intro" class="form-control">
+	                    <option value="0">全部</option>
+	                    <option value="is_new">新品</option>
+	                    <option value="is_recommend">推荐</option>
+	                </select>
+			   </td>
+			   <th>关键词</th>
+		       <td class="w120">
+			      <input type="text" name="keywords" value="{$keywords}" class="text" placeholder="关键词">
+			   </td>
+			   <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" /></label></td>
+		     </tr>
+		  </table>
+		</form>	 
+		 <div class="ncsc-order-contnet">
+			<table class="ncsc-default-table order" id="goos_table">
+				<thead>
+					<tr>
+						<th class="w10">&nbsp;</th>
+			             <td ccolspan="2">商品名称</td>
+			             <td class="w100">价格</td>	
+			             <td class="w80">库存</td>      
+			             <td class="w100">选择</td>
+			             <td class="w80" style="text-align:center">操作</td>
+			         </tr>
+			     </thead>
+		         <tbody>
+		         <volist name="goodsList" id="list">
+		          <!--如果有商品规格-->
+				  <if condition="$list['spec_goods'] neq null">
+					  <volist name="list['spec_goods']" id="spec_goods">
+						  <tr>
+				        	 <td class="w10">&nbsp;</td>
+				             <td >{$list.goods_name|getSubstr=0,33}&nbsp;&nbsp;&nbsp;(&nbsp;{$spec_goods[key_name]}&nbsp;)</td>  
+				             <td >{$spec_goods[price]}</td>          
+				             <td >{$spec_goods[store_count]}</td>
+				             <td>
+				             		<input type="text" name="goods_id[{$list.goods_id}][{$spec_goods[key]}][goods_num]"  value="1" class="input-sm" style="display:none;" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+									<input type="checkbox"/>
+							 </td>
+				             <td style="text-align:center"><span><a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="delRow(this)"><p>删除</p></a></span></td>
+				       	  </tr>
+					  </volist>
+				  <else/>
+				  	<tr>
+			        	 <td class="w10">&nbsp;</td>
+			             <td >{$list.goods_name|getSubstr=0,33}</td>  
+			             <td >{$list.shop_price}</td>          
+			             <td >{$list.store_count}</td>
+			             <td>
+							<input type="text" name="goods_id[{$list.goods_id}][key][goods_num]" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" value="1" class="input-sm" style="display:none;" />                                        
+							<input type="checkbox"/>
+						 </td>
+			             <td style="text-align:center"><span><a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="delRow(this)"><p>删除</p></a></span></td>
+				      </tr>
+				  </if>
+		        </volist>
+			    </tbody>
+				</table>
+				<div>
+					<a class="ncbtn ncbtn-grapefruit" style="margin-left:10px; margin-top:5px;" href="javascript:void(0)" onclick="select_goods();">确定</a>
+				</div>
+			</div>
+        {$page}
+	</div>
+</div>         
+<script>
+  function select_goods()
+  {	  
+  
+	   var len = $("input[type='checkbox']:checked").length;
+	   
+	   if(len == 0){
+		   layer.alert('请选择商品', {icon: 2}); //alert('请选择商品');
+		   return false;
+	   }
+	  // 将没选中的复选框所在的  tr  remove  然后删除复选框
+	    $("input[type='checkbox']").each(function(){
+		   if($(this).is(':checked') == false){
+			    $(this).parent().parent().remove();
+		   }
+		   console.log($(this));
+		   $(this).siblings().show();
+		   $(this).remove();
+	    });
+		$(".btn-info").remove();
+        javascript:window.parent.call_back($('#goos_table').html().replace(/选择/,'购买数量'));
+  }    
+  
+  function delRow(obj){
+		$(obj).parent().parent().parent().remove();
+	}
+  </script>
+ 
+</body>
+</html>

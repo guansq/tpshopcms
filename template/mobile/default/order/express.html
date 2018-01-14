@@ -1,0 +1,48 @@
+<include file="public/header" title="查看物流信息" body="f3"/>
+<include file="public/header_nav" title="查看物流信息" href="javascript:history.back(-1)"/>
+<div class="dindboxt p">
+    <div class="maleri30">
+        <div class="fl_addextra fl">
+            <p><span class="gray">运单编号：</span><span>{$delivery}</span></p>
+            <p><span class="gray">国内承运人：</span><span>{$order[shipping_name]}</span></p>
+        </div>
+        <!--<div class="fr_extra fr">-->
+            <!--<a class="tuid sueye" href="javascript:void(0);">我要催单</a>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="listschdule orderrefuce ma-to-20">
+    <if condition="$order['shipping_code'] AND $delivery">
+        <p class="logis-detail-date" id="express_info"></p>
+        <script>
+            queryExpress();
+            function queryExpress()
+            {
+                var shipping_code = "{$order['shipping_code']}";
+                var invoice_no = "{$delivery}";
+                $.ajax({
+                    type : "GET",
+                    dataType: "json",
+                    url:"/index.php?m=Home&c=Api&a=queryExpress&shipping_code="+shipping_code+"&invoice_no="+invoice_no,//+tab,
+                    success: function(data){
+                        var html = '';
+                        if(data.status == 200){
+                            console.log(data);
+                            $.each(data.data, function(i,o){
+                                html +="<div class='tittimlord red-around'><h2>"+ o.context +"</h2> <p>"+ o.time +"</p></div>";
+                            });
+                        }else{
+                            html +="<div class='tittimlord red-around'><h2>"+data.message+"</h2> <p></p></div>";
+                        }
+                        $("#express_info").after(html);
+                    }
+                });
+            }
+        </script>
+    </if>
+    <!--  物流信息 end-->
+</div>
+<div class="mask-filter-div" style="display: none;"></div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

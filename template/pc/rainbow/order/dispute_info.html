@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>纠纷申请</title>
+    	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+    	<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+    	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<a href="{:U('Home/Order/dispute')}">交易纠纷</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>纠纷申请</span>
+			    </div>
+			    <div class="apply-list-flowpath p">
+			    	<div class="flowpath">
+			    		<div class="line-flowpath">
+			    			<span class="<if condition='$complain[complain_state] egt 1'>green now</if>"><i class="las-flo"></i><em>提交纠纷单</em></span>
+			    			<span class="<if condition='$complain[complain_state] egt 2'>green now</if>"><i class="las-flo2"></i><em>卖家处理</em></span>
+			    			<span class="<if condition='$complain[complain_state] egt 3'>green now</if>"><i class="las-flo3"></i><em>客户确认</em></span>
+			    			<span class="<if condition='$complain[complain_state] eq 4'>green now</if>"><i class="las-flo4"></i><em>完成</em></span>
+			    		</div>
+			    		<div class="warning">
+		    				<i class="las-warning"></i>
+		    				<span>重要提醒：商城平台销售商不会以任何理由，要求您点击任何网址链接进行退款操作。</span>
+		    			</div>
+			    	</div>
+			    	<input type="hidden" id="input_complain_id" value="{$complain.complain_id}">
+			    	<if condition="$complain[complain_state] eq 1">
+			    	<div class="repairsheet">
+			    		<p class="titnum">
+			    			<span>维修纠纷单（{$complain.complain_id}）</span>
+			    			<span class="ye">待卖家处理</span>
+			    		</p>
+			    		<div class="waitsalesmanage">
+			    			<div class="clock-wainfont p">
+			    				<div class="clockle">
+			    					<i class="las-clock"></i>
+			    				</div>
+			    				<div class="wainfontri">
+			    					<div class="waintop">
+			    						<span class="lin1">您的纠纷单已提交，等待卖家处理</span>
+			    						<span class="lin2">别着急，卖家将在纠纷单提交<em>24小时</em>以内回复~</span>
+			    					</div>
+			    					<div class="waindown">
+			    						<a class="updatared" href="javascript:window.location.reload();">更新纠纷详情</a>
+			    						<a href="javascript:;" onclick="complain_handle(this);" data-state="4" data-url="{:U('Order/complain_handle',array('complain_id'=>$complain[complain_id],'state'=>4))}">问题已解决</a>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    	</if>
+			    	<if condition="$complain[complain_state] egt 2">
+			    	<div class="repairsheet">
+			    		<p class="titnum">
+			    			<span>维修纠纷单（{$complain.complain_id}）</span>
+			    			<span class="ye">{$state[$complain[complain_state]]}</span>
+			    		</p>
+			    		<div class="waitsalesmanage">
+			    			<div class="contacts_report p">
+			    				<div class="contact_left">
+			    					<div class="tit_top">
+			    						<i>温馨提示</i>
+			    						<span>请您及时确认，自卖家给出处理意见7个工作日内，您还没有任何回复，此纠纷单将自动关闭。</span>
+			    					</div>
+			    					<div class="maincontact">
+			    						<div class="date_time_alone"><span>{$complain.complain_time|date='Y-m-d H:i:s',###}</span></div>
+			    						<div class="opposite_left p">
+			    							<div class="sales_head p">
+			    								<div class="sales_head_logo">
+			    									<img class="" src="{$store.store_avatar}">
+			    								</div>
+			    								<div class="explay_sales_head">
+			    									<i></i>
+			    									<span class="sales_manage">卖家处理</span>
+			    									<span class="store_name">{$complain.store_name}&nbsp;&nbsp;{$complain.appeal_time|date='Y-m-d H:i:s',###}</span>
+			    								</div>
+			    							</div>
+			    							<div class="myself_head">
+			    								{$complain.appeal_msg}
+												<foreach name="complain.appeal_pic" item="vp"><a href="{$vp}"><img src="{$vp}"></a></foreach>
+			    							</div>
+			    						 </div>
+			    						 <div id="talkdiv" style="background-color: #FFF;border: 1px dashed #EEE;max-height: 220px;word-break: normal;word-wrap: break-word;padding: 8px;overflow-y: scroll;"></div>
+			    					</div>
+			    				</div>
+			    				<div class="report_right">
+			    					<div class="textarea_c_le">
+			    						<textarea onkeyup="checkfilltextarea('textarea','500')" name="" id="complain_talk" rows="" cols=""></textarea>
+			    						<p>还可以输入<span id="zero">500</span>字</p>
+			    					</div>
+			    					<if condition="$complain[complain_state] eq 2">
+				    					<div class="hilldown">
+				    						<div class="replysales">
+				    							<a class="repl1" href="javascript:get_complain_talk();">刷新对话</a>
+				    							<a class="repl1" href="javascript:publish_complain_talk();">发布对话</a>
+				    							<a class="repl2" href="javascript:;" onclick="complain_handle(this);" data-state="3" data-url="{:U('Order/complain_handle',array('complain_id'=>$complain[complain_id],'state'=>3))}">申请商城介入</a>
+				    							<a class="repl3" href="javascript:;" onclick="complain_handle(this);" data-state="4" data-url="{:U('Order/complain_handle',array('complain_id'=>$complain[complain_id],'state'=>4))}">问题已解决</a>
+				    						</div>
+				    						<!-- <p class="endtime_re">距离您确认截止的时间还有：<span>6天01小时00分01秒</span></p> -->
+				    					</div>
+			    					</if>
+			    					<if condition="$complain[complain_state] eq 3">
+			    						 <div class="hilldown">
+				    						<div class="replysales">
+				    							<a class="repl1" href="javascript:get_complain_talk();">刷新对话</a>
+				    							<!--<a class="repl1" href="javascript:publish_complain_talk();">发布对话</a>-->
+				    							<a class="repl3" href="javascript:;" onclick="complain_handle(this);" data-state="4" data-url="{:U('Order/complain_handle',array('complain_id'=>$complain[complain_id],'state'=>4))}">问题已解决</a>
+				    						</div>
+				    					</div>
+			    					</if>
+			    				</div>
+			    				<!--  
+			    				<div class="main_page_last">
+									<a href="">上一页</a>
+									<a href="">1</a>
+									<a href="">下一页</a>
+			    				</div> --> 
+			    			</div>
+			    		</div>
+			    	</div>
+			    	</if>
+			    	<div class="repairsheet">
+			    		<div class="createbill p">
+			    			<div class="sh sheet1">
+			    				<p><span>纠纷单号：</span><span>{$complain.complain_id}</span></p>
+			    				<p><span>纠纷类型：</span><span>{$complain.complain_subject_name}</span></p>
+			    				<p><span>联系方式：</span><span>{$complain.user_contact}</span></p>
+			    			</div>
+			    			<div class="sh sheet2">
+			    				<p class="ci"><span>问题描述：</span><span>{$complain.complain_content}</span></p>
+			    				<ul class="suimg">
+			    					<foreach name="complain.complain_pic" item="vs">
+			    					<li><img src="{$vs}"/></li>
+			    					</foreach>
+			    				</ul>
+			    				<if condition="$complain[complain_state] eq 1">
+			    				<img class="sbys" src="__STATIC__/images/sbys.png" alt="本人提交" />
+			    				<elseif condition="$complain[complain_state] eq 4"/>
+			    				<img class="sbys" src="__STATIC__/images/sbys3.png" alt="问题已解决" />
+			    				<else/>
+			    				<img class="sbys" src="__STATIC__/images/sbys2.png" alt="问题处理中" />
+			    				</if>
+			    			</div>
+			    			<div class="sh sheet1">
+								<notempty name="order_goods">
+			    					<p><span>纠纷商品：</span><span>{$order_goods.goods_name}</span></p>
+								</notempty>
+			    				<p><span>卖家：</span>
+									<span><a href="{:U('Store/index',array('store_id'=>$complain['store_id']))}">{$complain.store_name}<i class="las-ear"></i></a></span>
+								</p>
+			    				<!-- <p><span>服务单号：</span><span>39909002515</span></p>-->
+			    				<p><span>对应订单：</span><span><a href="{:U('Order/order_detail',array('id'=>$order['order_id']))}">{$order.order_sn}</a></span></p>
+			    			</div>
+			    		</div>
+			    		<div class="createline">
+			    			<div class="timeline_ch">
+			    				<if condition="$complain.final_handle_time gt 0">
+								<div class="near">
+									<p>{$complain.final_handle_time|date='Y-m-d H:i:s',###} 管理员仲裁结果:&nbsp;&nbsp;<b>{$complain.final_handle_msg}</b></p>
+								</div>
+								</if>
+			    				<if condition="$complain.user_handle_time gt 0">
+								<div class="near">
+									<p>{$complain.user_handle_time|date='Y-m-d H:i:s',###} 用户提交申请仲裁</p>
+								</div>
+								</if>
+								<if condition="$complain.appeal_time gt 0">
+								<div class="near">
+									<p>{$complain.appeal_time|date='Y-m-d H:i:s',###} 商家处理</p>
+								</div>
+								</if>
+								<div class="near">
+									<p>{$complain.complain_time|date='Y-m-d H:i:s',###} 创建纠纷单</p>
+								</div>
+							</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		
+		<script type="text/javascript">
+			/**
+			 * 留言字数限制
+			 * tea ：要限制数字的class名
+			 * nums ：允许输入的最大值
+			 * zero ：输入时改变数值的ID
+			 */
+			function checkfilltextarea(tea,nums){
+			    var len = $(tea).val().length;
+			    if(len > nums){
+			        $(tea).val($(tea).val().substring(0,nums));
+			    }
+			    var num = nums - len;
+			    num <= 0 ? $("#zero").text(0): $("#zero").text(num);  //防止出现负数
+			}
+			$(function(){
+				$('.timeline_ch .near:first').addClass('bigrar');
+			});
+
+			$(function(){
+				$('.textarea_c_le textarea').focus(function(){
+					$('.textarea_c_le').addClass('add_bor')
+				})
+				$('.textarea_c_le textarea').blur(function(){
+					$('.textarea_c_le').removeClass('add_bor')
+				})
+				get_complain_talk();
+			});
+			
+			function get_complain_talk() {
+				$('#talkdiv').empty();
+			    $.ajax({
+			        type:'POST',
+			        url:"{:U('Order/get_complain_talk')}",
+			        cache:false,
+			        data:{complain_id:$('#input_complain_id').val()},
+			        dataType:'json',
+			        error:function(){
+			            $("#div_talk").append("<p class='admin'>"+"目前没有对话"+"</p>");
+			        },
+			        success:function(talk_list){
+			            if(talk_list.length >= 1) {
+							$('#talkdiv').append(talk_list);
+			            }
+			            else {
+			                $("#talkdiv").append("<p class='admin'>"+"目前没有对话"+"</p>");
+			            }
+			        }
+				});
+			}
+			
+			function publish_complain_talk() {
+		        if($("#complain_talk").val()=='') {
+		            layer.alert('对话不能为空!', {icon: 2});
+		        }else{
+				      $.ajax({
+				            type:'POST',
+				                url:"{:U('Order/publish_complain_talk')}",
+				                cache:false,
+				                data:{complain_id:$('#input_complain_id').val(),complain_talk:$("#complain_talk").val()},
+				                dataType:'json',
+				                error:function(){
+				                    layer.alert('对话发送失败!', {icon: 2});
+				                },
+				                success:function(talk_list){
+				                    if(talk_list == 'success') {
+				                        $("#complain_talk").val('');
+				                        get_complain_talk();
+				                        layer.alert('对话发送成功!', {icon: 1});
+				                    }
+				                    else {
+				                    	layer.alert('对话发送失败!', {icon: 2});
+				                    }
+				                }
+				        });
+		        }
+			}
+			
+			function complain_handle(obj){
+				var state = $(obj).attr('data-state');
+				if(state==3){
+					layer.confirm('确定由平台管理员做出裁决？', {
+						  btn: ['是','否']
+						}, function(){
+							location.href = $(obj).attr('data-url');
+						}, function(tmp){
+							layer.close(tmp);
+					 	}
+					);
+				}else{
+					layer.confirm('确定已经解决问题', {
+						  btn: ['是','否']
+						}, function(){
+							location.href = $(obj).attr('data-url');
+						}, function(tmp){
+							layer.close(tmp);
+					 	}
+					);
+				}
+			}
+		</script>
+	</body>
+</html>

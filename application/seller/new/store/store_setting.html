@@ -1,0 +1,207 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path">
+    	<i class="icon-desktop"></i>商家管理中心
+    	<i class="icon-angle-right"></i>店铺
+    	<i class="icon-angle-right"></i>店铺设置
+    </div>
+    <div class="main-content" id="mainContent">     
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+  <li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+  <li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+  <li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+  <li <if condition="ACTION_NAME eq 'getpoint'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/getpoint')}">拾取店铺坐标</a></li>
+  </ul>
+</div>
+<div class="ncsc-form-default">
+  <form method="post" id="handlepost" action="{:U('Store/setting_save')}" enctype="multipart/form-data">
+    <dl>
+      <dt>店铺等级：</dt>
+      <dd><p>{$store.grade_name}</p></dd>
+    </dl>
+    <dl>
+      <dt>店铺名称：</dt>
+      <dd><p>{$store.store_name}</p></dd>
+    </dl>
+    <dl>
+      <dt>主营商品：</dt>
+      <dd>
+          <textarea name="store_zy" rows="2" class="textarea w400"  maxlength="50" >{$store.store_zy}</textarea>
+        <p class="hint">关键字最多可输入50字，请用","进行分隔，例如”男装,女装,童装”</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>店铺logo：</dt>
+      <dd>
+        <div class="ncsc-upload-thumb store-logo" nctype="store_label">
+			<p><img height="60" id="store_logo" src="<empty name='store.store_logo'>__PUBLIC__/images/not_adv.jpg<else/>{$store.store_logo}</empty>"></p>
+        </div>
+        <div class="ncsc-upload-btn"> 
+         <a href="javascript:void(0);"><span>
+          <input type="hidden" name="store_logo" value="{$store.store_logo}">
+          <input type="button" onClick="GetUploadify(1,'store_logo','seller','callback1')" hidefocus="true" size="1" class="input-file" name="store_label" id="storeLablePic" nc_type="change_store_label"/>
+          </span>
+          <p><i class="icon-upload-alt"></i>图片上传</p>
+          </a> 
+        </div>
+        <p class="hint">此处理店铺页logo；<br/><span style="color:orange;">建议使用宽200像素-高60像素内的GIF或PNG透明图片；点击下方"提交"按钮后生效。</span></p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>店铺条幅： </dt>
+      <dd>
+        <div class="ncsc-upload-thumb store-banner" nctype="store_banner">
+          <p><img height="120" id="store_banner" src="<empty name='store.store_banner'>__PUBLIC__/images/not_adv.jpg<else/>{$store.store_banner}</empty>"></p>
+        </div>
+        <div class="ncsc-upload-btn"> <a href="javascript:void(0);"><span>
+          <input type="hidden" name="store_banner" value="{$store.store_banner}">
+          <input type="button" hidefocus="true" onClick="GetUploadify(1,'store_banner','seller','callback2')" size="1" class="input-file" nc_type="change_store_banner"/>
+          </span>
+          <p><i class="icon-upload-alt"></i>图片上传</p>
+          </a></div>
+        <p class="hint">此处为店铺页banner导航；<br/><span style="color:orange;">建议使用宽1200像素*高130像素的图片；点击下方"提交"按钮后生效。</span></p>
+      </dd>
+    </dl>
+    <dl>
+        <dt>店铺头像： </dt>
+        <dd>
+        <div class="ncsc-upload-thumb store-logo" nctype="store_label">
+			<p><img height="60" id="store_avatar" src="<empty name='store.store_avatar'>__PUBLIC__/images/not_adv.jpg<else/>{$store.store_avatar}</empty>"></p>
+        </div>	
+        <div class="ncsc-upload-btn">
+           <a href="javascript:void(0);"><span>
+           <input type="hidden" value="" name="store_avatar">
+          	<input type="button" onClick="GetUploadify(1,'store_avatar','seller','callback3')" hidefocus="true" size="1" class="input-file"  nc_type="change_store_avatar"/>
+          </span>
+          <p><i class="icon-upload-alt"></i>图片上传</p>
+          </a>
+          </div> 
+          <p class="hint">此处为店铺方形头像；<br/><span style="color:orange;">建议使用宽100像素*高100像素内的方型图片；点击下方"提交"按钮后生效。</span></p>
+        </dd>
+     </dl>
+     <dl>
+      <dt>客服QQ：</dt>
+      <dd>
+        <input class="w200 text" name="store_qq" type="number"  id="store_qq" value="{$store.store_qq}" />
+      </dd>
+    </dl>
+    <dl>
+      <dt>阿里旺旺：</dt>
+      <dd>
+        <input class="text w200" name="store_aliwangwang" type="text"  id="store_ww" value="{$store.store_aliwangwang}" />
+      </dd>
+    </dl>
+    <dl>
+      <dt>店铺电话：</dt>
+      <dd>
+        <input class="text w200" pattern="^\d{1,}$" name="store_phone" maxlength="20" type="text"  id="store_phone" value="{$store.store_phone}" />
+        <p class="hint">电话号码格式, 例如: 075586140485</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>服务电话：</dt>
+      <dd>
+        <input class="text w200" pattern="^\d{1,}$" name="service_phone" maxlength="20" type="text"  id="store_phone" value="{$store.service_phone}" />
+        <p class="hint"><span style="color:red;">重要: 服务电话, 客户下单时发送提醒短信到到商家手机, 例如: 13800138006</span></p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>库存预警：</dt>
+      <dd>
+        <input class="text w50" name="store_warning_storage" type="text" maxlength="3" value="{$store.store_warning_storage}" onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')"  onblur="checkInputNum(this.name,0,999);" />
+        <span></span>
+        <p class="hint">库存少于预警数则报警提示</p>
+      </dd>
+    </dl>
+    
+    <dl>
+      <dt>卖家收货地址：</dt>
+      <dd>
+      	 &nbsp;&nbsp;&nbsp;&nbsp;
+      	 <select onchange="get_city(this,0)" id="province" name="province_id" class="form-control" style="margin-left:-15px;">
+           <option  value="0">选择省份</option>
+           <volist name="province" id="vo">
+               <option value="{$vo.id}" <if condition="$store[province_id] eq $vo[id]">selected</if>>{$vo.name}</option>
+           </volist>
+         </select>
+         <select onchange="get_area(this)" id="city" name="city_id" class="form-control">
+            <option value="0">选择城市</option>
+            <volist name="city" id="vo">
+                <option value="{$vo.id}" <if condition="$store[city_id] eq $vo[id]">selected</if>>{$vo.name}</option>
+            </volist>
+         </select>
+         <select id="district" name="district" class="form-control">
+            <option value="0">选择区域</option>
+            <volist name="area" id="vo">
+                <option value="{$vo.id}" <if condition="$store[district] eq $vo[id]">selected</if>>{$vo.name}</option>
+            </volist>
+         </select>
+         <input type="text" placeholder="详细地址" class="text w300" style="margin-top:3px;" name="store_address" value="{$store.store_address}">
+      </dd>
+    </dl>
+    
+    <dl>
+      <dt>包邮额度：</dt>
+      <dd>
+        <input class="text w50" name="store_free_price" type="text" maxlength="3" value="{$store.store_free_price}" />
+        <span></span>
+        <p class="hint">满多少免运费</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>SEO关键字：</dt>
+      <dd>
+        <p>
+          <input class="text w400" name="seo_keywords" type="text"  value="{$store.seo_keywords}" />
+        </p>
+        <p class="hint">用于店铺搜索引擎的优化，关键字之间请用英文逗号分隔</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>SEO店铺描述：</dt>
+      <dd>
+        <p>
+          <textarea name="seo_description" rows="3" class="textarea w400" id="remark_input" >{$store.seo_description}</textarea>
+        </p>
+        <p class="hint">用于店铺搜索引擎的优化，建议120字以内</p>
+      </dd>
+    </dl>
+    <div class="bottom">
+        <label class="submit-border"><input type="submit" class="submit" value="提交" /></label>
+      </div>
+  </form>
+</div>
+<script type="text/javascript">
+function adsubmit(){
+	$('#handlepost').submit();
+}
+
+function goset(obj){
+	window.location.href = $(obj).attr('data-url');
+}
+
+function callback1(img_str){
+	$('input[name="store_logo"]').val(img_str);
+	$('#store_logo').attr('src',img_str);
+}
+
+function callback2(img_str){
+	$('input[name="store_banner"]').val(img_str);
+	$('#store_banner').attr('src',img_str);
+}
+
+function callback3(img_str){
+	$('input[name="store_avatar"]').val(img_str);
+	$('#store_avatar').attr('src',img_str);
+}
+</script>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

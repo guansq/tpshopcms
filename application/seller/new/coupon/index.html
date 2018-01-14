@@ -1,0 +1,156 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>代金券管理
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('coupon/index')}">代金券列表</a></li>
+                </ul>
+                <!--<a href="" style="right:100px" class="ncbtn ncbtn-mint" title="新增虚拟商品抢购"><i class="icon-plus-sign"></i>新增虚拟抢购</a>-->
+                <a href="{:U('Coupon/coupon_info')}" class="ncbtn ncbtn-mint" title="新增代金券"><i class="icon-plus-sign"></i>添加代金券</a>
+            </div>
+            <div class="alert alert-block mt10 mb10">
+	            <ul>
+					<!--<li>1、手工设置代金券失效后,用户将不能领取该代金券,但是已经领取的代金券仍然可以使用</li>-->
+					<li>1、手工设置代金券失效后,用户将不能领取该代金券,已经领取的代金券也将不能使用</li>
+					<li>2、代金券模版和已发放的代金券过期后自动失效</li>
+					<li>3、<strong style="color: red">相关费用会在店铺的账期结算中扣除</strong>。</li>
+				</ul>
+			</div>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w20"></th>
+                    <th class="w120 tl">代金券名称</th>
+                    <th class="w100">优惠券类型</th>
+                    <th class="w50">面额</th>
+                    <th class="w80">使用需满金额</th>
+                    <th class="w50">发放总量</th>
+                    <th class="w50">已发放数</th>
+                    <th class="w50">已使用</th>
+                    <th class="w120">使用截止日期</th>
+                    <th class="w200">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <empty name="lists">
+                    <tr>
+                        <td colspan="20" class="norecord">
+                            <div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div>
+                        </td>
+                    </tr>
+                    <else/>
+                    <volist name="lists" id="list">
+                        <tr class="bd-line">
+                            <td></td>
+                            <td class="tl">{$list.name}</td>
+                            <td>{$coupons[$list[type]]}</td>
+                            <td>{$list.money}</td>
+                            <td>{$list.condition}</td>
+                            <td>
+                                <if condition="$list[createnum] eq 0">
+                                    无限制
+                                <else/>
+                                    {$list.createnum}
+                                </if>
+                            </td>
+                            <td>{$list.send_num}</td>
+                            <td>{$list.use_num}</td>
+                            <td>{$list.use_end_time|date='Y-m-d',###}</td>
+                            <td class="nscs-table-handle" style="text-align:left;">
+                                <if condition="$list[type] eq 3 and $list[status] eq 1">
+                                    <span>
+                                        <a href="{:U('Coupon/make_coupon',array('id'=>$list['id'],'type'=>$list['type']))}" class="btn-bluejeans">
+                                            <i class="icon-plane"></i><p>发放</p>
+                                        </a>
+                                    </span>
+                                <elseif condition="$list[type] eq 1 and $list[status] eq 1"/>
+                                    <if condition="time() gt $list[send_end_time]">
+                                        <span>
+                                            <a class="btn-bluejeans" onclick="layer.alert('该优惠券已过了发放时间',{icon:2})"><i class="icon-plane">
+                                            </i><p>发放</p></a>
+                                        </span>
+                                    <elseif condition="time() lt $list[send_start_time]"/>
+                                        <span><a class="btn-bluejeans" onclick="layer.alert('该优惠券未到发放时间',{icon:2})">
+                                            <i class="icon-plane"></i><p>发放</p></a>
+                                        </span>
+                                    <else/>
+                                        <span>
+                                            <a class="btn-bluejeans send_user" data-url="{:U('Coupon/send_coupon',array('cid'=>$list[id]))}">
+                                                <i class="icon-plane"></i><p>发放</p>
+                                            </a>
+                                        </span>
+                                    </if>
+                                <else/>
+                                    <!--<span><a class="btn-disabled" onclick="layer.msg('该优惠券类型为'+'{$coupons[$list[type]]}'+'，不能手动发放',{icon:2})" ><i class="icon-plane"></i><p>发放</p></a></span>-->
+                                </if>
+                            <span><a href="{:U('Coupon/coupon_list',array('id'=>$list['id']))}" class="btn-bluejeans"><i class="icon-search"></i>
+
+                                <p>详细</p></a></span>
+                            <span><a href="{:U('Coupon/coupon_info',array('id'=>$list['id']))}" class="btn-bluejeans"><i class="icon-edit"></i>
+
+                                <p>编辑</p></a></span>
+                            <span><a onclick="delfun(this,{$list['id']})" class="btn-grapefruit"><i class="icon-trash"></i>
+
+                                <p>删除</p></a></span>
+                            </td>
+                        </tr>
+                    </volist>
+                </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$page}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $('.send_user').click(function(){
+        var url = $(this).attr('data-url');
+        layer.open({
+            type: 2,
+            title: '发放优惠券',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['1020px', '85%'],
+            content: url,
+        });
+    });
+
+    function delfun(obj,id){
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        type : 'post',
+                        url : "/index.php?m=seller&c=Coupon&a=del_coupon",
+                        data:{id:id},
+                        dataType : 'json',
+                        success : function(data){
+                            layer.closeAll();
+                            if(data.status == 1){
+                                $(obj).parent().parent().parent().remove();
+                                layer.msg(data.msg, {icon: 1});
+                            }else{
+                                layer.alert(data.msg, {icon: 2});  //alert('删除失败');
+                            }
+                        }
+                    })
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

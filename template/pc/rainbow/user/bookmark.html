@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>我的收藏</title>
+  <link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+  <link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+  <link rel="stylesheet" href="__STATIC__/css/bookmark.css">
+  <script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__PUBLIC__/js/layer/layer.js"></script><!--弹窗js 参考文档 http://layer.layui.com/-->
+<style>
+    body, button, input, select, textarea {
+        font: 12px/1.5 arial,tahoma,\5b8b\4f53;
+        color: #666666;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+    }
+</style>
+</head>
+<body class="bg-f5">
+<include file="user/header"/>
+<div class="home-index-middle">
+  <div class="w1224">
+    <div class="g-crumbs">
+      <a href="{:U('Home/User/index')}">我的商城</a>
+      <i class="litt-xyb"></i>
+      <span>我的收藏</span>
+    </div>
+    <div class="home-main">
+      <include file="user/menu"/>
+      <div class="ri-menu fr">
+        <div class="menumain p flow">
+          <div class="goodpiece">
+            <h1>收藏店铺</h1>
+            <!--<a href=""><span class="co_blue">账户余额说明</span></a>-->
+          </div>
+          <div class="time-sala ma-to-20">
+            <ul>
+              <li><a href="{:U('Home/User/goods_collect',array('collect_type'=>1))}">商品收藏</a></li>
+              <li class="red mal-l"><a href="{:U('Home/User/goods_collect',array('collect_type'=>2))}">店铺收藏</a></li>
+            </ul>
+          </div>
+          <div class="he"></div>
+          <div class="cate_attr clearfix">
+            <div class="nav-tag">
+              <h5 class="filter-label-ab">分类</h5>
+              <div class="cate_attr_con">
+                <div class="filter-all-ab"> <a
+                  <if condition="$Request.param.sc_id eq 0">
+                    class="selected"
+                  </if>
+                  target="_self"
+                  href="{:U('Home/User/goods_collect',array('collect_type'=>2))}"><span>全部</span></a> </div>
+                <div class="district-tab">
+                  <volist name="store_class" id="sc">
+                    <a target="_self" style="width:auto"
+                       <if condition="$Request.param.sc_id eq $sc['sc_id']">
+                         class="selected"
+                       </if>
+                       href="{:U('Home/User/goods_collect',array('collect_type'=>2,'sc_id'=>$sc['sc_id']))}"><span>{$sc['sc_name']}</span></a>
+                  </volist>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flow-wrap">
+              <empty name="store_collect_list">
+                  <p class="ncyekjl">--暂无记录--</p>
+              </empty>
+            <volist name="store_collect_list" id="scl">
+              <div class="flow-item first" id="del_store_{$scl['log_id']}">
+                <a href="{:U('Home/Store/index',array('store_id'=>$scl['store_id']))}" class="flow-datu" title="L&amp;L">
+                  <img title="L&amp;L" width="150" height="150" alt="" src="{$scl['store_logo']}">
+                </a>
+                <div class="flow-content">
+                  <h4 class="flow-title"> <a href="{:U('Home/Store/index',array('store_id'=>$scl['store_id']))}" title="{$scl['store_name']}"><span class="cutout">{$scl['store_name']}</span></a>
+                    <span class="guanzhu" onclick="cancelCollect({$scl['log_id']});">取消</span>
+                  </h4>
+                  <p class="flow-logo">
+                    <a href="{:U('Home/Store/index',array('store_id'=>$scl['store_id']))}" style="float:none; display:inline-block;">
+                      <img id="j_logo_5" alt="" width="90" height="45" src="{$scl['store_avatar']}">
+                    </a>
+                  </p>
+                  <p class="flow-desc"> <span>卖家：</span>
+                    <a href="" title="{$scl['store_name']}管理员" target="_blank"></a>
+                    <a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$scl['store_qq']}&amp;site=qq&amp;menu=yes" target="_blank" alt="点击这里联系我" title="点击这里联系我" class="flow-qq">
+                      <img src="__STATIC__/images/button_old_41.gif" height="16" border="0" alt="QQ"> </a>
+                    <a href="http://amos1.taobao.com/msg.ww?v=2&amp;uid={$scl['store_phone']}&amp;s=2" target="_blank" class="flow-qq">
+                      <img src="__STATIC__/images/wangwang16.gif" width="16" height="16" border="0" alt="淘宝旺旺">
+                    </a>
+                  </p>
+                  <p class="flow-desc"> <span>所在地：</span>{$scl['province_name']},{$scl['city_name']},{$scl['district_name']} </p>
+                  <p class="flow-desc"> <a href="{:U('Home/Store/index',array('store_id'=>$scl['store_id']))}" title="进入店铺，查看所有的商品">共<strong>{$scl['goods_array']['goods_count']}</strong>件宝贝&gt;&gt;</a> </p>
+                </div>
+                <div class="flow-score">
+                  <h3>店铺动态评分</h3>
+                  <p>描述相符：<span>{$scl['store_desccredit']}</span></p>
+                  <p>服务态度：<span>{$scl['store_servicecredit']}</span></p>
+                  <p>发货速度：<span>{$scl['store_deliverycredit']}</span></p>
+                </div>
+                <div class="flow-main flow-main1">
+                  <div class="picMarquee-left">
+                    <div class="bda">
+                      <div class="picListta">
+                        <ul>
+                          <volist name="scl['goods_array']['goods_list']" id="goods">
+                            <li>
+                              <a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}"
+                                 title="{$goods['goods_name']}" target="_blank" class="img">
+                                <img src="{$goods['goods_id']|goods_thum_images=112,112}"> <span>￥{$goods['shop_price']}</span>
+                              </a>
+                              <a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}" title="{$goods['goods_name']}" target="_blank" class="name">{$goods['goods_name']}</a>
+                            </li>
+                          </volist>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </volist>
+            <div class="mui-page">
+              <div class="mui-page-wrap">
+                {$page}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--footer-s-->
+<include file="user/footer" />
+<!--footer-e-->
+<script type="text/javascript">
+  function cancelCollect(log_id){
+      //询问框
+      layer.confirm('您确定要取消收藏', {
+          btn: ['确定','取消'] //按钮
+      }, function(){
+          $.ajax({
+              type : "GET",
+              url:"/index.php/Home/User/del_store_collect/log_id/"+log_id,
+              dataType:'JSON',
+              success: function(data)
+              {
+                  if(data.status == 1){
+                      $('#del_store_'+log_id).remove('')
+                      layer.alert(data.msg, {icon: 1});
+//                      window.location.href=data.url;
+                  }else{
+                      layer.alert(data.msg, {icon: 2});
+                  }
+
+              },
+              error : function() {
+                  layer.alert('网络失败，请刷新页面后重试', {icon: 2});
+              }
+          });
+      });
+  }
+</script>
+</body>
+</html>

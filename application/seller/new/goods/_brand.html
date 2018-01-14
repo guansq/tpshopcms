@@ -1,0 +1,116 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>品牌申请</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="normal"><a href="{:U('Coupon/index')}">返回品牌申请列表</a></li>
+                    <li class="active"><a>新增/编辑品牌</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="addEditBrandForm" onsubmit="return checkName();">
+                    <input type="hidden" name="id" value="{$brand.id}">
+                    <input type="hidden" name="p" value="{$_GET[p]}">
+                    <dl>
+                        <dt><i class="required">*</i>品牌名称：</dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$brand.name}" name="name" maxlength="30"/>
+                            <span id="err_name" style="color:#F00; display:none;">品牌名称不能为空</span>
+                            <p class="hint">请填写品牌名称</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>品牌网址：</dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$brand.url}" name="url" maxlength="30"/>
+                            <p class="hint">请填写品牌网址</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>所属分类：</dt>
+                        <dd>
+                            <select name="cat_id1" id="cat_id1" onchange="get_category(this.value,'cat_id2','0');">
+                                <option value="0">请选择分类</option>
+                                <foreach name="cat_list" item="v" >
+                                    <option value="{$v[id]}"  <if condition="$v[id] eq $brand[cat_id1]"> selected="selected" </if>>{$v[name]}</option>
+                                </foreach>
+                            </select>
+                            <select name="cat_id2" id="cat_id2">
+                                <option value="0">请选择分类</option>
+                            </select>
+                            <p class="hint">请选择所属分类</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>品牌logo：</dt>
+                        <dd>
+                            <div class="ncsc-goods-default-pic">
+                                <div class="goodspic-uplaod">
+                                    <div class="upload-thumb">
+                                        <img id="logo2" src="{$brand.logo|default='/public/images/default_goods_image_240.gif'}">
+                                    </div>
+                                    <input value="{$brand.logo}" name="logo" id="logo" type="hidden">
+                                    <p class="hint">上传品牌logo</p>
+                                    <div class="handle">
+                                        <div class="ncsc-upload-btn">
+                                            <a onclick="GetUploadify(1,'','brand','call_back');">
+                                                <p><i class="icon-upload-alt"></i>图片上传</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="demo"></div>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>品牌排序：</dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$brand.sort}" name="sort" maxlength="30" onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" />
+                            <p class="hint">品牌排序</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>品牌描述：</dt>
+                        <dd>
+                            <textarea name="desc" class="w400 tarea" >{$brand.desc}</textarea>
+                            <p class="hint">品牌描述</p>
+                        </dd>
+                    </dl>
+                    <div class="bottom"><label class="submit-border">
+                        <input type="submit" class="submit" value="提交"></label>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                // 上传商品图片成功回调函数
+                function call_back(fileurl_tmp){
+                    $("#logo").val(fileurl_tmp);
+                    $("#logo2").attr('src', fileurl_tmp);
+                }
+                // 判断输入框是否为空
+                function checkName(){
+                    var name = $("#addEditBrandForm").find("input[name='name']").val();
+                    if($.trim(name) == '')
+                    {
+                        $("#err_name").show();
+                        return false;
+                    }
+                    return true;
+                }
+                window.onload = function(){
+                	var cat_id2 = {$brand.cat_id2} + '';
+                    if(cat_id2 > 0 ){
+                        get_category($("#cat_id1").val(),'cat_id2',cat_id2);
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

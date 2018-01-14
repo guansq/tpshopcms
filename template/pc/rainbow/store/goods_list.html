@@ -1,0 +1,128 @@
+<include file="store/header"/>
+<div class="wrapper mt10">
+  <div class="ncs-main-container">
+    <div class="title">
+      <h4> {$cat_name}  </h4>
+    </div>
+    <div class="ncs-goodslist-bar">
+      <ul class="ncs-array">
+      	<foreach name="link_arr" item="link">
+        <li <if condition="$link[key] eq $keys">class='selected'</if>>
+        <a  <if condition="$link[key] eq $keys">class="{$sort}"</if> href="{$link.url}">{$link.name}</a>
+        </li>
+        </foreach>
+        <!--<li><a class="{$sort}" href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'shop_price','sort'=>$sort))}">价格</a></li>-->
+      </ul> <div class="ncs-search">
+      <form id="" name="searchShop" method="get" action="" >
+        <input type="hidden" name="cat_id" value="{$cat_id}" />
+        <input type="hidden" name="store_id" value="{$store.store_id}"/>
+        <input type="text" class="text w120" name="keyword" value="{$keyword}" id="keyword" placeholder="搜索店内商品">
+        <a href="javascript:document.searchShop.submit();" onclick="if($('#keyword').val().replace(/(^\s*)|(\s*$)/g, '') == ''){ layer.alert('请输入搜索关键字',{icon:2});}" class="ncs-btn">搜索</a>
+      </form>
+    </div>
+    </div>
+        <div class="content ncs-all-goods-list mb15">
+      <ul>
+      <foreach name="goods_list" item="vo">
+       <li>
+          <dl>
+            <dt><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="goods-thumb" target="_blank">
+            	<img src="{$vo.goods_id|goods_thum_images=240,240}" alt="{$vo.goods_name|getSubstr=0,30}" /></a>
+                <ul class="goods-thumb-scroll-show">
+                    <assign name="i" value="0"/>
+	                <foreach name="goods_images" item="v2" key="k2">
+	                   <if condition="$v2[goods_id] eq $vo[goods_id]">
+	                   	  <li <if condition="$i eq 0">class="selected"</if>><a href="javascript:void(0); rel={$i++}"><img src="{$v2[image_url]}"/></a></li>
+	                   </if>
+	                 </foreach>
+                </ul>
+            </dt>
+            <dd class="goods-name"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" title="{$vo.goods_name|getSubstr=0,30}" target="_blank">{$vo.goods_name|getSubstr=0,20}</a></dd>
+            <dd class="goods-info"><span class="price">&yen;             {$vo.shop_price}            </span>
+            <span class="goods-sold">售出：<strong>{$vo.sales_sum}</strong> 件</span></dd>
+              	<if condition="$vo[prom_type] gt 0">
+		              <dd class="goods-promotion">
+		              		<span><if condition="$vo[prom_type] eq 1">抢购商品</if><if condition="$vo[prom_type] eq 2">团购商品</if><if condition="$vo[prom_type] eq 3">限时折扣</if></span>
+		              </dd>
+	              </if>
+            </dl>
+        </li>
+        </foreach>
+	  </ul>
+    </div>
+  {$page_show}
+
+</div>
+<script>
+$(function(){
+    // 图片切换效果
+    $('.goods-thumb-scroll-show').find('a').mouseover(function(){
+        $(this).parents('li:first').addClass('selected').siblings().removeClass('selected');
+        var _src = $(this).find('img').attr('src');
+        _src = _src.replace('_60.', '_240.');
+        $(this).parents('dt').find('.goods-thumb').find('img').attr('src', _src);
+    });
+});
+</script>  <div class="clear">&nbsp;</div>
+</div>
+<include file="store/footer"/>
+<script type="text/javascript">
+$(function(){
+	// Membership card
+	//$('[nctype="mcard"]').membershipCard({type:'shop'});
+});
+//v4
+function fade() {
+	$("img[rel='lazy']").each(function () {
+		var $scroTop = $(this).offset();
+		if ($scroTop.top <= $(window).scrollTop() + $(window).height()) {
+			$(this).hide();
+			$(this).attr("src", $(this).attr("data-url"));
+			$(this).removeAttr("rel");
+			$(this).removeAttr("name");
+			$(this).fadeIn(500);
+		}
+	});
+}
+if($("img[rel='lazy']").length > 0) {
+	$(window).scroll(function () {
+		fade();
+	});
+};
+fade();
+</script><script type="text/javascript">
+$(function(){
+	$('a[nctype="search_in_store"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#search_act').val('show_store');
+		$('<input type="hidden" value="1" name="store_id" /> <input type="hidden" name="op" value="goods_all" />').appendTo("#formSearch");
+		$('#formSearch').submit();
+	});
+	$('a[nctype="search_in_shop"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#formSearch').submit();
+	});
+	$('#keyword').css("color","#999999");
+
+	var storeTrends	= true;
+	$('.favorites').mouseover(function(){
+		var $this = $(this);
+		if(storeTrends){
+			$.getJSON('index.php?act=show_store&op=ajax_store_trend_count&store_id=1', function(data){
+				$this.find('li:eq(2)').find('a').html(data.count);
+				storeTrends = false;
+			});
+		}
+	});
+
+	$('a[nctype="share_store"]').click(function(){
+		//ajax_form('sharestore', '分享店铺', 'index.php?act=member_snsindex&op=sharestore_one&inajax=1&sid=1');
+	});
+});
+</script>
+</body>
+</html>

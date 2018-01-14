@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>售后服务-交易纠纷</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>交易纠纷</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+			    	<div class="ri-menu tradejf fr">
+			    		<div class="menumain p">
+			    			<div class="coup-tit p">
+			    				<h1>交易纠纷</h1>
+			    				<div class="tu">
+			    					<div class="sclq">
+				    					<i class="trade"></i>
+				    					<span><a href="">交易纠纷规则说明</a></span>
+				    					<div class="introducetrade">
+				    						<div class="pc">
+					    						<p>
+						    						<strong>什么是交易纠纷？</strong>
+						    						<br />
+													您在购买商城第三方卖家商品并享受其服务的过程中，
+													与卖家产生分歧，可视为交易纠纷。
+													在您无法与卖家协商处理一致时，
+													可申请交易纠纷单并由商城介入进行处理。
+	  											</p>
+					    						<p>
+					    							<strong>如何解决交易纠纷问题？</strong>
+					    							<br />
+					    							1、您需要根据纠纷问题及页面提示，申请相应类型的交易纠纷单。
+					    							<br />
+					    							2、申请交易纠纷单后，卖家会在24小时内（春节、国庆节假日期间除外）处理并回复您的纠纷单。
+					    							<br />
+					    							（1）卖家回复后，若您与卖家未达成一致，您可以继续回复卖家，或申请商城介入处理。
+					    							<br />
+					    							（2）若卖家超时未回复您的交易纠纷单，将会由商城自动介入处理您的问题。
+					    							<br />
+					    							（3）春节、国庆节假日期间，卖家回复时效为1个工作日。
+					    							<br />
+					    							3、您的交易纠纷单在商城介入后，商城交易纠纷专员会在24小时内处理您的问题。
+					    							<br />
+					    							4、商城交易纠纷专员处理过程中若有需要您举证的情况，请您根据专员举证建议，于交易纠纷单页面上传证据，专员会根据您和卖家提供的证据给出处理结果。
+					    						</p>
+				    						</div>
+				    					</div>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="applyaum p ma-to-20">
+			    			<div class="cn-apply">
+			    				<a class="curp" href="{:U('Order/dispute')}">可申请订单</a>
+			    				<a href="{:U('Order/dispute_list')}">已申请记录</a>
+			    			</div>
+			    			<div class="warning">
+			    				<i class="las-warning"></i>
+			    				<span>目前您的部分订单可能无法申请。我们正逐步覆盖到所有卖家，若订单无法申请，请您至商品详情页联系卖家在线客服寻求帮助。</span>
+			    			</div>
+			    			<div class="orderlist-servecenter">
+			    				<div class="orderbook-list">
+					    			<div class="book-tit">
+					    				<ul>
+					    					<li class="sx1">订单详情</li>
+					    					<li class="sx2">收货人</li>
+					    					<li class="sx3">支付金额</li>
+					    					<li class="sx4">操作</li>
+					    				</ul>
+					    			</div>
+					    		</div>
+					    		<div class="order-alone-li">
+					    		<volist name="order_list" id="vo">
+					    			<table width="100%" border="" cellspacing="" cellpadding="">
+					    				<tr class="time_or">
+					    					<td colspan="6">
+					    						<div class="fl_ttmm">
+					    							<span class="time-num time">{$vo.add_time|date='Y-m-d H:i:s',###}</span>
+					    							<span class="time-num">订单号：<em class="num"><a href="{:U('Home/Order/order_detail',array('id'=>$vo['order_id']))}">{$vo.order_sn}</a></em></span>
+					    							<span class="time-num"><a href="tencent://message/?uin={$store_list[$vo[store_id]][store_qq]}&Site=TPshop商城&Menu=yes">
+					    							<em class="num">{$store_list[$vo[store_id]][store_name]}<i class="ear"></i></em></a></span>
+					    							<!--<div class="dele"></div>-->
+					    						</div>
+					    					</td>
+					    				</tr>
+					    				<tr class="conten_or">
+					    					<td class="sx1">
+					    						<foreach name="vo.order_goods" item="goods">
+					    						<div class="duoal">
+													<a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">
+														<img src="{$goods.goods_id|goods_thum_images=100,100}"/>
+													</a>
+					    							<div class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">{$goods.goods_name}</a></div>
+					    							<div class="iu">x{$goods.goods_num}</div>
+					    						</div>
+					    						</foreach>
+					    					</td>
+					    					<td class="sx2">
+					    						<span class="xuname">{$vo.consignee}</span>
+					    						<i class="las-pp"></i>
+					    					</td>
+					    					<td class="sx3"><span>￥</span><span>{$vo.order_amount}</span></td>
+					    					<td class="sx4">
+						    					<a href="{:U('Order/dispute_apply',array('order_id'=>$vo[order_id]))}">申请交易纠纷</a>
+					    					</td>
+					    				</tr>
+					    			</table>
+					    		</volist>
+					    		</div>
+								<div class="operating fixed" id="bottom">
+									<div class="fn_page clearfix">
+										{$page}
+									</div>
+								</div>
+			    			</div>
+		    			</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.cn-apply a').click(function(){
+					$(this).addClass('curp').siblings().removeClass('curp')
+				})
+			})
+		</script>
+	</body>
+</html>

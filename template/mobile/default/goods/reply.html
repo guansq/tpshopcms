@@ -1,0 +1,117 @@
+<include file="public/header" title="回复列表"/>
+<include file="public/header_nav" title="回复列表"/>
+<style>
+    /*评价*/
+    .comment_list{ width:100%; overflow:hidden; background: #F0F2F5;}
+    .score{padding-bottom:20px; text-align:center; font-size:16px; line-height:50px; color:#666; margin-top:30px;}
+
+    .comment_list li { width:100%; overflow:hidden; padding-bottom:10px;background: white;margin-top: 14px;padding: 10px 0 0 0}
+    .content_head{ width:90%; overflow:hidden; margin:auto; padding-left:8px; padding-right:8px; padding-bottom:10px;}
+    .comment_item .content_head .info {overflow:hidden; width:100%}
+    .comment_item .content_head .info .name { display:inline-block;float:left; font-size:12px; color:#666; line-height:30px;}
+    .comment_item .content_head .info .name em{ display:inline-block; margin-left:8px}
+    .comment_item .content_head .info .name em img{ height:12px;}
+    .content_head .one{float:left;overflow:hidden;line-height:30px;padding-right: 10px;}
+    .content_head .two{ float:right;overflow:hidden; font-size:14px; line-height:30px; color:#666; text-indent:10px;}
+
+    .comment_item .content_head .star_box { display: inline-block; width:100%; overflow:hidden; height:30px;}
+    .comment_item .content_head .star_box span{ display:inline-block; float:left; font-size:14px; line-height:35px; color:#999;}
+    .comment_item .content_head .star_box em{ display:inline-block; width:100px; top:0px}
+    .comment_item .content_head .star_box em img{ display:block; width:100px;}
+    .comment_item .content_head p{ font-size:14px; line-height:150%; color:#666;margin-bottom: 10px}
+    .comment_item .content_head .huifu{ margin-top:20px;}
+    .comment_item .content_head .huifu h3{ font-size:14px; line-height:150%; color:#F60; font-weight:normal}
+    .comment_item .content_head .huifu p{color:#F60;}
+
+    .comment_page{ width:90%; text-align:center; margin:auto; margin-top:10px;}
+    .comment_page a{ display:inline-block; padding-left:10px; padding-right:10px; line-height:25px; color:#666; font-size:12px; border:1px solid #ccc; -webkit-border-radius:8%; -moz-border-radius:8%; border-radius:8%;}
+    .summary{ width:100%; height:100px; font-size:16px; line-height:100px; color:#666; text-align:center; margin-top:50px;}
+    .bottom-to-top {
+        position: fixed;
+        bottom: 56px;
+        right: 8px;
+        width: 35px;
+        height: 35px;
+        z-index: 20;
+        display: none;
+        transform-origin: 0;
+        opacity: 1;
+        transform: scale(1,1);
+    }
+</style>
+
+<div class="comment_list" id="commentList" data-id="0">
+    <ul>
+        <foreach name="reply_list" item="vo" >
+            <li class="comment_item">
+                <div class="content_head" style="border-bottom:1px solid #dedede;">
+                    <div class="info">
+                        <div class=" comment_star">
+                            <div class="bor_sli">
+                                <div class="one"><em><img src=" /Template/mobile/new/Static/images/user68.jpg"></em></div>
+                                <div class="name">{$vo['user_name']|default="匿名用户"}</div>
+                                <div class="two"><php>echo $floor--;</php>楼</div>
+                            </div>
+                            <p class="message_comm">{$vo['content']}</p>
+                            <div class="twos">{$vo['reply_time']|date='Y-m-d H:i:s',###}</div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </foreach>
+    </ul>
+</div>
+<div class="clearfix m">
+    <div class="pagin fr">
+        <if condition="$page_current neq 1">
+            <a class="next" target="_self" href="{:U('Mobile/Goods/reply',array('comment_id'=>$comment_info['comment_id'],'page'=>$page_current-1))}">上一页<b></b></a>
+        </if>
+        <php>
+            if($page_sum>1){
+            for($i=1;$i<=$page_sum;$i++){
+            if($page_current==$i){
+            echo "<a class='current'target='_self' href='".U('Mobile/Goods/reply',array('comment_id'=>$comment_info['comment_id'],'page'=>$i))."'>".$i."</a>";
+            }else{
+            echo "<a target='_self' href='".U('Mobile/Goods/reply',array('comment_id'=>$comment_info['comment_id'],'page'=>$i))."'>".$i."</a>";
+            }
+            }
+            }
+        </php>
+        <if condition="$page_current lt $page_sum">
+            <a class="next" target="_self" href="{:U('Mobile/Goods/reply',array('comment_id'=>$comment_info['comment_id'],'page'=>$page_current+1))}">下一页<b></b></a>
+        </if>
+    </div>
+</div>
+<div class="bottom-to-top J_ping" id="indexToTop" style="display: block;">
+    <img src="__STATIC__/images/scroll-to-top-icon.png?v=jd201608041716" style="width: 100%;">
+</div>
+
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    //返回顶部
+    $(document).ready(function() {
+        //首先将#indexToTop隐藏
+        $("#indexToTop").hide();
+        //当滚动条的位置处于距顶部100像素以下时，跳转链接出现，否则消失
+        $(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > 100) {
+                    $("#indexToTop").fadeIn(1500);
+                } else {
+                    $("#indexToTop").fadeOut(1500);
+                }
+            });
+            //当点击跳转链接后，回到页面顶部位置
+            $("#indexToTop").click(function() {
+                $('body,html').animate({
+                            scrollTop: 0
+                        },
+                        1000);
+                return false;
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

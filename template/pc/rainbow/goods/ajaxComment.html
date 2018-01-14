@@ -1,0 +1,146 @@
+<volist name="commentlist" id="v">
+<div class="people-comment">
+    <div class="deta-descri p">
+        <div class="person-ph-name">
+            <div class="per-img-n p">
+                <div class="img-aroun"><img src="{$v['head_pic']|default='__STATIC__/images/defaultface_user_small.png'}"/></div>
+                <div class="menb-name">
+                    <if condition="$v['is_anonymous'] eq 0">
+                    匿名用户
+                    <else />
+                    {$v['nickname']}
+                    </if>
+                </div>
+            </div>
+            <!--<p class="member">金牌会员</p>-->
+        </div>
+        <div class="person-com">
+            <div class="lifr4 p">
+                <div class="dstar start5">
+                    <i class="start start{$v['goods_rank']|floor}"></i>
+                </div>
+                <div class="star-aftr">
+                    <php>$impression_arr= explode(',',$v['impression']);
+                        if(empty($v['impression'])){
+                        }else{
+                            foreach($impression_arr as $key)
+                            {
+                            echo "<a>".$key."</a>";
+                            }
+                        }
+                    </php>
+                    <!--<a href="javascript:void(0);">非常漂亮</a>-->
+                </div>
+            </div>
+            <div class="lifr4 comfis p">
+                <span class="faisf">{$v['content']|htmlspecialchars_decode}</span>
+            </div>
+            <div class="lifr4 requiimg p">
+                <ul class="comment_images" id="comment_images_{$v[comment_id]}">
+                    <foreach name="v['img']" item="v2" >
+                        <a><li><img data-original="{$v2}" src="{$v2}"/></li></a>
+                    </foreach>
+                </ul>
+                <script>
+                    var viewer = new Viewer(document.getElementById('comment_images_{$v[comment_id]}'), {
+                        url: 'data-original',
+                        show: function() {
+                            $('.soubao-sidebar').hide();
+                        },
+                        hide: function() {
+                            $('.soubao-sidebar').show();
+                        }
+                    });
+                </script>
+            </div>
+            <div class="lifr4 bolist p">
+                <span>{$v['pay_time']|date="Y-m-d H:i:s",###}</span>
+                <span>{$v['spec_key_name']|htmlspecialchars_decode}</span>
+                <span>购买<php>echo round(($v['add_time']-$v['pay_time'])/3600/24);</php>天后{$v.user_id},,{$user.user_id}评价</span>
+                <!--<span>来自Android客户端</span>-->
+            </div>
+        </div>
+        <div class="g_come">
+            <if condition="$v.user_id neq $user.user_id">
+                <a href="javascript:void(0);"><i class="detai-ico c-cen"></i>{$v['reply_num']}</a>
+            </if>
+            <a href="javascript:void(0);" onclick="zan(this);"  data-comment-id="{$v['comment_id']}">
+                <i class="detai-ico z-ten"></i>
+                <span id="span_zan_{$v['comment_id']}" data-io="{$v['zan_num']|default=0}">{$v['zan_num']|default=0}</span>
+            </a>
+        </div>
+    </div>
+    <div class="reply-textarea">
+        <div class="reply-arrow"><b class="layer1"></b><b class="layer2"></b></div>
+        <div class="inner">
+            <textarea class="reply-input J-reply-input" data-id="replytext_{$v['comment_id']}" placeholder="回复 {$v['nick_name']}：" maxlength="120"></textarea>
+            <div class="operate-box">
+                <span class="txt-countdown">还可以输入<em>120</em>字</span>
+                <a class="reply-submit J-submit-reply J-submit-reply-lz" href="javascript:void(0);" target="_self">提交</a>
+            </div>
+        </div>
+    </div>
+    <!-- 商家回复-s -->
+    <volist name="$v['seller_comment']" id="sc" key="k">
+    <div class="comment-replylist">
+        <div class="comment-reply-item hide" style="display: block;">
+            <div class="reply-infor clearfix">
+                <div class="main">
+                            <span class="user-name" style="color: red;">商家回复
+                            </span> ：
+                    <span class="words">{$sc['content']}</span>
+                </div>
+                <div class="side">
+                    <span class="date">{$sc['add_time']|date='Y-m-d H:i:s',###}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </volist>
+    <!-- 商家回复-d -->
+    <!--用户回复评论-s-->
+    <div class="comment-replylist">
+        <volist name="$v['parent_id']" id="reply_list" key="k">
+            <if condition="$k lt 6">
+        <div class="comment-reply-item hide" data-vender="0" data-name="{$reply_list['user_name']}" data-uid="" style="display: block;">
+            <div class="reply-infor clearfix">
+                <div class="main">
+                  <span class="user-name">{$reply_list['user_name']}
+                      <if condition="strtoupper($reply_list['to_name']) neq ''">&nbsp;<font style="color: #1a2226">回复</font>&nbsp;{$reply_list['to_name']}</if>
+                  </span> ：
+                    <span class="words">{$reply_list['content']}</span>
+                </div>
+                <div class="side">
+                    <span class="date">{$reply_list['reply_time']|date='Y-m-d H:i:s',###}</span>
+                </div>
+            </div>
+            <div class="comment-operate">
+                <a class="reply J-reply-trigger" href="javascript:;" target="_self">回复</a>
+                <div class="reply-textarea">
+                    <div class="reply-arrow"><b class="layer1"></b><b class="layer2"></b></div>
+                    <div class="inner">
+                        <textarea class="reply-input J-reply-input" data-id="replytext_{$v['comment_id']}" placeholder="回复{$reply_list['user_name']}：" maxlength="120"></textarea>
+                        <div class="operate-box">
+                            <span class="txt-countdown">还可以输入<em>120</em>字</span>
+                            <a class="reply-submit J-submit-reply J-submit-reply-lz" href="javascript:void(0);" data-id="{$reply_list.reply_id}" onclick="" target="_self">提交</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </if>
+        </volist>
+        <if condition="$v['reply_num'] gt 5">
+        <div class="view-all-reply show">
+            <a href="{:U('Home/Goods/reply',array('comment_id'=>$v['comment_id']))}" class="view-link reply">查看全部回复</a>
+        </div>
+        </if>
+    </div>
+    <!--用户回复评论-e-->
+</div>
+</volist>
+<div class="operating fixed" id="bottom">
+    <div class="fn_page clearfix">
+        {$page}
+    </div>
+</div>

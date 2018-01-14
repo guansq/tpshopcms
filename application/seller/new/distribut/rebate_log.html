@@ -1,0 +1,170 @@
+<include file="public/head"/>
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>分销商品<i class="icon-angle-right"></i>分成记录</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('seller/Distrbut/rebate_log')}">分成记录</a></li>
+                </ul>
+            </div>
+            <form method="post" id="search-form2" action="{:U('Distribut/rebate_log')}" onsubmit="return check_form();">
+                <input type="hidden" name="create_time" id="create_time" value="{$create_time}">
+                <table class="search-form">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th>状态</th>
+                        <td class="w160">
+                            <select id="status" name="status" class="w150">
+                                <option value="">全部</option>
+                                <option value="0"<if condition="$_REQUEST['status'] heq '0'">selected</if>>未付款</option>
+                                <option value="1"<if condition="$_REQUEST['status'] eq 1">selected</if>>已付款</option>
+                                <option value="2"<if condition="$_REQUEST['status'] eq 2">selected</if>>等待分成</option>
+                                <option value="3"<if condition="$_REQUEST['status'] eq 3">selected</if>>已分成</option>
+                                <option value="4"<if condition="$_REQUEST['status'] eq 4">selected</if>>已取消</option>
+                            </select>
+                        </td>
+                        <th>用户ID</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  name="user_id" value="{$Request.param.user_id}" placeholder="用户ID" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                        </td>
+                        <th>订单编号</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  value="{$_REQUEST[order_sn]}" name="order_sn" placeholder="订单号"/>
+                        </td>
+                        <th>开始时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                        </td>
+                        <th>截止时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                        </td>
+                        <td class="tc w70">
+                            <label class="submit-border"><input type="submit" class="submit" value="搜索"/></label>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr nc_type="table_header">
+                    <th class="w50">ID</th>
+                    <th class="w100 tl">获佣用户id</th>
+                    <th class="w100">订单编号</th>
+                    <th class="w100">获佣金额</th>
+                    <th class="w100">获佣用户级别</th>
+                    <th class="w100">记录生成时间</th>
+                    <th class="w100">状态</th>
+                    <th class="w120">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <if condition="empty($list) eq true">
+				  	<tbody>
+				  		<tr>
+				      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+				    	</tr>
+				      </tbody>
+				<else/> 
+                <volist name="list" id="v">
+                    <tr class="bd-line">
+                        <td class="trigger">
+                            {$v.id}
+                        </td>
+                        <td class="tl">
+                            {$v.user_id}&nbsp;&nbsp;
+                            <if condition="$user_arr[$v[user_id]][nickname] neq ''">
+                                {$user_arr[$v[user_id]][nickname]}
+                                <elseif condition="$user_arr[$v[user_id]][email] neq ''"/>
+                                {$user_arr[$v[user_id]][email]}
+                                <else/>
+                                {$user_arr[$v[user_id]][mobile]}
+                            </if>
+                        </td>
+                        <td>
+                            <a href="{:U('order/detail',array('order_id'=>$v[order_id]))}">
+                                {$v.order_sn}
+                            </a>
+                        </td>
+                        <td>
+                            <span>&yen;{$v.money}</span>
+                        </td>
+                        <td><span>{$v.level}</span></td>
+                        <td><span>{$v.create_time|date="Y-m-d",###}</span></td>
+                        <td class="goods-time">
+                            <if condition="$v[status] eq 0">未付款</if>
+                            <if condition="$v[status] eq 1">已付款</if>
+                            <if condition="$v[status] eq 2">等待分成</if>
+                            <if condition="$v[status] eq 3">已分成</if>
+                            <if condition="$v[status] eq 4">已取消</if>
+                        </td>
+                        <td class="nscs-table-handle">
+                            <span>
+                                <a href="{:U('Distribut/editRebate',array('id'=>$v['id'],'p'=>$_GET[p]))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a>
+                            </span>
+                        </td>
+                    </tr>
+                </volist>
+                </if>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$show}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            <script>
+                $(document).ready(function(){
+                    $('#start_time').layDate();
+                    $('#end_time').layDate();
+                });
+                // 删除操作
+                function del(id)
+                {
+                    layer.confirm('确定要删除吗？', {
+                                btn: ['确定','取消'] //按钮
+                            }, function(){
+                                // 确定
+                                $.ajax({
+                                    url:"/index.php?m=Seller&c=goods&a=delGoods&id="+id,
+                                    success: function(v){
+                                        layer.closeAll();
+                                        var v =  eval('('+v+')');
+                                        if(v.hasOwnProperty('status') && (v.status == 1))
+                                            ajax_get_table('search-form2',cur_page);
+                                        else
+                                            layer.msg(v.msg, {icon: 2,time: 1000}); //alert(v.msg);
+                                    }
+                                });
+                            }, function(index){
+                                layer.close(index);
+                            }
+                    );
+                }
+                function check_form(){
+                    var start_time = $.trim($('#start_time').val());
+                    var end_time =  $.trim($('#end_time').val());
+                    if(start_time == '' ^ end_time == ''){
+                        layer.alert('请选择完整的时间间隔', {icon: 2});
+                        return false;
+                    }
+                    if(start_time !== '' && end_time !== ''){
+                        $('#create_time').val(start_time+" - "+end_time);
+                    }
+                    if(start_time == '' && end_time == ''){
+                        $('#create_time').val('');
+                    }
+                    return true;
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

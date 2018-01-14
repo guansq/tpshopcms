@@ -1,0 +1,106 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺信息</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="active"><a  href="{:U('Store/bind_class_list')}">经营类目</a></li>
+  <li class="normal"><a  href="{:U('Store/store_info')}">店铺信息</a></li>
+  <!--<li class="normal"><a  href="{:U('Store/store_reopen')}">申请续签</a></li>-->
+  </ul>
+  <a href="javascript:void(0)" class="ncbtn ncbtn-mint" onclick="get_goods_class()">申请新的经营类目</a>
+  </div>
+
+	<table class="ncsc-default-table">
+	  <thead>
+	    <tr>
+	      <th class="w20"></th>
+	      <th colspan="3">经营类目</th>
+	      <th>分佣比例</th>
+	      <th>状态</th>
+	      <th>操作</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  <empty name="bind_class_list">
+	  <tfoot>
+	    <tr>
+	      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+	    </tr>
+	  </tfoot>
+	  <else/>
+	  <foreach name="bind_class_list" item="vo" key="k" >
+	     <tr class="bd-line">
+	      <td></td>
+	      <td class="w180 tl">{$vo.class_1_name}</td>
+	      <td class="w180 tl">>&emsp;{$vo.class_2_name}</td>
+	      <td class="w180 tl">>&emsp;{$vo.class_3_name}</td>
+	      <td class="w180">{$vo.commis_rate}%</td>
+	      <td class="w100"><if condition="$vo[state] eq 1">已通过<elseif condition="$vo[state] eq 2"/>被拒绝<else/>待审核</if></td>
+	      <td class="nscs-table-handle">
+	            <span><a href="javascript:void(0)" class="btn-grapefruit" data-url="{:U('Store/bind_class_del')}" data-id="{$vo.bid}" onclick="delfun(this)"><i class="icon-trash"></i><p>删除</p></a></span>
+	      </td>
+	    </tr>
+	  </foreach>
+	  </empty>
+	  </tbody>
+	</table>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script type="text/javascript">
+function delfun(obj){
+	layer.confirm('确定要删除吗？', {
+				btn: ['确定','取消'] //按钮
+			}, function(){
+				// 确定
+				$.ajax({
+					type : 'post',
+					url : $(obj).attr('data-url'),
+					data : {act:'del',bid:$(obj).attr('data-id')},
+					dataType : 'json',
+					success : function(data){
+						layer.closeAll();
+						if(data.status==1){
+							$(obj).parent().parent().parent().remove();
+						}else{
+							layer.alert(data, {icon: 2});  //alert(data);
+						}
+					}
+				})
+			}, function(index){
+				layer.close(index);
+			}
+	);
+}
+
+function get_goods_class(){
+    layer.open({
+        type: 2,
+        title: '申请经营新的类目',
+        shadeClose: true,
+        shade: 0.2,
+        area: ['35%', '30%'],
+        skin: 'layui-layer-rim',
+        content: ["{:U('Store/get_bind_class')}",'no'], 
+    });
+}
+
+//回调函数
+function call_back(msg){
+	if(msg>0){
+		layer.msg('操作成功', {icon: 1});
+		layer.closeAll('iframe');
+		window.location.reload();
+	}else{
+		layer.msg('操作失败', {icon: 3});
+		layer.closeAll('iframe');
+	}
+}
+</script>
+</body>
+</html>

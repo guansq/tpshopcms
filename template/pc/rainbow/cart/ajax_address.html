@@ -1,0 +1,127 @@
+<i class="sprite_le_ri"></i>
+<div class="top_leg p">
+    <span class="paragraph fl"><i class="ddd"></i>收货人信息</span>
+    <a id="addNewAddress" class="newadd fr" href="javascript:void(0);" onClick="add_edit_address(this);" data-address-id="0">新增收货地址</a>
+</div>
+<div class="consignee-list p">
+    <ul>
+        <volist name="address_list" id="address">
+            <!--默认选中的地址-->
+            <if condition="$address[is_default] eq 1">
+                <li class="addressItem" data-address-id="{$address[address_id]}">
+                    <div class="item_select_t curtr fl">
+                        <span>{$address[consignee]}&nbsp;{$regionList[$address[province]]}</span>
+                        <b></b>
+                    </div>
+                    <div class="addrdetail fl">
+                        <span class="addr-name" title="{$address[consignee]}">{$address[consignee]}</span>
+                        <span class="addr-info" title="{$regionList[$address[province]]} {$regionList[$address[city]]} {$regionList[$address[district]]} {$regionList[$address[twon]]} {$address[address]}">
+                            {$regionList[$address[province]]} {$regionList[$address[city]]} {$regionList[$address[district]]} {$regionList[$address[twon]]} {$address[address]}
+                        </span>
+                        <span class="addr-tel" title="{$address[mobile]}">{$address[mobile]}</span>
+                        <span class="addr-default">默认地址</span>
+                    </div>
+                    <div class="opbtns_editdel">
+                        <a href="javascript:void(0);" onclick="add_edit_address(this);" class="ftx">编辑</a>
+                        <a href="javascript:void(0);" onclick="del_address(this);" class="ftx">删除</a>
+                    </div>
+                </li>
+
+                <else/>
+                <li class="addressItem" data-address-id="{$address[address_id]}">
+                    <div class="item_select_t fl">
+                        <span>{$address[consignee]}&nbsp;{$regionList[$address[province]]}</span>
+                        <b></b>
+                    </div>
+                    <div class="addrdetail fl">
+                        <span class="addr-name" title="{$address[consignee]}">{$address[consignee]}</span>
+                         <span class="addr-info" title="{$regionList[$address[province]]} {$regionList[$address[city]]} {$regionList[$address[district]]} {$regionList[$address[twon]]} {$address[address]}">
+                            {$regionList[$address[province]]} {$regionList[$address[city]]} {$regionList[$address[district]]} {$regionList[$address[twon]]} {$address[address]}
+                        </span>
+                        <span class="addr-tel" title="{$address[mobile]}">{$address[mobile]}</span>
+                    </div>
+                    <div class="opbtns_editdel">
+                        <a href="javascript:void(0);" onclick="set_address_default(this);" class="ftx">设为默认地址</a>
+                        <a href="javascript:void(0);" onclick="add_edit_address(this);" data-address-id="{$address[address_id]}" class="ftx">编辑</a>
+                        <a href="javascript:void(0);" onclick="del_address(this);" class="ftx">删除</a>
+                    </div>
+                </li>
+            </if>
+        </volist>
+    </ul>
+</div>
+<if condition="count($address_list) gt 1">
+    <div class="addr-switch">
+        <span>更多地址</span>
+        <b></b>
+    </div>
+</if>
+<script>
+    /**
+     * 新增修改收货地址
+     */
+    function add_edit_address(obj) {
+        var url = '';
+        var id = $(obj).parents('.addressItem').attr('data-address-id');
+        if(typeof(id)=="undefined"){
+            id = 0;
+        }
+        if (typeof(id)=="undefined"){
+            url = "/index.php?m=Home&c=User&a=add_address&scene=1&call_back=call_back_fun";	// 新增地址
+        }else{
+            url = "/index.php?m=Home&c=User&a=edit_address&scene=1&call_back=call_back_fun&id=" + id;
+        }
+        layer.open({
+            type: 2,
+            title: '添加收货地址',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['880px', '580px'],
+            content: url
+        });
+    }
+    // 添加修改收货地址回调函数
+    function call_back_fun(v) {
+        layer.closeAll(); // 关闭窗口
+        ajax_address(); // 刷新收货地址
+    }
+    /**
+     * 删除收货地址
+     * @param obj
+     */
+    function del_address(obj) {
+        var id = $(obj).parents('.addressItem').attr('data-address-id');
+        layer.confirm("确定要删除吗?", {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.closeAll();
+                    $.ajax({
+                        url: "/index.php?m=Home&c=User&a=del_address&id=" + id,
+                        success: function (data) {
+                            window.parent.ajax_address(); // 刷新收货地址
+                        }
+                    });
+                }, function (index) {
+                    layer.close(index);
+                }
+        );
+    }
+    //设置默认地址
+    function set_address_default(obj){
+        var id = $(obj).parents('.addressItem').attr('data-address-id');
+        $.ajax({
+            url: "/index.php?m=Home&c=User&a=setAddressDefault",
+            type: 'post',
+            data: {id: id},
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 1) {
+                    window.parent.ajax_address(); // 刷新收货地址
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                }
+            }
+        });
+    }
+
+</script>

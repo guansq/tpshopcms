@@ -1,0 +1,104 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>账号<i class="icon-angle-right"></i>管理员</div>
+		<div class="main-content" id="mainContent">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active"><a href="{:U('Seller/Admin/index')}">管理员列表</a></li>
+				</ul>
+				<a href="{:U('Seller/Admin/admin_info')}" class="ncbtn ncbtn-mint" title="发布新商品">添加管理员</a>
+			</div>
+			<form method="post" id="search-form2" action="{:U('Seller/Admin/index')}" onsubmit="check_form();">
+				<input type="hidden" name="create_time" id="create_time" value="{$create_time}">
+				<table class="search-form">
+					<tr>
+						<td>&nbsp;</td>
+						<td class="w100">
+							<input type="text" style="width: 90px;" value="{$Request.param.keywords}" class="text w90"  name="keywords" placeholder="账户名"/>
+						</td>
+						<td class="tc w70">
+							<label class="submit-border"><input type="submit" class="submit" value="搜索"/></label>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<table class="ncsc-default-table">
+				<thead>
+				<tr nc_type="table_header">
+					<th class="w50">ID</th>
+					<th class="w200 tl">账号名</th>
+					<th class="w100">所属角色</th>
+					<th class="w200">加入时间</th>
+					<th class="w100">状态</th>
+					<th class="w120">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<empty name="list">
+				<tr>
+					<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>无数据。</span></div></td>
+				</tr>
+				<else/>
+				<foreach name="list" item="vo" key="k" >
+					<tr class="bd-line">
+						<td class="trigger">{$vo.seller_id}</td>
+						<td class="tl"><span>{$vo.seller_name}</span></td>
+						<td><span><if condition="$vo['is_admin'] eq 1">管理员<else/>{$vo.role}</if></span></td>
+						<td><span>{$vo.add_time}</span></td>
+						<td><span>{$vo.enabled}</span></td>
+						<td class="nscs-table-handle">
+                            <span>
+                                <a href="{:U('Admin/admin_info',array('seller_id'=>$vo['seller_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a>
+                            </span>
+							<if condition="$vo['is_admin'] neq 1">
+								<span>
+									<a data-url="{:U('Admin/adminHandle')}" data-id="{$vo.seller_id}" onclick="delfun(this);" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+								</span>
+							</if>
+						</td>
+					</tr>
+				</foreach>
+				</empty>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="20">
+						{$show}
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+			<script>
+				function delfun(obj){
+					layer.confirm('确认删除吗？', {
+						btn: ['确认','取消'] //按钮
+					}, function(){
+						$.ajax({
+							type : 'POST',
+							url : $(obj).attr('data-url'),
+							data : {act:'del',seller_id:$(obj).attr('data-id')},
+							dataType : 'json',
+							success : function(data){
+								layer.closeAll();
+								if(data==1){
+									$(obj).parent().parent().parent().remove();
+								}else{
+									layer.alert(data, {icon: 2});  //alert('删除失败');
+								}
+							}
+						})
+					}, function(){
+
+					});
+				}
+
+
+			</script>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

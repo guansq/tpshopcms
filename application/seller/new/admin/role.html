@@ -1,0 +1,81 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>账号<i class="icon-angle-right"></i>角色管理</div>
+		<div class="main-content" id="mainContent">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active"><a href="{:U('seller/Admin/role')}">角色列表</a></li>
+				</ul>
+				<a href="{:U('Admin/role_info')}" class="ncbtn ncbtn-mint" title="添加角色">添加角色</a>
+			</div>
+			<table class="ncsc-default-table">
+				<thead>
+				<tr nc_type="table_header">
+					<th class="w50">ID</th>
+					<th class="w200 tl">角色名</th>
+					<th class="w120">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<empty name="list">
+					<tr>
+						<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>无数据。</span></div></td>
+					</tr>
+					<else/>
+				<foreach name="list" item="vo" key="k" >
+					<tr class="bd-line">
+						<td class="trigger">{$vo.group_id}</td>
+						<td class="tl"><span>{$vo.group_name}</span></td>
+						<td class="nscs-table-handle">
+                            <span>
+                                <a href="{:U('Admin/role_info',array('group_id'=>$vo['group_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a>
+                            </span>
+							<span>
+								<a href="javascript:void(0);" data-url="{:U('Admin/roleDel')}" data-id="{$vo.group_id}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+							</span>
+						</td>
+					</tr>
+				</foreach>
+					</empty>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="20">
+						{$page}
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+			<script>
+				function delfun(obj){
+					layer.confirm('确认删除？', {
+								btn: ['确定','取消'] //按钮
+							}, function(){
+								$.ajax({
+									type : 'post',
+									url : $(obj).attr('data-url'),
+									data : {act:'del',group_id:$(obj).attr('data-id')},
+									dataType : 'json',
+									success : function(data){
+										layer.closeAll();
+										if(data==1){
+											$(obj).parent().parent().parent().remove();
+										}else{
+											layer.alert(data, {icon: 2});   //alert('用户名或密码不能为空');// alert(data);
+										}
+									}
+								})
+							}, function(index){
+								layer.close(index);
+							}
+					);
+				}
+			</script>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <a class="back" href="{:U('Coupon/index')}" title="返回列表">
+        <i class="fa fa-arrow-circle-o-left"></i>
+      </a>
+      <div class="subject">
+        <h3>店铺代金券 - 编辑代金券</h3>
+        <h5>查看/编辑商家发布的代金券</h5>
+      </div>
+    </div>
+  </div>
+  <form id="add_form" method="post" action="">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label>店铺名称</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.store_name}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>代金券名称</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.name}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>优惠券类型</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupons[$coupon[type]]}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>有效期</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.use_end_time|date='Y-m-d',###}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>面额</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.money}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>可发放总数</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.createnum}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>消费金额</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.condition}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>代金券描述</label>
+        </dt>
+        <dd class="opt">
+          <textarea rows="6" readonly="readonly" class="readonly tarea">{$coupon.coupon_info}</textarea>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>已领取</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.send_num}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>已使用</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" class="readonly txt" value="{$coupon.use_num}" readonly>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>状态</label>
+        </dt>
+        <dd class="opt">
+         	<label><if condition="$coupon.status eq 1">有效<else/>无效</if></label>
+        </dd>
+      </dl>
+    </div>
+  </form>
+</div>
+<script>
+//按钮先执行验证再提交表单
+</script>
+</body>
+</html>

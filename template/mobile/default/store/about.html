@@ -1,0 +1,175 @@
+<include file="public/header" title="{$store.store_name}"/>
+<include file="public/header_nav" title="店铺详情" href="javascript:history.back(-1)"/>
+		<div class="top-detailstore">
+			<div class="maleri30">
+				<div class="de_img_le">
+                    <img src="{$store.store_logo|default='__STATIC__/images/v-shop/logo.png'}" alt="{$store.store_name}"/>
+                </div>
+				<div class="de_font-midd">
+					<h3>{$store.store_name}</h3>
+					<!--<p>已有<span>1088</span>人关注</p>-->
+				</div>
+				<div class="de-butt-ygz">
+					<!--<div class="payclos">-->
+						<!--<i class="red"></i>-->
+						<!--<span>已关注</span>-->
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+		<div class="leve-trhee">
+			<div class="maleri30">
+				<ul>
+					<li class="te-left">
+						<span>商品</span>
+                        <if condition='$store.store_desccredit elt 2'><span class="red"></if>
+                        <if condition='$store.store_desccredit gt 2 and $store.store_desccredit lt 4'><span class="pink"></if>
+                        <if condition='$store.store_desccredit egt 4'><span class="green"></if>{$store.store_desccredit}分</span>
+						<!--<span class="gr">高</span>-->
+					</li>
+					<li class="te-midden">
+						<span>服务</span>
+                        <if condition='$store.store_servicecredit elt 2'><span class="red"></if>
+                        <if condition='$store.store_servicecredit gt 2 and $store.store_servicecredit lt 4'><span class="pink"></if>
+                        <if condition='$store.store_servicecredit egt 4'><span class="green"></if>{$store.store_servicecredit}分</span>
+						<!--<span class="gr ba-green">高</span>-->
+					</li>
+					<li class="te-right">
+						<!--<span class="gr ba-pink">高</span>-->
+                        <if condition='$store.store_deliverycredit elt 2'><span class="red"></if>
+                        <if condition='$store.store_deliverycredit gt 2 and $store.store_deliverycredit lt 4'><span class="pink"></if>
+                        <if condition='$store.store_deliverycredit egt 4'><span class="green"></if>{$store.store_deliverycredit}分</span>
+						<span>物流</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="my sinhert setting g4">
+			<div class="content">
+				<div class="floor w3">
+					<ul>
+						<li>
+							<a href="{:U('Store/goods_list',['store_id'=>$store.store_id])}">
+								<h2>{$total_goods}</h2>
+								<p>全部商品</p>
+							</a>
+						</li>
+						<li>
+							<a href="{:U('Store/goods_list',['store_id'=>$store.store_id,'sta'=>is_new])}">
+								<h2>{:count($new_goods)}</h2>
+								<p>新品</p>
+							</a>
+						</li>
+						<li>
+							<a href="{:U('Store/goods_list',['store_id'=>$store.store_id,'sta'=>is_recommend])}">
+								<h2>{:count($hot_goods)}</h2>
+								<p>热销</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="list7 detailsfloo ma-to-20">
+				<div class="myorder p">
+					<div class="content30">
+						<a href="tel:{$store.store_phone}">
+							<div class="order">
+								<div class="fl">
+									<span class="firde">在线客服</span>
+									<span></span>
+								</div>
+								<div class="fr">
+									<i class="Mright sto_kf"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="myorder p">
+					<div class="content30">
+						<a href="javascript:void(0)">
+							<div class="order">
+								<div class="fl">
+									<span class="firde">店铺二维码</span>
+									<span></span>
+								</div>
+								<div class="fr">
+									<i class="Mright sto_kf sto_ewm"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="myorder p">
+					<div class="content30">
+						<a href="tel:{$store.store_phone}">
+							<div class="order">
+								<div class="fl">
+									<span class="firde">在线客服</span>
+									<span>{$store.store_phone}</span>
+								</div>
+								<div class="fr">
+									<i class="Mright sto_kf sto_phone"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="list7 detailsfloo ma-to-20">
+				<!--<div class="myorder p">-->
+					<!--<div class="content30">-->
+						<!--<a href="javascript:void(0)">-->
+							<!--<div class="order">-->
+								<!--<div class="fl">-->
+									<!--<span class="firde">店铺简介</span>-->
+									<!--<span>{$store.store_name}</span>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</a>-->
+					<!--</div>-->
+				<!--</div>-->
+                <notempty name="$store['company_name']">
+                    <div class="myorder p">
+                        <div class="content30">
+                            <a href="javascript:void(0)">
+                                <div class="order">
+                                    <div class="fl">
+                                        <span class="firde">公司名称</span>
+                                        <span>{$store.company_name}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </notempty>
+
+				<div class="myorder p">
+					<div class="content30">
+						<a href="javascript:void(0)">
+							<div class="order">
+								<div class="fl">
+									<span class="firde">开店时间</span>
+									<span>{:date('Y-m-d',$store.store_time)}</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="myorder p">
+					<div class="content30">
+						<a href="javascript:void(0)">
+							<div class="order">
+								<div class="fl">
+									<span class="firde">店铺地址</span>
+                                    <span>{$store.region}，{$store.store_address}</span>
+                                </div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

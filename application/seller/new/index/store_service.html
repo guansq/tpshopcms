@@ -1,0 +1,207 @@
+<style>
+	.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #36BC9B;
+    border-color: #36BC9B;
+    margin: 10px 0;
+}
+.btn {
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+}
+.table-bordered .form-control{
+	height: 30px;
+}
+.table-bordered tr td{
+	padding: 5px 0;
+}
+.presales_tr,.aftersales_tr{
+	display: none;
+}
+</style>
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>客服消息<i class="icon-angle-right"></i>客服设置</div>
+		<div class="main-content" id="mainContent">
+			<div class="alert alert-block mt10">
+				<ul class="mt5">
+					<li>1、客服信息需要填写完整，不完整信息将不会被保存.</li>
+				</ul>
+			</div>
+			<div class="item-publish">
+				<form method="post" id="handlepost" action="{:U('Index/store_service')}">
+					<div class="tab-content">
+						<div class="row" style="margin:20px auto;text-align:center;">
+							<table class="table table-bordered">
+								<tbody>
+								<tr>
+									<td>售前客服：</td>
+									<td>客服名称</td>
+									<td>客服工具</td>
+									<td>客服账号</td>
+									<td></td>
+								</tr>
+
+								<foreach name="store[store_presales]" item="v" key="k" >
+									<tr class="presales_tr" style="display:table-row;">
+										<td></td>
+										<td><input type="text" class="form-control" placeholder="客服名称" name="pre[{$k}][name]" value="{$v['name']}" /></td>
+										<td>
+											<select class="form-control"  name="pre[{$k}][type]">
+												<option value="ww" <if condition="$v['type'] eq 'ww'">selected="selected"</if> >旺旺</option>
+												<option value="qq" <if condition="$v['type'] eq 'qq'">selected="selected"</if> >QQ</option>
+												<!--<option value="IM" <if condition="$v['type'] eq 'IM'">selected="selected"</if> >站内IM</option>-->
+											</select>
+										</td>
+										<td><input type="text" class="form-control" placeholder="客服账号"  name="pre[{$k}][account]" value="{$v['account']}" /></td>
+										<td><input type="button" class="btn btn-default del_sales_btn" value="- 删除" /></td>
+									</tr>
+								</foreach>
+
+								<tr class="presales_tr">
+									<td></td>
+									<td><input type="text" class="form-control" placeholder="客服名称" name="pre[0][name]"></td>
+									<td>
+										<select class="form-control"  name="pre[0][type]">
+											<option value="ww">旺旺</option>
+											<option value="qq">QQ</option>
+											<option value="IM">站内IM</option>
+										</select>
+									</td>
+									<td><input type="text" class="form-control" placeholder="客服账号"  name="pre[0][account]" value="" /></td>
+									<td><input type="button" class="btn btn-default del_sales_btn" value="- 删除" /></td>
+								</tr>
+								<tr class="bd-line">
+									<td></td>
+									<td colspan="4" align="left">
+										<input type="button" class="btn btn-primary" value="+添加售前客服" id="presales_btn">
+									</td>
+								</tr>
+								<tr>
+									<td>售后客服：</td>
+									<td>客服名称</td>
+									<td>客服工具</td>
+									<td>客服账号</td>
+									<td></td>
+								</tr>
+								<foreach name="store[store_aftersales]" item="v" key="k" >
+									<tr  class="aftersales_tr" style="display:table-row;">
+										<td></td>
+										<td><input type="text" class="form-control" placeholder="客服名称" name="after[{$k}][name]" value="{$v['name']}" /></td>
+										<td>
+											<select class="form-control"  name="after[{$k}][type]">
+												<option value="ww" <if condition="$v['type'] eq 'ww'">selected="selected"</if> >旺旺</option>
+												<option value="qq" <if condition="$v['type'] eq 'qq'">selected="selected"</if> >QQ</option>
+												<!--<option value="IM" <if condition="$v['type'] eq 'IM'">selected="selected"</if> >站内IM</option>-->
+											</select>
+										</td>
+										<td><input type="text" class="form-control" placeholder="客服账号"  name="after[{$k}][account]" value="{$v['account']}" /></td>
+										<td><input type="button" class="btn btn-default del_sales_btn" value="- 删除" /></td>
+									</tr>
+								</foreach>
+								<tr  class="aftersales_tr" >
+									<td></td>
+									<td><input type="text" class="form-control" placeholder="客服名称" name="after[0][name]" /></td>
+									<td>
+										<select class="form-control"  name="after[0][type]">
+											<option value="ww" <if condition="$v['type'] eq 'ww'">selected="selected"</if> >旺旺</option>
+											<option value="qq" <if condition="$v['type'] eq 'qq'">selected="selected"</if> >QQ</option>
+											<!--<option value="IM" <if condition="$v['type'] eq 'IM'">selected="selected"</if> >站内IM</option>-->
+										</select>
+									</td>
+									<td><input type="text" class="form-control" placeholder="客服账号"  name="after[0][account]" value="" /></td>
+									<td><input type="button" class="btn btn-default del_sales_btn" value="- 删除" /></td>
+								</tr>
+
+								<tr class="bd-line">
+									<td></td>
+									<td colspan="4" align="left">
+										<input type="button" class="btn btn-primary" value="+添加售后客服" id="aftersales_btn">
+									</td>
+								</tr>
+								<tr>
+									<td>工作时间：</td>
+									<td colspan="4" align="left">例：（工作时间 AM 10:00 - PM 18:00）</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td colspan="4" align="left">
+										<textarea rows="3" cols="100" name="working_time">{$store.store_workingtime}</textarea>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="bottom tc hr32">
+						<label class="submit-border">
+							<input class="submit" value="保存" type="submit" onclick="adsubmit()">
+						</label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+	function adsubmit(){
+		// 表单提交
+		$('#handlepost').submit();
+	}
+	$(document).ready(function(){
+		// 添加售前客服
+		$('#presales_btn').click(function(){
+			var count = $('.presales_tr').length; // 当前的数量
+			var presales_tr = $(this).parent().parent().prev('.presales_tr'); // 找到这个按钮的所在 tr 的前面的那个tr
+			var clont_tr = presales_tr.clone().show(); // 克隆一份出来
+			clont_tr.find('input[name="pre\[0\]\[name\]"]').val('售前'+count).attr('name',"pre["+count+"][name]");// 设置刚刚克隆出来里面 input 的值
+			clont_tr.find('select[name="pre\[0\]\[type\]"]').attr('name',"pre["+count+"][type]");
+			clont_tr.find('input[name="pre\[0\]\[account\]"]').attr('name',"pre["+count+"][account]");
+			presales_tr.before(clont_tr); // 在塞到 刚刚前面那个tr 里面去
+		});
+
+		// 添加售后客服
+		$('#aftersales_btn').click(function(){
+			var count = $('.aftersales_tr').length; // 当前的数量
+			var aftersales_tr = $(this).parent().parent().prev('.aftersales_tr'); // 找到这个按钮的所在 tr 的前面的那个tr
+			var clont_tr = aftersales_tr.clone().show(); // 克隆一份出来
+			clont_tr.find('input[name="after\[0\]\[name\]"]').val('售后'+count).attr('name',"after["+count+"][name]");  // 设置刚刚克隆出来里面 input 的值
+			clont_tr.find('select[name="after\[0\]\[type\]"]').attr('name',"after["+count+"][type]");
+			clont_tr.find('input[name="after\[0\]\[account\]"]').attr('name',"after["+count+"][account]");
+			aftersales_tr.before(clont_tr); // 在塞到 刚刚前面那个tr 里面去
+		});
+
+		// 删除某一行
+		$(document).on('click','.del_sales_btn',function(){
+			$(this).parent().parent().remove();
+		});
+	});
+</script>
+</body>
+</html>

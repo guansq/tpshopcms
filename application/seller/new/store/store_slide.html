@@ -1,0 +1,96 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺设置</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  	<li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+  	<li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+  	<li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+  	<li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+      <li <if condition="ACTION_NAME eq 'getpoint'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/getpoint')}">拾取店铺坐标</a></li>
+  </ul>
+</div>
+<div class="ncsc-form-default"> <div class="alert">
+      <ul>
+        <li>1. 最多可上传5张幻灯片图片。</li>
+        <li>2. 支持jpg、jpeg、gif、png格式上传，建议图片宽度940px、高度在300px到440px之间、大小1.00M以内的图片。提交2~5张图片可以进行幻灯片播放，一张图片没有幻灯片播放效果。</li>
+        <li>3. 操作完成以后，按“提交”按钮，可以在当前页面进行幻灯片展示。</li>
+        <li>4. 跳转链接必须带有<b style="color:red;">“http://”</b></li>
+      </ul>
+    </div>
+  <div class="flexslider">
+    <ul class="slides">
+      <foreach name="store_slide" item="vo" key="k">
+      <li> <img src="{$vo}"> </li>
+      </foreach>
+    </ul>
+  </div>
+  <form id="handlepost" method="post">
+    <!-- 图片上传部分 -->
+    <ul class="ncsc-store-slider" id="goods_images">
+         <for start="0" end="5">
+           <li nc_type="handle_pic" id="thumbnail_{$i}">
+        	<div class="picture">
+                    <img  id="srcpath_{$i}"  <empty name="store_slide[$i]">src="__PUBLIC__/images/not_adv.jpg"<else />src="{$store_slide[$i]}"</empty>>
+                    <input type="hidden" id="imgpath_{$i}" name="store_slide[]" value="{$store_slide[$i]}">
+                    <a href="javascript:void(0)" onclick="ClearPicArr3('{$store_slide[$i]}');clear_img({$i});" nctype="del" class="del" title="移除">X</a>
+            </div>
+	        <div class="url">
+	          <label>跳转URL...</label>
+	          <input type="text" name="store_slide_url[]" class="form-control" value="<empty name="store_slide_url[$i]">http://<else />{$store_slide_url[$i]}</empty>">
+	        </div>
+          <div class="ncsc-upload-btn"> <a href="javascript:void(0);"><span>
+          <input type="button" hidefocus="true" size="1" class="input-file" onClick="upload_img('{$i}')"/>
+          </span><p><i class="icon-upload-alt"></i>图片上传</p></a>
+          </div>
+          </li>
+        </for>
+     </ul>
+   <div class="bottom"><label class="submit-border"><input type="submit" class="submit" value="提交"></label></div>
+  </form>
+</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.flexslider-min.js"></script> 
+<include file="public/foot"/>
+<script>
+function adsubmit(){
+	$('#handlepost').submit();
+}
+
+function goset(obj){
+	window.location.href = $(obj).attr('data-url');
+}
+var turn = 0;
+function upload_img(i){
+	turn = i;
+	GetUploadify(1,'store_slide','seller','callback');
+}
+
+function callback(img_str){
+	$('#imgpath_'+turn).val(img_str);
+	$('#srcpath_'+turn).attr('src',img_str);
+}
+
+$(window).load(function() {
+	$('.flexslider').flexslider();
+});
+
+function ClearPicArr3(val)
+{
+    $.get(
+        "/index.php?m=Home&c=Uploadify&a=delupload",{action:"del", filename:val},function(){}
+    );
+}
+    function clear_img(i){
+        $('#srcpath_'+ i).attr('src','__PUBLIC__/images/not_adv.jpg');
+        $('#imgpath_'+ i).val('');
+    }
+</script>
+</body>
+</html>

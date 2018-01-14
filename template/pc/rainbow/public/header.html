@@ -1,0 +1,201 @@
+<!-- 新浪获取ip地址 -start-->
+<if condition="$Think.cookie.province_id elt 0">
+	<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip={$Request.ip}"></script>
+	<script type="text/JavaScript">
+		doCookieArea(remote_ip_info);
+	</script>
+</if>
+<div class="tpshop-tm-hander p">
+	<div class="top-hander p">
+		<div class="[w] pr">
+			<link rel="stylesheet" href="__STATIC__/css/location.css" type="text/css"><!-- 收货地址，物流运费 -->
+			<div class="fl">
+				<div class="ls-dlzc fl nologin">
+					<a href="{:U('Home/user/login')}">登录</a>
+					<a class="red" href="{:U('Home/user/reg')}">注册</a>
+				</div>
+				<div class="ls-dlzc fl islogin">
+					<a class="red userinfo" href="{:U('Home/user/index')}"></a>
+					<a href="{:U('Home/user/logout')}">退出</a>
+				</div>
+				<div class="fl spc" style="margin-top:10px"></div>
+				<div class="sendaddress pr fl">
+					<if condition="strtolower(ACTION_NAME) neq 'goodsinfo' ">
+						<!-- 收货地址，物流运费 -start-->
+						<ul class="list1" >
+							<li class="jaj"><span>配&nbsp;&nbsp;送：</span></li>
+							<li class="summary-stock though-line" style="margin-top:-1px">
+								<div class="dd" style="border-right:0px;">
+									<div class="store-selector add_cj_p">
+										<div class="text" style="margin-top:3px;border-left: 0 !important; cursor: pointer;"><div></div><b></b></div>
+										<div onclick="$(this).parent().removeClass('hover')" class="close"></div>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!--<i class="jt-x"></i>-->
+						<!-- 收货地址，物流运费 -end-->
+						<!--------收货地址，物流运费-开始-------------->
+						<script src="__PUBLIC__/js/locationJson.js"></script>
+						<script src="__STATIC__/js/location.js"></script>
+						<!--------收货地址，物流运费--结束-------------->
+					</if>
+				</div>
+			</div>
+			<div class="top-ri-header fr">
+				<ul>
+					<li><a target="_blank" href="{:U('Home/Order/order_list')}">我的订单</a></li>
+					<li class="spacer"></li>
+					<li><a target="_blank" href="{:U('Home/User/account')}">我的积分</a></li>
+					<li class="spacer"></li>
+					<li><a target="_blank" href="{:U('Home/User/coupon')}">我的优惠券</a></li>
+					<li class="spacer"></li>
+					<li><a target="_blank" href="{:U('Home/User/goods_collect')}">我的收藏</a></li>
+					<li class="spacer"></li>
+					<li class="hover-ba-navdh">
+						<div class="nav-dh">
+							<span>客户服务</span>
+							<i class="jt-x"></i>
+							<div class="conta-hv-nav">
+								<ul>
+									<li><a href="{:U('Seller/Index/index')}">商家后台</a></li>
+									<li><a href="{:U('Home/Newjoin/index')}">商家帮助</a></li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="spacer"></li>
+					<li class="navoxth">
+						<div class="nav-dh">
+							<i class="fl ico"></i>
+							<span>手机TPshop网</span>
+							<i class="jt-x"></i>
+						</div>
+						<div class="sub-panel m-lst">
+							<p>扫一扫，下载TPshop客户端</p>
+							<dl>
+								<dt class="fl mr10"><a target="_blank" href=""><img height="80" width="80" src="/Template/pc/soubao/Static/images/qrcode_vmall_app01.png"></a></dt>
+								<dd class="fl mb10"><a target="_blank" href=""><i class="andr"></i> Andiord</a></dd>
+								<dd class="fl"><a target="_blank" href=""><i class="iph"></i> iPhone</a></dd>
+							</dl>
+						</div>
+					</li>
+					<li class="spacer"></li>
+					<li class="wxbox-hover">
+						<a target="_blank" href="">关注我们：</a>
+						<img class="wechat-top" src="__STATIC__/images/wechat.png" alt="">
+						<div class="sub-panel wx-box">
+							<span class="arrow-b">◆</span>
+							<span class="arrow-a">◆</span>
+							<p class="n"> 扫描二维码 <br>  关注TPshop网官方微信 </p>
+							<img src="__STATIC__/images/qrcode_vmall_app01.png">
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="nav-middan-z tphsop2_0 p">
+		<div class="header [w]">
+			<include file="public/header_search"/>
+		</div>
+	</div>
+	<div class="nav tpshop2_0_nav p">
+		<div class="[w] p">
+			<div class="categorys home_categorys">
+				<div class="dt">
+					<a href="{:U('Home/Goods/goodsList')}" target="_blank">全部商品分类</a>
+				</div>
+				<!--全部商品分类-s-->
+				<div class="dd">
+					<div class="cata-nav" id="cata-nav">
+						<volist name="goods_category_tree" id="vo" key="k">
+							<div class="item fore1">
+								<div class="item-left">
+									<div class="cata-nav-name">
+										<em class="navicon nav-{$k}"></em>
+										<a href="{:U('Home/Goods/goodsList',array('id'=>$vo[id]))}" title="{$vo.name}">{$vo.name}</a>
+									</div>
+								</div>
+								<div class="cata-nav-layer">
+									<div class="cata-nav-left">
+										<div class="item-channels">
+											<div class="channels">
+												<foreach name="vo.hmenu" item="hm">
+													<a href="{:U('Home/Goods/goodsList',array('id'=>$hm[id]))}" target="_blank">{$hm.name}<i>&gt;</i></a>
+												</foreach>
+											</div>
+										</div>
+										<div class="subitems">
+											<foreach name="vo.tmenu" item="v2" key="k2">
+											<dl>
+												<dt><a href="{:U('Home/Goods/goodsList',array('id'=>$v2[id]))}" target="_blank">{$v2.name}<i>&gt;</i></a></dt>
+												<notempty name="v2.sub_menu">
+													<dd>
+														<foreach name="v2.sub_menu" item="v3">
+															<a href="{:U('Home/Goods/goodsList',array('id'=>$v3[id]))}" target="_blank">{$v3.name}</a>
+														</foreach>
+													</dd>
+												</notempty>
+											</dl>
+											</foreach>
+											<div class="item-brands">
+												<ul>
+												</ul>
+											</div>
+											<div class="item-promotions">
+											</div>
+										</div>
+									</div>
+									<div class="cata-nav-rigth">
+										<div class="item-brands">
+											<ul>
+												<volist name="brand_list" id="v2" mod="2">
+													<if condition="($v2[cat_id1] eq $vo[id]) AND ($v2[is_hot] eq 1)">
+														<li>
+															<a href="{:U('Home/Goods/goodsList',array('brand_id'=>$v2[id]))}" target="_blank" title="{$v2.name}">
+																<img src="{$v2.logo}" width="91" height="40">
+															</a>
+														</li>
+													</if>
+												</volist>
+											</ul>
+										</div>
+										<div class="item-promotions">
+											<tpshop sql="select * from __PREFIX__goods g inner join __PREFIX__flash_sale as f on g.goods_id = f.goods_id where start_time lt $template_now_time and end_time gt $template_now_time and status = 1 and cat_id1 = $vo[id] limit 2" item="promote" key="promote_key">
+												<a href="{:U('Home/Goods/goodsInfo',array('id'=>$promote[goods_id]))}" target="_blank">
+													<img width="181" height="120" src="{$promote.goods_id|goods_thum_images=181,120}">
+												</a>
+											</tpshop>
+										</div>
+									</div>
+								</div>
+							</div>
+						</volist>
+					</div>
+					<script>
+						$('#cata-nav').find('.item').hover(function(){
+							$(this).addClass('item-left-active').siblings().removeClass('item-left-active');
+						},function(){
+							$(this).removeClass('item-left-active');
+						})
+					</script>
+				</div>
+				<!--全部商品分类-e-->
+			</div>
+			<div class="navitems" id="nav">
+				<ul>
+					<li>
+						<a href="/" >首页</a>
+					</li>
+					<tpshop sql="SELECT * FROM `__PREFIX__navigation` where is_show = 1 ORDER BY `sort` DESC" key="k" item='v'>
+						<li>
+                            <a href="{$v[url]}" <?php  if($_SERVER['REQUEST_URI']==str_replace('&amp;','&',$v[url])){ echo "class='selected'";} ?> >{$v[name]}</a>
+                        </li>
+
+					</tpshop>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

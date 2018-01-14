@@ -1,0 +1,405 @@
+
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link href="http://www.tpshop.cn/admin/templates/default/css/index.css" rel="stylesheet" type="text/css">
+<link href="http://www.tpshop.cn/admin/resource/font/css/font-awesome.min.css" rel="stylesheet" />
+<link href="http://www.tpshop.cn/admin/resource/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+<link href="http://www.tpshop.cn/data/resource/js/perfect-scrollbar.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">html, body { overflow: visible;}</style>
+<script type="text/javascript">
+var SITEURL = 'http://www.tpshop.cn/shop';
+var MEMBER_SITE_URL = 'http://www.tpshop.cn/member';
+var RESOURCE_SITE_URL = 'http://www.tpshop.cn/data/resource';
+var MICROSHOP_SITE_URL = 'http://www.tpshop.cn/microshop';
+var CIRCLE_SITE_URL = 'http://www.tpshop.cn/circle';
+var ADMIN_TEMPLATES_URL = 'http://www.tpshop.cn/admin/templates/default';
+var LOADING_IMAGE = "http://www.tpshop.cn/admin/templates/default/images/loading.gif";
+var ADMIN_RESOURCE_URL = 'http://www.tpshop.cn/admin/resource';
+</script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery-ui/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/admin.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/dialog/dialog.js" id="dialog_js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/flexigrid.js"></script>
+
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/common.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="http://www.tpshop.cn/data/resource/js/jquery.mousewheel.js"></script>
+</head>
+<body style="background-color: #FFF; overflow: auto;">
+<script type="text/javascript" src="http://www.tpshop.cn/admin/resource/js/jquery.picTip.js"></script>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<script type="text/javascript">
+var SHOP_SITE_URL = "http://www.tpshop.cn/shop";
+var UPLOAD_SITE_URL = "http://www.tpshop.cn/data/upload";
+var ATTACH_ADV = "shop/adv";
+var screen_adv_list = new Array();//焦点大图广告数据
+var screen_adv_append = '';
+var focus_adv_list = new Array();//三张联动区广告数据
+var focus_adv_append = '';
+var adv_info = new Array();
+var ap_id = 0;
+</script>
+<style type="text/css">
+.color {
+	position: relative!important;
+	z-index: 1!important;
+	padding: 0!important;
+}
+.color .evo-pop {
+	bottom: 26px!important;
+}
+.evo-colorind-ie {
+	position: relative;
+*top:0/*IE6,7*/ !important;
+}
+</style>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="subject">
+        <h3>首页管理</h3>
+        <h5>商城首页模板及广告设计</h5>
+      </div>
+      <ul class="tab-base nc-row">
+		<li><a href="{:U('Web/floorList')}"><span>板块区</span></a></li>
+		<li><a href="{:U('Web/editFocus')}" class="current"><span>焦点区</span></a></li>
+		<li><a href="{:U('Web/editPromotion')}"><span>促销区</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>焦点大图区可设置背景颜色，三张联动区一组三个图片。</li>
+      <li>所有相关设置完成，使用底部的“更新板块内容”前台展示页面才会变化。</li>
+    </ul>
+  </div>
+  <div class="homepage-focus" id="homepageFocusTab">
+    <div class="title">
+      <h3>首页焦点区域设置</h3>
+      <ul class="tab-base nc-row">
+        <li><a href="JavaScript:void(0);" class="current" form="upload_screen_form">全屏(背景)焦点大图</a></li>
+        <li><a href="JavaScript:void(0);" form="upload_focus_form">三张联动焦点组图</a></li>
+      </ul>
+    </div>
+    <form id="upload_screen_form" class="tab-content" name="upload_screen_form" enctype="multipart/form-data" method="post" action="index.php?act=web_config&op=screen_pic" target="upload_pic">
+      <input type="hidden" name="form_submit" value="ok" />
+      <input type="hidden" name="web_id" value="101">
+      <input type="hidden" name="code_id" value="101">
+      <input type="hidden" name="key" value="">
+      <div class="ncap-form-default">
+        <dl class="row">
+          <dt class="tit">全屏(背景)焦点大图预览</dt>
+          <dd class="opt">
+            <div class="full-screen-slides">
+              <ul>
+                                                                <li ap="0" screen_id="1" title="可上下拖拽更改显示顺序"><div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_screen(1);"><i class="fa fa-trash"></i>删除</a></div>
+                  <div class="focus-thumb" onclick="select_screen(1);" style="background-color:#EDD9C0;" title="点击编辑选中区域内容"> <img title="好商城" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-101-1.png?177"/></div>
+                  <input name="screen_list[1][pic_id]" value="1" type="hidden">
+                  <input name="screen_list[1][pic_name]" value="好商城" type="hidden">
+                  <input name="screen_list[1][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index&amp;cate_id=1100" type="hidden">
+                  <input name="screen_list[1][color]" value="#EDD9C0" type="hidden">
+                  <input name="screen_list[1][pic_img]" value="shop/editor/web-101-101-1.png?177" type="hidden">
+                </li>
+                                                                <li ap="0" screen_id="2" title="可上下拖拽更改显示顺序"><div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_screen(2);"><i class="fa fa-trash"></i>删除</a></div>
+                  <div class="focus-thumb" onclick="select_screen(2);" style="background-color:#200772;" title="点击编辑选中区域内容"> <img title="好商城" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-101-2.png?442"/></div>
+                  <input name="screen_list[2][pic_id]" value="2" type="hidden">
+                  <input name="screen_list[2][pic_name]" value="好商城" type="hidden">
+                  <input name="screen_list[2][pic_url]" value="http://demo.33hao.com/shop/index.php?act=show_groupbuy&amp;op=index" type="hidden">
+                  <input name="screen_list[2][color]" value="#200772" type="hidden">
+                  <input name="screen_list[2][pic_img]" value="shop/editor/web-101-101-2.png?442" type="hidden">
+                </li>
+                                                                <li ap="0" screen_id="3" title="可上下拖拽更改显示顺序"><div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_screen(3);"><i class="fa fa-trash"></i>删除</a></div>
+                  <div class="focus-thumb" onclick="select_screen(3);" style="background-color:#EFE6DD;" title="点击编辑选中区域内容"> <img title="好商城" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-101-3.png?983"/></div>
+                  <input name="screen_list[3][pic_id]" value="3" type="hidden">
+                  <input name="screen_list[3][pic_name]" value="好商城" type="hidden">
+                  <input name="screen_list[3][pic_url]" value="http://demo.33hao.com/shop/index.php?act=show_groupbuy&amp;op=index" type="hidden">
+                  <input name="screen_list[3][color]" value="#EFE6DD" type="hidden">
+                  <input name="screen_list[3][pic_img]" value="shop/editor/web-101-101-3.png?983" type="hidden">
+                </li>
+                                                                <li ap="0" screen_id="4" title="可上下拖拽更改显示顺序"><div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_screen(4);"><i class="fa fa-trash"></i>删除</a></div>
+                  <div class="focus-thumb" onclick="select_screen(4);" style="background-color:#760907;" title="点击编辑选中区域内容"> <img title="好商城" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-101-4.png?779"/></div>
+                  <input name="screen_list[4][pic_id]" value="4" type="hidden">
+                  <input name="screen_list[4][pic_name]" value="好商城" type="hidden">
+                  <input name="screen_list[4][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index&amp;cate_id=1100" type="hidden">
+                  <input name="screen_list[4][color]" value="#760907" type="hidden">
+                  <input name="screen_list[4][pic_img]" value="shop/editor/web-101-101-4.png?779" type="hidden">
+                </li>
+                                                              </ul>
+            </div>
+            <p class="notic">小提示：单击图片选中修改，拖动可以排序，添加最多不超过5个，保存后生效。</p>
+            <div class="mt20"><a class="ncap-btn" href="JavaScript:add_screen('pic');">图片调用</a>
+                          </div>
+          </dd>
+        </dl>
+      </div>
+      <div id="ap_screen" class="ncap-form-default" style="display:none; overflow: visible;">
+        <div class="title">
+          <h3>新增/选中区域内容设置详情</h3>
+        </div>
+        <dl class="row">
+          <dt class="tit">广告位</dt>
+          <dd class="opt">
+            <input type="hidden" name="ap_pic_id" value="">
+            <select id="ap_id_screen" name="ap_id_screen" class=" w200" onblur="select_ap_screen();">
+            </select>
+            <span class="err"></span>
+            <p class="notic">调用的数据是宽度为1920像素，高度为481像素的图片类广告位。</p>
+          </dd>
+        </dl>
+        <dl class="row" style="z-index: 3;">
+          <dt class="tit">
+            <label>背景颜色</label>
+          </dt>
+          <dd class="opt">
+            <input id="ap_color" name="ap_color" value="" class="" type="text">
+            <span class="err"></span>
+            <p class="notic">为确保显示效果美观，可设置首页全屏焦点图区域整体背景填充色用于弥补图片在不同分辨率下显示区域超出图片时的问题，可根据您焦点图片的基础底色作为参照进行颜色设置。</p>
+          </dd>
+        </dl>
+      </div>
+      <div id="upload_screen" class="ncap-form-default" style="display:none; overflow: visible;">
+        <div class="title">
+          <h3>新增/选中区域内容设置详情</h3>
+        </div>
+        <dl class="row">
+          <dt class="tit">文字标题</dt>
+          <dd class="opt">
+            <input type="hidden" name="screen_id" value="">
+            <input class="txt" type="text" name="screen_pic[pic_name]" value="">
+            <span class="err"></span>
+            <p class="notic">图片标题文字将作为图片Alt形式显示。</p>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="tit">
+            <label>图片跳转链接</label>
+          </dt>
+          <dd class="opt">
+            <input name="screen_pic[pic_url]" value="" class="input-txt" type="text">
+            <span class="err"></span>
+            <p class="vatop tips">输入图片要跳转的URL地址，正确格式应以"http://"开头，点击后将以"_blank"形式另打开页面。</p>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="tit">广告图片上传</dt>
+          <dd class="opt">
+            <div class="input-file-show"><span class="type-file-box">
+              <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+              <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+              <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+              </span></div>
+            <p class="notic">为确保显示效果正确，请选择最小不低于W:776px H:300px、最大不超过W:1920px H:481px的清晰图片作为全屏焦点图。</p>
+          </dd>
+        </dl>
+        <dl class="row" style="z-index: 3;">
+          <dt class="tit">
+            <label>背景颜色</label>
+          </dt>
+          <dd class="opt">
+            <input id="screen_color" name="screen_pic[color]" value="" class="" type="text">
+            <span class="err"></span>
+            <p class="notic">为确保显示效果美观，可设置首页全屏焦点图区域整体背景填充色用于弥补图片在不同分辨率下显示区域超出图片时的问题，可根据您焦点图片的基础底色作为参照进行颜色设置。</p>
+          </dd>
+        </dl>
+      </div>
+      <div class="ncap-form-default">
+        <div class="bot"><a href="JavaScript:void(0);" onclick="$('#upload_screen_form').submit();" class="ncap-btn-big ncap-btn-green">保存</a> <a href="index.php?act=web_config&op=html_update&web_id=101" class="ncap-btn-big ncap-btn-green">更新板块内容</a> <span class="web-save-succ" style="display:none;">保存成功</span> </div>
+      </div>
+    </form>
+    <form id="upload_focus_form" class="tab-content" name="upload_screen_form" enctype="multipart/form-data" method="post" action="index.php?act=web_config&op=focus_pic" target="upload_pic" style="display:none;">
+      <input type="hidden" name="form_submit" value="ok" />
+      <input type="hidden" name="web_id" value="101">
+      <input type="hidden" name="code_id" value="102">
+      <input type="hidden" name="key" value="">
+      <div class="ncap-form-default">
+        <dl class="row">
+          <dt class="tit">三张联动焦点组图预览</dt>
+          <dd class="opt focus-trigeminy">
+                                          <div focus_id="1" class="focus-trigeminy-group" title="可上下拖拽更改图片组显示顺序">
+                                <div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_focus(1);"><i class="fa fa-trash"></i>删除</a></div>
+                <ul>
+                                    <li list="pic" pic_id="1" onclick="select_focus(1,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-1-1.jpg?306"/></div>
+                    <input name="focus_list[1][pic_list][1][pic_id]" value="1" type="hidden">
+                    <input name="focus_list[1][pic_list][1][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[1][pic_list][1][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[1][pic_list][1][pic_img]" value="shop/editor/web-101-102-1-1.jpg?306" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="2" onclick="select_focus(1,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-1-2.jpg?220"/></div>
+                    <input name="focus_list[1][pic_list][2][pic_id]" value="2" type="hidden">
+                    <input name="focus_list[1][pic_list][2][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[1][pic_list][2][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[1][pic_list][2][pic_img]" value="shop/editor/web-101-102-1-2.jpg?220" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="3" onclick="select_focus(1,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-1-3.jpg?296"/></div>
+                    <input name="focus_list[1][pic_list][3][pic_id]" value="3" type="hidden">
+                    <input name="focus_list[1][pic_list][3][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[1][pic_list][3][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[1][pic_list][3][pic_img]" value="shop/editor/web-101-102-1-3.jpg?296" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="4" onclick="select_focus(1,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-1-4.jpg?752"/></div>
+                    <input name="focus_list[1][pic_list][4][pic_id]" value="4" type="hidden">
+                    <input name="focus_list[1][pic_list][4][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[1][pic_list][4][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[1][pic_list][4][pic_img]" value="shop/editor/web-101-102-1-4.jpg?752" type="hidden">
+                  </li>
+                                  </ul>
+                              </div>
+                            <div focus_id="2" class="focus-trigeminy-group" title="可上下拖拽更改图片组显示顺序">
+                                <div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_focus(2);"><i class="fa fa-trash"></i>删除</a></div>
+                <ul>
+                                    <li list="pic" pic_id="1" onclick="select_focus(2,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-2-1.jpg?718"/></div>
+                    <input name="focus_list[2][pic_list][1][pic_id]" value="1" type="hidden">
+                    <input name="focus_list[2][pic_list][1][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[2][pic_list][1][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[2][pic_list][1][pic_img]" value="shop/editor/web-101-102-2-1.jpg?718" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="2" onclick="select_focus(2,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-2-2.jpg?967"/></div>
+                    <input name="focus_list[2][pic_list][2][pic_id]" value="2" type="hidden">
+                    <input name="focus_list[2][pic_list][2][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[2][pic_list][2][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[2][pic_list][2][pic_img]" value="shop/editor/web-101-102-2-2.jpg?967" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="3" onclick="select_focus(2,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-2-3.jpg?477"/></div>
+                    <input name="focus_list[2][pic_list][3][pic_id]" value="3" type="hidden">
+                    <input name="focus_list[2][pic_list][3][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[2][pic_list][3][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[2][pic_list][3][pic_img]" value="shop/editor/web-101-102-2-3.jpg?477" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="4" onclick="select_focus(2,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-2-4.jpg?643"/></div>
+                    <input name="focus_list[2][pic_list][4][pic_id]" value="4" type="hidden">
+                    <input name="focus_list[2][pic_list][4][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[2][pic_list][4][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[2][pic_list][4][pic_img]" value="shop/editor/web-101-102-2-4.jpg?643" type="hidden">
+                  </li>
+                                  </ul>
+                              </div>
+                            <div focus_id="3" class="focus-trigeminy-group" title="可上下拖拽更改图片组显示顺序">
+                                <div class="title"><h4>图片调用</h4><a class="ncap-btn-mini del" href="JavaScript:del_focus(3);"><i class="fa fa-trash"></i>删除</a></div>
+                <ul>
+                                    <li list="pic" pic_id="1" onclick="select_focus(3,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-3-1.jpg?970"/></div>
+                    <input name="focus_list[3][pic_list][1][pic_id]" value="1" type="hidden">
+                    <input name="focus_list[3][pic_list][1][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[3][pic_list][1][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[3][pic_list][1][pic_img]" value="shop/editor/web-101-102-3-1.jpg?970" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="2" onclick="select_focus(3,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-3-2.jpg?341"/></div>
+                    <input name="focus_list[3][pic_list][2][pic_id]" value="2" type="hidden">
+                    <input name="focus_list[3][pic_list][2][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[3][pic_list][2][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[3][pic_list][2][pic_img]" value="shop/editor/web-101-102-3-2.jpg?341" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="3" onclick="select_focus(3,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-3-3.jpg?480"/></div>
+                    <input name="focus_list[3][pic_list][3][pic_id]" value="3" type="hidden">
+                    <input name="focus_list[3][pic_list][3][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[3][pic_list][3][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[3][pic_list][3][pic_img]" value="shop/editor/web-101-102-3-3.jpg?480" type="hidden">
+                  </li>
+                                    <li list="pic" pic_id="4" onclick="select_focus(3,this);" title="可左右拖拽更改图片排列顺序">
+                    <div class="focus-thumb"><img title="测试" src="http://www.tpshop.cn/data/upload/shop/editor/web-101-102-3-4.jpg?162"/></div>
+                    <input name="focus_list[3][pic_list][4][pic_id]" value="4" type="hidden">
+                    <input name="focus_list[3][pic_list][4][pic_name]" value="测试" type="hidden">
+                    <input name="focus_list[3][pic_list][4][pic_url]" value="http://demo.33hao.com/shop/index.php?act=search&amp;op=index" type="hidden">
+                    <input name="focus_list[3][pic_list][4][pic_img]" value="shop/editor/web-101-102-3-4.jpg?162" type="hidden">
+                  </li>
+                                  </ul>
+                              </div>
+                                        <p class="notic" id="btn_add_list">小提示：可添加每组3张，最多5组联动广告图，单击图片为单张编辑，拖动排序，保存生效。</p>
+            <div class="mt20"> <a class="ncap-btn" href="JavaScript:add_focus('pic');">图片组</a>
+                          </div>
+          </dd>
+        </dl>
+      </div>
+      <div id="ap_focus" class="ncap-form-default" style="display:none;">
+        <div class="title">
+          <h3>新增/选中区域内容设置详情</h3>
+        </div>
+        <dl class="row">
+          <dt class="tit">广告位</dt>
+          <dd class="opt">
+            <select id="ap_id_focus" name="ap_id_focus" class="select" onblur="select_ap_focus();">
+            </select>
+            <span class="err"></span>
+            <p class="notic"> 调用的数据是宽度为259像素，高度为180像素的图片类广告位。 </p>
+          </dd>
+        </dl>
+      </div>
+      <div id="upload_focus" class="ncap-form-default" style="display:none;">
+        <div class="title">
+          <h3>新增/选中区域内容设置详情</h3>
+        </div>
+        <dl class="row">
+          <dt class="tit"> 文字标题 </dt>
+          <dd class="opt">
+            <input type="hidden" name="slide_id" value="">
+            <input type="hidden" name="pic_id" value="">
+            <input class="input-txt" type="text" name="focus_pic[pic_name]" value="">
+            <span class="err"></span>
+            <p class="notic"> 图片标题文字将作为图片Alt形式显示。 </p>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="tit">
+            <label> 图片跳转链接 </label>
+          </dt>
+          <dd class="opt">
+            <input name="focus_pic[pic_url]" value="" class="input-txt" type="text">
+            <span class="err"></span>
+            <p class="notic"> 输入图片要跳转的URL地址，正确格式应以"http://"开头，点击后将以"_blank"形式另打开页面。 </p>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="tit"> 广告图片上传 </dt>
+          <dd class="opt">
+            <div class="input-file-show"> <span class="type-file-box">
+              <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+              <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+              <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+              </span> </div>
+            <span class="err"></span>
+            <p class="notic"> 为确保显示效果正确，请选择W:259px H:180px的清晰图片作为联动广告图组单图。 </p>
+          </dd>
+        </dl>
+      </div>
+      <div class="ncap-form-default">
+        <div class="bot"> <a href="JavaScript:void(0);" onclick="$('#upload_focus_form').submit();" class="ncap-btn-big ncap-btn-green">保存</a> <a href="index.php?act=web_config&op=html_update&web_id=101" class="ncap-btn-big ncap-btn-green">更新板块内容</a> <span class="web-save-succ" style="display:none;">保存成功</span> </div>
+      </div>
+    </form>
+  </div>
+</div>
+<iframe style="display:none;" src="" name="upload_pic"></iframe>
+<link href="http://www.tpshop.cn/data/resource/js/colorpicker/evol.colorpicker.css" rel="stylesheet" type="text/css">
+<script src="http://www.tpshop.cn/data/resource/js/colorpicker/evol.colorpicker.min.js"></script>
+<script src="http://www.tpshop.cn/data/resource/js/waypoints.js"></script>
+<script src="http://www.tpshop.cn/admin/resource/js/web_focus.js"></script>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

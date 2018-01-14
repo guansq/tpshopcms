@@ -1,0 +1,25 @@
+<?php 
+if(empty($goods_list)) {
+    $block_content = empty($block_content) ? $output['block_content'] : $block_content; 
+    $goods_list = unserialize($block_content);
+}
+?>
+<notempty name="goods_list">
+<ul class="goods-list">
+  <foreach name="goods_list" item="val">
+  <li nctype="goods_item" data-goods-id="{$val['goods_id']}" data-goods-name="{$val['goods_name']}" data-goods-price="{$val['shop_price']}"  data-goods-image="{$val['goods_image']}">
+    <div class="goods-thumb"> 
+    	<a href="{:U('Home/Goods/goodsInfo',array('id'=>$val[goods_id]))}" target="_blank" title="{$val['goods_name']}"> 
+    	<img src="{$val.goods_id|goods_thum_images=240,240}" alt="{$val['goods_name']}"> </a> 
+    </div>
+    <dl class="goods-info">
+      <dt><a href="{:U('Home/Goods/goodsInfo',array('id'=>$val[goods_id]))}" target="_blank" title="{$val['goods_name']}">{$val['goods_name']}</a></dt>
+      <dd>¥{$val['shop_price']}</dd>
+    </dl>
+  </li>
+  </foreach>
+</ul>
+<div style="text-align: center; display: block; padding: 15px 0; margin: 0!important;" id="page_list">{$show_page}</div>
+<else/>
+<div>没有查询的相关记录</div>
+</notempty>

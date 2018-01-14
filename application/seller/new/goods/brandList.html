@@ -1,0 +1,111 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>品牌申请
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Goods/brandList')}">品牌申请列表</a></li>
+                </ul>
+                <a href="{:U('Goods/addEditBrand')}" class="ncbtn ncbtn-mint" title="添加品牌"><i class="icon-plus-sign"></i>添加品牌</a>
+            </div>
+            <div class="alert alert-block mt10">
+                <ul class="mt5">
+                    <li>1、点击添加品牌按钮可以添加品牌</li>
+                </ul>
+            </div>
+            <form id="search-form2" method="post" action="{:U('Goods/brandList')}">
+                <table class="search-form">
+                    <tr>
+                        <td></td>
+                        <th class="w70">名称</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" placeholder="搜索词" value="{$_POST['keyword']}" name="keyword"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" /></label></td>
+                    </tr>
+                </table>
+            </form>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w20"></th>
+                    <th class="w50">ID</th>
+                    <th class="w200 tl">品牌名称</th>
+                    <th class="w100">Logo</th>
+                    <th class="w100">品牌分类</th>
+                    <th class="w100">状态</th>
+                    <th class="w100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <empty name="brandList">
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                <else/>
+                <volist name="brandList" id="list">
+                    <tr class="bd-line">
+                        <td></td>
+                        <td>{$list.id}</td>
+                        <td class="tl">{$list.name}</td>
+                        <td><a href="{$list.logo|default='/public/images/default_goods_image_240.gif'}" target="_blank"><img onmouseover="$(this).attr('width','80').attr('height','45');" onmouseout="$(this).attr('width','40').attr('height','30');" width="40" height="30" src="{$list.logo|default='/public/images/default_goods_image_240.gif'}"/></a></td>
+                        <td>{$cat_list[$list[cat_id1]]} {$cat_list[$list[cat_id2]]}</td>
+                        <td>
+                            <if condition="$list[status] eq 0">正常</if>
+                            <if condition="$list[status] eq 1">审核中</if>
+                            <if condition="$list[status] eq 2">审核失败</if>
+                        </td>
+                        <td class="nscs-table-handle">
+                            <if condition="$list[status] neq 0">
+                            <span><a href="{:U('goods/addEditBrand',array('id'=>$list['id'],'p'=>$_GET[p]))}" class="btn-bluejeans"><i class="icon-edit"></i>
+
+                                <p>编辑</p></a></span>
+                            <span><a onclick="del('{$list[id]}')" class="btn-grapefruit"><i class="icon-trash"></i>
+
+                                <p>删除</p></a></span>
+                            </if>
+                        </td>
+                    </tr>
+                </volist>
+                </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$show}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    // 删除操作
+    function del(id)
+    {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        url:"/index.php?m=Seller&c=goods&a=delBrand&id="+id,
+                        success: function(v){
+                            layer.closeAll();
+                            var v =  eval('('+v+')');
+                            if(v.hasOwnProperty('status') && (v.status == 1))
+                                location.href=location.href;
+                            else
+                                layer.msg(v.msg, {icon: 2,time: 1000}); //alert(v.msg);
+                        }
+                    });
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

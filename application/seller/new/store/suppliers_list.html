@@ -1,0 +1,128 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>供货商</div>
+    <div class="main-content" id="mainContent">
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#add_time_from').datepicker();
+    $('#add_time_to').datepicker();
+});
+</script>
+<div class="tabmenu">
+    <ul class="tab pngFix">
+  <li class="active"><a  href="">供货商</a></li></ul>
+    <a href="javascript:void(0)" class="ncbtn ncbtn-mint" dialog_title="新增供货商" dialog_width="480" onclick="addSuppliers()">新增供货商</a>
+</div>
+<div class="alert alert-block mt10">
+  <ul>
+    <li>供货商信息可与商品关联，商品发布/编辑时可选择供货商，商品列表支持跟据供货商快速查找。</li>
+  </ul>
+</div>
+<table class="search-form">
+  <form method="get" action="">
+    <tr>
+      <td>&nbsp;</td>
+      <th class="w150">供货商名称</th>
+      <td class="w160"><input type="text" class="text" name="suppliers_name" value=""/></td>
+      <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" /></label></td>
+    </tr>
+  </form>
+</table>
+<table class="ncsc-default-table">
+  <thead>
+    <tr>
+    <th class="w20">&nbsp;</th>
+      <th class="tl">供货商</th>
+      <th class="tl">联系人</th>
+      <th class="tl">联系电话</th>
+      <th class="tl">备注</th>
+      <th class="w100">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  <empty name="suppliers_list">
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+  <else/>
+  <foreach name="suppliers_list" item="vo">
+   <tr class="bd-line">
+      <td></td>
+      <td class="tl">{$vo.suppliers_name}</td>
+      <td class="tl">{$vo.suppliers_contacts}</td>
+      <td class="tl">{$vo.suppliers_phone}</td>
+      <td class="tl">{$vo.suppliers_desc}</td>
+      <td class="nscs-table-handle">
+     	<span><a href="javascript:void(0)" onclick="editSuppliers(this)" class="btn-bluejeans" data-url="{:U('Store/suppliers_info',array('suppliers_id'=>$vo[suppliers_id]))}"><i class="icon-edit"></i><p>编辑</p></a></span>
+        <span><a href="javascript:void(0)" class="btn-grapefruit" data-id="{$vo.suppliers_id}" onclick="delSuppliers(this)"><i class="icon-trash"></i><p>删除</p></a></span></td>
+    </tr>
+  </foreach>
+  </empty>  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="20"><div class="pagination">{$page}</div></td>
+    </tr>
+  </tfoot>
+</table>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script type="text/javascript">
+function addSuppliers(){
+	layer.open({
+		  type: 2,
+		  title: '新增供货商',
+	      shadeClose: true,
+	      shade: 0.2,
+	      skin: 'layui-layer-rim',
+	      area: ['24%', '36%'],
+		  content: ['{:U("Store/suppliers_info")}','no'] //iframe的url
+	}); 
+}
+
+function editSuppliers(obj){
+	layer.open({
+		  type: 2,
+		  title: '新增供货商',
+	      shadeClose: true,
+	      shade: 0.2,
+	      skin: 'layui-layer-rim',
+	      area: ['450px', '350px'],
+		  content: [$(obj).attr('data-url'),'no']
+	}); 
+}
+
+function delSuppliers(obj){
+	layer.confirm('确认删除？', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		    // 确定
+				$.ajax({
+					type : 'post',
+					url : '{:U("Store/suppliers_info")}',
+					data : {act:'del',suppliers_id:$(obj).attr('data-id')},
+					dataType : 'json',
+					success : function(data){
+                        layer.closeAll();
+						if(data==1){
+							layer.msg('操作成功', {icon: 1});
+							$(obj).parent().parent().parent().remove();
+						}else{
+							layer.msg(data, {icon: 2,time: 2000});
+						}
+					}
+				})
+		}, function(index){
+			layer.close(index);
+			return false;// 取消
+		}
+	);
+}
+
+</script>
+</body>
+</html>

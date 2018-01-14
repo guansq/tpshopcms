@@ -1,0 +1,65 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺装修</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="active"><a  href="">店铺装修</a></li>
+  <!-- li class="normal"><a  href="">装修图库</a></li -->
+  </ul>
+</div>
+<div class="ncsc-form-default">
+  <form id="form_setting" method="post" action="">
+    <dl>
+      <dt>启用店铺装修：</dt>
+      <dd>
+        <label for="store_decoration_switch_on" class="mr30">
+          <input onclick="$('#decoration_div').show();" id="store_decoration_switch_on" type="radio" class="radio vm mr5" name="store_decoration_switch" value="{$decoration.decoration_id}" <if condition="$store.store_decoration_switch gt 0">checked</if>>
+          是</label>
+        <label for="store_decoration_switch_off">
+          <input onclick="$('#decoration_div').hide();" id="store_decoration_switch_off" type="radio" class="radio vm mr5" name="store_decoration_switch" value="0" <if condition="$store.store_decoration_switch eq 0">checked</if>>
+          否</label>
+        <p class="hint">选择是否使用店铺装修模板；<br/>
+          如选择“是”，店铺首页背景、头部、导航以及上方区域都将根据店铺装修模板所设置的内容进行显示；<br/>
+          如选择“否”根据 <a href="">“店铺主题”</a> 所选中的系统预设值风格进行显示。</p>
+      </dd>
+    </dl>
+    <div id="decoration_div" <if condition="$store.store_decoration_switch eq 0">style="display: none"</if>>
+    <dl>
+      <dt>仅显示装修内容：</dt>
+      <dd>
+        <label for="store_decoration_only_on" class="mr30">
+          <input id="store_decoration_only_on" type="radio" class="radio vm mr5" name="store_decoration_only" value="1" <if condition="$store.store_decoration_only eq 1">checked</if>>
+          是</label>
+        <label for="store_decoration_only_off">
+          <input id="store_decoration_only_off" type="radio" class="radio vm mr5" name="store_decoration_only" value="0" <if condition="$store.store_decoration_only eq 0">checked</if>>
+          否</label>
+        <p class="hint">该项设置如选择“是”，则店铺首页仅显示店铺装修所设定的内容；<br/>
+          如选择“否”则按标准默认风格模板延续显示页面下放内容，即左侧店铺导航、销售排行，右侧轮换广告、最新商品、推荐商品等相关店铺信息。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>店铺装修：</dt>
+      <dd> <a href="{:U('Seller/decoration/decoration_edit',array('decoration_id'=>$decoration[decoration_id]))}" class="ncbtn ncbtn-aqua mr5" target="_blank"><i class="icon-puzzle-piece"></i>装修页面</a> 
+      <a id="btn_build" href="{:U('Home/Store/decoration_preview',array('decoration_id'=>$decoration[decoration_id],'store_id'=>$store[store_id]))}" class="ncbtn ncbtn-bittersweet" target="_blank"><i class="icon-magic"></i>预览页面</a>
+        <p class="hint">点击“装修页面”按钮，在新窗口对店铺首页进行装修设计；<br/>
+          预览效果满意后，点击“生成页面”按钮则可将预览效果保存为您的“店铺装修”风格模板。</p>
+      </dd>
+    </dl>
+      </div>
+    <div class="bottom">
+      <label class="submit-border">
+        <input id="btn_submit" type="submit" class="submit" value="提交" />
+      </label>
+    </div>
+  </form>
+</div>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

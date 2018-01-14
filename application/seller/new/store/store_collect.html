@@ -1,0 +1,109 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺信息</div>
+    <div class="main-content" id="mainContent">
+	<table class="ncsc-default-table">
+	  <thead>
+	    <tr>
+			<th class="w30">&nbsp;</th>
+	      	<th>会员id</th>
+	      	<th>会员名称</th>
+	      	<th class="w210">关注时间</th>
+	      	<th>操作</th>
+	    </tr>
+		<tr>
+			<td class="tc"><input type="checkbox" id="all" class="checkall" onclick="$('input[name*=\'user_id\']').prop('checked', this.checked);"/></td>
+			<td colspan="20">
+				<label for="all">全选</label>
+				<a onclick="send_message_all();" class="ncbtn-mini"><i></i>活动通知</a>
+			</td>
+		</tr>
+	  </thead>
+	  <tbody>
+	  <empty name="collect">
+	  <tfoot>
+	    <tr>
+	      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+	    </tr>
+	  </tfoot>
+	  <else/>
+	  <foreach name="collect" item="vo" key="k" >
+	     <tr class="bd-line">
+		 	<td class="trigger"><input type="checkbox" class="checkitem tc" name="user_id[]" value="{$vo.user_id}"/></td>
+	      	<td class="">{$vo.user_id}</td>
+	      	<td class="">{$vo.user_name}</td>
+	      	<td class="">{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+	      	<td class="nscs-table-handle"><a onclick="send_message({$vo.user_id});" class="ncbtn ncbtn-aqua"><p>活动通知</p></a></td>
+	    </tr>
+	  </foreach>
+	  </empty>
+	  </tbody>
+		<tfoot>
+		<tr><td colspan="20"><div class="pagination">{$page}</div></td></tr>
+		</tfoot>
+	</table>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script>
+//发送多个站内信
+function send_message_all()
+{
+	var obj = $('input[name*=\'user_id\']');
+	var url = "{:U('Seller/User/sendMessage')}";
+	if(obj.length > 0){
+		var check_val = [];
+		obj.each(function(){
+			if($(this).attr('checked')){
+				check_val.push($(this).val());	
+			}
+		});
+		if(check_val.length < 1){
+			layer.msg('请选择会员',{icon:2});
+			return ;
+		}
+		url += "?user_id_array="+check_val;
+		layer.open({
+			type: 2,
+			title: '站内信',
+			shadeClose: true,
+			shade: 0.8,
+			area: ['580px', '480px'],
+			content: url
+		});
+	}else{
+		layer.msg('请选择会员',{icon:2});
+	}
+
+}
+//发送单个站内信
+function send_message(user_id)
+{
+	var url = "{:U('Seller/User/sendMessage')}";
+	url += "?user_id_array="+user_id;
+	layer.open({
+		type: 2,
+		title: '站内信',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['580px', '480px'],
+		content: url
+	});
+}
+/**
+ * 回调函数
+ */
+function call_back(v) {
+	layer.closeAll();
+	if (v == 1) {
+		layer.msg('发送成功',{icon:1});
+	} else {
+		layer.alert('发送失败', {icon: 2});
+	}
+}
+</script>
+</body>
+</html>

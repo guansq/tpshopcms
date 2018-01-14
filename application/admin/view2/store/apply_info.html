@@ -1,0 +1,299 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>店铺管理 - 查看会员“{$apply.seller_name}”的店铺申请信息</h3>
+                <h5>店铺的申请资料操作</h5>
+            </div>
+        </div>
+    </div>
+    <form action="{:U('Store/review')}"  method="post" id="review">
+        <input type="hidden" name="id" value="{$apply.id}">
+        <div class="ncap-form-default">
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">公司及联系人信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>公司名称：</th>
+                <td><input name="company_name" value="{$apply.company_name}"></td>
+                <th>公司性质：</th>
+                <td>{$company_type[$apply[company_type]]}</td>
+                <th>公司网址：</th>
+                <td><input name="company_website" value="{$apply.company_website}"></td>
+            </tr>
+            <tr>
+                <th class="w150">公司所在地：</th>
+                <td colspan="20">
+                    {$province_name},{$city_name},{$district_name}
+                </td>
+            </tr>
+            <tr>
+                <th>公司详细地址：</th>
+                <td>{$apply.company_address}</td>
+                <th>固定电话：</th>
+                <td colspan="20">{$apply.company_telephone}</td>
+            </tr>
+            <tr>
+                <th>邮政编码：</th>
+                <td>{$apply.company_zipcode}</td>
+                <th>电子邮箱：</th>
+                <td>{$apply.company_email}</td>
+                <th>传真：</th>
+                <td>{$apply.company_fax}</td>
+            </tr>
+            <tr>
+                <th>联系人姓名：</th>
+                <td><input name="contacts_name" value="{$apply.contacts_name}" class="form-control"></td>
+                <th>联系人电话：</th>
+                <td><input name="contacts_mobile" value="{$apply.contacts_mobile}" class="form-control"></td>
+                <th>联系人邮箱：</th>
+                <td><input name="contacts_email" value="{$apply.contacts_email}" class="form-control"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">营业执照信息（副本）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>营业执照号：</th>
+                <td>{$apply.business_licence_number}</td>
+                <th>营业执照有效期：</th>
+                <td>{$apply.business_date_start} - {$apply.business_date_end}</td>
+                <th>法定经营范围：</th>
+                <td>{$apply.business_scope}</td>
+            </tr>
+            <tr>
+                <th>注册资本：</th>
+                <td>{$apply.reg_capital}</td>
+                <th>组织机构代码：</th>
+                <td>{$apply.orgnization_code}</td>
+                <th>一般纳税人证明：</th>
+                <td>{$apply.reg_capital}</td>
+            </tr>
+            <tr>
+                <th>法人代表姓名：</th>
+                <td>{$apply.legal_person}</td>
+                <th>纳税类型税码：</th>
+                <td>{$apply.tax_rate}%</td>
+                <th>税务登记号码：</th>
+                <td>{$apply.attached_tax_number}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">开户银行信息：</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th class="w150">银行开户名：</th>
+                <td>{$apply.bank_account_name}</td>
+            </tr>
+            <tr>
+                <th>公司银行账号：</th>
+                <td>{$apply.bank_account_number}</td>
+            </tr>
+            <tr>
+                <th>开户银行支行名称：</th>
+                <td>{$apply.bank_branch_name}</td>
+            </tr>
+            <tr>
+                <th>开户银行所在地：</th>
+                <td colspan="20">{$bank_province_name},{$bank_city_name}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">店铺经营信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>卖家账号：</th>
+                <td>{$apply.seller_name}</td>
+                <th>店铺名称：</th>
+                <td>{$apply.store_name}</td>
+                <th>店铺分类：</th>
+                <td>{$apply.sc_name}</td>
+            </tr>
+            <tr>
+                <th>店铺负责人：</th>
+                <td>{$apply.store_person_name}</td>
+                <th>负责人手机号码：</th>
+                <td>{$apply.store_person_mobile}</td>
+                <th>负责人QQ号码：</th>
+                <td>{$apply.store_person_qq}</td>
+            </tr>
+            <tr>
+                <th>店铺等级：</th>
+                <td>
+                    <select name="sg_id" id="sg_id" onblur="changepay()">
+                        <foreach name="store_grade" item="vo">
+                            <option value="{$vo.sg_id}" <if condition="$vo[sg_id] eq $apply[sg_id]">selected</if> rel="{$vo.sg_price}">{$vo.sg_name}</option>
+                        </foreach>
+                    </select>
+                    <input name="sg_name"  id="sg_name" type="hidden" value="{$apply.sg_name}">
+                </td>
+                <th>开店年限：</th>
+                <td><input style="width: 100px" type="text" name="store_end_time" value="{$apply.store_end_time|default=1}" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')">年</td>
+                <th>店铺性质：</th>
+                <td>
+                    <select name="store_type">
+                        <option value="1" <if condition="$apply[store_type] eq 1">selected</if>>旗舰店</option>
+                        <option value="2" <if condition="$apply[store_type] eq 2">selected</if>>专卖店</option>
+                        <option value="3" <if condition="$apply[store_type] eq 3">selected</if>>专营店</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>付款金额：</th>
+                <td><input type="text" id="paying_amount" name="paying_amount" value="{$apply.paying_amount}"></td>
+                <th>付款凭证：</th>
+                <td>
+                    <div class="input-file-show">
+                      <span class="show">
+                          <a id="img_a" target="_blank" class="nyroModal" rel="gal" href="{$apply.paying_amount_cert}">
+                              <i id="img_i" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$apply.paying_amount_cert}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                          </a>
+                      </span>
+                      <span class="type-file-box">
+                          <input type="text" id="paying_amount_cert" name="paying_amount_cert" value="{$apply.paying_amount_cert}" class="type-file-text">
+                          <input type="button" name="button" id="button1" value="上传 付款凭证..." class="type-file-button">
+                          <input class="type-file-file" onClick="GetUploadify(1,'','seller','img_call_back')" size="30"
+                                 title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                      </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>经营类目：</th>
+                <td colspan="20"><table id="table_category" class="type" cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>分类1</th>
+                        <th>分类2</th>
+                        <th>分类3</th>
+                        <th>比例</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="bind_class_list" item="vo">
+                        <tr>
+                            <td>{$vo.class_1}</td>
+                            <td>{$vo.class_2}</td>
+                            <td>{$vo.class_3}</td>
+                            <td>{$vo.commis_rate}%</td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table></td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">证件信息：</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>企业营业执照副本：</th>
+                <td colspan="20">
+                    <a href="{$apply.business_licence_cert}" target="_blank"><img src="{$apply.business_licence_cert|default='__PUBLIC__/images/icon_goods_thumb_empty_300.png'}" height="60"></a>
+                </td>
+            </tr>
+            <tr>
+                <th>税务登记证复印件：</th>
+                <td colspan="20">
+                    <a href="{$apply.taxpayer_cert}" target="_blank"><img src="{$apply.taxpayer_cert|default='__PUBLIC__/images/icon_goods_thumb_empty_300.png'}" height="60"></a>
+                </td>
+            </tr>
+            <tr>
+                <th>织机构代码证复印件：</th>
+                <td colspan="20">
+                    <a href="{$apply.orgnization_cert}" target="_blank">
+                            <img src="{$apply.orgnization_cert|default='__PUBLIC__/images/icon_goods_thumb_empty_300.png'}" height="60">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>法人身份证：</th>
+                <td colspan="20">
+                    <a href="{$apply.legal_identity_cert}" target="_blank">
+                        <img src="{$apply.legal_identity_cert|default='__PUBLIC__/images/icon_goods_thumb_empty_300.png'}" height="120">
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>店铺负责人身份证：</th>
+                <td colspan="20">
+                    <a href="{$apply.store_person_cert}" target="_blank">
+                            <img src="{$apply.store_person_cert|default='__PUBLIC__/images/icon_goods_thumb_empty_300.png'}" height="120">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="store-joinin" cellspacing="0" cellpadding="0" border="0">
+            <thead>
+            <tr>
+                <th colspan="20">操作信息</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>备注说明：</th>
+                <td colspan="20">
+                    <textarea name="review_msg" placeholder="请输入操作备注" rows="3" class="form-control"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>商家信息审核：</th>
+                <td colspan="20">
+                    <input name="apply_state" value="0" <if condition="$apply.apply_state eq 0">checked="checked"</if> type="radio">未审核
+                    <input name="apply_state" value="1" <if condition="$apply.apply_state eq 1">checked="checked"</if> type="radio">通过
+                    <input name="apply_state" value="2" <if condition="$apply.apply_state eq 2">checked="checked"</if> type="radio">未通过
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="bot">
+            <a href="JavaScript:void(0);" onclick="$('#review').submit();" class="ncap-btn-big ncap-btn-green">确认提交</a>
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function changepay(){
+        $('#sg_name').val($('#sg_id option:selected').text());
+        $('#paying_amount').val($('#sg_id option:selected').attr('rel'));
+    }
+    function img_call_back(fileurl_tmp)
+    {
+        $("#paying_amount_cert").val(fileurl_tmp);
+        $("#img_a").attr('href', fileurl_tmp);
+        $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
+</script>
+</body>
+</html>

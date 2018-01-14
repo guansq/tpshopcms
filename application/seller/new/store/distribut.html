@@ -1,0 +1,106 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path">
+            <i class="icon-desktop"></i>商家管理中心
+            <i class="icon-angle-right"></i>店铺
+            <i class="icon-angle-right"></i>店铺设置
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+                    <li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+                    <li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+                    <li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+                    <li <if condition="ACTION_NAME eq 'distribut'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">分销设置</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="handlepost" action="{:U('Store/distribut')}">
+                    <input type="hidden" name="id" value="{$config.id}">
+                    
+                    <if condition="$distribut_set_by eq 1">
+                    <dl>
+                        <dt>分销开关：</dt>
+                        <dd>
+                            <ul class="ncsc-form-radio-list">
+                                <li>
+                                    <label>
+                                        <input type="radio" name="switch" value="1" <if condition="$config['switch'] eq 1">checked="checked"</if>>
+                                        开</label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="radio"  name="switch" value="0" <if condition="$config['switch'] eq 0">checked="checked"</if>>
+                                        关</label>
+                                </li>
+                            </ul>
+                            <p class="hint">分销开关</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>一级分销商比例：</dt>
+                        <dd>
+                            <input type="text" placeholder="输入 1-100 整数" class="w200 text" name="first_rate" id="distribut_first_rate" value="{$config.first_rate}" onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                            <p class="hint">一级分销商比例,单位：%</p>
+                        </dd>
+                    </dl>
+                        <dl>
+                            <dt>二级分销商比例：</dt>
+                            <dd>
+                                <input type="text" placeholder="输入 1-100 整数" class="w200 text" name="second_rate" id="distribut_second_rate" value="{$config.second_rate}" onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                                <p class="hint">二级分销商比例,单位：%</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>三级分销商比例：</dt>
+                            <dd>
+                                <input type="text" placeholder="输入 1-100 整数" class="w200 text" name="third_rate" id="distribut_third_rate" value="{$config.third_rate}" onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                                <p class="hint">三级分销商比例,单位：%</p>
+                            </dd>
+                        </dl>
+
+                    <dl>
+                        <dt>分成时间：</dt>
+                        <dd>
+                            订单收货确认<?php echo tpCache('shopping.auto_transfer_date');?>天后可以分成,此时间由平台设置.
+                        </dd>
+                    </dl>
+                    <else/>
+                    <dl>
+                        <dt>分销规则设置：</dt>
+                        <dd>
+                            <span>分销规则设置由总平台来决定.是交给商家设置, 还是平台设置.</span>
+                        </dd>
+                    </dl>
+                    </if>
+                    <div class="bottom">
+                        <label class="submit-border"><input type="submit" class="submit" onclick="adsubmit();" value="提交" /></label>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+                function adsubmit(){
+                    var distribut_first_rate  = $.trim($('#distribut_first_rate').val());
+                    var distribut_second_rate = $.trim($('#distribut_second_rate').val());
+                    var distribut_third_rate  = $.trim($('#distribut_third_rate').val());
+
+                    var rate = parseInt(distribut_first_rate) + parseInt(distribut_second_rate) + parseInt(distribut_third_rate);
+                    if(rate > 100)
+                    {
+                        layer.msg('三个分销商比例总和不得超过100%', {icon: 2,time: 2000});//alert('少年，邮箱不能为空！');
+                        // alert('三个分销商比例总和不得超过100%');
+                        return false;
+                    }else{
+                        $('#handlepost').submit();
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

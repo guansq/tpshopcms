@@ -1,0 +1,85 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>举报管理</h3>
+        <h5>商城设置举报类型及处理被举报商品</h5>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <form id="add_form" method="post" action="">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">举报类型</dt>
+        <dd class="opt">
+          <ul class="nofloat">
+          	<foreach name="expose_type_list" item="vo" key="k">
+            <li>
+              <p>
+                <input type='radio' name="expose_subject_type" <if condition="$k eq 0">checked</if>  id="{$vo.expose_type_id},{$vo.expose_type_name}" value ="{$vo.expose_type_id},{$vo.expose_type_name}">
+                <label for="{$vo.expose_type_id},{$vo.expose_type_name}">{$vo.expose_type_name}:</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">{$vo.expose_type_desc}。</span></p>
+            </li>
+            </foreach>
+           </ul>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="expose_subject_content"><em>*</em>举报主题</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" id="expose_subject_content" name="expose_subject_content" class="input-txt">
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="submitBtn()">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+//按钮先执行验证再提交表单
+ function submitBtn(){
+    var expose_subject_content = $('input[name="expose_subject_content"]').val();
+	var expose_subject_type = $('input[name="expose_subject_type"]:checked').val();
+	
+    var error ='';
+    if(expose_subject_type == ''){
+        error += "举报类型不能为空";
+    }
+    if(expose_subject_content == ''){
+        error += "举报主题不能为空";
+    }
+    if(error){
+        layer.alert(error, {icon: 2});  //alert(error);
+        return false;
+    }
+    $.ajax({
+        type : "POST",
+        url:"{:U('admin/Service/expose_subject_info')}",
+        data:$('#add_form').serialize(),
+        dataType:'json',
+        success: function(data)
+        {
+            if(data.status == 1){
+                layer.alert(data.msg, {icon: 1})
+                window.location.href=data.url
+            }else{
+                layer.alert(data.msg, {icon: 2})
+            }
+        },
+        error:function(){
+            layer.alert('系统正忙，请稍后再试！', {icon: 2})
+        }
+    });
+//      $("#add_form").submit();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<foreach name="account_log" item="v" key="k"> 
+<div class="fll_acc"  onclick="ajax_account_detail(this)" data-url="{:U('Mobile/User/account_detail',['log_id'=>$v['log_id']])}">
+    <ul>
+        <li>{$v[desc]}</li>
+        <li>
+            <span>余额：</span><span class="red">{$v[user_money]}</span></li>
+        <li>
+            <p class="coligh">
+                <span>{:date('Y-m-d H:i:s',$v[change_time])}</span>
+            </p>
+        </li>
+    </ul>
+</div>
+</foreach>

@@ -1,0 +1,65 @@
+<div id="block_{$block[block_id]}" data-block-id="{$block[block_id]}" nctype="store_decoration_block" 
+class="ncsc-decration-block store-decoration-block-1 <if condition='$block[block_full_width] eq 1'>store-decoration-block-full-width</if> tip" title="{$block_title}">
+    <div nctype="store_decoration_block_content" class="ncsc-decration-block-content store-decoration-block-1-content">
+        <div nctype="store_decoration_block_module" class="store-decoration-block-1-module">
+            <if condition="$block[block_module_type] eq 'html'">
+	            <?php 
+					$block = empty($block) ? $output['block'] : $block;
+					$block_content = $block['block_content'];
+				?>
+            	<?php echo html_entity_decode($block_content);?>
+            <elseif condition="$block[block_module_type] eq 'slide'" />
+				<?php $block_content = unserialize($block['block_content']);?>
+				<ul nctype="store_decoration_slide" style="height:{$block_content['height']}px; overflow:hidden;">
+				    <foreach name="block_content['images']"  item="value">
+					    <li data-image-name="{$value['image_name']}" data-image-url="{$value[image_url]}" data-image-link="{$value['image_link']}" style="height:{$block_content['height']}px; background: url({$value[image_url]}) no-repeat scroll center top transparent;">
+					    	<a href="{$value['image_link']}" target="_blank" style="display:block;width:100%;height:100%;"></a>
+					    </li>
+				    </foreach>
+				</ul>
+			<elseif  condition="$block[block_module_type] eq 'goods'" />
+			<?php 
+   				$block_content = empty($block_content) ? $output['block_content'] : $block_content; 
+    			$goods_list = unserialize($block['block_content']);
+			?>
+			<notempty name="goods_list">
+			<ul class="goods-list">
+			  <foreach name="goods_list" item="val">
+			  <li nctype="goods_item" data-goods-id="{$val['goods_id']}" data-goods-name="{$val['goods_name']}" data-goods-price="{$val['shop_price']}"  data-goods-image="{$val['goods_image']}">
+			    <div class="goods-thumb"> 
+			    	<a href="{:U('Home/Goods/goodsInfo',array('id'=>$val[goods_id]))}" target="_blank" title="{$val['goods_name']}"> 
+			    	<img src="{$val.goods_id|goods_thum_images=240,240}" alt="{$val['goods_name']}"> </a> 
+			    </div>
+			    <dl class="goods-info">
+			      <dt><a href="{:U('Home/Goods/goodsInfo',array('id'=>$val[goods_id]))}" target="_blank" title="{$val['goods_name']}">{$val['goods_name']}</a></dt>
+			      <dd>¥{$val['shop_price']}</dd>
+			    </dl>
+			  </li>
+			  </foreach>
+			</ul>
+			<div style="text-align: center; display: block; padding: 15px 0; margin: 0!important;" id="page_list">{$show_page}</div>
+			</notempty>
+			<elseif  condition="$block[block_module_type] eq 'hot_area'" />
+				<?php $block_content = unserialize($block['block_content']);?>
+				<div>
+				    <?php $hot_area_flag = str_replace('.', '',$block_content['image']);?>
+				    <img data-image-name="<?php echo $block_content['image'];?>" usemap="#<?php echo $hot_area_flag;?>" src="<?php echo $block_content['image_url'];?>" alt="<?php echo $block_content['image'];?>">
+				    <map name="<?php echo $hot_area_flag;?>" id="<?php echo $hot_area_flag;?>">
+				        <?php if(!empty($block_content['areas']) && is_array($block_content['areas'])) {?>
+				        <?php foreach($block_content['areas'] as $value) {?>
+				        <area target="_blank" shape="rect" coords="<?php echo $value['x1'];?>,<?php echo $value['y1'];?>,<?php echo $value['x2'];?>,<?php echo $value['y2'];?>" href ="<?php echo $value['link'];?>" alt="<?php echo $value['link'];?>" />
+				        <?php } ?>
+				        <?php } ?>
+				    </map>
+				</div>
+			<else/>
+            </if>
+        </div>
+        <if condition="$control_flag eq 1">
+        	<a class="edit" nctype="btn_edit_module" data-module-type="{$block['block_module_type']}" href="javascript:;" data-block-id="{$block[block_id]}"><i class="icon-edit"></i>编辑模块</a>
+        </if>
+    </div>
+    <if condition="$control_flag eq 1">
+    	<a class="delete" nctype="btn_del_block" href="javascript:;" data-block-id="{$block[block_id]}" title="删除该布局块"><i class="icon-trash"></i>删除布局块</a>    
+    </if>
+</div>

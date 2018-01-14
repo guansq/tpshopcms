@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的收藏</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+		<script src="__PUBLIC__/js/pc_common.js"></script>
+	</head>
+	<style>
+		.a_check{
+			color: #e23435 !important;
+		}
+	</style>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>我的收藏</span>
+			    </div>
+			    <div class="home-main">
+					<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+						<div class="menumain p">
+							<div class="goodpiece">
+								<h1>我的收藏</h1>
+								<!--<a href=""><span class="co_blue">账户余额说明</span></a>-->
+							</div>
+							<div class="time-sala ma-to-20">
+								<ul>
+									<li class="red"><a
+											href="{:U('Home/User/goods_collect',array('collect_type'=>1))}">商品收藏</a></li>
+									<li class="mal-l"><a href="{:U('Home/User/goods_collect',array('collect_type'=>2))}">店铺收藏</a></li>
+								</ul>
+							</div>
+							<div class="he"></div>
+							<div class="collec_list">
+								<ul>
+									<li class="bg-dar"><a href="javascript:void(0);">商品收藏</a></li>
+									<li><a href="{:U('Home/User/goods_collect',array('collect_type'=>1, 'show_type'=>-1))}" <if condition="$Request.param.show_type eq -1">class='a_check'</if> >全部（{$pager->totalRows}）</a></li>
+									<foreach name="goods_cat_arr" item="vo">
+										<li><a href="{:U('Goods/goodsList',array('id'=>$vo[cat_id3]))}">{$vo.cat_name}（{$vo.num}）</a></li>
+									</foreach>
+								</ul>
+								<ul>
+									<li class="bg-dar"><a href="javascript:void(0);">活动商品</a></li>
+									<li><a <if condition="$Request.param.show_type gt -1">class='a_check'</if>  href="{:U('Home/User/goods_collect',array('collect_type'=>1, 'show_type'=>1))}">全部（{$promPager->totalRows}）</a></li>
+								</ul>
+							</div>
+							<div class="orderbook-list sc_collect">
+				    			<div class="book-tit">
+				    				<ul>
+				    					<li class="sx2">&nbsp;</li>
+				    					<li class="sx1">商品</li>
+				    					<li class="sx3">单价</li>
+				    					<li class="sx4">库存</li>
+				    					<li class="sx5">操作</li>
+				    				</ul>
+				    			</div>
+				    		</div>
+				    		<div class="sc_collect book-tit shop-listanadd">
+                                <empty name="lists">
+                                    <p class="ncyekjl">--暂无记录--</p>
+                                </empty>
+								<volist name="lists" id="list">
+									<ul>
+										<li class="sx2"><input class="checkall_annt" type="checkbox" name="selected[]"  value="{$list['collect_id']}"/>&nbsp;&nbsp;</li>
+										<li class="sx1">
+											<div class="shop-if-dif texle">
+												<div class="shop-difimg">
+													<img src="{$list.goods_id|goods_thum_images=100,100}" width="100" height="100">
+												</div>
+												<div class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">{$list.goods_name}</a></div>
+											</div>
+										</li>
+										<li class="sx3"><span><em>￥</em>{$list.shop_price}</span></li>
+										<li class="sx4"><span><if condition="$list['is_on_sale'] eq 0">已下架<else/>{$list.store_count}</if></span></li>
+										<li class="sx5">
+											<div class="adhscar">
+                                                <if condition="$list.is_virtual eq 1">
+                                                    <a class="add_p_shop" href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">查看详情</a>
+                                                <else/>
+                                                    <a class="add_p_shop" onclick="AjaxAddCart({$list[goods_id]},1,0);">加入购物车</a>
+                                                </if>
+												<a class="dele_g" href="{:U('Home/User/del_goods_collect',array('id'=>$list['collect_id']))}">删除</a>
+											</div>
+										</li>
+									</ul>
+								</volist>
+				    		</div>
+							<notempty name="lists">
+							<div class="all_pluscar p">
+			    				<div class="sx2">
+                                    <input class="checkall_annt" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" type="checkbox" id="all2" /><label for="all2"> 全选</label>
+                                </div>
+			    				<div class="addcar_plus">
+			    					<a class="add_p_shop" href="javascript:;" style="display:none">加入购物车</a><!-- 临时隐藏 -->
+			    					<a class="dele_p_shop" href="javascript:;" onclick="del_all();">删除</a>
+			    				</div>
+								<div class="operating fixed" id="bottom">
+									<div class="fn_page clearfix">
+										{$page}
+									</div>
+								</div>
+			    			</div>
+							</notempty>
+						</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.time-sala ul li a').click(function(){
+					$(this).parent().addClass('red').siblings().removeClass('red');
+				})
+			})
+			function del_all()
+			{
+				var ck = $("input[name*='selected']");
+				var del_ids = '';
+				ck.each(function(){
+					if($(this).is(':checked')){
+						del_ids += $(this).val() + ',';
+					}
+				})
+				if(del_ids == ''){
+					layer.msg('请选择要删除的收藏商品', {icon: 2});
+					return false;
+				}
+				del_ids = del_ids.substring(0,del_ids.length-1);
+                //询问框
+                layer.confirm('您确定要删除这些收藏', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    window.location.href='/index.php?m=Home&c=User&a=del_goods_collect&id='+del_ids;
+                });
+			}
+		</script>
+	</body>
+</html>

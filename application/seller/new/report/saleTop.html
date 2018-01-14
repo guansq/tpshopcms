@@ -1,0 +1,117 @@
+<include file="public/head"/>
+<style>
+    .ncsc-goods-sku.ps-container {
+        height: 1px;
+        border: 0;
+        border-bottom: solid 1px #E6E6E6;
+        background: inherit;
+        box-shadow: inherit;
+    }
+</style>
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>统计结算<i class="icon-angle-right"></i>销售排行</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Seller/Report/saleTop')}">销售排行</a></li>
+                </ul>
+            </div>
+            <form method="post" id="search-form2" action="{:U('Report/saleTop')}" onsubmit="check_form();">
+                    <input type="hidden" name="timegap" id="timegap" value="{$timegap}">
+                    <table class="search-form">
+                            <tr>
+                                    <td>&nbsp;</td>
+                                    <th>开始时间</th>
+                                    <td class="w100">
+                                            <input type="text" style="width: 90px;" class="text w90"  name="start_time"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                                    </td>
+                                    <th>截止时间</th>
+                                    <td class="w100">
+                                            <input type="text" style="width: 90px;" class="text w90" name="end_time"  id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                                    </td>
+                                    <td class="tc w70">
+                                            <label class="submit-border"><input type="submit" class="submit" value="搜索"/></label>
+                                    </td>
+                            </tr>
+                    </table>
+            </form>            
+            <table class="ncsc-default-table">
+                <thead>
+                <tr nc_type="table_header">
+                    <th class="w80">排行</th>
+                    <th class="w300">商品名称</th>
+                    <th class="w100">货号</th>
+                    <th class="w80">销售量</th>
+                    <th class="w80">销售额</th>
+                    <th class="w80">均价</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="list" item="vo" key="k" >
+                    <tr class="bd-line">
+                        <td>{$k+1}</td>
+                        <td>{$vo.goods_name}</td>
+                        <td>{$vo.goods_sn}</td>
+                        <td>{$vo.sale_num}</td>
+                        <td>{$vo.sale_amount}</td>
+                        <td>{$vo['sale_amount']/$vo.sale_num|round=###,2}</td>
+                    </tr>
+                </foreach>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$page}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function () {
+         // 起始位置日历控件
+         laydate.skin('molv');//选择肤色
+         laydate({
+           elem: '#start_time',
+           format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+           festival: true, //显示节日
+           istime: false,
+           choose: function(datas){ //选择日期完毕的回调
+                  compare_time($('#start_time').val(),$('#end_time').val());
+           }
+         });
+
+          // 结束位置日历控件
+         laydate({
+           elem: '#end_time',
+           format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+           festival: true, //显示节日
+           istime: false,
+           choose: function(datas){ //选择日期完毕的回调
+                    compare_time($('#start_time').val(),$('#end_time').val());
+           }
+         });
+    });
+    function check_form() {
+        var start_time = $.trim($('#start_time').val());
+        var end_time = $.trim($('#end_time').val());
+        if (start_time == '' ^ end_time == '') {
+            layer.alert('请选择完整的时间间隔', {icon: 2});
+            return false;
+        }
+        if (start_time !== '' && end_time !== '') {
+            $('#timegap').val(start_time + " - " + end_time);
+        }
+        if (start_time == '' && end_time == '') {
+            $('#timegap').val('');
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>商品规格
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Goods/specList')}">商品规格</a></li>
+                </ul>
+            </div>
+            <div class="alert alert-block mt10">
+                <ul class="mt5">
+                    <li>1、需要平台在对应的分类下添加绑定了规格名, 卖家这里才可以添加规格值. <a onclick="get_help(this)" id="get_help" data-url="http://www.tp-shop.cn/Doc/Indexbbc/article/id/1072/developer/user.html">查看使用说明</a></li>
+                </ul>
+            </div>
+            <form method="post" onsubmit="return false;">
+                <table class="search-form">
+                    <tr>
+                        <td></td>
+                        <th class="w70">商品分类</th>
+                        <td class="w250">
+                            <select name="cat_id1" id="cat_id1" onchange="get_category(this.value,'cat_id2','0');"  class="select w200">
+                                <option value="">所有分类</option>
+                                <foreach name="cat_list" item="v" key="k" >
+                                    <option value="{$v['id']}">{$v['name']}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                        <td class="w250">
+                            <select name="cat_id2" id="cat_id2" onchange="get_category(this.value,'cat_id3','0');" class="select w200">
+                                <option value="0">请选择商品分类</option>
+                            </select>
+                        </td>
+                        <td class="w250">
+                            <select name="cat_id3" id="cat_id3" class="select w200">
+                                <option value="0">请选择商品分类</option>
+                            </select>
+                        </td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" id="button-filter2" class="submit" value="添加规格" /></label></td>
+                    </tr>
+                </table>
+            </form>
+            <form id="SpecItemForm" method="post" action="{:U('Goods/batchAddSpecItem')}" onsubmit="return false">
+                <div id="ajax_return"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    //* 保存按钮
+    $(function(){
+        $(document).on("click", "#submit", function () {
+            $.ajax({
+                type: "POST",
+                url: "{:U('Seller/Goods/batchAddSpecItem')}",
+                data: $('#SpecItemForm').serialize(),
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg,{icon: 1,time: 2000})
+                    } else {
+                        layer.msg(data.msg,{icon: 2,time: 1000})
+                    }
+                    $('#cat_id3').trigger('change');
+                }
+            });
+        });
+    })
+    function get_help(obj) {
+		
+		window.open("http://www.tp-shop.cn/");
+		return false;
+		
+		
+        layer.open({
+            type: 2,
+            title: '帮助手册',
+            shadeClose: true,
+            shade: 0.3,
+            area: ['70%', '80%'],
+            content: $(obj).attr('data-url')
+        });
+    }
+    /**
+     * ajax 请求加载下面列表
+     */
+    function ajax_get_data(spec_id) {
+        if($('#'+spec_id).hasClass('active'))return;
+        $.ajax({
+            type: "GET",
+            url: "/index.php?m=Seller&c=goods&a=ajaxSpecList&cat_id3=" + $("#cat_id3").val() + "&spec_id=" + spec_id,//+tab,
+            success: function (data) {
+                $("#ajax_return").html('').append(data);
+                $('#'+spec_id).siblings().removeClass();
+           		$('#'+spec_id).addClass('active');
+            }
+        });
+         
+    }
+
+    /**
+     * 添加一个规格项
+     */
+    $(document).on("click", "#button-filter2", function () {
+        $('.no-data-tr').hide();
+        if ($('#spec_item_table > tbody').length == 0) {
+            var msg = '需要平台在对应的分类绑定规格名, 卖家才可以添加规格值.';
+            layer.msg(msg, {
+                icon: 2,   // 成功图标
+                time: 3000 //2秒关闭（如果不配置，默认是3秒）
+            });
+            return false;
+        }
+        var str = '<tr class="bd-line"><td></td>' +
+                '<td class="tl">新增</td>' +
+                '<td class="tl">' +
+                '<input type="text" class="txt w200"  name="item[]"/>' +
+                '<span style="color:#F00; display:none;">请填写内容</span>' +
+                '</td>' +
+                '<td class="nscs-table-handle">' +
+                '<span><a class="btn-grapefruit delItem2"><i class="icon-trash"></i><p>删除</p></a></span>' +
+                '</td>' +
+                '</tr>';
+        $('#spec_item_table > tbody').append(str);
+
+    });
+
+    // 商品类型切换时 ajax 调用  返回不同的属性输入框
+    $("#cat_id3").change(function () {
+        ajax_get_data(0);
+    });
+    $(document).on("click", ".delItem", function () {
+        var spec_item_id = $(this).attr('data-id');
+        var del = $(this);  // 先把当前对象保存起来
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        type: "GET",
+                        dataType: 'json',
+                        url: "/index.php?m=Seller&c=goods&a=delSpecItem&spec_item_id=" + spec_item_id,//+tab,
+                        success: function (data) {
+                            layer.closeAll();
+                            if (data.status < 0) {
+                                layer.alert(data.msg, {icon: 2});
+                            } else {
+                                del.parent().parent().parent().remove();
+                            }
+
+                        }
+                    });
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    });
+    /**
+     * 删除一个 未保存的规格项
+     */
+    $(document).on("click", ".delItem2", function () {
+        $(this).parent().parent().parent().remove();
+    });
+</script>
+</body>
+</html>

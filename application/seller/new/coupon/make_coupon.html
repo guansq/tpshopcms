@@ -1,0 +1,72 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>代金券发放</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="normal"><a href="javascript:history.go(-1)">返回代金券列表</a></li>
+                    <li class="active"><a>新增/编辑抢购</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="couponForm">
+                    <dl>
+                        <dt>类型名称：</dt>
+                        <dd>
+                            <input class="w400 text" disabled type="text" value="{$coupon.name}" id="name" name="name" maxlength="30"/>
+                            <span></span>
+                            <p class="hint">不可编辑</p>
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dt>优惠券金额：</dt>
+                        <dd>
+                            <input class="w70 text" disabled type="text" value="{$coupon.money}" id="money" name="money" />
+                            <span></span>
+                            <p class="hint">不可编辑</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>发放数量：</dt>
+                        <dd>
+                            <input class="w70 text" id="num" name="num" value="0" onpaste="this.value=this.value.replace(/[^\d]/g,'')"
+                                   onkeyup="this.value=this.value.replace(/[^\d]/g,'')" type="text"/>
+                            <span></span>
+                            <p class="hint">发放数量</p>
+                        </dd>
+                    </dl>
+                    <div class="bottom"><label class="submit-border">
+                        <input type="button" class="submit" value="提交" onclick="dmakeCouponForm()"></label>
+                    </div>
+                    <input type="hidden" name="id" value="{$coupon.id}"/>
+                    <input type="hidden" name="type" value="{$coupon.type}"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function dmakeCouponForm(){
+        // 确定
+        $.ajax({
+            type : 'POST',
+            url  : '/index.php/seller/Coupon/make_coupon',
+            data : $('#couponForm').serialize(),
+            async:false,
+            dataType : 'json',
+            success : function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1});
+                }else{
+                    layer.alert(data.msg, {icon: 2});  //alert('删除失败');
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

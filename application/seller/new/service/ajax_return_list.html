@@ -1,0 +1,72 @@
+<table class="ncsc-default-table">
+    <thead>
+    <tr>
+        <th class="w100">订单编号</th>
+        <th class="w300">商品名称</th>
+        <th class="w100">类型</th>
+        <th class="w120">申请日期</th>
+        <th class="w80">状态</th>
+        <th class="w120">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <if condition="count($list) gt 0">
+    <volist name="list" id="items">
+        <tr class="bd-line">
+            <td><a href="{:U('order/detail',array('order_id'=>$items['order_id']))}">{$items.order_sn}</a></td>
+            <td>{$goods_list[$items['goods_id']]|getSubstr=0,50}</td>
+            <td>
+                <if condition="$items[type] eq 0">退货</if>
+                <if condition="$items[type] eq 1">换货</if>
+            </td>
+            <td class="tl">{$items.addtime|date='Y-m-d H:i',###}</td>
+            <td class="tl">
+                <if condition="$items[status] eq 0">未处理</if>
+                <if condition="$items[status] eq 1">处理中</if>
+                <if condition="$items[status] eq 2">已完成</if>
+            </td>
+            <td class="nscs-table-handle">
+                <if condition="in_array($v[status],array(0,2))">
+                    <span>
+                        <a href="{:U('Service/return_info',array('id'=>$items['id']))}" class="btn-bluejeans"><i class="icon-search"></i><p>查看</p></a>
+                    </span>
+                    <span>
+                        <a onclick="del('{$items[id]}',this);" data-href="{:U('Service/return_del',array('id'=>$items['id']))}" id="button-delete6" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+                    </span>
+                </if>
+            </td>
+        </tr>
+    </volist>
+        <else/>
+        <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+        </tr>
+    </if>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="20">
+            {$page}
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    // 删除操作
+    function del(id,t)
+    {
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    location.href = $(t).data('href');
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+</script>

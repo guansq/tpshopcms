@@ -1,0 +1,152 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>虚拟兑码订单</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="<if condition='$pay_status eq -1'>active<else/>normal</if>"><a  href="{:U('Order/virtual_list')}">所有订单</a></li>
+  <li class="<if condition='$pay_status eq 0'>active<else/>normal</if>"><a  href="{:U('Order/virtual_list',array('pay_status'=>0))}">待付款</a></li>
+  <li class="<if condition='$pay_status eq 1'>active<else/>normal</if>"><a  href="{:U('Order/virtual_list',array('pay_status'=>1))}">已付款</a></li>
+  <li class="<if condition='$pay_status eq 4'>active<else/>normal</if>"><a  href="{:U('Order/virtual_list',array('order_status'=>4))}">已完成</a></li>
+  <li class="<if condition='$pay_status eq 3'>active<else/>normal</if>"><a  href="{:U('Order/virtual_list',array('order_status'=>3))}">已取消</a></li></ul>
+  <a href="{:U('verify_code')}" class="ncbtn ncbtn-bittersweet"><i class="icon-edit"></i>兑换兑换码</a> </div>
+  <form method="get" action="{:U('seller/Order/virtual_list')}" target="_self">
+  <table class="search-form">
+     <tr>
+      <td>&nbsp;</td>
+      <th>下单时间</th>
+      <td class="w378">
+      	<input type="text" class="text w70" name="add_time_begin" id="add_time_begin" value="{$begin}" />
+      	<label class="add-on"><i class="icon-calendar"></i></label>&nbsp;&#8211;&nbsp;
+      	<input id="add_time_end" class="text w70" type="text" name="add_time_end" value="{$end}" />
+      	<label class="add-on"><i class="icon-calendar"></i></label>
+      </td>
+      <th>手机号</th>
+      <td class="w100"><input type="text" class="text w80" name="mobile" value="{$_GET['mobile']}" /></td>
+      <th>订单编号</th>
+      <td class="w160"><input type="text" class="text w150" name="order_sn" value="{$_GET['order_sn']}" /></td>
+      <td class="w70 tc"><label class="submit-border">
+          <input type="submit" class="submit" value="搜索" />
+        </label></td>
+    </tr>
+  </table>
+   <input type="hidden" name="pay_status" value="{$_GET['pay_status']}" />
+</form>
+<table class="ncsc-default-table order">
+  <thead>
+    <tr>
+      <th class="w10"></th>
+      <th colspan="2">商品</th>
+      <th class="w100">单价（元）</th>
+      <th class="w40">数量</th>
+      <th class="w110">买家</th>
+      <th class="w120">订单金额</th>
+      <th class="w100">交易状态</th>
+      <th class="w150">交易操作</th>
+    </tr>
+  </thead>
+  	<foreach name="orderList" item="vo">
+      <tbody>
+    <tr><td colspan="20" class="sep-row"></td></tr>
+    <tr>
+      <th colspan="20"><span class="ml10">订单编号：<em>{$vo.order_sn}</em>
+      </span> <span>下单时间：<em class="goods-time">{$vo.add_time|date='Y-m-d H:i:s',###}</em></span> </th>
+    </tr>
+    <assign name="goodsList" value="$goodsArr[$vo['order_id']]" />
+    <volist name="goodsList" id="good" key='k'>
+    <tr>
+      <td class="bdl"></td>
+      <td class="w70"><div class="ncsc-goods-thumb">
+      <a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}" target="_blank"><img src="{$good['goods_id']|goods_thum_images=240,240}"/></a></div></td>
+      <td class="tl">
+      	<dl class="goods-name">
+          <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good['goods_name']}</a></dt>
+          <dd>{$good['spec_key_name']}</dd>
+        </dl>
+      </td>
+      <td><p>{$good['goods_price']}</p></td>
+      <td>{$good.goods_num}</td>
+      <td class="bdl"><div class="buyer">{$userArr[$vo[user_id]]}<p member_id="3"></p>
+          <div class="buyer-info"><em></em>
+            <div class="con">
+              <h3><i></i><span>联系信息</span></h3>
+              <dl><dt>姓名：</dt><dd>{$vo.consignee}</dd></dl>
+              <dl><dt>电话：</dt><dd>{$vo.mobile}</dd></dl>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td class="bdl"><p class="ncsc-order-amount">{$vo.total_amount}</p>
+      <p class="goods-pay" title="支付方式："></p></td>
+      <td class="bdl bdr">
+      	<p><if condition="$vo[pay_status] eq 0">未支付<else/>已支付</if></p>
+      	<if condition="$vo['order_status'] eq 3"><p>已取消</p></if>
+        <!-- 订单查看 -->
+        <p><a href="{:U('Order/virtual_info',array('order_id'=>$vo[order_id]))}" target="_blank">订单详情</a></p>
+      </td>
+      <td class="bdl bdr"><!-- 取消订单 -->
+      	 <if condition="($vo[order_status] eq 0) && (time() - $vo['add_time'] lt (86400 * 90))">
+         	<p><a href="javascript:void(0)" onclick="virtual_cancel(this)" class="ncbtn ncbtn-grapefruit mt5" data-url="{:U('Order/virtual_cancel',array('order_id'=>$vo[order_id]))}"/><i class="icon-remove-circle"></i>取消订单</a></p>
+      	</if>
+      </td>
+      </tr>
+      </volist>
+      </tbody>
+      </foreach>
+  	  <tfoot>
+        <tr>
+      	<td colspan="20">{$page}</td>
+    	</tr>
+      </tfoot>
+	</table>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script>
+$(document).ready(function(){	 
+ 	$('#add_time_begin').layDate(); 
+ 	$('#add_time_end').layDate();
+});
+
+function virtual_cancel(obj){
+    layer.open({
+        type: 2,
+        title: '取消订单',
+        shadeClose: true,
+        shade: 0.2,
+        area: ['420px', '330px'],
+        skin: 'layui-layer-rim',
+        content: [$(obj).attr('data-url'),'no'], 
+    });
+}
+
+    // 起始位置日历控件
+	laydate.skin('molv');//选择肤色
+	laydate({
+	  elem: '#add_time_begin',
+	  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	  festival: true, //显示节日
+	  istime: false,
+	  choose: function(datas){ //选择日期完毕的回调
+		 compare_time($('#add_time_begin').val(),$('#add_time_end').val());
+	  }
+	});
+	 
+	 // 结束位置日历控件
+	laydate({
+	  elem: '#add_time_end',
+	  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	  festival: true, //显示节日
+	  istime: false,
+	  choose: function(datas){ //选择日期完毕的回调
+		   compare_time($('#add_time_begin').val(),$('#add_time_end').val());
+	  }
+	});	 
+	
+</script>
+</body>
+</html>

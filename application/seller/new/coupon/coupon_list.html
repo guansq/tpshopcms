@@ -1,0 +1,108 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>代金券管理
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('coupon/coupon_list')}">发放代金券列表</a></li>
+                </ul>
+                <a href="{:U('Coupon/coupon_info')}" class="ncbtn ncbtn-mint" title="新增代金券"><i class="icon-plus-sign"></i>添加代金券</a>
+            </div>
+            <div class="alert alert-block mt10">
+                <ul class="mt5">
+                    <li>1、点击添加代金券按钮可以添加代金券</li>
+                </ul>
+            </div>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w20"></th>
+                    <th class="w120 tl">优惠券名称</th>
+                    <th class="w100">发放类型</th>
+                    <th class="w100">订单号</th>
+                    <th class="w80">使用会员</th>
+                    <th class="w120">使用时间</th>
+                    <if condition="($type eq 3)">
+                    <th class="w200">优惠券码</th>
+                    </if>
+                    <th class="w80">操作</th>
+                </tr>
+                </thead>
+                <empty name="$lists">
+                    <tbody>
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                    </tbody>
+                    <else/>
+                    <tbody>
+                <volist name="lists" id="list">
+                    <tr class="bd-line">
+                        <td></td>
+                        <td class="tl">{$list.name}</td>
+                        <td>{$coupon_type[$list[type]]}</td>
+                        <td>{$list.order_sn}</td>
+                        <td>{$list.nickname}</td>
+                        <td>
+                            <if condition="$list[use_time] gt 0">
+                                {$list.use_time|date='Y-m-d H:i',###}
+                                <else/>
+                                N
+                            </if>
+                        </td>
+                        <if condition="($list[type] eq 3) and ($list[code] neq '')">
+                            <td>
+                                {$list.code}
+                            </td>
+                        </if>
+                        <td class="nscs-table-handle">
+                            <span><a data-url="{:U('Coupon/coupon_list_del',array('id'=>$list['id']))}" class="btn-grapefruit" onclick="delfun(this,{$list['id']})"><i class="icon-trash"></i><p>删除</p></a></span>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+                </empty>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$page}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function delfun(obj,id){
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        type : 'post',
+                        url : "/index.php?m=seller&c=Coupon&a=coupon_list_del",
+                        data:{id:id},
+                        dataType : 'json',
+                        success : function(data){
+                            layer.closeAll();
+                            if(data.status == 1){
+                                $(obj).parent().parent().parent().remove();
+                                layer.msg(data.msg, {icon: 1});
+                            }else{
+                                layer.alert(data.msg, {icon: 2});  //alert('删除失败');
+                            }
+                        }
+                    })
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

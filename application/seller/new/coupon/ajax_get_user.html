@@ -1,0 +1,52 @@
+<table class="ncsc-default-table">
+    <thead>
+    <tr>
+        <th class="w30 tl"><input type="checkbox" onclick="$('input[name*=\'user_id\']').prop('checked', this.checked);">全选</th>
+        <th class="w30">会员ID</th>
+        <th class="w100">会员等级</th>
+        <th class="w100 tl">会员昵称</th>
+        <th class="w100 tl">手机</th>
+        <th class="w100 tl">邮箱</th>
+        <th class="w60">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="userList" id="list">
+        <tr class="bd-line">
+            <td class="tl"><input type="checkbox" name="user_id[]" value="{$list.user_id}"/></td>
+            <td>{$list.user_id}</td>
+            <td>{$user_level[$list[level]]}</td>
+            <td class="tl">
+                <if condition=" $list[nickname] eq null">
+                    <if condition=" $list[oauth] eq 'weixin'">微信用户</if>
+                    <if condition=" $list[oauth] eq 'weibo'">微博用户</if>
+                    <if condition=" $list[oauth] eq 'alipay'">支付宝用户</if>
+                    <if condition=" $list[oauth] eq 'qq'">QQ用户</if>
+                    <else />
+                    {$list.nickname}
+                </if>
+            </td>
+            <td class="tl">{$list.mobile}</td>
+            <td class="tl">{$list.email}</td>
+            <td class="nscs-table-handle">
+                <span>
+                    <a onclick="javascript:$(this).parent().parent().parent().remove();" id="button-delete6" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+                </span>
+            </td>
+        </tr>
+    </volist>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="20">
+            {$page}
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+</script>

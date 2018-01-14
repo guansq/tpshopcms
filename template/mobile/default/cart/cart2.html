@@ -1,0 +1,590 @@
+<include file="public/header" title="填写订单" body="g4"/>
+<include file="public/header_nav" title="填写订单" href="{:U('mobile/Cart/index')}"/>
+<style>
+    div.cuptyp{
+        box-sizing: content-box;
+        border: 2px solid transparent;
+    }
+    div.checked {
+        border: 2px solid #e23435;
+    }
+    .phoneclck{
+        /*部分手机不能点击问题*/
+        cursor: pointer
+    }
+    #cart2_form input{
+        width: 6rem;
+        height: 1rem;
+        font-size:.59733rem;
+    }
+</style>
+<form name="cart2_form" id="cart2_form" method="post" style="position:fixed;left: 0;top: 0;z-index: 1000;">
+    <input type="hidden" name="address_id" value="{$address.address_id}">
+    <input type="hidden" name="pay_points" value="">
+    <input type="hidden" name="user_money" value="">
+    <input type="hidden" name="invoice_title" value="个人">
+    <input type="hidden" name="paypwd" value="" hidden/>
+    <volist name="storeShippingCartList" id="store">
+        <input type="hidden" name="shipping_code[{$store.store_id}]" value="">
+        <input type="hidden" name="user_note[{$store.store_id}]" value="">
+    </volist>
+</form>
+    <div class="edit_gtfix">
+        <a href="{:U('Mobile/User/address_list',array('source'=>'cart2'))}">
+            <div class="namephone fl">
+                <div class="top">
+                    <div class="le fl">{$address.consignee}</div>
+                    <div class="lr fl">{$address.mobile}</div>
+                </div>
+                <div class="bot">
+                    <i class="dwgp"></i>
+                    <span>{$address.address}</span>
+                </div>
+            </div>
+            <div class="fr youjter">
+                <i class="Mright"></i>
+            </div>
+            <div class="ttrebu">
+                <img src="__STATIC__/images/tt.png"/>
+            </div>
+        </a>
+    </div>
+
+    <!--商品信息-s-->
+    <div class="orders-list">
+        <!--遍历店铺-->
+        <volist name="storeShippingCartList" id="store">
+            <div class="orders-item">
+                <div class="shop-mes">
+                    <div class="shop-logo"><img src="__STATIC__/images/s.png"/></div>
+                    <h2 class="shop-name">{$store.store_name}</h2>
+                </div>
+            <!--遍历商品-->
+                <div class="goods-list">
+                    <volist name="store[cartList]" id="cart">
+                        <div class="goods-item p">
+                            <div class="goods-pic"><img src="{$cart.goods_id|goods_thum_images=100,100}" alt="" /></div>
+                            <div class="goods-cont">
+                                <h3 class="goods-title">{$cart.goods_name}</h3>
+                                <p class="goods-des">
+                                    <if condition="$store['qitian']">
+                                        <i class="return7"></i><span class="f_blue">支持七天无理由退货</span>
+                                    <else/>
+                                        <i class="return7 return7-dark"></i><span class="f_dark">不支持七天无理由退货</span>
+                                    </if>
+                                </p>
+                                <div class="p">
+                                    <p class="goods-price">￥{$cart.member_goods_price}</p>
+                                    <p class="goods-num">×{$cart.goods_num}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            <!--遍历商品-->
+            <!--优惠券-s-->
+                <div class="orders-other">
+                    <div class="other-item coupon_click phoneclck"  data-storeid="{$store.store_id}"  data-storename="{$store.store_name}">
+                        <div class="other-left">优惠券</div>
+                        <div class="other-right">
+                            <span style="line-height: 1.2rem;">
+                                 <span class="setalit" id="counpn_{$store.store_id}">未使用</span>
+                            </span>
+                            <i class="arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            <!--优惠券-e-->
+            <!--配送方式-s-->
+                <div class="orders-other">
+                    <div class="other-item choice-express phoneclck" data-storeid="{$store.store_id}">
+                        <div class="other-left">配送方式</div>
+                        <div class="other-right" >
+                            <span id="postname_{$store.store_id}" style="line-height: 1.2rem;">不选择，则按默认配送方式</span>
+                            <span class="free-freight" id="store_shipping_price_{$store.store_id}"></span>
+                            <i class="arrow-right"></i>
+                        </div>
+                    </div>
+                    <div class="other-item">
+                        <div class="other-left">备注 : </div>
+                        <div class="other-right leave-word-box">
+                            <textarea class="leave-word tapassa user_note_txt" data-store-id="{$store.store_id}" onkeyup="checkfilltextarea('.tapassa','30')"  placeholder="选填 : 对本次交易的说明最多30个字"></textarea>
+                        </div>
+                    </div>
+                    <div class="other-item">
+                        <div class="other-right">
+                            <span class="other-num"></span>总重量 : <span class="other-price">{$store.store_goods_weight}g</span>
+                        </div>
+                    </div>
+                </div>
+            <!--配送方式-e-->
+            </div>
+            <!--配送弹窗-s-->
+            <div class="losepay closeorder" style="display: ;" id="shipping_{$store.store_id}">
+                <div class="m-lr-20">
+                    <div class="l_top">
+                        <span>配送方式</span>
+                        <!--<em class="turenoff"></em>-->
+                    </div>
+                    <div class="resonco">
+                        <foreach name="store[shippingAreaList]" key="sk" item="shipping">
+                            <div class="radio">
+                                <span class="che <if condition='$sk eq 0'>check_t</if>" data-shippingcode="{$shipping.shipping_code}" data-shippingname="{$shipping['plugin']['name']}" data-storeid="{$store.store_id}">
+                                    <i></i>
+                                    <span>{$shipping['plugin']['name']}</span>
+                                </span>
+                            </div>
+                        </foreach>
+                    </div>
+                </div>
+                <div class="submits_de bagrr phoneclck" >确认</div>
+            </div>
+            <!--配送弹窗-e-->
+        </volist>
+    </div>
+    <!--商品信息-e-->
+
+<!--使用余额，积分-s-->
+    <div class="information_dr">
+        <div class="maleri30">
+            <div class="invoice list7">
+                <div class="myorder p">
+                    <div class="content30">
+                        <a class="remain" href="javascript:void(0);">
+                            <div class="order">
+                                <div class="fl">
+                                    <span>使用余额/积分</span>
+                                </div>
+                                <div class="fr">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="balance-li" class="invoice list7">
+                <div class="myorder p">
+                    <div class="content30">
+                        <label>
+                            <div class="incorise">
+                                <span>使用余额：</span>
+                                <input type="text" id="user_money" placeholder="可用余额为:{$user['user_money']}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=/^\d+\.?\d{0,2}$/.test(this.value) ? this.value : ''" <if condition="$user['user_money'] eq 0">disabled="disabled"</if>/>
+                                <input id="user_money_button" type="button" value="使用" class="usejfye" />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="myorder p">
+                    <div class="content30">
+                        <label>
+                            <div class="incorise">
+                                <span>使用积分：</span>
+                                <input type="text" id="pay_points"  placeholder="可用积分为:{$user['pay_points']}"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" <if condition="$user['pay_points'] eq 0">disabled="disabled"</if>/>
+                                <input id="pay_points_button" type="button" value="使用" class="usejfye" />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="myorder p">
+                    <div class="content30">
+                        <label>
+                            <div class="incorise">
+                                <span>优惠券券码：</span>
+                                <input type="text" id="coupon_code" name="coupon_code" placeholder="优惠券兑换码"/>
+                                <input id="coupon_exchange" type="button" value="兑换" class="usejfye" />
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="myorder p" id="paypwd_view", style="display: none">
+                    <div class="content30">
+                        <label>
+                            <div class="incorise">
+                                <span>支付密码：</span>
+                                <input style="display:none" type="password" name="paypwd"/>
+                                <!--解决google浏览器识别text+password,自动填充已保存的账户密码-->
+                                <input type="password" id="paypwd" placeholder="请输入支付密码"/>
+                                <if condition="empty($user.paypwd)">
+                                    <a href="{:U('User/paypwd')}" class="go-set-password">设置支付密码</a>
+                                </if>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--使用余额，积分-e-->
+
+<div class="information_dr ma-to-20">
+    <div class="maleri30">
+    <div class="invoice list7">
+        <div class="myorder p">
+            <div class="content30">
+                <a class="invoiceclickin" href="javascript:void(0)">
+                    <div class="order">
+                        <div class="fl">
+                            <span>发票信息</span>
+                        </div>
+                        <div class="fr">
+                            <span class="invoice_title" style="margin-top: 0.6rem;">个人</span>
+                            <i class="Mright"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="invoice" class="invoice list7" style="display: none;">
+        <div class="myorder p">
+            <div class="content30">
+                <div class="incorise">
+                    <span>发票抬头：</span>
+                    <input type="text" id="invoice_title" value="" placeholder="xx单位或xx个人" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!--订单金额-s-->
+<div class="information_dr ma-to-20">
+    <div class="maleri30">
+        <div class="xx-list">
+            <p class="p">
+                <span class="fl">商品总数：</span>
+                <span class="fr red">共<span>{$cartGoodsTotalNum}</span>件</span>
+            </p>
+            <p class="p">
+                <span class="fl">商品金额：</span>
+                <span class="fr red"><span>￥</span><span>{$storeCartTotalPrice}</span>元</span>
+            </p>
+            <p class="p">
+                <span class="fl">配送费用：</span>
+                <span class="fr red" ><span id="postFee">0</span>元</span>
+            </p>
+            <p class="p">
+                <span class="fl">优惠：</span>
+                <span class="fr red" ><span id="order_prom_amount">0</span>元</span>
+            </p>
+            <p class="p">
+                <span class="fl">使用优惠券：</span>
+                <span class="fr red" ><span id="couponFee">0</span>元</span>
+            </p>
+            <p class="p">
+                <span class="fl">使用积分：</span>
+                <span class="fr red" ><span id="pointsFee">0</span>元</span>
+            </p>
+            <p class="p">
+                <span class="fl">使用余额：</span>
+                <span class="fr red" ><span id="balance">0</span>元</span>
+            </p>
+        </div>
+    </div>
+</div>
+<!--订单金额-e-->
+
+<!--提交订单-s-->
+    <div class="mask-filter-div" style="display: none;"></div>
+    <div class="payit fillpay ma-to-200">
+        <div class="fr">
+            <a href="javascript:void(0)" onclick="submit_order()">提交订单</a>
+        </div>
+        <div class="fl">
+            <p><span class="pmo">应付金额：</span><span id="payables">0</span><span></span></p>
+        </div>
+    </div>
+<!--提交订单-e-->
+
+<!--优惠券弹窗-s-->
+<div class="chooseebitcard newchoosecar coupongg" >
+    <div class="choose-titr">
+        <span>店铺：<em id="cl"></em></span>
+        <i class="closer" onclick="closer()"></i>
+    </div>
+    <div class="soldout_cp p" id="emptyCoupon" style="display: none">
+        <img class="nmy" src="__STATIC__/images/nmy.png" alt="" />
+        <p class="nzw">当前店铺暂无可使用的优惠券</p>
+    </div>
+    <div class="c_uscoupon">
+        <div class="maleri30">
+            <div class="no_get_coupon">
+                <p class="canus">可用优惠劵<span>（以下是当前店铺可使用的优惠劵）</span></p>
+                <volist name="userCartCouponList" id="userCoupon">
+                    <if condition="$userCoupon[coupon][able] eq 1">
+                        <div class="cuptyp storeid_{$userCoupon.store_id}" onclick="checkCoupon(this)"  data-date="{$userCoupon.coupon[is_expiring]}" data-coupon-id="{$userCoupon[id]}" data-shopid="{$userCoupon.coupon[store_id]}" data-conponname="{$userCoupon.coupon[name]}">
+                            <a href="javascript:;">
+                                <div class="le_pri">
+                                    <h1><em>￥</em>{:round($userCoupon.coupon[money],0)}</h1>
+                                    <p>满{$userCoupon.coupon[condition]}元可用</p>
+                                </div>
+                                <div class="ri_int">
+                                    <div class="to_two">
+                                        <span class="ba">商城券</span>
+                                        <span>{$userCoupon.coupon[name]}</span>
+                                    </div>
+                                    <div class="bo_two">
+                                        <span class="cp9">有效期：{$userCoupon[coupon][use_start_time]|date='Y.m.d',###}-{$userCoupon[coupon][use_end_time]|date='Y.m.d',###}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </if>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+<!--优惠券弹窗-e-->
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    //配送方式切换
+    $(document).ready(function() {
+        initShipping()
+    })
+    // 获取订单价格
+    function ajax_order_price() {
+        $("input[name='paypwd']").attr('value',$('#paypwd').val());
+        $.ajax({
+            type : "POST",
+            url:"{:U('Mobile/Cart/cart3')}",
+            dataType:'json',
+            data: $('#cart2_form').serialize(),
+            success: function(data){
+                if (data.status != 1) {
+                    layer.open({content:data.msg,time:2});
+                    // 登录超时
+                    if (data.status == -100){
+                        location.href = "{:U('Mobile/User/login')}";
+                    }
+                    return false;
+                }
+                // console.log(data);
+                $("#postFee").text('￥'+data.result.postFee); // 物流费
+                if(data.result.couponFee == null){
+                    $("#couponFee").text('-￥0');// 优惠券
+                }else{
+                    $("#couponFee").text('-￥'+data.result.couponFee);// 优惠券
+                }
+                $("#balance").text('-￥'+data.result.balance);// 余额
+                $("#pointsFee").text('-￥'+data.result.pointsFee);// 积分支付
+                $("#payables").text('￥'+data.result.payables);// 应付
+                $("#order_prom_amount").text('-￥'+data.result.order_prom_amount);// 订单 优惠活动
+                // 显示每个店铺的物流费
+                for (v in data.result.store_shipping_price){
+                    if(data.result.store_shipping_price[v] == 0){
+                        $('#store_shipping_price_' + v).text('包邮');
+                    }else{
+                        $('#store_shipping_price_' + v).text('运费:￥'+data.result.store_shipping_price[v]+'元');
+                    }
+                }
+                // 显示每个店铺订单优惠了多少钱
+                for (v in data.result.store_order_prom_title){
+                    if(data.result.store_order_prom_title[v] != '' && data.result.store_order_prom_title[v] != null){
+                        $('#store_order_prom_title_' + v).text(data.result.store_order_prom_title[v]);
+                        $('#store_order_prom_title_' + v).parent().show();
+                    }
+                }
+
+            }
+        });
+    }
+    // 提交订单
+    ajax_return_status = 1; // 标识ajax 请求是否已经回来 可以进行下一次请求
+    function submit_order() {
+        $('.user_note_txt').each(function () {
+            var store_id =  $(this).attr('data-store-id');
+            $("input[name='user_note["+store_id+"]']").attr('value',$(this).val());
+        })
+        if (ajax_return_status == 0)
+            return false;
+        ajax_return_status = 0;
+        $.ajax({
+            type: "POST",
+            url: "{:U('Mobile/Cart/cart3')}",//+tab,
+            data: $('#cart2_form').serialize() + "&act=submit_order",// 你的formid
+            dataType: "json",
+            success: function (data) {
+                if (data.status== 1){
+                    layer.open({content:data.msg,time:2});
+                    window.location.href = "/index.php?m=Mobile&c=Cart&a=cart4&master_order_sn=" + data.result;
+                }else {
+                    layer.open({content:data.msg,time:2});//执行有误
+                    // 登录超时
+                    if (data.status == -100)
+                        location.href = "{:U('Mobile/User/login')}";
+                    ajax_return_status = 1; // 上一次ajax 已经返回, 可以进行下一次 ajax请求
+                    return false;
+                }
+            }
+        });
+    }
+
+    //配送方式切换
+    $(document).ready(function(){
+        //显示弹窗
+        $(document).on("click",'.choice-express',function () {
+            cover();
+            var storeid = $(this).data('storeid');
+            $('#shipping_'+storeid).show();
+        })
+        //切换
+        $('.radio .che').on('click',function(){
+            $(this).addClass('check_t').parent().siblings('.radio').find('.che').removeClass('check_t');
+        });
+        //确定配送方式
+        $(document).on("click",'.submits_de',function(){
+            initShipping();
+        });
+    })
+    //选择配送方式确定选择按钮
+    function initShipping(){
+        undercover();
+        $('.check_t').each(function () {
+            var storeid = $(this).data('storeid');
+            var shippingname = $(this).data('shippingname');
+            var shippingcode = $(this).data('shippingcode');
+            $('#postname_' + storeid).text(shippingname);//写到店铺对应配送方式栏中
+            $("input[name='shipping_code[" + storeid + "]']").attr('value', shippingcode);
+        })
+        $('.mask-filter-div').hide();
+        $('.losepay').hide();
+        ajax_order_price();
+    }
+
+    //使用积分，余额，兑换优惠券
+    $(function(){
+        $(document).on('blur', '#pay_points,#user_money', function() {
+            useMoneyPoints(0)
+        });
+        $(document).on('click', '#pay_points_button,#user_money_button', function() {
+            useMoneyPoints(1);
+            ajax_order_price();
+        });
+        //兑换优惠券
+        $(document).on("click", '#coupon_exchange', function (e) {
+            var coupon_code = $('#coupon_code').val();
+            if (coupon_code != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Home/Cart/cartCouponExchange')}",
+                    dataType: 'json',
+                    data: {coupon_code: coupon_code},
+                    success: function (data) {
+                        layer.open({content:data.msg,time:2});
+                        if (data.status == 1) {
+                            window.location.reload()
+                        }
+                    }
+                });
+            }else{
+                layer.open({content:'请输入优惠券码',time:2});
+            }
+        })
+    })
+    //使用余额，积分时显示隐藏支付密码
+    function useMoneyPoints(t){
+        var user_money = $.trim($('#user_money').val());
+        var pay_points = $.trim($('#pay_points').val());
+        if ((user_money !== '' && user_money >0) || (pay_points !== '' || pay_points >0)) {
+            if(t==1){ //1是点击使用
+                $("input[name='user_money']").attr('value',user_money);
+                $("input[name='pay_points']").attr('value',pay_points);
+            }
+            $('#paypwd_view').show();
+        } else {
+            $('#paypwd_view').hide();
+        }
+    }
+
+    //优惠券
+    $(function(){
+        $(document).on('click','.coupon_click',function(){
+            cover();
+            $('.coupongg').show();
+            $('html,body').addClass('ovfHiden');
+            var storeid = $(this).data('storeid');  //当前店铺ID
+            var storename = $(this).data('storename');  //当前店铺名
+            $('.cuptyp').hide();
+            $('.storeid_'+storeid).show();  //显示当前店铺下的优惠券
+            var coupon_length = $(".storeid_"+storeid).length;
+            if(coupon_length == 0){
+                $('.soldout_cp').show();
+                $('.no_get_coupon').hide();
+            }else{
+                $('.no_get_coupon').show();
+                $('.soldout_cp').hide();
+            }
+            $('#cl').html(storename);
+        })
+    })
+    //关闭优惠券弹窗
+       function closer(){
+            undercover();
+            $('.newchoosecar').hide();
+            $('html,body').removeClass('ovfHiden');
+        }
+
+    //选择优惠券
+    function checkCoupon(obj){
+        $(obj).toggleClass('checked'); //选中样式
+        var id=$(obj).data('shopid');
+        if($(obj).hasClass('checked')){
+            var conponname = $(obj).data('conponname');
+            $('#counpn_'+id).text(conponname);
+            $(obj).siblings().each(function (i,o) {  //同一个商品只能选一个优惠券
+                if($(o).data('shopid')==id){
+                    $(o).removeClass('checked')
+                }
+            })
+        }else{
+            $('#counpn_'+id).text('未使用');
+        }
+        $('#cart2_form').find("input[name^='coupon_id']").remove();
+        var couponList = $(obj).parent('.no_get_coupon').find('.checked');
+        couponList.each(function (e,index) {
+            if($(index).hasClass('checked')){
+                var store_id = $(index).data('shopid');
+                var store_coupon = $("input[name='coupon_id["+store_id+"]']");
+                if(store_coupon > 0){
+                    store_coupon.attr('value',$(index).data('coupon-id'));
+                }else{
+                    var input = document.createElement('input');  //创建input节点
+                    input.setAttribute('type', 'hidden');  //定义类型是文本输入
+                    input.setAttribute('value', $(index).data('coupon-id'));
+                    input.setAttribute('name', "coupon_id["+store_id+"]");
+                    document.getElementById('cart2_form').appendChild(input); //添加到form中显示
+                }
+            }
+        })
+        closer();
+        ajax_order_price();
+    }
+
+    $(function() {
+        //刷新把输入框变空
+        $('#user_money').val('');
+        $('#pay_points').val('');
+        $('#invoice_title').val('')
+        //显示隐藏使用发票信息
+        $('.invoiceclickin').click(function () {
+            $('#invoice').toggle(300);
+        })
+        $(document).on('blur','#invoice_title',function(){
+            var invoice_title = $.trim($('#invoice_title').val());
+            $('.invoice_title').text(invoice_title);
+            $("input[name='invoice_title']").attr('value',invoice_title)
+        })
+        //支付密码
+        $(document).on('blur','#paypwd',function(){
+            var paypwd = $.trim($('#paypwd').val());
+            $("input[name='paypwd']").attr('value',paypwd)
+        })
+        $('.remain').click(function () {
+            $('#balance').toggle(300);
+        })
+    })
+</script>
+</body>
+</html>

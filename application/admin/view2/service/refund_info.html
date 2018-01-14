@@ -1,0 +1,151 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>退货管理 - 查看退单“退单编号：{$order.order_sn}”</h3>
+        <h5>商品订单退货申请及审核处理</h5>
+      </div>
+    </div>
+  </div>
+  <div class="ncap-form-default">
+   <div class="title">
+      <h3>买家退货退款申请</h3>
+    </div>
+      <dl class="row">
+        <dt class="tit">申请时间</dt>
+        <dd class="opt">{$return_goods.addtime|date='Y-m-d H:i:s',###} </dd>
+      </dl>
+    <dl class="row">
+      <dt class="tit">商品名称</dt>
+      <dd class="opt">{$order_goods.goods_name}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">退款金额</dt>
+      <dd class="opt">{$return_goods.refund_money}
+      <if condition="$return_goods[refund_deposit] gt 0">
+      <label>退还余额：{$return_goods.refund_deposit}</label>
+      </if>
+      <if condition="$return_goods[refund_integral] gt 0">
+      <label>退还积分：{$return_goods.refund_integral}</label>
+      </if>
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">退货原因</dt>
+      <dd class="opt">{$return_goods.reason}</dd>
+    </dl>
+   <dl class="row">
+    <dt class="tit">退货数量</dt>
+    <dd class="opt">{$return_goods.goods_num}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">退货说明</dt>
+      <dd class="opt">{$return_goods.describe}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">凭证上传</dt>
+      <dd class="opt">
+      	 <foreach name="return_goods[imgs]" item="vo">
+         	<a href="{$vo}" class="nyroModal" rel="gal"><img height="64" class="show_image" src="{$vo}"></a>
+         </foreach>
+      </dd>
+    </dl>
+     <div class="title">
+      <h3>商家退款退货处理</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">审核结果</dt>
+      <dd class="opt">
+		<if condition="$return_goods[status] eq -2">服务单取消
+          <elseif condition="$return_goods[status] eq -1"/>不同意
+          <elseif condition="$return_goods[status] eq 0"/>待审核
+          <else/>同意
+          </if>
+	  </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">处理备注</dt>
+      <dd class="opt">{$return_goods.remark}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">处理时间</dt>
+      <dd class="opt"><if condition="$return_goods[checktime] gt 0">{$return_goods.checktime|date='Y-m-d H:i:s',###}</if></dd>
+    </dl>
+    <div class="title">
+        <h3>订单支付信息</h3>
+    </div>
+    <dl class="row">
+        <dt class="tit">支付方式</dt>
+        <dd class="opt">{$order.pay_name} </dd>
+    </dl>
+    <dl class="row">
+        <dt class="tit">订单总额</dt>
+        <dd class="opt">{$order.total_amount}</dd>
+    </dl>
+    <if condition="$return_goods[status] eq 3">
+	    <div class="title">
+	      <h3>平台退款审核</h3>
+	    </div>
+	    <form id="refundform" action="" method="post">
+	    <dl class="row">
+	        <dt class="tit">退款方式</dt>
+	        <dd class="opt">				    
+	        	<input type="radio" name="refund_type" value="1" checked>退到预存款  &nbsp;&nbsp;&nbsp;&nbsp;
+	        	<notempty name="$order[transaction_id]">
+	            	<input type="radio" name="refund_type" value="0">支付原路退还
+	            </notempty>
+	            <input type="hidden" name="id" value="{$return_goods.id}">
+	        </dd>
+	    </dl>
+	    <dl class="row">
+	        <dt class="tit">
+	          <label><em>*</em>备注信息</label>
+	        </dt>
+	        <dd class="opt">
+	          <textarea id="refund_mark" name="refund_mark" class="tarea"></textarea>
+	          <span class="err"></span> 
+	          <p class="notic">系统默认退款到“站内余额”，如果“在线退款”到原支付账号，建议在备注里说明，方便核对。</p>
+	        </dd>
+	    </dl>
+	    <div class="bot"><a href="JavaScript:void(0);" onclick="javascript:$('#refundform').submit();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+	    </form>
+    </if>
+    
+    <if condition="$return_goods[status] eq 5">
+    <div class="title">
+      <h3>平台退款审核</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">平台确认</dt>
+      <dd class="opt">已完成</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">处理备注</dt>
+      <dd class="opt">{$return_goods.refund_mark}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">处理时间</dt>
+      <dd class="opt">{$return_goods.refundtime|date='Y-m-d H:i:s',###} </dd>
+    </dl>
+    <div class="title">
+      <h3>退款详细</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">支付方式</dt>
+      <dd class="opt"><if condition="$return_goods[refund_type] eq 0">站内余额支付<else/>在线原路退回</if></dd>
+    </dl>
+	<dl class="row">
+	   <dt class="tit">退款金额</dt>
+	   <dd class="opt">{$return_goods.refund} </dd>
+	</dl> 
+    </if>
+   </div>
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

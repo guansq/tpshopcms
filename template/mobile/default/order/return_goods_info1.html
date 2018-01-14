@@ -1,0 +1,76 @@
+<include file="public/header" title="申请服务详情" body="g4"/>
+<include file="public/header_nav" title="申请服务详情" href="javascript:history.back(-1);"/>
+<!--进度查询-s-->
+<div class="attention-shoppay" id="returninfo" >
+    <if condition="empty($return_goods)">
+        <!--没有进度-s-->
+        <div class="comment_con p">
+            <div class="none"><img src="__STATIC__/images/none.png"><br><br>亲，此处还没有进度哦~</div>
+        </div>
+        <!--没有进度-e-->
+    <else/>
+        <div class="dindboxt">
+            <div class="maleri30">
+                <p><span class="gray">订单编号：</span><span>{$return_goods.order_sn}</span></p>
+                <p><span class="gray">申请时间：</span><span>{:date('Y-m-d H:i:s',$return_goods.addtime)}</span></p>
+            </div>
+        </div>
+        <div class="orderlistshpop mabo20 p">
+            <div class="maleri30">
+                <!--商品信息-s-->
+                <div class="sc_list se_sclist paycloseto">
+                    <div class="shopimg fl">
+                        <img src="{$goods.goods_id|goods_thum_images=100,100}">
+                    </div>
+                    <div class="deleshow fr">
+                        <div class="deletes">
+                            <span class="similar-product-text">{$goods[goods_name]}</span>
+                        </div>
+                        <div class="prices">
+                            <p class="sc_pri"><span>￥</span><span>{$goods[shop_price]}</span></p>
+                        </div>
+                        <!--<div class="qxatten">
+                            <p class="weight"><span>数量</span>&nbsp;<span>x{$goods[goods_num]}</span></p>
+                        </div>-->
+                        <div class="qxatten">
+                            <p class="weight">{$goods[goods_remark]|getSubstr=0,20}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!--商品信息-e-->
+                <div class="thirsy">
+                    <div class="sww">
+                        <ul>
+                            <li class="sw_question">售后信息</li>
+                            <li class="sw_answer">
+                                <if condition="($return_goods[status] eq 1) AND ($return_goods[is_receive] eq 1)">
+                                    	填写发货单<else/>{$state[$return_goods[status]]}
+                                </if>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="sw_question">问题描述</li>
+                            <li class="sw_answer">{$return_goods[reason]}</li>
+                        </ul>
+                        <ul>
+                            <li class="sw_question">问题备注</li>
+                            <li class="sw_answer"></li>
+                        </ul>
+                    </div>
+                    <div class="thirdlogin badimg">
+                        <h4>问题图片</h4>
+                        <ul>
+                            <volist name="return_goods[imgs]" id="item">
+                                <li><img src="{$item}"/></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </if>
+</div>
+<!--进度查询-e-->
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

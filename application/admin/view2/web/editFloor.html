@@ -1,0 +1,600 @@
+<include file="public/layout" />
+<script type="text/javascript" src="__PUBLIC__/js/dialog/dialog.js" id="dialog_js"></script>
+</head>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="{:U('Web/floorList')}" title="返回板块区列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>首页管理 - 设计“红色”板块</h3>
+        <h5>商城首页模板及广告设计</h5>
+      </div>
+    </div>
+  </div>
+  <!-- 操作说明 -->
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span> </div>
+    <ul>
+      <li>所有相关设置完成，使用底部的“更新板块内容”前台展示页面才会变化。</li>
+      <li>左侧的“推荐分类”没有个数限制，但是如果太多会不显示(已选择的子分类可以拖动进行排序，单击选中，双击删除)。</li>
+      <li>中部的“商品推荐模块”由于页面宽度只能加5个，商品数为10个；右侧的品牌最多为10个(已选择的可以拖动进行排序，单击选中，双击删除)。</li>
+    </ul>
+  </div>
+  <div class="ncap-form-all">
+    <dl class="row">
+      <dt class="tit">
+        <label>板块内容设置：</label>
+        <label>色彩风格:{$web_config.web_name}</label>
+        <label><a href="{:U('Web/settingFloor',array('web_id'=>$web_config[web_id]))}">设置该板块色彩</a></label>
+      </dt>
+      <dd class="opt">
+        <div class="home-templates-board-layout style-{$web_config.style_name}">
+          <div class="left">
+            <dl id="left_tit">
+              <dt>
+                <h4>标题图片</h4>
+                <a href="JavaScript:show_dialog('upload_tit');"><i class="fa fa-pencil-square-o"></i>编辑</a></dt>
+            <dd class="tit-txt" >
+                <div id="picture_floor" class="txt-type">
+                    <span>{$block_tit[block_info][floor]}</span>
+                    <h2>{$block_tit[block_info][title]}</h2>
+                </div>
+            </dd>
+            <dd class="tit-pic" <if condition="empty($block_tit[block_info][pic])">hidden</if>>
+                <div id="picture_tit" class="picture"> <img src="{$block_tit[block_info][pic]}"/> </div>
+            </dd>
+            </dl>
+            <dl>
+              <dt>
+                <h4>活动图片</h4>
+                <a href="JavaScript:show_dialog('upload_act');"><i class="fa fa-picture-o"></i>编辑</a></dt>
+              <dd class="act-pic">
+                <div id="picture_act" class="picture">
+                   <img src="{$block_act[block_info][pic]}"/>
+                </div>
+              </dd>
+            </dl>
+            <dl>
+              <dt>
+                <h4>推荐分类</h4><a href="JavaScript:show_dialog('category_list');"><i class="icon-th"></i>编辑</a></dt>
+              <dd class="category-list">
+                    <ul>
+                       <foreach name="$block_category_list[block_info][goods_class]" item="vv">
+                       <li title="{$vv.gc_name}"><a href="javascript:void(0);">{$vv.gc_name}</a></li>
+                       </foreach>
+                    </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="middle">
+            <div>
+               <dl recommend_id="11111" class="ui-sortable-handle">
+                <dt>
+                  <h4>精选推荐</h4>
+                  <!--<a href="JavaScript:del_recommend(1);"><i class="fa fa-ban"></i>显示</a>--> 
+                  <!--<a href="JavaScript:show_recommend_pic_dialog(1);"><i class="fa fa-pencil-square-o"></i>编辑广告</a>-->
+                  <!--<a href="JavaScript:toggle_theme();"><i class="fa fa-refresh"></i>切换样式</a>-->
+                  </dt>
+                <dd>
+                <div class="middle-banner" id="bestgoods">
+                  <empty name="block_adv[block_info]">
+                  	 <script>toggle_theme();</script>
+                  <else/>
+                  <foreach name="block_adv[block_info]" item="adv" key="ak">          
+                  <a href="javascript:;" onclick="show_adv_dialog(this);" class="{$adv.adv_class}" slide_id="{$ak}" rel="{$adv.adv_type}">
+                  	 <if condition="$adv[adv_type] eq 'upload_advbig'">
+                  	 <img pic_url="{$adv[adv_info][1][pic_url]}" title="{$adv[adv_info][1][pic_name]}" src="{$adv[adv_info][1][pic_img]}">
+                     <else/>
+                     <img pic_url="{$adv[adv_info][pic_url]}" title="{$adv[adv_info][pic_name]}" src="{$adv[adv_info][pic_img]}">
+                     </if>
+                  </a> 
+                  </foreach>
+                  </empty>
+                </div>
+                </dd>
+              </dl>
+              <foreach name="block_recommend_list[block_info]" item="recg" key="rk">
+              <dl recommend_id="{$rk}" class="ui-sortable-handle">
+                <dt>
+                  <h4>{$recg[recommends][name]}</h4>
+                  <a href="JavaScript:del_recommend({$rk});"><i class="fa fa-trash"></i>删除</a> <a href="JavaScript:show_recommend_dialog({$rk});"><i class="fa fa-shopping-cart"></i>编辑商品</a></dt>
+                <dd>
+                   <ul class="goods-list">
+                   	 <foreach name="recg[goods_list]" item="gd">
+                     <li><span><a href="javascript:void(0);"> <img title="{$gd.goods_name}" src="{$gd.goods_pic}"></a></span> </li>
+					 </foreach>
+                   </ul>
+                </dd>
+              </dl>
+              </foreach>
+              <div class="add-tab" id="btn_add_list"><a href="JavaScript:add_recommend();"><i class="fa fa-plus"></i>新增商品推荐模块</a>(最多5个)</div>
+            </div>
+          </div>
+		  <div class="hao-btbrand"><dl>
+              <dt>
+                <h4>推荐品牌</h4>
+                <a href="JavaScript:show_dialog('brand_list');"><i class="icon-ticket"></i>编辑</a></dt>
+              <dd>
+                <ul class="brands">
+                  <foreach name="$block_brand_list[block_info]" item="bd">
+                  <li><span><img title="{$bd.brand_name}" src="{$bd.brand_pic}"/> </span></li>
+				  </foreach>
+                 </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  <div class="bot"><a href="" class="ncap-btn-big ncap-btn-green" id="submitBtn">更新板块内容</a> </div>
+</div>
+
+<!-- 标题图片 -->
+<div id="upload_tit_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>请按照操作注释要求，上传设置板块区域左上角的标题图片。</div>
+  <form id="upload_tit_form" name="upload_tit_form" enctype="multipart/form-data" method="post" action="{:U('Web/uploadPic')}" target="upload_pic">
+    <input type="hidden" name="web_id" value="{$block_tit.web_id}">
+    <input type="hidden" name="block_id" value="{$block_tit.block_id}">
+    <input type="hidden" name="tit[pic]" value="">
+    <input type="hidden" name="tit[url]" value="">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">选择类型：</dt>
+        <dd class="opt">
+          <label title="图片上传">
+            <input type="radio" name="tit[type]" value="pic" onclick="upload_type('tit');" >
+            <span>图片上传</span></label>
+          <label title="文字类型">
+            <input type="radio" name="tit[type]" value="txt" onclick="upload_type('tit');" checked="checked">
+            <span>文字类型</span></label>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl id="upload_tit_type_pic" class="row" style="display:none;">
+        <dt class="tit">标题图片上传：</dt>
+        <dd class="opt">
+          <div class="input-file-show"> <span class="type-file-box">
+            <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+            <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+            </span></div>
+          <p class="notic">建议上传宽210*高40像素GIF\JPG\PNG格式图片，超出规定范围的图片部分将被自动隐藏。</p>
+        </dd>
+      </dl>
+      <div id="upload_tit_type_txt" >
+        <dl class="row">
+          <dt class="tit">楼层编号</dt>
+          <dd class="opt">
+            <input class="input-txt" type="text" name="tit[floor]" id="tit_floor" value="{$block_tit[block_info][floor]}">
+            <p class="notic">如1F、2F、3F。</p>
+          </dd>
+        </dl>
+        <dl class="row">
+          <dt class="tit">版块标题</dt>
+          <dd class="opt">
+            <input class="input-txt" type="text" name="tit[title]" id="tit_title" value="{$block_tit[block_info][title]}">
+            <p class="notic">如鞋包配饰、男女服装、运动户外。</p>
+          </dd>
+        </dl>
+      </div>
+      <div class="bot"><a href="JavaScript:void(0);" onclick="$('#upload_tit_form').submit();" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+    </div>
+  </form>
+</div>
+
+
+<!-- 推荐分类模块 -->
+<div id="category_list_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>小提示：双击分类名称可删除不想显示的分类</div>
+  <form id="category_list_form">
+    <input type="hidden" name="web_id" value="{$block_category_list.web_id}">
+    <input type="hidden" name="block_id" value="{$block_category_list.block_id}">
+    <div class="ncap-form-all">
+      <dl class="row">
+        <dt class="tit">已选商品分类</dt>
+        <dd class="opt">
+          <div class="category-list category-list-edit">
+            <ul>
+            	<foreach name="$block_category_list[block_info][goods_class]" item="vv">
+                <li gc_id="{$vv.gc_id}" gc_name="{$vv.gc_name}" title="{$vv.gc_name}" ondblclick="del_goods_class({$vv.gc_id});"><i onclick="del_goods_class({$vv.gc_id});"></i>{$vv.gc_name}    
+                <input name="category_list[goods_class][{$vv.gc_id}][gc_id]" value="{$vv.gc_id}" type="hidden">
+                <input name="category_list[goods_class][{$vv.gc_id}][gc_name]" value="{$vv.gc_name}" type="hidden">
+                 </li>
+                 </foreach>
+               </ul>
+          </div>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">添加推荐分类</dt>
+        <dd class="opt">
+        	<div class="search-bar">商品分类：
+          	 <select name="gc_parent_id" id="gc_parent_id" onblur="get_goods_class();">
+                 <option value="0">-请选择-</option>
+                 <foreach name="parent_goods_class" item="pgc">
+                 <option value="{$pgc.id}">{$pgc.name}</option>
+                 </foreach>
+             </select>
+           </div>
+          <p class="notic">从分类下拉菜单中选择该板块要推荐的分类，选择父级分类将包含子分类。</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="bot"><a href="JavaScript:void(0);" onclick="update_category();" class="ncap-btn-big ncap-btn-green">保存</a></div>
+  </form>
+</div>
+<!-- 活动图片 -->
+<div id="upload_act_dialog" class="upload_act_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>请按照操作注释要求，上传设置板块区域左侧的活动图片。</div>
+  <form id="upload_act_form" name="upload_act_form" enctype="multipart/form-data" method="post" action="{:U('Web/uploadPic')}" target="upload_pic">
+    <input type="hidden" name="web_id" value="{$block_act.web_id}">
+    <input type="hidden" name="block_id" value="{$block_act.block_id}">
+    <input type="hidden" name="act[pic]" value="{$block_act[block_info][pic]}">
+    <input type="hidden" name="act[type]" value="pic">
+    <div class="ncap-form-default" id="upload_act_type_pic" >
+      <dl class="row">
+        <dt class="tit">活动名称</dt>
+        <dd class="opt">
+          <input class="input-txt" type="text" name="act[title]" value="{$block_act[block_info][title]}">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>图片跳转链接：</label>
+        </dt>
+        <dd class="opt">
+          <input name="act[url]" value="{$block_act[block_info][url]}" class="input-txt" type="text">
+          <p class="notic">输入以http://开头的网址作为点击该图片后所要跳转的链接地址。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>活动图片上传</label>
+        </dt>
+        <dd class="opt">
+          <div class="input-file-show"><span class="type-file-box">
+            <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+            <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+            </span></div>
+          <p class="notic">建议上传宽212*高280像素GIF\JPG\PNG格式图片，超出规定范围的图片部分将被自动隐藏。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">促销名称一</dt>
+        <dd class="opt">
+          <input class="input-txt" type="text" name="act[titlea]" value="{$block_act[block_info][titlea]}">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>促销连接一</label>
+        </dt>
+        <dd class="opt">
+          <input name="act[urla]" value="{$block_act[block_info][urla]}" class="input-txt" type="text">
+          <p class="notic">输入以http://开头的网址作为点击该图片后所要跳转的链接地址。</p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">促销名称二</dt>
+        <dd class="opt">
+          <input class="input-txt" type="text" name="act[titleb]" value="{$block_act[block_info][titleb]}">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>促销连接二</label>
+        </dt>
+        <dd class="opt">
+          <input name="act[urlb]" value="{$block_act[block_info][urlb]}" class="input-txt" type="text">
+          <p class="notic">输入以http://开头的网址作为点击该图片后所要跳转的链接地址。</p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" onclick="$('#upload_act_form').submit();" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<!-- 商品推荐模块 -->
+<div id="recommend_list_dialog" style="display:none;">
+  <div class="s-tips"><i></i>小提示：单击查询出的商品选中，双击已选择的可以删除，最多10个，保存后生效。</div>
+  <form id="recommend_list_form">
+    <input type="hidden" name="web_id" value="{$block_recommend_list.web_id}">
+    <input type="hidden" name="block_id" value="{$block_recommend_list.block_id}">
+    <div id="recommend_input_list" style="display:none;"><!-- 推荐拖动排序 --></div>
+    <foreach name="block_recommend_list[block_info]" item="recg" key="rk">
+    <div class="ncap-form-default" select_recommend_id="{$rk}">
+      <dl class="row">
+        <dt class="tit"> 商品推荐模块标题名称</dt>
+        <dd class="opt">
+          <input name="recommend_list[{$rk}][recommend][name]" value="{$recg[recommends][name]}" type="text" class="input-txt">
+          <p class="notic">修改该区域中部推荐商品模块选项卡名称，控制名称字符在4-8字左右，超出范围自动隐藏</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="ncap-form-all" select_recommend_id="{$rk}">
+      <dl class="row">
+        <dt class="tit">推荐商品</dt>
+        <dd class="opt">
+          <ul class="dialog-goodslist-s1 goods-list">
+          	<foreach name="recg[goods_list]" item="gd" key="gk">
+            <li id="select_recommend_{$reck}_goods_{$gk}">
+              <div ondblclick="del_recommend_goods({$gk});" class="goods-pic"> <span class="ac-ico" onclick="del_recommend_goods({$gk});"></span> 
+              <span class="thumb size-72x72"><i></i><img select_goods_id="{$gk}" title="{$gd.goods_name}" src="{$gd.goods_pic}" onload="javascript:DrawImage(this,72,72);" /></span></div>
+              <div class="goods-name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$gk))}" target="_blank">{$gd.goods_name}</a></div>
+              <input name="recommend_list[{$rk}][goods_list][{$gk}][goods_id]" value="{$gk}" type="hidden">
+              <input name="recommend_list[{$rk}][goods_list][{$gk}][market_price]" value="{$gd.market_price}" type="hidden">
+              <input name="recommend_list[{$rk}][goods_list][{$gk}][goods_name]" value="{$gd.goods_name}" type="hidden">
+              <input name="recommend_list[{$rk}][goods_list][{$gk}][goods_price]" value="{$gd.goods_price}" type="hidden">
+              <input name="recommend_list[{$rk}][goods_list][{$gk}][goods_pic]" value="{$gd.goods_pic}" type="hidden">
+            </li>
+            </foreach>
+            </ul>
+        </dd>
+      </dl>
+    </div>
+    </foreach>
+    <div id="add_recommend_list" style="display:none;"></div>
+    <div class="ncap-form-all">
+      <dl class="row">
+        <dt class="tit">选择要展示的推荐商品</dt>
+        <dd class="opt">
+          <div class="search-bar">
+            <label id="recommend_gcategory">商品分类
+              <select onclick="get_category2(this.value,1);">
+                <option value="0">-请选择-</option>
+                <foreach name="goods_class" item="vg">
+                <option value="{$vg.id}">{$vg.name}</option>
+                </foreach>
+               </select>
+            </label>
+            <input type="text" value="" name="recommend_goods_name" id="recommend_goods_name" placeholder="输入商品名称或SKU编号" class="txt w150">
+            <a href="JavaScript:void(0);" onclick="get_recommend_goods();" class="ncap-btn">查询</a></div>
+          <div id="show_recommend_goods_list" class="show-recommend-goods-list"></div>
+        </dd>
+      </dl>
+    </div>
+    <div class="bot"><a href="JavaScript:void(0);" onclick="update_recommend();" class="ncap-btn-big ncap-btn-green"><span>保存</span></a></div>
+  </form>
+</div>
+<!-- 品牌模块 -->
+<div id="brand_list_dialog" class="brand_list_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>小提示：单击候选品牌选中，双击已选择的可以删除，最多10个，保存后生效。</div>
+  <form id="brand_list_form">
+    <input type="hidden" name="web_id" value="{$block_brand_list.web_id}">
+    <input type="hidden" name="block_id" value="{$block_brand_list.block_id}">
+    <div class="ncap-form-all">
+      <dl class="row">
+        <dt class="tit">已选择品牌</dt>
+        <dd class="opt">
+          <ul class="brands dialog-brandslist-s1">
+           <foreach name="block_brand_list[block_info]" item="bd" key="bk">
+            <li>
+              <div class="brands-pic"><span class="ac-ico" onclick="del_brand({$bk});"></span>
+              <span class="thumb size-88x29"><i></i>
+              <img ondblclick="del_brand({$bk});" select_brand_id="{$bk}" src="{$bd.brand_pic}" onload="javascript:DrawImage(this,88,30);" /></span></div>
+              <div class="brands-name">{$bd.brand_name}</div>
+              <input name="brand_list[{$bk}][brand_id]" value="{$bd.brand_id}" type="hidden">
+              <input name="brand_list[{$bk}][brand_name]" value="{$bd.brand_name}" type="hidden">
+              <input name="brand_list[{$bk}][brand_pic]" value="{$bd.brand_pic}" type="hidden">
+            </li>
+            </foreach>
+		  </ul>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">候选推荐品牌列表</dt>
+        <dd class="opt">
+          <div class="search-bar">
+            <input type="text" value="" name="recommend_brand_name" id="recommend_brand_name" placeholder="请输入品牌名称" class="txt w100">
+            <select name="recommend_brand_initial" id="recommend_brand_initial">
+              <option value="">首字母</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                          </select>
+            <a href="JavaScript:void(0);" onclick="get_recommend_brand();" class="ncap-btn">查询</a> </div>
+          <div id="show_brand_list"></div>
+        </dd>
+      </dl>
+      <div class="bot"> <a href="JavaScript:void(0);" onclick="update_brand();" class="ncap-btn-big ncap-btn-green">保存</a></div>
+    </div>
+  </form>
+</div>
+<!-- 切换广告图片 -->
+<div id="upload_advbig_dialog" class="upload_adv_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>小提示：单击图片选中修改，拖动可以排序，最少保留1个，最多可加5个，保存后生效。</div>
+  <form id="upload_advbig_form" name="upload_advbig_form" enctype="multipart/form-data" method="post" action="{:U('web/advSave')}" target="upload_pic">
+    <input type="hidden" name="web_id" value="{$block_adv.web_id}">
+    <input type="hidden" name="block_id" value="{$block_adv.block_id}">
+    <div class="ncap-form-all">
+      <dl class="row">
+        <dt class="tit">已上传图片</dt>
+        <dd class="opt">
+          <ul class="adv dialog-adv-s1 advbig_dialog">
+          <foreach name="block_adv[block_info]" item="bad" key="bk">
+          	<if condition="$bad[adv_type] eq 'upload_advbig'">
+          	<volist name="bad[adv_info]" id="item">
+            <li slide_adv_id="{$item.pic_id}">
+              <div class="adv-pic">
+              	<span class="ac-ico" onclick="del_slide_adv({$item.pic_id});"></span>
+              	<img onclick="select_slide_adv({$item.pic_id});" title="{$item.pic_name}" src="{$item.pic_img|default='/public/static/images/picture.gif'}"/>
+              </div>
+              <input name="adv[{$item.pic_id}][pic_id]" value="{$item.pic_id}" type="hidden">
+              <input name="adv[{$item.pic_id}][pic_name]" value="{$item.pic_name}" type="hidden">
+              <input name="adv[{$item.pic_id}][pic_url]" value="{$item.pic_url}" type="hidden">
+              <input name="adv[{$item.pic_id}][pic_img]" value="{$item.pic_img}" type="hidden"> 
+            </li>
+            </volist>
+            </if>
+          </foreach>
+           </ul>
+          <a class="ncap-btn" href="JavaScript:add_slide_adv();"><i class="fa fa-plus"></i>新增图片&nbsp;(最多5个)</a></dd>
+      </dl>
+    </div>
+    <div id="upload_slide_advbig" class="ncap-form-default" style="display:none;">
+      <dl class="row">
+        <dt class="tit">文字标题</dt>
+        <dd class="opt">
+          <input type="hidden" name="slide_id" value="">
+          <input type="hidden" name="pic_id" value="">
+          <input type="hidden" name="adv_class" value="">
+          <input class="input-txt" type="text" name="slide_pic[pic_name]" value="">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>图片跳转链接</label>
+        </dt>
+        <dd class="opt">
+          <input name="slide_pic[pic_url]" value="" class="input-txt" type="text">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">广告图片上传：</dt>
+        <dd class="opt">
+          <div class="input-file-show"><span class="type-file-box">
+            <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+            <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+            </span></div>
+          <p class="notic">建议上传宽212*高241像素GIF\JPG\PNG格式图片，超出规定范围的图片部分将被自动隐藏。</p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" onclick="$('#upload_advbig_form').submit();" class="ncap-btn-big ncap-btn-green">保存</a></div>
+    </div>
+  </form>
+</div>
+
+<div id="upload_advmin_dialog" class="upload_adv_dialog" style="display:none;">
+  <div class="s-tips"><i class="fa fa-lightbulb-o"></i>小提示：单击图片选中修改，保存后生效。</div>
+  <form id="upload_advmin_form" name="upload_advmin_form" enctype="multipart/form-data" method="post" action="{:U('web/advSave')}" target="upload_pic">
+    <input type="hidden" name="web_id" value="{$block_adv.web_id}">
+    <input type="hidden" name="block_id" value="{$block_adv.block_id}">
+    <div class="ncap-form-all">
+      <dl class="row">
+        <dt class="tit">已上传图片</dt>
+        <dd class="opt">
+          <ul class="adv dialog-adv-s1 advmin_dialog">
+	          <foreach name="block_adv[block_info]" item="mad" key="mk">
+	          	<if condition="$mad[adv_type] eq 'upload_advmin'">
+	            <li slide_adv_id="{$mk}" style="display:none;">
+	              <div class="adv-pic">
+	              	<span class="ac-ico" onclick="del_slide_adv({$mk});"></span>
+	              	<img onclick="select_slide_adv({$mk});" title="{$mad[adv_info][pic_name]}" src="{$mad[adv_info][pic_img]}"/>
+	              </div>
+	              <input name="adv[{$mk}][pic_id]" value="{$mad[adv_info][pic_id]}" type="hidden">
+	              <input name="adv[{$mk}][pic_name]" value="{$mad[adv_info][pic_name]}" type="hidden">
+	              <input name="adv[{$mk}][pic_url]" value="{$mad[adv_info][pic_url]}" type="hidden">
+	              <input name="adv[{$mk}][pic_img]" value="{$mad[adv_info][pic_img]}" type="hidden"> 
+	            </li>
+	            </if>
+	          </foreach>
+           </ul>
+         </dd>
+      </dl>
+    </div>
+    <div id="upload_slide_advmin" class="ncap-form-default" style="">
+      <dl class="row">
+        <dt class="tit">文字标题</dt>
+        <dd class="opt">
+          <input type="hidden" name="slide_id" value="">
+          <input type="hidden" name="adv_class" value="">
+          <input class="input-txt" type="text" name="slide_pic[pic_name]" value="">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label>图片跳转链接</label>
+        </dt>
+        <dd class="opt">
+          <input name="slide_pic[pic_url]" value="" class="input-txt" type="text">
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">广告图片上传：</dt>
+        <dd class="opt">
+          <div class="input-file-show"><span class="type-file-box">
+            <input type='text' name='textfield' id='textfield1' class='type-file-text' />
+            <input type='button' name='button' id='button1' value='选择上传...' class='type-file-button' />
+            <input name="pic" id="pic" type="file" class="type-file-file" size="30">
+            </span></div>
+          <p class="notic">建议上传宽212*高241像素GIF\JPG\PNG格式图片，超出规定范围的图片部分将被自动隐藏。</p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" onclick="$('#upload_advmin_form').submit();" class="ncap-btn-big ncap-btn-green">保存</a></div>
+    </div>
+  </form>
+</div>
+
+<iframe style="display:none;" src="" name="upload_pic"></iframe>
+<script src="__PUBLIC__/static/js/waypoints.js"></script>
+<script type="text/javascript">
+var GET_GOODS_URL="{:U('Web/getGoodsList')}";
+var GET_BRAND_URL="{:U('Web/getBrandList')}";
+var UPLOAD_SITE_URL = '/public/upload/adv';
+function get_category2(id,level) {
+    var url = '/index.php?m=Admin&c=Index&a=get_category&parent_id=' + id;
+    $.ajax({
+        type: "GET",
+        url: url,
+        error: function (request) {
+            layer.alert("服务器繁忙, 请联系管理员!",{icon:2});
+            return;
+        },
+        success: function (v) {
+        	if(v != ''){
+        		if(level == 1){
+        			$('.class-select').remove();
+        			v = "<select class='class-select' onchange='get_category2(this.value,2)'><option value='0'>请选择</option>" + v +'<select>';
+        		}else{
+        			$('.class-select2').remove();
+        			v = "<select class='class-select class-select2' onchange='get_category2(this.value,3)'><option value='0'>请选择</option>" + v +'<select>';
+        		}
+                $('#recommend_gcategory').append(v);
+        	}
+        }
+    });
+}
+</script>
+<script src="__PUBLIC__/static/js/web_block.js"></script>
+<div id="goTop"> 
+<a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a>
+<a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a>
+</div>
+</body>
+</html>

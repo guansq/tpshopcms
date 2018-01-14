@@ -1,0 +1,51 @@
+<include file="public/min-header"/>
+<div class="wrapper">
+  <section class="content">
+    <div class="container-fluid">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-list"></i> 系统消息</h3>
+        </div>
+        <div class="panel-body">    
+		<div class="navbar">  
+             <div class="callout callout-inro">
+				<p>说明： 只能查询“2016-05-06”到“2016-07-05”的聊天记录，切换不同的选项卡选择可查看与店铺客服最近对话的会员。</p>
+            </div>
+            <div class="btn-group">
+                 <button type="button" class="btn btn-info">wyp001</button>
+                 <button type="button" class="btn btn-info">Middle</button>
+            </div>                 
+        </div>          
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="sorting text-left">聊天内容</th>
+                    <th class="sorting text-left">发送时间</th>
+                    <th class="sorting text-left">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="msg_list" id="list">
+                    <tr>
+                        <td class="text-right">{$list.content}</td>
+                        <td class="text-left">{$list.add_time|date='Y-m-d H:i:s',###}</td>
+                        <td class="text-left">
+                            <a href="javascript:void(0);" onclick="delfun(this)" data-id="{$list.sm_id}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>   
+	    <div class="row">
+	        <div class="col-sm-6 text-left"></div>
+	        <div class="col-sm-6 text-right">{$show}</div>
+	    </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

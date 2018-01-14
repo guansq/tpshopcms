@@ -1,0 +1,135 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>账号<i class="icon-angle-right"></i>编辑</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" id="adminHandle" >
+                    <input type="hidden" name="seller_id" value="{$info.seller_id}">
+                    <div class="ncsc-form-goods">
+                        <h3 id="demo1">编辑管理员</h3>
+                        <empty name="info">
+                            <dl>
+                                <dt><i class="required">*</i> 前台用户名：</dt>
+                                <dd>
+                                    <input type="text" name="user_name" value="{$info.user_name}" class="text w400">
+                                    <p class="hint">请先在前台注册会员账号，这里为前台会员名称</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i> 用户密码：</dt>
+                                <dd>
+                                    <input type="password" name="password" value="{$info.password}" class="text w400">
+                                    <p class="hint">密码长度至少6个字符</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i> 登录账号：</dt>
+                                <dd>
+                                    <if condition="$info[seller_id] gt 0">
+                                        <span>{$info.seller_name}</span>
+                                        <else/>
+                                        <input type="text" name="seller_name" id="seller_name" class="text w400">
+                                    </if>
+                                    <p class="hint">此账号为商家管理后台登录账号</p>
+                                </dd>
+                            </dl>
+                            <else/>
+                            <dl>
+                                <dt><i class="required">*</i> 原密码：</dt>
+                                <dd>
+                                    <input type="password" value="" name="password" class="text w400">
+
+                                    <p class="hint">密码长度至少6个字符</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i> 新密码：</dt>
+                                <dd>
+                                    <input type="password" value="" name="password2" class="text w400">
+
+                                    <p class="hint">密码长度至少6个字符</p>
+                                </dd>
+
+                            </dl>
+                        </empty>
+                    <if condition="$info['is_admin'] neq 1 and $seller['is_admin'] eq 1">
+                        <dl>
+                            <dt>是否激活：</dt>
+                            <dd>
+                                <ul class="ncsc-form-radio-list">
+                                    <li><label><input type="radio" name="enabled" value="0" <if condition="$info[enabled] eq 0">checked</if>>是</label></li>
+                                    <li><label><input type="radio" name="enabled" value="1" <if condition="$info[enabled] eq 1">checked</if>>否</label></li>
+                                </ul>
+                                <p class="hint"></p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>所属角色：</dt>
+                            <dd>
+                                <select name="group_id">
+                                    <volist name="role" id="item">
+                                        <option value="{$item.group_id}" <if condition="$item[group_id] eq $info[group_id]"> selected="selected"</if> >{$item.group_name}</option>
+                                    </volist>
+                                </select>
+                            </dd>
+                        </dl>
+                        </if>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input class="submit" value="保存" type="button" onclick="adsubmit();">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function adsubmit() {
+        if ($('input[name=user_name]').val() == '') {
+            layer.msg('用户名不能为空！', {icon: 2, time: 1000});   //alert('少年，用户名不能为空！');
+            return false;
+        }
+        if ($('input[name=email]').val() == '') {
+            layer.msg('邮箱不能为空！', {icon: 2, time: 1000});//alert('少年，邮箱不能为空！');
+            return false;
+        }
+        if ($('input[name=password]').val() == '') {
+            layer.msg('原密码不能为空！', {icon: 2, time: 1000});//alert('少年，密码不能为空！');
+            return false;
+        }
+
+        if ($('input[name=password2]').val() == '') {
+            layer.msg('新密码不能为空！', {icon: 2, time: 1000});//alert('少年，密码不能为空！');
+            return false;
+        }
+        if ($('input[name=seller_name]').val() == '') {
+            layer.msg('登录账号不能空！', {icon: 2, time: 1000});//alert('少年，密码不能为空！');
+            return false;
+        }
+        $.ajax({
+            url:"{:U('Seller/Admin/adminHandle')}",
+            type:'POST',
+            dataType:'JSON',
+            data:$('#adminHandle').serialize(),
+            success:function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1},function(){
+                        location.href = data.url;
+                    });
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                }
+            },
+            error : function() {
+                layer.alert('网络失败，请刷新页面后重试', {icon: 2});
+            }
+        })
+    }
+</script>
+</body>
+</html>

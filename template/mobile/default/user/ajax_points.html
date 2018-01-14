@@ -1,0 +1,13 @@
+<foreach name="account_log" item="v">
+    <div class="fll_acc">
+        <ul>
+            <li>{$v[desc]}</li>
+            <li><span class="red">{$v[pay_points]}</span></li>
+            <li>
+                <p class="coligh">
+                    <span>{:date('Y-m-d H:i:s',$v[change_time])}</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</foreach>

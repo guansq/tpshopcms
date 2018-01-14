@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>搜豹网络</title>
+<meta name="keywords" content="搜豹网络" />
+<meta name="description" content="搜豹网络" />
+<style type="text/css">
+body {
+_behavior: url(http://www.xiaomi.com/shop/templates/default/css/csshover.htc);
+}
+</style>
+<link href="http://www.xiaomi.com/shop/templates/default/css/base.css" rel="stylesheet" type="text/css">
+<link href="http://www.xiaomi.com/shop/templates/default/css/store_header.css" rel="stylesheet" type="text/css">
+<!--[if IE 7]>
+  <link rel="stylesheet" href="http://www.xiaomi.com/shop/resource/font/font-awesome/css/font-awesome-ie7.min.css">
+<![endif]-->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="http://www.xiaomi.com/data/resource/js/html5shiv.js"></script>
+      <script src="http://www.xiaomi.com/data/resource/js/respond.min.js"></script>
+<![endif]-->
+<!--[if IE 6]>
+<script src="http://www.xiaomi.com/data/resource/js/IE6_PNG.js"></script>
+<script>
+DD_belatedPNG.fix('.pngFix');
+</script>
+<script>
+// <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+try{
+document.execCommand("BackgroundImageCache", false, true);
+   }
+catch(e){}
+// ]]>
+</script>
+<![endif]-->
+<script>
+var COOKIE_PRE = '3CC6_';var _CHARSET = 'utf-8';var SITEURL = 'http://www.xiaomi.com/shop';var SHOP_SITE_URL = 'http://www.xiaomi.com/shop';var RESOURCE_SITE_URL = 'http://www.xiaomi.com/data/resource';var RESOURCE_SITE_URL = 'http://www.xiaomi.com/data/resource';var SHOP_TEMPLATES_URL = 'http://www.xiaomi.com/shop/templates/default';
+</script>
+<script src="http://www.xiaomi.com/data/resource/js/jquery.js"></script>
+<script src="http://www.xiaomi.com/data/resource/js/common.js" charset="utf-8"></script>
+<script src="http://www.xiaomi.com/data/resource/js/jquery-ui/jquery.ui.js"></script>
+<script src="http://www.xiaomi.com/data/resource/js/jquery.validation.min.js"></script>
+<script src="http://www.xiaomi.com/data/resource/js/jquery.masonry.js"></script>
+<script src="http://www.xiaomi.com/data/resource/js/dialog/dialog.js" id="dialog_js" charset="utf-8"></script>
+<script type="text/javascript">
+var PRICE_FORMAT = '&yen;%s';
+$(function(){
+	$('#button').click(function(){
+	    if ($('#keyword').val() == '') {
+		    return false;
+	    }
+	});
+});
+
+$(function(){
+	//search
+	var act = "store_decoration";
+	if (act == "store_list"){
+		$("#search").children('ul').children('li:eq(1)').addClass("current");
+		$("#search").children('ul').children('li:eq(0)').removeClass("current");
+		}
+	$("#search").children('ul').children('li').click(function(){
+		$(this).parent().children('li').removeClass("current");
+		$(this).addClass("current");
+		$('#search_act').attr("value",$(this).attr("act"));
+		$('#keyword').attr("placeholder",$(this).attr("title"));
+	});
+	$("#keyword").blur();
+});
+</script>
+</head>
+<body>
+<!-- PublicTopLayout Begin -->
+ 
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div id="vToolbar" class="nc-appbar">
+  <div class="nc-appbar-tabs" id="appBarTabs">
+        <div class="user TA_delay" nctype="a-barUserInfo">
+      <div class="avatar"><img src="http://www.xiaomi.com/data/upload/shop/common/default_user_portrait.gif"/></div>
+      <p>我</p>
+    </div>
+    <div class="user-info" nctype="barUserInfo" style="display:none;"><i class="arrow"></i>
+      <div class="avatar"><img src="http://www.xiaomi.com/data/upload/shop/common/default_user_portrait.gif"/>
+        <div class="frame"></div>
+      </div>
+      <dl>
+        <dt>Hi, wyp001</dt>
+        <dd>当前等级：<strong nctype="barMemberGrade">V0</strong></dd>
+        <dd>当前经验值：<strong nctype="barMemberExp">5</strong></dd>
+      </dl>
+    </div>
+        <ul class="tools">
+      <li><a href="javascript:void(0);" id="chat_show_user" class="chat TA_delay"><div class="tools_img TA"></div><span class="TA">聊天</span><i id="new_msg" class="new_msg" style="display:none;"></i></a></li>
+            <li><a href="javascript:void(0);" id="rtoolbar_cart" class="cart TA_delay"><div class="tools_img TA"></div><span class="TA">购物车</span><i id="rtoobar_cart_count" class="new_msg" style="display:none;"></i></a></li>
+                  <li><a href="javascript:void(0);" id="compare" class="compare TA_delay"><div class="tools_img TA"></div><span class="TA">对比</span></a></li>
+            <li><a href="javascript:void(0);" id="gotop" class="gotop TA_delay"><div class="tools_img TA"></div><span class="TA">顶部</span></a></li>
+    </ul>
+    <div class="content-box" id="content-compare">
+      <div class="top">
+        <h3>商品对比</h3>
+        <a href="javascript:void(0);" class="close" title="隐藏"></a></div>
+      <div id="comparelist"></div>
+    </div>
+    <div class="content-box" id="content-cart">
+      <div class="top">
+        <h3>我的购物车</h3>
+        <a href="javascript:void(0);" class="close" title="隐藏"></a></div>
+      <div id="rtoolbar_cartlist"></div>
+    </div>
+    <a id="activator" href="javascript:void(0);" class="nc-appbar-hide TA"></a> </div>
+  <div class="nc-hidebar" id="ncHideBar">
+    <div class="nc-hidebar-bg">
+            <div class="user-avatar"><img src="http://www.xiaomi.com/data/upload/shop/common/default_user_portrait.gif"/></div>
+            <div class="frame"></div>
+      <div class="show"></div>
+    </div>
+  </div>
+</div>
+<div class="public-top-layout w">
+  <div class="topbar wrapper">
+    <div class="user-entry">
+            您好 <span>
+      <a href="http://www.xiaomi.com/shop/index.php?act=member&op=home">wyp001</a>
+            <div class="nc-grade-mini" style="cursor:pointer;" onclick="javascript:go('http://www.xiaomi.com/shop/index.php?act=pointgrade&op=index');">V0</div>
+            </span> 欢迎回来，<a href="http://www.xiaomi.com"  title="首页" alt="首页"><span>搜豹网络</span></a> <span>[<a href="http://www.xiaomi.com/shop/index.php?act=login&op=logout">退出</a>] </span>
+          </div>
+    <div class="quick-menu">
+    <dl class="invite"><dt><a href="http://www.xiaomi.com/index.php?act=invite"><span>邀请返利</span></a></dt></dl>
+		<dl class="down_app">
+        <dt><em class="ico_tel"></em><a href="http://www.xiaomi.com/wap">手机移动端</a><i></i></dt>
+                <dd>
+       <div class="qrcode"><img src="http://www.xiaomi.com/data/upload/shop/common/mb_app.png"></div>
+        <div class="hint">
+          <h4>扫描二维码</h4>
+          下载手机客户端</div>
+        <div class="addurl">
+                    <a href="http://test.haoid.cn/app.apk" target="_blank"><i class="icon-android"></i>Android</a>
+                              <a href="http://test.haoid.cn/app.ipa" target="_blank"><i class="icon-apple"></i>iPhone</a>
+                                  </div>
+    </dd>      </dl>
+    	<dl>
+        <dt><em class="ico_shop"></em><a href="http://www.xiaomi.com/shop/index.php?act=show_joinin&op=index" title="商家管理">商家管理</a><i></i></dt>
+        <dd>
+          <ul>
+		    <li><a href="http://www.xiaomi.com/shop/index.php?act=show_joinin&op=index" title="招商入驻">招商入驻</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=seller_login&op=show_login" target="_blank" title="登录商家管理中心">商家登录</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_order"></em><a href="http://www.xiaomi.com/shop/index.php?act=member_order">我的订单</a><i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=member_order&state_type=state_new">待付款订单</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=member_order&state_type=state_send">待确认收货</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=member_order&state_type=state_noeval">待评价交易</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_store"></em><a href="http://www.xiaomi.com/shop/index.php?act=member_favorites&op=fglist">我的收藏</a><i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=member_favorites&op=fglist">商品收藏</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=member_favorites&op=fslist">店铺收藏</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_service"></em>客户服务<i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=article&op=article&ac_id=2">帮助中心</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=article&op=article&ac_id=5">售后服务</a></li>
+            <li><a href="http://www.xiaomi.com/shop/index.php?act=article&op=article&ac_id=6">客服中心</a></li>
+          </ul>
+        </dd>
+      </dl>
+      	  <dl class="weixin">
+        <dt>关注我们<i></i></dt>
+        <dd>
+          <h4>扫描二维码<br/>
+            关注商城微信号</h4>
+          <img src="http://www.xiaomi.com/data/upload/shop/common/04781087584534013.png" > </dd>
+        </dl>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+//返回顶部
+backTop=function (btnId){
+	var btn=document.getElementById(btnId);
+	var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+	window.onscroll=set;
+	btn.onclick=function (){
+		//btn.style.opacity="0.5";
+		window.onscroll=null;
+		this.timer=setInterval(function(){
+		    scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			scrollTop-=Math.ceil(scrollTop*0.1);
+			if(scrollTop==0) clearInterval(btn.timer,window.onscroll=set);
+			if (document.documentElement.scrollTop > 0) document.documentElement.scrollTop=scrollTop;
+			if (document.body.scrollTop > 0) document.body.scrollTop=scrollTop;
+		},10);
+	};
+	function set(){
+	    scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+	    //btn.style.opacity=scrollTop?'1':"0.5";
+	}
+};
+backTop('gotop');
+//动画显示边条内容区域
+$(function() {
+	$(function() {
+		$('#activator').click(function() {
+			$('#content-cart').animate({'right': '-250px'});
+			$('#content-compare').animate({'right': '-250px'});
+			$('#vToolbar').animate({'right': '-60px'}, 300,
+			function() {
+				$('#ncHideBar').animate({'right': '59px'},	300);
+			});
+	        $('div[nctype^="bar"]').hide();
+		});
+		$('#ncHideBar').click(function() {
+			$('#ncHideBar').animate({
+				'right': '-86px'
+			},
+			300,
+			function() {
+				$('#content-cart').animate({'right': '-250px'});
+				$('#content-compare').animate({'right': '-250px'});
+				$('#vToolbar').animate({'right': '6px'},300);
+			});
+		});
+	});
+    $("#compare").click(function(){
+    	if ($("#content-compare").css('right') == '-250px') {
+ 		   loadCompare(false);
+ 		   $('#content-cart').animate({'right': '-250px'});
+  		   $("#content-compare").animate({right:'0px'});
+    	} else {
+    		$(".close").click();
+    		$(".chat-list").css("display",'none');
+        }
+	});
+    $("#rtoolbar_cart").click(function(){
+        if ($("#content-cart").css('right') == '-250px') {
+         	$('#content-compare').animate({'right': '-250px'});
+    		$("#content-cart").animate({right:'0px'});
+    		if (!$("#rtoolbar_cartlist").html()) {
+    			$("#rtoolbar_cartlist").load('index.php?act=cart&op=ajax_load&type=html');
+    		}
+        } else {
+        	$(".close").click();
+        	$(".chat-list").css("display",'none');
+        }
+	});
+	$(".close").click(function(){
+		$(".content-box").animate({right:'-250px'});
+      });
+
+	$(".quick-menu dl").hover(function() {
+		$(this).addClass("hover");
+	},
+	function() {
+		$(this).removeClass("hover");
+	});
+
+    // 右侧bar用户信息
+    $('div[nctype="a-barUserInfo"]').click(function(){
+        $('div[nctype="barUserInfo"]').toggle();
+    });
+    // 右侧bar登录
+    $('div[nctype="a-barLoginBox"]').click(function(){
+        $('div[nctype="barLoginBox"]').toggle();
+        document.getElementById('codeimage').src='http://www.xiaomi.com/shop/index.php?act=seccode&op=makecode&nchash=a8011a99&t=' + Math.random();
+    });
+    $('a[nctype="close-barLoginBox"]').click(function(){
+        $('div[nctype="barLoginBox"]').toggle();
+    });
+    });
+</script> 
+<!-- PublicHeadLayout Begin -->
+<div class="header-wrap">
+  <header class="public-head-layout wrapper">
+    <h1 class="site-logo"><a href="http://www.xiaomi.com/shop"><img src="http://www.xiaomi.com/data/upload/shop/common/logo.png" class="pngFix"></a></h1>
+	<div class="heade_store_info">
+    	<div class="slogo">
+        	<a href="http://www.xiaomi.com/shop/index.php?act=show_store&op=index&store_id=1" title="搜豹网络" class="store_name">TPSHP旗舰店</a>
+            <br>
+                    </div>
+        <div class="pj_info">
+        	            <div class="shopdsr_item">
+                <div class="shopdsr_title">描述相符</div>
+                <div class="shopdsr_score">5</div>
+            </div>
+                        <div class="shopdsr_item">
+                <div class="shopdsr_title">服务态度</div>
+                <div class="shopdsr_score">5</div>
+            </div>
+                        <div class="shopdsr_item">
+                <div class="shopdsr_title">发货速度</div>
+                <div class="shopdsr_score">5</div>
+            </div>
+                	</div>
+        <div class="sub">
+          <div class="store-logo"><img src="http://www.xiaomi.com/data/upload/shop/store/05194176189777317.jpg" alt="TPSHP旗舰店" title="TPSHP旗舰店" /></div>
+          <!--店铺基本信息 S-->
+<div class="ncs-info">
+  <div class="title">
+    <h4>TPSHP旗舰店</h4>
+  </div>
+  <div class="content">
+
+
+        <dl class="messenger">
+      <dt>联系方式：</dt>
+      <dd><span member_id="1"></span>
+                      </dd>
+    </dl>
+        	  	  <!--只有实名认证实体店认证后才显示保障体系 by haoid.cn -->	  
+   	  
+      <!--保证金金额-->
+ 	  
+	  
+	  <!--保障体系 by haoid.cn-->
+          	
+    <div class="goto"><a href="http://www.xiaomi.com/shop/index.php?act=show_store&op=index&store_id=1" >进入商家店铺</a><a href="javascript:collect_store('1','count','store_collect')" >收藏店铺<em nctype="store_collect">1</em></a></div>
+    <div class="shop-other" id="shop-other">
+    <ul>
+      <li class="ncs-info-btn-map"><a href="javascript:void(0)" class="pngFix"><span>店铺地图</span><b></b> <!-- 店铺地图 -->
+        <div class="ncs-info-map" id="map_container" style="width:208px;height:208px;"></div>
+        </a></li>
+      <li class="ncs-info-btn-qrcode"><a href="javascript:void(0)" class="pngFix"><span>店铺二维码</span><b></b>
+        <p class="ncs-info-qrcode"><img src="http://www.xiaomi.com/data/upload/shop/store/1/1_store.png" title="店铺原始地http://www.xiaomi.com/shop/index.php?act=show_store&op=goods_all&store_id=1" style="width:208px;height:208px"></p>
+        </a></li>
+    </ul>
+    </div> 
+  </div>
+</div>
+<!--店铺基本信息 E--> 
+<script type="text/javascript">
+var cityName = "";
+var address = "";
+var store_name = ""; 
+function initialize() {
+	map = new BMap.Map("map_container");
+	localCity = new BMap.LocalCity();
+	
+	map.enableScrollWheelZoom(); 
+	localCity.get(function(cityResult){
+	  if (cityResult) {
+	  	var level = cityResult.level;
+	  	if (level < 13) level = 13;
+	    map.centerAndZoom(cityResult.center, level);
+	    cityResultName = cityResult.name;
+	    if (cityResultName.indexOf(cityName) >= 0) cityName = cityResult.name;
+	    	    	getPoint();
+	    	  }
+	});
+}
+ 
+function loadScript() {
+	var script = document.createElement("script");
+	script.src = "http://api.map.baidu.com/api?v=1.2&callback=initialize";
+	document.body.appendChild(script);
+}
+function getPoint(){
+	var myGeo = new BMap.Geocoder();
+	myGeo.getPoint(address, function(point){
+	  if (point) {
+	    setPoint(point);
+	  }
+	}, cityName);
+}
+function setPoint(point){
+	  if (point) {
+	    map.centerAndZoom(point, 16);
+	    var marker = new BMap.Marker(point);
+	    map.addOverlay(marker);
+	  }
+}
+
+// 当鼠标放在店铺地图上再加载百度地图。
+$(function(){
+	$('.ncs-info-btn-map').one('mouseover',function(){
+		loadScript();
+	});
+	$('.ncs-info-btn-map').one('click',function(){
+		loadScript();
+	});
+});
+</script> 
+
+<script>
+$(function(){
+	var store_id = "1";
+	var goods_id = "";
+	var act = "store_decoration";
+	var op  = "decoration_preview";
+	$.getJSON("index.php?act=show_store&op=ajax_flowstat_record",{store_id:store_id,goods_id:goods_id,act_param:act,op_param:op});
+});
+</script>
+        </div>
+	</div>
+    <div class="heade_service_info">
+        <div class="displayed">
+            <i></i>在线客服
+            <div class="sub">
+                <div class="ncs-message-bar">
+  <div class="default">
+    <h5><a href="http://www.xiaomi.com/shop/index.php?act=show_store&op=index&store_id=1" title="进入店铺">TPSHP旗舰店</a></h5>
+    <span member_id="1"></span>
+          </div>
+    <div class="service-list" store_id="1" store_name="TPSHP旗舰店">
+        <dl>
+      <dt>售前客服：</dt>
+            <dd><span>售前1</span><span>
+                <span c_name="售前1" member_id="1"></span>
+                </span></dd>
+          </dl>
+            <dl>
+      <dt>售后客服：</dt>
+            <dd><span>售后1</span><span>
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=365720009&site=qq&menu=yes" title="QQ: 365720009" target="_blank"><img border="0" src="http://wpa.qq.com/pa?p=2:365720009:52" alt="点击这里给我发消息" style=" vertical-align: middle;"></a>
+                </span></dd>
+          </dl>
+          </div>
+  </div>
+            </div>
+        </div>
+   </div>
+    
+    
+    <div id="search" class="head-search-bar">
+	<!--商品和店铺-->
+      <!--<ul class="tab">
+        <li title="请输入您要搜索的商品关键字" act="search" class="current">商品</li>
+        <li title="请输入您要搜索的店铺关键字" act="store_list">店铺</li>
+      </ul>-->
+      <form class="search-form" method="get" action="http://www.xiaomi.com/shop">
+        <input type="hidden" value="search" id="search_act" name="act">
+         <input placeholder="请输入您要搜索的商品关键字" name="keyword" id="keyword" type="text" class="input-text" value="" maxlength="60" x-webkit-speech lang="zh-CN" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" />
+        <input type="submit" id="button" value="搜索" class="input-submit">
+      </form>
+	  <!--搜索关键字-->
+      <!--<div class="keyword">热门搜索：        <ul>
+                  </ul>
+      </div>-->
+    </div>
+    
+    
+  </header>
+</div>
+<!-- PublicHeadLayout End -->
+
+
+<link href="http://www.xiaomi.com/shop/templates/default/css/shop.css" rel="stylesheet" type="text/css">
+<link href="http://www.xiaomi.com/shop/templates/default/css/shop_custom.css" rel="stylesheet" type="text/css">
+<link href="http://www.xiaomi.com/shop/templates/default/store/style/default/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://www.xiaomi.com/data/resource/js/member.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.xiaomi.com/data/resource/js/shop.js" charset="utf-8"></script>
+<div id="header" class="ncs-header">
+  
+</div>
+    <div id="store_decoration_content" class="background" style="background-color: #FFFCCC;background-image: url(http://www.xiaomi.com/data/upload/shop/store/decoration/1/1_05240663905952525.gif);background-repeat: repeat;background-position: 5 4;">
+<style>.ncs-nav { background-color: #D93600; height: 38px; overflow: hidden; margin: 0 auto; width: 100%; }.ncs-nav ul { white-space: nowrap; display: block; width: 1199px; height: 38px; margin-left: -1px;  margin: 0 auto;overflow: hidden;}.ncs-nav li a span { font-size: 14px; font-weight: 600; line-height: 20px; text-overflow: ellipsis; white-space: nowrap; max-width:160px; color: #FFF; float: left; height: 20px; padding: 9px 15px; margin-left: 4px; overflow:hidden; cursor:pointer;}.aa{}</style>
+  <div class="ncsl-nav">
+          <!-- 启用店铺装修 -->
+                     <div id="nav" class="ncs-nav">
+      <ul>
+        <li class="normal"><a href="http://www.xiaomi.com/shop/index.php?act=show_store&op=index&store_id=1"><span>店铺首页<i></i></span></a></li>
+        <li class="normal"><a href="http://www.xiaomi.com/shop/index.php?act=store_snshome&op=index&sid=1"><span>店铺动态<i></i></span></a></li>
+              </ul>
+    </div>
+  </div>
+<script type="text/javascript">
+;(function($) {
+    $.fn.nc_slider = function(options) {
+        var defaults = {
+            animate: 400, 
+            timeout: 5000, 
+            pagination: true,
+            pagination_class: 'full-screen-slides-pagination'
+        };
+        var settings = $.extend({}, defaults, options);
+
+        function nc_slider($slider) {
+            var slider = {
+                timer: null,
+                $items: null,
+                items_count: null,
+                max_index: null,
+                $pagination: null,
+                auto: true,
+                current: 0
+            };
+
+            function init() {
+                slider.$items = $slider.children();
+                slider.items_count = slider.$items.length;
+                if(slider.items_count <= 1) {
+                    return;
+                }
+                slider.max_index = slider.items_count - 1;
+                slider.$items.hide();
+
+                //初始化导航
+                if(settings.pagination) {
+                    //生成导航按钮
+                    var pagination_html = '<ul class="' + settings.pagination_class + '">';
+                    for (var i = 1; i <= slider.items_count; i++) {
+                        pagination_html += '<li>' + '<a href="javascript:;">' + i + '</a>' + '</li>';
+                    }
+                    pagination_html += '</ul>';
+                    $slider.after(pagination_html);
+
+                    slider.$pagination = $slider.next('ul').find('li');
+
+                    //导航按钮单击切换
+                    slider.$pagination.on('click', function() {
+                        var next = $(this).index();
+                        go(next);
+                    });
+
+                    //鼠标移动到导航按钮上暂停自动播放
+                    slider.$pagination.mouseenter(function() {
+                        slider.auto = false;
+                    });
+                    slider.$pagination.mouseleave(function() {
+                        slider.auto = true;
+                    });
+                }
+
+                next();
+            }
+
+            function go(next) {
+                slider.$items.eq(slider.current).fadeOut(settings.animate);
+                slider.$items.eq(next).fadeIn(settings.animate);
+                slider.current = next;
+
+                if(settings.pagination) {
+                    slider.$pagination.eq(next).addClass('current').siblings('li').removeClass('current');
+                }
+            }
+
+            function next() {
+                if (slider.auto) {
+                    if (slider.current >= slider.max_index || slider.timer === null) {
+                        go(0);
+                    } else {
+                        go(slider.current + 1);
+                    }
+                }
+                slider.timer = setTimeout(next, settings.timeout);
+            }
+
+            init();
+        }
+
+        return this.each(function() {
+            nc_slider($(this));
+        });
+    };
+})(jQuery);
+</script>
+<script type="text/javascript">
+//图片延迟加载
+(function($) {
+    $.fn.nc_lazyload_init = function() {
+        this.each(function() {
+            $(this).after($(this).val().replace(/src=/gi, 'data-src='));
+        }).remove();
+    };
+})(jQuery);
+
+//图片延迟加载
+(function($) {
+    $.fn.nc_lazyload = function() {
+        var lazy_items = [];
+        this.each(function() {
+            if($(this).attr("data-src") !== undefined){
+                var lazy_item = {
+                    object: $(this),
+                    url: $(this).attr("data-src")
+                };
+                lazy_items.push(lazy_item);
+            }
+        });
+
+        var load_img = function() {
+            var window_height = $(window).height();
+            var scroll_top = $(window).scrollTop();
+
+            $.each(lazy_items, function(i, lazy_item) {
+                if(lazy_item.object) {
+                    item_top = lazy_item.object.offset().top - scroll_top;
+                    if(item_top >= 0 && item_top < window_height) {
+                        if(lazy_item.url) {
+                            lazy_item.object.attr("src",lazy_item.url);
+                        }
+                        lazy_item.object = null;
+                    }
+                }
+            });
+        };
+        load_img();
+        $(window).bind("scroll", load_img);
+    };
+})(jQuery);
+</script>
+<div id="store_decoration_area" class="store-decoration-page">
+<textarea class="lazyload_container" rows="10" cols="30" style="display:none;">
+    <foreach name="block_list" item="block">
+      	<include file="store_decoration_block"/>
+    </foreach>
+</textarea>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        //图片延迟加载
+        $(".lazyload_container").nc_lazyload_init();
+        $("img").nc_lazyload();
+
+        //幻灯片
+        $('[nctype="store_decoration_slide"]').nc_slider();
+    });
+</script>
+
+  <div class="clear">&nbsp;</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$('a[nctype="search_in_store"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#search_act').val('show_store');
+		$('<input type="hidden" value="<?php echo $output['store_info']['store_id'];?>" name="store_id" /> <input type="hidden" name="op" value="goods_all" />').appendTo("#formSearch");
+		$('#formSearch').submit();
+	});
+	$('a[nctype="search_in_shop"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#formSearch').submit();
+	});
+	$('#keyword').css("color","#999999");
+
+	var storeTrends	= true;
+	$('.favorites').mouseover(function(){
+		var $this = $(this);
+		if(storeTrends){
+			$.getJSON('index.php?act=show_store&op=ajax_store_trend_count&store_id=<?php echo $output['store_info']['store_id'];?>', function(data){
+				$this.find('li:eq(2)').find('a').html(data.count);
+				storeTrends = false;
+			});
+		}
+	});
+
+	$('a[nctype="share_store"]').click(function(){
+		<?php if ($_SESSION['is_login'] !== '1'){?>
+		login_dialog();
+		<?php } else {?>
+		ajax_form('sharestore', '分享店铺', 'index.php?act=member_snsindex&op=sharestore_one&inajax=1&sid=<?php echo $output['store_info']['store_id'];?>');
+		<?php }?>
+	});
+});
+</script>
+</body>
+</html>

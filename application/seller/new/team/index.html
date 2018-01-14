@@ -1,0 +1,102 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>拼团管理
+		</div>
+		<div class="main-content" id="mainContent">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active"><a href="{:U('Promotion/group_buy_list')}">拼团列表</a></li>
+				</ul>
+				<a href="{:U('Team/info')}" class="ncbtn ncbtn-mint" title="新增拼团"><i class="icon-plus-sign"></i>新增拼团</a>
+
+			</div>
+			<div class="alert alert-block mt10">
+				<ul class="mt5">
+					<li>1、点击新增拼团按钮可以添加拼团活动</li>
+                    <li>2、只有在总平台设置了推荐，对应的活动才会显示在前台</li>
+				</ul>
+			</div>
+			<table class="ncsc-default-table">
+				<thead>
+				<tr>
+					<th class="w20"></th>
+					<th class="w100 tl">拼团标题</th>
+					<th class="w100">拼团商品</th>
+					<th class="w80">拼团类型</th>
+					<th class="w80">成团有效期</th>
+					<th class="w80">需要成团人数</th>
+					<th class="w80">购买限制数</th>
+					<th class="w80">已成团个数</th>
+					<th class="w80">状态</th>
+					<th class="w100">操作</th>
+				</tr>
+				</thead>
+				<empty name="list">
+			  		<tbody>
+			  		<tr>
+			      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+			    	</tr>
+			      </tbody>
+			  <else/> 
+				<tbody>
+				<volist name="list" id="team">
+					<tr class="bd-line">
+						<td></td>
+						<td class="tl"><a href="">{$team.act_name|getSubstr=0,30}</a></td>
+						<td><a href="">{$team.goods_name|getSubstr=0,30}</a></td>
+						<td>{$team.team_type_desc}</td>
+						<td>{$team.time_limit_hours}小时</td>
+						<td>{$team.needer}</td>
+						<td>{$team.buy_limit}</td>
+						<td></td>
+						<td>{$team.status_desc}</td>
+						<td class="nscs-table-handle">
+							<span><a href="{:U('Team/info',array('team_id'=>$team['team_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a></span>
+							<span><a data-url="{:U('Team/delete')}" data-id="{$team.team_id}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+						</td>
+					</tr>
+				</volist>
+				</tbody>
+				</empty>
+				<tfoot>
+				<tr>
+					<td colspan="20">
+						{$page}
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+	function delfun(obj) {
+		layer.confirm('确认删除？', {
+					btn: ['确定', '取消'] //按钮
+				}, function () {
+					$.ajax({
+						type: 'post',
+						url: $(obj).attr('data-url'),
+						data: {team_id: $(obj).attr('data-id')},
+						dataType: 'json',
+						success: function (data) {
+							layer.closeAll();
+							if (data.status == 1) {
+								layer.msg(data.msg, {icon: 1});
+								$(obj).parent().parent().parent().remove();
+							} else {
+								layer.msg(data.msg, {icon: 2, time: 2000});
+							}
+						}
+					})
+				}, function (index) {
+					layer.close(index);
+				}
+		);
+	}
+</script>
+</body>
+</html>

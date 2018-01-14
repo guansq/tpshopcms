@@ -1,0 +1,216 @@
+<include file="public/head" />
+<div class="ncsc-layout wrapper">
+	<div id="layoutLeft" class="ncsc-layout-left">
+		<div id="sidebar" class="sidebar">
+			<div class="column-title" id="main-nav"><span class="ico-index"></span>
+				<h2>首页</h2>
+			</div>
+			<div class="column-menu">
+				<ul id="seller_center_left_menu">
+					<div class="add-quickmenu"><a href="javascript:void(0);"><i class="icon-plus"></i>添加常用功能菜单</a></div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>首页<i class="icon-angle-right"></i></div>
+		<div class="main-content" id="mainContent">
+			<div class="ncsc-index">
+				<div class="top-container">
+					<div class="basic-info">
+						<dl class="ncsc-seller-info">
+							<dt class="seller-name">
+							<h3>admin</h3>
+							<h5>(用户名：{$seller.seller_name})
+								<!--
+                                <a href="index.php?act=seller_center&op=distribution" style=" background:#48CFAE;padding:5px; color:#fff;">申请开通分销</a>         -->
+							</h5>
+							</dt>
+							<dd class="store-logo">
+								<p><img src="__PUBLIC__/static/images/seller/default_store_logo.gif"/></p>
+								<a href="{:U('Store/store_setting')}"><i class="icon-edit"></i>编辑店铺设置</a> </dd>
+							<dd class="seller-permission">管理权限：<strong>管理员</strong></dd>
+							<dd class="seller-last-login">最后登录：<strong>{$seller.last_login_time|date='Y-m-d H:i',###}</strong> </dd>
+							<dd class="store-name">店铺名称：<a href="{:U('Home/Store/index',array('store_id'=>STORE_ID))}" >{$store.store_name}</a></dd>
+							<dd class="store-grade">店铺等级：<strong>自营店铺专属等级</strong></dd>
+							<dd class="store-validity">有效期：<strong>不限制      </strong> </dd>
+						</dl>
+					</div>
+				</div>
+				<div class="seller-cont">
+					<div class="container type-a">
+						<div class="hd">
+							<h3>店铺及商品提示</h3>
+							<h5>您需要关注的店铺信息以及待处理事项</h5>
+						</div>
+						<div class="content">
+							<dl class="focus">
+								<dt>店铺商品发布情况：</dt>
+								<dd title="已发布/可传商品"><em id="nc_goodscount">0</em>&nbsp;/&nbsp;
+									不限          </dd>
+								<dt>图片空间使用：</dt>
+								<dd><em id="nc_imagecount">0</em>&nbsp;/&nbsp;不限</dd>
+							</dl>
+							<ul>
+								<li><a href="{:U('Goods/goodsList',array('goods_state'=>1))}" class="num">出售中 <strong id="nc_online">{$count.pass_goods}</strong></a></li>
+								<li><a href="{:U('Goods/goodsList',array('goods_state'=>0))}">待审核 <strong id="nc_offline">{$count.verify_goods}</strong></a></li>
+								<li><a href="{:U('Goods/goodsList',array('goods_state'=>3))}">违规下架 <strong id="nc_lockup">{$count.off_sale_goods}</strong></a></li>
+								<li><a href="{:U('Comment/ask_list')}">待回复咨询 <strong id="nc_consult">{$count.consult}</strong></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="container type-b">
+						<div class="hd">
+							<h3>系统公告</h3>
+							<h5></h5>
+						</div>
+						<div class="content">
+							<ul>
+								<li><a href="" target="_blank" >罚款制度公告</a></li>
+								<li><a href="" target="_blank" >关报罚款制度公告</a></li>
+								<li><a href="" target="_blank" >关于伪劣货品举报说明</a></li>
+							</ul>
+							<dl>
+								<dt>平台联系方式</dt>
+								<dd>电话1：{$store.store_qq}</dd>
+								<dd>电话2：{$store.store_phone}</dd>
+								<dd>邮箱：{$store.email}</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="container type-a">
+						<div class="hd">
+							<h3>交易提示</h3>
+							<h5>您需要立即处理的交易订单</h5>
+						</div>
+						<div class="content">
+							<dl class="focus">
+								<dt>近期售出：</dt>
+								<dd><a href="">交易中的订单 <strong id="nc_progressing"></strong></a></dd>
+								<dt>维权提示：</dt>
+								<dd><a href="">收到维权投诉 <strong id="nc_complain"></strong></a></dd>
+							</dl>
+							<ul>
+								<li><a href="">待付款 <strong id="nc_payment"></strong></a></li>
+								<li><a href="">待发货 <strong id="nc_delivery"></strong></a></li>
+								<li><a href=""> 售前退款 <strong id="nc_refund_lock"></strong></a></li>
+								<li><a href=""> 售后退款 <strong id="nc_refund"></strong></a></li>
+								<li><a href=""> 售前退货 <strong id="nc_return_lock"></strong></a></li>
+								<li><a href=""> 售后退货 <strong id="nc_return"></strong></a></li>
+								<li><a href=""> 待确认账单 <strong id="nc_bill_confirm"></strong></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="container type-c">
+						<div class="hd">
+							<h3>销售情况统计</h3>
+							<h5>按周期统计商家店铺的订单量和订单金额</h5>
+						</div>
+						<div class="content">
+							<table class="ncsc-default-table">
+								<thead>
+								<tr>
+									<th class="w50">项目</th>
+									<th>订单量</th>
+									<th class="w100">订单金额</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr class="bd-line">
+									<td>昨日销量</td>
+									<td>--</td>
+									<td>--</td>
+								</tr>
+								<tr class="bd-line">
+									<td>月销量</td>
+									<td>--</td>
+									<td>--</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="container type-c h500">
+						<div class="hd">
+							<h3>单品销售排名</h3>
+							<h5>掌握30日内最热销的商品及时补充货源</h5>
+						</div>
+						<div class="content">
+							<table class="ncsc-default-table">
+								<thead>
+								<tr>
+									<th>排名</th>
+									<th class="tl" colspan="2">商品信息</th>
+									<th>销量</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="container type-d h500">
+						<div class="hd">
+							<h3>店铺运营推广</h3>
+							<h5>合理参加促销活动可以有效提升商品销量</h5>
+						</div>
+						<div class="content">
+							<dl class="tghd">
+								<dt class="p-name"> <a href="index.php?act=store_groupbuy">抢购活动</a></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint">
+									<i class="icon-ok-sign"></i>已开通
+								</dd>
+								<dd class="p-info">参与平台发起的抢购活动提高商品成交量及店铺浏览量</dd>
+							</dl>
+							<dl class="xszk">
+								<dt class="p-name"><a href="index.php?act=store_promotion_xianshi&op=xianshi_list">限时折扣</a></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint"><span>
+		                        <i class="icon-ok-sign"></i>已开通
+		                        </span></dd>
+								<dd class="p-info">在规定时间段内对店铺中所选商品进行打折促销活动</dd>
+							</dl>
+							<dl class="mjs">
+								<dt class="p-name"><a href="index.php?act=store_promotion_mansong&op=mansong_list">满即送</a></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint"><span>
+		                        <i class="icon-ok-sign"></i>已开通
+		                        </span></dd>
+								<dd class="p-info">商家自定义满即送标准与规则，促进购买转化率</dd>
+							</dl>
+							<dl class="zhxs">
+								<dt class="p-name"><a href="index.php?act=store_promotion_bundling&op=bundling_list">优惠套装</a></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint"><span>
+		                        <i class="icon-ok-sign"></i>已开通
+		                        </span></dd>
+								<dd class="p-info">商品优惠套装、多重搭配更多实惠、商家必备营销方式</dd>
+							</dl>
+							<dl class="tjzw">
+								<dt class="p-name"><a href="index.php?act=store_promotion_booth&op=booth_list">推荐展位</a></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint"><span>
+		                        <i class="icon-ok-sign"></i>已开通
+		                        </span></dd>
+								<dd class="p-info">选择商品参与平台发布的主题活动，审核后集中展示</dd>
+							</dl>
+							<dl class="djq">
+								<dt class="p-name"><a href="index.php?act=store_voucher">代金券</a></span></dt>
+								<dd class="p-ico"></dd>
+								<dd class="p-hint"><span>
+		                        <i class="icon-ok-sign"></i>已开通
+		                        </span></dd>
+								<dd class="p-info">自定义代金券使用规则并由平台统一展示供买家领取</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="public/foot" />
+</body>
+</html>

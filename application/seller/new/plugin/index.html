@@ -1,0 +1,60 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>发货设置
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a>快递公司</a></li>
+                </ul>
+            </div>
+            <form method="post" id="addEditGoodsForm">
+                <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w100">物流公司</th>
+                    <th class="w50"></th>
+                    <th class="w200 tl">描述</th>
+                    <th class="w100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <empty name="shipping">
+                <tr>
+                    <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>无物流插件，请向平台咨询。</span></div></td>
+                </tr>
+                <else/>
+                <volist name="shipping" id="l">
+                    <tr class="bd-line">
+                        <td><img style="width:150px; height:60px;" src="/plugins/shipping/{$l.code}/{$l.icon}"></td>
+                        <td>{$l.name}</td>
+                        <td class="tl">{$l.desc}</td>
+                        <td class="nscs-table-handle">
+                            <if condition="$l.status eq 0">
+                                <span><a class="btn-grapefruit"><p>平台未开放此物流</p></a></span>
+                                <else/>
+                                <span><a href="{:U('Plugin/shipping_list',array('type'=>'shipping','code'=>$l['code']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>配置</p></a></span>
+                                <if condition="$l.is_close eq 0">
+                                    <span><a href="{:U('Plugin/shipping_close_or_open',array('type'=>'shipping','code'=>$l['code'],'is_close'=>1))}" class="btn-bluejeans"><i class="icon-trash"></i><p>启动</p></a></span>
+                                    <else/>
+                                    <span><a href="{:U('Plugin/shipping_close_or_open',array('type'=>'shipping','code'=>$l['code'],'is_close'=>0))}" class="btn-grapefruit"><i class="icon-trash"></i><p>关闭</p></a></span>
+                                </if>
+                            </if>
+                        </td>
+                    </tr>
+                </volist>
+                </empty>
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+
+</script>
+</body>
+</html>

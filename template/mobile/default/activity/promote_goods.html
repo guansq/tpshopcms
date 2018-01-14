@@ -1,0 +1,48 @@
+<include file="public/header" title="优惠活动" />
+<include file="public/header_nav" title="优惠活动"  href="javascript:history.back(-1)"/>
+    <!--促销列表-s-->
+        <div id="goods_list">
+            <foreach name="promote" item="list">
+                <a href="{:U('Activity/discount_list',array('id'=>$list[id]))}">
+                <div class="banner">
+                    <img src="{$list[prom_img]|default='__STATIC__/images/pr_06.jpg'}"/>
+                </div>
+                <div class="cbaudience">
+                    <div class="maleri30">
+                        <p>{$list[title]}</p>
+                        <p>{:date('Y.m.d',$list[start_time])}——{:date('Y.m.d',$list[end_time])}</p>
+                    </div>
+                </div>
+                </a>
+            </foreach>
+        </div>
+    <!--促销列表-e-->
+        <div id="getmore"  style="font-size:.32rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both;display: none">
+            <a >已显示完所有记录</a>
+        </div>
+<script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script>
+    /**
+     * 加载更多商品
+     **/
+    var  page = 1;
+    function ajax_sourch_submit()
+    {
+        ++page;
+        $.ajax({
+            type : "GET",
+            url:"/index.php?m=Mobile&c=Activity&a=promote_goods&is_ajax=1&p="+page,
+            success: function(data) {
+                if ($.trim(data) == '') {
+                    $('#getmore').show();
+                    return false;
+                } else {
+                    $("#goods_list").append(data);
+                }
+            }
+        });
+    }
+</script>
+</html>

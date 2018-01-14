@@ -1,0 +1,100 @@
+<include file="public/header" body="" title="消息中心"/>
+<div class="classreturn loginsignup">
+    <div class="content">
+        <div class="ds-in-bl return">
+            <a href="{:U('User/index')}"><img src="__STATIC__/images/return.png" alt="返回"></a>
+        </div>
+        <div class="ds-in-bl search center">
+            <span>消息中心</span>
+        </div>
+        <div class="ds-in-bl menu search">
+                <a href="javascript:;" onclick="del_all_message(this)" data-msg_type="">清空</a>
+        </div>
+    </div>
+</div>
+<div class="news_center">
+    <volist name='messages' id='message'>
+        <div class="news_list_fll" id="del_{$message.message_id}">
+            <div class="maleri30">
+                <div class="fl news_c_img">
+                    <if condition='$message.category == 0'>
+                        <img src="__STATIC__/images/news1.png"/>
+                    <else/>
+                        <img src="__STATIC__/images/news2.png"/>
+                    </if>
+                </div>
+                <div class="fl  news_c_tit">
+                    <p><span class="news_h fl">{$message.category_name}</span><span class="yestertime fr">{$message.send_time|date='Y-m-d',###}</span></p>
+                    <div class="news-des-wrap">
+                        <span class="left-news-des">{$message.message}</span>
+                        <a class="delete-news-btn" href="javascript:;" onclick="del_message({$message.category},{$message.message_id})">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </volist>
+    <!--没有消息-s--->
+    <empty name='messages'>
+		<div class="comment_con p">
+			<div class="none">
+				<img src="__STATIC__/images/none2.png">
+				<br><br>
+				目前没有消息
+			</div>
+		</div>
+    </empty>
+	<!--没有消息-e--->
+</div>
+<include file="public/footer_nav"/>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    /**
+     * 清除这类型下全部消息
+     * @param type
+     */
+    function del_all_message(obj) {
+        var msg_type = $(obj).data('msg_type');
+        $.ajax({
+            type: "POST",
+            url: "{:U('Home/User/del_message_notice')}",
+            data: {type: msg_type},
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 1) {
+                    location.reload();
+                } else {
+                    layer.open({content:data.msg,time:2});
+                }
+            },
+            error: function () {
+                layer.alert('网络错误，请稍后再试', {icon: 2, time: 2000});
+            }
+        });
+    }
+
+    /**
+     * 清除单条消息
+     * @param type
+     */
+    function del_message(type,msg_id) {
+        $.ajax({
+            type: "POST",
+            url: "{:U('Home/User/set_message_notice')}",
+            data: {type: type,msg_id:msg_id},
+            dataType:'json',
+            success: function (data) {
+                if (data.status==1) {
+                    layer.open({content:data.msg,time:2});
+                    $('#del_'+msg_id).remove();
+                } else {
+                    layer.open({content:data.msg,time:2});
+                }
+            },
+            error:function(){
+                layer.alert('网络错误，请稍后再试', {icon:2, time:2000});
+            }
+        });
+    }
+</script>
+</body>
+</html>

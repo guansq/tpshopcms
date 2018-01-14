@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>地址管理</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/js/layer/layer.js"></script>
+	</head>
+	<style>
+	.defulat_address{
+	    margin: 0 0 0 10px;
+	    font-size: 12px;
+	    background: #ffaa45;
+	    padding: 2px;
+	    color: #fff;
+	    font-weight: 400;
+	}
+	</style>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>地址管理</span>
+			    </div>
+			    <div class="home-main">
+					<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+						<div class="menumain p">
+							<div class="goodpiece">
+								<h1>地址管理</h1>
+								<a onclick="address_edit()" href="javascript:void(0)" style="cursor:pointer"><span class="co_blue">增加新地址</span></a>
+							</div>
+							<div class="grou_num_list address_list_jl ma-to-20">
+								<ul class="grou_tite">
+									<li class="sx2"><span>收货人</span></li>
+									<li class="sx1"><span>收货地址</span></li>
+									<li class="sx3"><span>联系电话</span></li>
+									<li class="sx5"><span>操作</span></li>
+								</ul>
+								<volist name="lists" id="list">
+									<ul class="add_conta addressItem" data-address-id="{$list['address_id']}">
+										<li class="sx2"><span>{$list.consignee}</span></li>
+										<li class="sx1"><span>{$region_list[$list['province']]}</span><span>{$region_list[$list['city']]}</span><span>{$region_list[$list['district']]}</span><span>{$region_list[$list['twon']]}{$list.address}</span></li>
+										<li class="sx3"><span>{$list.mobile}</span></li>
+										<li class="sx5">
+											<if condition="$list['is_default'] eq 1">
+											<span class="defulat_address">默认地址</span>&nbsp;&nbsp;
+											<else/>
+											<a onclick="set_address_default(this)" href="javascript:void(0);">设为默认</a>
+											</if>
+                                            <a href="javascript:address_edit({$list['address_id']})" class="co_blue">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a  onclick="verConfirm('确定删除？','{:U('Home/User/del_address',array('id'=>$list['address_id']))}')" class="co_blue">删除</a>
+                                        </li>
+									</ul>
+								</volist>
+							</div>
+							<p class="gp_num2">已保存<em class="red">{$lists|count}</em>条地址，还可以保存<em class="red"><php>echo 20-count($lists);</php></em>条地址</php>
+						</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.choice_hobby').click(function(){
+					$(this).toggleClass('red');
+				})
+			})
+
+			/**
+			 * 新增修改收货地址
+			 * id 为零 则为新增, 否则是修改
+			 *  使用 公共的 layer 弹窗插件  参考官方手册 http://layer.layui.com/
+			 */
+			function address_edit(id)
+			{
+				if(id > 0)
+					var url = "/index.php?m=Home&c=User&a=edit_address&scene=1&call_back=call_back_fun&id="+id; // 修改地址  '/index.php/Home/User/add_address/scene/1/call_back/call_back_fun/id/id' //iframe的url /index.php/Home/User/add_address
+				else
+					var url = "/index.php?m=Home&c=User&a=add_address&scene=1&call_back=call_back_fun";	// 新增地址
+				layer.open({
+					type: 2,
+					title: '添加收货地址',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['880px', '580px'],
+					content: url,
+				});
+			}
+			// 添加修改收货地址回调函数
+			function call_back_fun(v){
+				layer.closeAll(); // 关闭窗口
+				location.href = location.href;
+			}
+			//设置默认地址
+			function set_address_default(obj){
+				var id = $(obj).parents('.addressItem').attr('data-address-id');
+				$.ajax({
+					url: "/index.php?m=Home&c=User&a=setAddressDefault",
+					type: 'post',
+					data: {id: id},
+					dataType: 'json',
+					success: function (data) {
+						if (data.status == 1) {
+							layer.msg(data.msg, {icon: 1});
+							location.reload();
+						} else {
+							layer.msg(data.msg, {icon: 2});
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,97 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>售后服务<i class="icon-angle-right"></i>退款换货</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" id="return_form" action="{:U('Order/return_info')}">
+                    <input type="hidden" name="id" value="{$id}">
+
+                    <div class="ncsc-form-goods">
+                        <h3 id="demo1">退款换货</h3>
+                        <dl>
+                            <dt>订单编号：</dt>
+                            <dd>
+                                <a href="{:U('order/detail',array('order_id'=>$return_goods['order_id']))}">{$return_goods.order_sn}</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>用户：</dt>
+                            <dd>
+                                {$user.nickname}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>申请日期：</dt>
+                            <dd>
+                                {$return_goods.addtime|date="Y-m-d H:i",###}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>商品名称：</dt>
+                            <dd>
+                                <a href="{:U('Home/Goods/goodsInfo',array('id'=>$return_goods[goods_id]))}" target="_blank">{$goods[goods_name]}</a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>退换货：</dt>
+                            <dd>
+                                <if condition="$return_goods['type'] eq 1">
+                                    申请换货
+                                    <else />
+                                    <if condition="$order_goods['is_send'] eq 3">
+                                        已退货
+                                        <else />
+                                        <a href="{:U('user/return_goods',array('return_goods_id'=>$_GET['id']))}">
+                                            <input class="btn btn-primary" type="button"  value="退款到用户余额">
+                                        </a>
+                                    </if>
+                                </if>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>退货描述：</dt>
+                            <dd>
+                                {$return_goods['reason']}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>用户上传照片：</dt>
+                            <dd>
+                                <volist name="return_goods[imgs]" id="item">
+                                    <a href="{$item}" target="_blank"><img src="{$item}" width="85" height="85" /></a>&nbsp;&nbsp;&nbsp;
+                                </volist>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>状态：</dt>
+                            <dd>
+                                <select name="status">
+                                    <option value="0" <if condition="$return_goods['status'] eq 0">selected="selected"</if>>未处理</option>
+                                    <option value="1" <if condition="$return_goods['status'] eq 1">selected="selected"</if>>处理中</option>
+                                    <option value="2" <if condition="$return_goods['status'] eq 2">selected="selected"</if>>已完成</option>
+                                </select>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>处理备注：</dt>
+                            <dd>
+                                <textarea name="remark" id="remark" rows="6"  class="tarea" style="width:400px; height:120px;">{$return_goods['remark']}</textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input class="submit" value="保存" type="submit">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+
+</body>
+</html>

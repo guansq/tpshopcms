@@ -1,0 +1,85 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺导航</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="wrap">
+  <div class="tabmenu">
+    <ul class="tab pngFix">
+  <li class="active"><a  href="{:U('Store/navigation_list')}">导航列表</a></li></ul>
+    <a href="{:U('Store/navigation')}" class="ncbtn ncbtn-mint" title="添加导航">添加导航</a> </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr>
+        <th class="w60">排序</th>
+        <th class="tl">导航名称</th>
+        <th class="w120">是否显示</th>
+        <th class="w120">新窗口打开</th>
+        <th class="w110">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <empty name="list">
+        <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+        </tr>
+        <else/>
+        <foreach name="list" item="vo" key="k" >
+            <tr class="bd-line">
+                <td>{$vo.sn_sort}</td>
+                <td class="tl"><dl class="goods-name"><dt><a target="_blank" href="{$vo.sn_url}" >{$vo.sn_title}</a></dt></dl></td>
+                <td>{$vo.sn_is_show}</td>
+                <td>{$vo.sn_new_open}</td>
+                <td class="nscs-table-handle"><span><a href="{:U('Store/navigation',array('sn_id'=>$vo['sn_id']))}" class="btn-bluejeans"><i class="icon-edit"></i>
+                    <p> 编辑</p>
+                </a></span>
+          <span> <a href="javascript:;" data-url="{:U('Store/navigationHandle')}" data-id="{$vo.sn_id}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i>
+              <p>删除</p>
+          </a></span>
+                </td>
+            </tr>
+        </foreach>
+    </empty>
+    </tbody>
+   <tfoot>
+    <tr><td colspan="20"><div class="pagination">{$page}</div></td></tr>
+   </tfoot>
+  </table>
+</div>
+<script type="text/javascript">
+
+</script>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script>
+function delfun(obj){
+    layer.confirm('确认删除？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                // 确定
+                $.ajax({
+                    type : 'post',
+                    url : $(obj).attr('data-url'),
+                    data : {act:'del',sn_id:$(obj).attr('data-id')},
+                    dataType : 'json',
+                    success : function(data){
+                        layer.closeAll();
+                        if(data==1){
+                            $(obj).parent().parent().parent().remove();
+                        }else{
+                            layer.alert('删除失败', {icon: 2});  //alert('删除失败');
+                        }
+                    }
+                })
+            }, function(index){
+                layer.close(index);
+            }
+    );
+}
+</script>
+</body>
+</html>

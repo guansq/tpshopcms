@@ -1,0 +1,39 @@
+<table class="ncsc-default-table">
+    <thead>
+    <tr>
+        <th class="w80">用户</th>
+        <th class="w200 tl">评论内容</th>
+        <th class="w200">商品</th>
+        <th class="w120">评论时间</th>
+        <th class="w80">ip地址</th>
+        <th class="w100">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="comment_list" id="list">
+        <tr class="bd-line">
+            <td>{$list.nickname}</td>
+            <td class="tl">{$list.content}</td>
+            <td><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$list[goods_id]))}">{$goods_list[$list[goods_id]]}</a></td>
+            <td>{$list.add_time|date='Y-m-d H:i',###}</td>
+            <td>{$list.ip_address}</td>
+            <td class="nscs-table-handle">
+                <span><a href="{:U('comment/detail',array('id'=>$list[comment_id]))}" class="btn-bluejeans"><i class="icon-edit"></i><p>回复</p></a></span>
+            </td>
+        </tr>
+    </volist>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="20">
+            {$page}
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    $(".pagination a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+</script>

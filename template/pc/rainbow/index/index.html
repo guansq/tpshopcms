@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页-{$tpshop_config['shop_info_store_title']}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="keywords" content="{$tpshop_config['shop_info_store_keyword']}"/>
+		<meta name="description" content="{$tpshop_config['shop_info_store_desc']}"/>
+		<link rel="shortcut  icon" type="image/x-icon" href="__PUBLIC__/static/images/favicon.ico" media="screen"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css"/>
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/js/global.js"></script>
+	</head>
+	<body>
+		<!--顶部广告-s-->
+		<adv pid="1" limit="1" item="v">
+			<div class="topic-banner" style="background: #f37c1e;">
+				<div class="w1224">
+					<a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>>
+						<img src="{$v[ad_code]}"/>
+					</a>
+					<i onclick="$('.topic-banner').hide();"></i>
+				</div>
+			</div>
+		</adv>
+		<!--顶部广告-e-->
+		<!--header-s-->
+		<include file="public/header" w="w1224"/>
+		<!--header-e-->
+		<div id="myCarousel" class="carousel slide p header-tp tpshop2_0_carousel">
+			<ol class="carousel-indicators"></ol>
+			<div class="carousel-inner">
+				<adv limit="6" item="v" pid="10">
+					<div class="item <if condition='$key eq 0'>active</if>" style="background-color:{$v.bgcolor|default=gray};" >
+						<a class="item-image" href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if> ><img src="{$v[ad_code]}" alt="" /></a>
+					</div>
+				</adv>
+			</div>
+			<div class="right-sidebar p">
+				<div class="usertpshop">
+					<div class="head_index">
+						<a href="{:U('Home/User/index')}" target="_blank">
+							<img class="head_pic" src="__STATIC__/images/default.jpg" alt="" />
+						</a>
+					</div>
+					<p class="welcome nologin">您好，欢迎来到TPshop商城！</p>
+					<p class="welcome islogin">HI，<span class="userinfo"></span></p>
+					<div class="login_index">
+						<a class="nologin" href="{:U('Home/User/login')}" target="_blank">请登录</a>
+						<a class="add_newperson" href="">新人有礼</a>
+						<a class="islogin add_newperson" href="{:U('Home/User/index')}" target="_blank">会员中心</a>
+					</div>
+				</div>
+				<div class="bulletin">
+					<div class="tit_notice">
+						<div class="bn_box">
+							<tpshop sql="select * from `__PREFIX__article` where cat_id = 24 and is_open=1 limit 4" result_name="box_ad"></tpshop>
+							<tpshop sql="select * from `__PREFIX__article` where cat_id = 20 and is_open=1 limit 4" result_name="box_prom"></tpshop>
+							<notempty name="box_ad">
+								<em class="action box_ad">公告</em>
+							</notempty>
+							<notempty name="box_prom">
+								<em class="box_prom">促销</em>
+							</notempty>
+						</div>
+					</div>
+					<div class="content box_ad_content">
+						<volist name="box_ad" id="v">
+							<a href="{:U('Home/Article/detail',array('article_id'=>$v[article_id]))}" target="_blank">{$v[title]}</a>
+						</volist>
+					</div>
+					<div class="content box_prom_content" style="display: none">
+						<volist name="box_prom" id="v">
+							<a href="{:U('Home/Article/detail',array('article_id'=>$v[article_id]))}" target="_blank">{$v[title]}</a>
+						</volist>
+					</div>
+					<div class="tit_notice">
+						<div class="bn_box">
+							<em>快捷入口</em>
+						</div>
+					</div>
+					<div class="six_entrance">
+						<table border="" cellspacing="0" cellpadding="0">
+							<tr>
+								<td>
+									<div class="access">
+										<a href="{:U('Home/User/visit_log')}" target="_blank">
+											<i class="mybrowse"></i>
+											<span>我的浏览</span>
+										</a>
+									</div>
+								</td>
+								<td>
+									<div class="access">
+										<a href="{:U('Home/User/goods_collect')}" target="_blank">
+											<i class="mycollect"></i>
+											<span>我的收藏</span>
+										</a>
+									</div>
+								</td>
+								<td class="lastcol">
+									<div class="access">
+										<a href="{:U('Home/Order/order_list')}" target="_blank">
+											<i class="myorders"></i>
+											<span>我的订单</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr class="lastcow">
+								<td>
+									<div class="access">
+										<a href="{:U('Home/User/safety_settings')}" target="_blank">
+											<i class="account_security"></i>
+											<span>账号安全</span>
+										</a>
+									</div>
+								</td>
+								<td>
+									<div class="access">
+										<a href="{:U('Home/User/recharge')}" target="_blank">
+											<i class="myshares"></i>
+											<span>账户余额</span>
+										</a>
+									</div>
+								</td>
+								<td class="lastcol">
+									<div class="access">
+										<a href="{:U('Home/Newjoin/index')}" target="_blank">
+											<i class="seller_enter"></i>
+											<span>商家入驻</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="fn-mall p ma-to-20">
+			<div class="w1224">
+				<div class="diamond_line">
+					<div class="line_lim"></div>
+					<div class="diamond">
+						<i></i>
+						<span>精品推荐</span>
+					</div>
+				</div>
+				<div class="advertisement p">
+					<ul>
+						<adv pid="50" limit="5" item="v">
+							<li>
+								<a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>><img src="{$v[ad_code]}"/></a>
+							</li>
+						</adv>
+					</ul>
+				</div>
+				<div class="feture-cates ma-to-20 p">
+					<ul class="cates-left">
+						<adv pid="51" limit="6" item="v">
+							<li class="item">
+								<a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>>
+									<img class="img100 prod" src="{$v[ad_code]}">
+								</a>
+							</li>
+						</adv>
+					</ul>
+					<div id="myCarouselq" class="carousel slide p w408 fl">
+						<ol class="carousel-indicators">
+							<li data-target="#myCarouselq" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarouselq" data-slide-to="1"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="item active">
+                                <adv pid="52" limit="2" item="v">
+                                    <a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>> <img src="{$v[ad_code]}" style="width: 408px; height: 198px;"></a>
+                                </adv>
+							</div>
+							<div class="item">
+                                <adv pid="53" limit="2" item="v">
+                                    <a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>> <img src="{$v[ad_code]}" style="width: 408px; height: 198px;"></a>
+                                </adv>
+							</div>
+						</div>
+						<a class="left carousel-control" href="#myCarouselq" data-slide="prev">&lsaquo;</a>
+						<a class="right carousel-control" href="#myCarouselq" data-slide="next">&rsaquo;</a>
+					</div>
+					<ul class="cates-right">
+                        <adv pid="54" limit="2" item="v">
+                            <div class="item">
+                                <a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>>
+                                    <img class="img100 prod" src="{$v[ad_code]}">
+                                </a>
+                            </div>
+                        </adv>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="underheader-floor tpshop2_0_uf ma-to-20 p">
+			<div class="w1224">
+				<div class="layout-title">
+					<span class="fl">好货上新</span>
+				</div>
+				<div class="goodsnew">
+					<ul>
+                            <li>
+                                <div class="tit">
+                                    <i class="fashion1"></i>
+                                    <span>时尚潮流</span>
+                                </div>
+                                <div class="boxforborder">
+                                    <adv pid="105" limit="2" item="v105" key="k">
+                                        <div class="twicef">
+                                            <p><!-- <if condition="$k+1 eq 1">
+                                                    <span class="item">上新</span><span>品牌精选新品</span>
+                                                <else/>
+                                                   <span class="item">尖货优选</span><span>感受时尚的气息</span>
+                                                </if>--></p>
+                                            <div class="per_img">
+                                                <a href="{$v105.ad_link}" <if condition="$v105['target'] eq 1">target="_blank"</if>>
+                                                    <img src="{$v105.ad_code}"/>
+                                                </a>
+                                            </div>
+                                            <div class="line_lim w_limit"></div>
+                                        </div>
+                                    </adv>
+                                </div>
+                            </li>
+                        <li>
+							<div class="tit">
+								<i class="fashion2"></i>
+								<span>手机数码</span>
+							</div>
+                            <div class="boxforborder">
+                            <adv pid="106" limit="2" item="v106" key="k">
+                                <div class="twicef">
+                                    <p></p>
+                                    <div class="per_img">
+                                        <a href="{$v106.ad_link}" <if condition="$v106['target'] eq 1">target="_blank"</if>>
+                                            <img src="{$v106.ad_code}"/>
+                                        </a>
+                                    </div>
+                                    <div class="line_lim w_limit"></div>
+                                </div>
+                            </adv>
+                            </div>
+						</li>
+                        <li>
+							<div class="tit">
+								<i class="fashion3"></i>
+								<span>享受生活</span>
+							</div>
+                            <div class="boxforborder">
+                            <adv pid="107" limit="2" item="v107" key="k">
+                                <div class="twicef">
+                                    <p></p>
+                                    <div class="per_img">
+                                        <a href="{$v107.ad_link}" <if condition="$v107['target'] eq 1">target="_blank"</if>>
+                                            <img src="{$v107.ad_code}"/>
+                                        </a>
+                                    </div>
+                                    <div class="line_lim w_limit"></div>
+                                </div>
+                            </adv>
+                            </div>
+						</li>
+						    <li>
+							<div class="tit">
+								<i class="fashion4"></i>
+								<span>全球好货</span>
+							</div>
+                            <div class="boxforborder">
+                            <adv pid="108" limit="2" item="v108" key="k">
+                                <div class="twicef">
+                                    <p></p>
+                                    <div class="per_img">
+                                        <a href="{$v108.ad_link}" <if condition="$v108['target'] eq 1">target="_blank"</if>>
+                                            <img src="{$v108.ad_code}"/>
+                                        </a>
+                                    </div>
+                                    <div class="line_lim w_limit"></div>
+                                </div>
+                            </adv>
+                            </div>
+						</li>
+                        <li>
+                            <div class="tit">
+                                <i class="fashion5"></i>
+                                <span>为你精选</span>
+                            </div>
+                            <div class="boxforborder">
+                            <adv pid="109" limit="2" item="v109" key="k">
+                                <div class="twicef">
+                                    <p></p>
+                                    <div class="per_img">
+                                        <a href="{$v109.ad_link}" <if condition="$v109['target'] eq 1">target="_blank"</if>>
+                                            <img src="{$v109.ad_code}"/>
+                                        </a>
+                                    </div>
+                                    <div class="line_lim w_limit"></div>
+                                </div>
+                            </adv>
+                            </div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="floor-advert p">
+			<div class="w1224">
+                <adv pid="99" limit="1" item="v">
+				    <a href="{$v.ad_link}" <if condition="$v['target'] eq 1">target="_blank"</if>> <img class="" src="{$v[ad_code]}" /></a>
+                </adv>
+			</div>
+		</div>
+
+		<!--1F-s-->
+		<foreach name="web_list" item="wb" key="wk">
+		<div class="tpshop2_0_floor p" id="floor{$wk+1}">
+			<div class="w1224">
+				<div class="uantit fixedu p" >
+					<h3 class="fl">{$wb[tit][title]} <i>{$wb[tit][floor]}</i></h3>
+					<ul class="f-tab fr">
+						<li class="z-select">
+							<a href="javascript:;" rel="0" fid="{$wk+1}"  onmouseover="showul(this)">精选推荐</a>
+							<span></span>
+						</li>
+						<foreach name="wb[recommend_list]" item="rcd" key="rck">
+						<li>
+							<a href="javascript:;" rel="{$rck+1}" fid="{$wk+1}" onmouseover="showul(this)">{$rcd[recommend][name]}</a>
+							<span></span>
+						</li>
+						</foreach>
+					</ul>
+				</div>
+				<div class="uanmain fixedu p">
+					<div class="leftcol fl">
+						<div class="lc_top">
+							<a href="{$wb[act][url]}" class="adlight" target="_blank">
+								<img src="{$wb[act][pic]}" alt="" title="{$wb[act][title]}">
+							</a>
+						</div>
+						<div class="lc_bot">
+							<ul>
+								<li class="rowhr">
+									<a href="{$wb[act][urla]}"><span>{$wb[act][titlea]}</span><i class="r_arrow"></i></a>
+									<a href="{$wb[act][urlb]}"><span>{$wb[act][titleb]}</span><i class="r_arrow"></i></a>
+								</li>
+								<li class="lemain">
+									<foreach name="wb[category_list][goods_class]" item="gc">
+									<a href="{:U('Goods/goodsList',array('id'=>$gc[gc_id]))}">{$gc.gc_name}</a>
+									</foreach>
+									<!--<a class="sp" href="">奇异果</a>-->
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="rightcol fl">
+						<div class="content_goods_sh" id="wbg0">
+						  <if condition="$wb[adv][0][adv_type] eq 'upload_advmin'">
+							<ul class="floor-list hasSlide floor-list2">
+							    <foreach name="wb[adv]" item="ad">
+							    	<if condition="$ad[adv_type] eq 'upload_advbig'">
+							    	<li>
+										<div id="myCarouselq{$wk}" class="carousel slide w399 p">
+											<ol class="carousel-indicators">
+											<foreach name="ad[adv_info]" key="sk" item="sd">
+                                                <if condition="!empty($sd.pic_img)">
+											<li data-target="#myCarouselq{$wk}" data-slide-to="{$sk-1}" class="<if condition='$sk-1 eq 0'>active</if>"></li>
+                                                    </if>
+											</foreach>
+											</ol>
+											<div class="carousel-inner">
+												<foreach name="ad[adv_info]" key="sk" item="sd">
+                                                    <if condition="!empty($sd.pic_img)">
+												<div class="item <if condition='$sk eq 1'>active</if>">
+													<a href="{$sd.pic_url}">
+                                                        <img src="{$sd.pic_img|default='/public/images/icon_goods_thumb_empty_300.png'}">
+                                                    </a>
+												</div>
+                                                    </if>
+												</foreach>
+											</div>
+										</div>
+									</li>
+							    	<else />
+							    	<li>
+                                    <a href="{$ad.adv_info[pic_url]}">
+    <img data-original="{$ad[adv_info][pic_img]|default='/public/images/icon_goods_thumb_empty_300.png'}" class="lazy" width="199" height="243"/>
+                                    </a>
+									</li>
+							    	</if>
+								</foreach>
+							</ul>
+						  <else />
+						 	<ul class="floor-list floor-list1 hasSlide">
+						 	<foreach name="wb[adv]" item="ad" key="ak">
+						 	    <if condition="$ad[adv_type] eq 'upload_advbig'">
+								<li>
+									<div id="myCarouselq{$wk}" class="carousel slide w399 p">
+										<ol class="carousel-indicators">
+											<foreach name="ad[adv_info]" key="sk" item="sd">
+                                                <if condition="!empty($sd.pic_img)">
+                                        <li data-target="#myCarouselq{$wk}" data-slide-to="{$sk-1}" class="<if condition='$sk-1 eq 0'>active</if>"></li>
+                                                    </if>
+											</foreach>
+										</ol>
+										<div class="carousel-inner">
+											<foreach name="ad[adv_info]" key="sk" item="sd">
+                                                <if condition="!empty($sd.pic_img)">
+                                                <div class="item <if condition='$sk eq 1'>active</if>">
+                                                    <a href="{$sd.pic_url}"  asfadfads>
+                                                        <img src="{$sd.pic_img|default='/public/images/icon_goods_thumb_empty_300.png'}">
+                                                    </a>
+                                                </div>
+                                                </if>
+											</foreach>
+										</div>
+									</div>
+								</li>
+								<else/>
+								<li>
+									<a href="{$ad[adv_info][pic_url]}">
+                                        <img src="{$ad[adv_info][pic_img]|default='/public/images/icon_goods_thumb_empty_300.png'}" class="lazy" />
+                                    </a>
+								</li>
+								</if>
+							</foreach>
+							</ul>
+						 </if>
+						</div>
+
+						<foreach name="wb[recommend_list]" item="wg" key="gk">
+						<div class="content_goods_sh content_goods_list" id="wbg{$gk+1}" style="display:none;">
+							<ul class="floor-list-cont">
+								<foreach name="wg[goods_list]" item="pd">
+								<li>
+									<a href="{:U('Home/Goods/goodsInfo',array('id'=>$pd[goods_id]))}">
+										<img src="{$pd.goods_pic}" width="160" height="160">
+										<p class="goods_name_tp2">{$pd.goods_name}</p>
+										<p class="goods_price_tp2"><em>￥</em><span>{$pd.goods_price}</span></p>
+									</a>
+								</li>
+								</foreach>
+							</ul>
+						</div>
+						</foreach>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--1F-e-->
+		<div class="tpshop2_0_brand ma-to-10 p">
+			<div class="w1224 bggc">
+				<ul>
+					<foreach name="wb[brand_list]" item="bd">
+					<li>
+						<a href="{:U('Goods/goodsList',array('brand_id'=>$bd[brand_id]))}"><img class="lazy" data-original="{$bd.brand_pic|default='/public/images/icon_goods_thumb_empty_300.png'}" src="" title="{$bd.brand_name}"/></a>
+					</li>
+					</foreach>
+				</ul>
+			</div>
+		</div>
+		</foreach>
+		<!--左侧边栏-->
+		<div class="sideleft-nav" id="sideleft">
+			<div class="first-l">楼层导航</div>
+			<ul>
+				<foreach name="web_list" item="vo" key="k">
+					<li class="<if condition='$k eq 0'>sid-red</if>">
+						<a href="javascript:;"><i></i>{$vo[tit][title]}</a>
+					</li>
+				</foreach>
+			</ul>
+		</div>
+		<!--左侧边栏-->
+		<include file="public/footer"/>
+		<include file="public/sidebar_cart" />
+		<script src="__STATIC__/js/lazyload.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/js/headerfooter.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATIC__/js/carousel.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function sidebarRollChange() {  //首页侧边栏滚动改变楼层
+				var $_floorList=$('.tpshop2_0_floor');
+				var $_sidebar=$('#sideleft');
+				$_sidebar.find('li').click(function () { //点击切换楼层
+					$('html,body').animate({'scrollTop':$_floorList.eq($(this).index()).offset().top},500);
+				});
+				$(window).scroll(function(){
+					var scrollTop=$(window).scrollTop();
+					/*显示左边侧边栏*/
+					if(scrollTop<$_floorList.eq(0).offset().top-$(window).height()/2){ //还没滚到到楼层或向上滚出楼层隐藏侧边栏
+						$_sidebar.hide();
+						return;
+					}
+					$_sidebar.show(); //左边侧边栏显示
+					/*滚动改变侧边栏的状态*/
+					for(var j=0; j<$_floorList.length;j++){
+						if(scrollTop>$_floorList.eq(j).offset().top-$(window).height()/2){
+							$_sidebar.find('li').eq(j).addClass('sid-red').siblings().removeClass('sid-red');
+						}
+					};
+				})
+			}
+			sidebarRollChange();
+
+			$(function() {
+				$('.categorys .dd').show();//首页商品分类显示
+				$(".carousel").carousel();//轮播自动播放
+			});
+
+			//轮播图小圆点
+			$(function() {
+				var imgle = $("#myCarousel .carousel-inner .item").length;
+				for(var i = 0; i < imgle; i++) {
+					$('#myCarousel ol.carousel-indicators').append("<li data-target=" + "#myCarousel" + " data-slide-to=" + i + " class=" + "" + "></li>")
+				}
+				$('ol.carousel-indicators li:first').addClass('active');
+			});
+
+			//品牌logo
+			$(function() {
+				var op = 500;
+				$('.tpshop2_0_brand ul li').hover(function() {
+					if(!$(this).hasClass('b')) {
+						$(this).stop().animate({
+							opacity: "1"
+						}, op).siblings().stop().animate({
+							opacity: "0.5"
+						}, op);
+					}
+				}, function() {
+					if(!$(this).hasClass('b')) {
+						$(this).stop().animate({
+							opacity: "1"
+						}, op).siblings().stop().animate({
+							opacity: "1"
+						}, op);
+					}
+				})
+			})
+			//楼层横向导航
+			$(function(){
+				$('ul.f-tab li').hover(function(){
+					$(this).addClass('z-select').siblings().removeClass('z-select');
+					var page_id = $(this).data('id');
+					var floot_page = $(this).data('floot');
+					$('.'+floot_page).hide();
+					$('#'+page_id).show();
+				})
+			})
+			//公告/促销切换
+			$(function(){
+				$('.bn_box span').hover(function(){
+					$(this).addClass('action').siblings().removeClass('action');
+					$('.bulletin .content').hide();
+					if($(this).hasClass('box_prom')){
+						$('.box_prom_content').show();
+					}else{
+						$('.box_ad_content').show();
+					}
+				})
+			})
+
+			function showul(obj){
+				var fid = $(obj).attr('fid');
+				var nky = $(obj).attr('rel');
+				$('#floor'+fid).find('.content_goods_sh').hide();
+				$('#floor'+fid).find('#wbg'+nky).show();
+			}
+		</script>
+	</body>
+</html>

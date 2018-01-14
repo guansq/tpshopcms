@@ -1,0 +1,54 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺设置</div>
+    <div class="main-content" id="mainContent">
+<style>
+.mb-sliders li { width: 225px; height: 168px; display: inline-block; padding: 3px; margin: 3px; border: 1px solid #ccc; }
+.mb-sliders img { max-width: 100%; max-height: 100%; display: block; margin: 3px auto; }
+.img-wrapper { width: 220px; height: 80px; overflow: hidden; }
+input{width: 220px;height: 30px;}
+.hint span{margin-left:15px;font-size: 14px;}
+.bt{background-color: #48CFAE;text-decoration:none;margin-left:10px;color: #FFF;height: 36px;border-radius: 5px;width:80px;cursor: pointer;}
+</style>
+<div class="tabmenu">
+    <ul class="tab pngFix">
+	  	<li <if condition="ACTION_NAME eq 'store_setting'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_setting')}">店铺设置</a></li>
+	  	<li <if condition="ACTION_NAME eq 'store_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_slide')}">幻灯片设置</a></li>
+	  	<li <if condition="ACTION_NAME eq 'store_theme'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/store_theme')}">店铺主题</a></li>
+	  	<li <if condition="ACTION_NAME eq 'mobile_slide'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/mobile_slide')}">手机店铺设置</a></li>
+        <li <if condition="ACTION_NAME eq 'getpoint'">class="active"<else/>class="normal"</if>><a  href="{:U('Store/getpoint')}">拾取店铺坐标</a></li>
+	</ul>	
+</div>
+<div class="alert alert-block mt10">
+  <ul>
+    <li>1、可以在此处对店铺坐标设置，修改后的设置需要点击“保存修改”按钮进行保存</li>
+    <li>2、在坐标拾取系统获取店铺坐标,并分别复制到“经纬度”输入框里面</li>
+    <li>3、输入坐标时经度与纬度之间用‘英文状态’下的逗号“ , ”隔开，如：116.431865,39.918477</li>
+    <li>4、拾取坐标时尽可能准确，以方便用户能准确找到您的店铺位置</li>
+  </ul>
+</div>
+<div class="ncsc-form-default">
+    <dl>
+      <dt></dt>
+      <dd>
+          <form method="post" action="?">
+              <p class="hint">
+                  <span>店铺经纬度：<input type="text" id="coordinate" name="coordinate" placeholder="将拾取坐标复制到这里" value="{$coordinate.longitude},{$coordinate.latitude}"></span>
+                  <button class="bt">保存修改</button>
+              </p>
+          </form>
+      </dd>
+    </dl>
+    <div style="height: 970px;width:800px;">
+        <iframe height="970" width="970" src="http://api.map.baidu.com/lbsapi/getpoint/index.html?qq-pf-to=pcqq.group"></iframe>
+	</div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.flexslider-min.js"></script>
+</div>
+</div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

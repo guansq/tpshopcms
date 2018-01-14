@@ -1,0 +1,100 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>账号<i class="icon-angle-right"></i>账号组</div>
+		<div class="main-content" id="mainContent">
+			<div class="item-publish">
+				<form action="{:U('Admin/roleSave')}" id="roleform" method="post">
+					<input type="hidden" name="group_id" value="{$detail.group_id}" />
+					<div class="ncsc-form-goods">
+						<!--<h3 id="demo1"></h3>-->
+						<dl>
+							<dt><i class="required">*</i> 组名称：</dt>
+							<dd>
+								<input type="text" name="group_name" id="group_name" value="{$detail.group_name}" class="text w400">
+								<p class="hint">设定权限组名称，方便区分权限类型。</p>
+							</dd>
+						</dl>
+						<dl>
+							<dt><i class="required">*</i> 权限：<br/><input id="btn_select_all" name="btn_select_all" class="checkbox" type="checkbox"/>(全选)</dt>
+							<dd>
+								<foreach name="modules" item="menu" key="kk">
+									<div class="ncsc-account-container">
+										<h4>
+											<input id="{$kk}" type="checkbox" class="checkbox" nctype="btn_select_module"/>
+											<label for="{$kk}">{$group[$kk]}</label>
+										</h4>
+										<ul class="ncsc-account-container-list">
+											<foreach name="menu" item="vv">
+												<li>
+													<input id="{$vv.id}" <if condition="$vv.enable eq 1">checked</if> type="checkbox" class="checkbox" name="act_limits[]" value="{$vv.id}" />
+													<label for="{$vv.id}">{$vv.name}</label>
+												</li>
+											</foreach>
+										</ul>
+									</div>
+								</foreach>
+							</dd>
+						</dl>
+						<dl>
+							<dt><i class="required">*</i>消息接收权限：<br/><input id="smt_select_all" class="checkbox" type="checkbox"/>(全选)</dt>
+							<dd>
+								<div class="ncsc-account-container">
+									<ul class="ncsc-account-container-list" style="width: 99%; padding-left: 1%;">
+										<foreach name="smt_list" item="val">
+											<li style="width: 20%;">
+												<input id="{$val['smt_code']}" class="checkbox" type="checkbox" <in name="val[smt_code]" value="$detail.smt_limits">checked</in> name="smt_limits[]" value="{$val['smt_code']}" />
+												<label for="{$val['smt_code']}">{$val['smt_name']}</label>
+											</li>
+										</foreach>
+									</ul>
+								</div>
+							</dd>
+						</dl>
+					</div>
+					<div class="bottom tc hr32">
+						<label class="submit-border">
+							<input class="submit" value="保存" type="button" onclick="roleSubmit();">
+						</label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+	$(document).ready(function(){
+		$('#btn_select_all').on('click', function() {
+			if($(this).prop('checked')) {
+				$(this).parents('dl').find('input:checkbox').prop('checked', true);
+			} else {
+				$(this).parents('dl').find('input:checkbox').prop('checked', false);
+			}
+		});
+
+		$('[nctype="btn_select_module"]').on('click', function() {
+			if($(this).prop('checked')) {
+				$(this).parents('.ncsc-account-container').find('input:checkbox').prop('checked', true);
+			} else {
+				$(this).parents('.ncsc-account-container').find('input:checkbox').prop('checked', false);
+			}
+		});
+
+		$('#smt_select_all').click(function(){
+			var vt = $(this).is(':checked');
+			$(this).parents('dl').find('input:checkbox').prop('checked', vt);
+		})
+	});
+
+	function roleSubmit(){
+		if($('#group_name').val() == '' ){
+			layer.alert('角色名称不能为空', {icon: 2});  //alert('少年，角色名称不能为空');
+			return false;
+		}
+		$('#roleform').submit();
+	}
+</script>
+</body>
+</html>

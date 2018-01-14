@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>商家入驻</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__PUBLIC__/js/pc_common.js"></script>
+	<link href="__STATIC__/css/common.min.css" rel="stylesheet" type="text/css" />
+	<link href="__STATIC__/css/qt_style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<include file="public/sign-header"/>
+<div class="gome-wrap bg">
+	<div style="position: relative;top: -40px;left: 350px;">
+    	<a href="/" target="_blank" class="item fl"><img height="60" width="160" src="{$tpshop_config['shop_info_store_logo']}"></a>
+    </div>
+	<div class="gome-layout-area">
+        <ul class="gome-nav">
+            <li><a href="{:U('Newjoin/index')}" target="_blank">招商首页</a></li>
+        	<tpshop sql="select * from `__PREFIX__article_cat` where parent_id=2" key="k" item='v'>
+            	<li><a href="{:U('Newjoin/question',array('cat_id'=>$v[cat_id]))}" target="_blank">{$v.cat_name}</a></li>
+            </tpshop>
+        </ul>
+    </div>
+</div>
+
+<div class="gome-layout-area pb50 clearfix">
+    	<ul class="steps clearfix">
+        	<li class="first prev ok"><b>1</b><span class="going"></span><em class="f">入驻须知</em></li>
+        	<li class="prev ok"><b>2</b><span class="going"></span><em class="f">填写公司信息</em></li>
+        	<li class="prev ok"><b>3</b><span class="going"></span><em class="f">填写店铺信息</em></li>
+        	<li class="cur ok"><b>4</b><span class="going"></span><em class="f">资质上传</em></li>
+        	<li class="last"><b>5</b><em class="f">等待审核</em></li>
+        </ul>
+        <form id="remark_info" action=""  method="post" enctype="multipart/form-data">
+        <div class="settled-agreement-table pb50">
+        	<div class="agreement-title"><span>资质上传</span></div>
+            <div class="tips">
+            	<p><img src="__STATIC__/images/icon01.gif">所有资质必须清晰可辨并加盖贵司红章/彩章（即在资质复印件上加盖贵司自己的红章，再扫描或拍照上传）</p>
+                <p><img src="__STATIC__/images/icon01.gif">以下所需要上传电子版资质仅支持JPG、JPEG、GIF、PNG格式的图片，大小不超过2M，且必须加盖企业彩色公章。</p>
+            </div>
+            <div class="table-part pb50 clearfix">
+            	<div class="table-part-title">基本资质</div>
+                <div class="update-part clearfix width985">
+                	<div class="update-til width985">
+                		<p class="fl">企业营业执照副本复印件（需加盖红章）</p>
+                		<a href="/public/images/not_adv.jpg" target="_blank" class="blue fl mr10">查看范本</a>
+                		<div class="update-btn width-170 fl"><input type="file" name="business_licence_cert" id="file_upload_0" data-val="{$apply.business_licence_cert}"/></div>
+                    </div>
+                    	<ul class="update-con ml30 mt4 clearfix">
+	                    	
+	                    </ul>
+                </div>
+                <div class="update-part width985">
+                	<div class="update-til width985">
+                		<p class="fl">税务登记证复印件（国税、地税）（需加盖红章）</p>
+                		<a href="/public/images/not_adv.jpg" target="_blank" class="blue fl mr10">查看范本</a>
+                		<div class="update-btn width-170 fl"><input type="file" name="taxpayer_cert" id="file_upload_1" data-val="{$apply.taxpayer_cert}"/></div>
+                    </div>
+                    
+                    	<ul class="update-con ml30 mt4 clearfix">
+	                    	
+	                    </ul>
+                    
+                </div>
+                <div class="update-part width985">
+                	<div class="update-til width985">
+                		<p class="fl">织机构代码证复印件（需加盖红章）</p>
+                		<a href="/public/images/not_adv.jpg" target="_blank" class="blue fl mr10">查看范本</a>
+                		<div class="update-btn width-170 fl"><input type="file" name="orgnization_cert" id="file_upload_2" data-val="{$apply.orgnization_cert}"/></div>
+                    </div>
+                    
+                    	<ul class="update-con ml30 mt4 clearfix">
+	                    	
+	                    </ul>
+                    
+                </div>
+                <div class="update-part width985">
+                	<div class="update-til width985">
+                		<p class="fl">法人身份证正反面复印件或护照（需加盖红章）</p>
+                		<a href="/public/images/not_adv.jpg" target="_blank" class="blue fl mr10">查看范本</a><p class="fl">身份证/护照号码：</p>
+                		<input type="text" maxlength="18" name="legal_identity" value="{$apply.legal_identity}" class="input145 fl mr10" />
+                		<div class="update-btn width-170 fl"><input type="file" name="legal_identity_cert" id="file_upload_4" data-val="{$apply.legal_identity_cert}"/></div>
+                    </div>
+                    
+                    	<ul class="update-con ml30 mt4 clearfix">
+	                    	
+	                    </ul>
+                    
+                </div>
+                <div class="update-part width985">
+                	<div class="update-til width985">
+                		<p class="fl">店铺负责人身份证正反面复印件（需加盖红章）</p>
+                		<a href="/public/images/not_adv.jpg" target="_blank" class="blue fl mr10 ">查看范本</a><p class="fl">身份证号码：</p>
+                		<input type="text" maxlength="18" id="store_person_identity" name="store_person_identity" value="{$apply.store_person_identity}" class="input145 fl mr10" />
+                		<div class="update-btn width-170 fl"><input type="file" name="store_person_cert" id="file_upload_5" data-val="{$apply.store_person_cert}"/></div>
+                    </div>
+                    
+                    	<ul class="update-con ml30 mt4 clearfix">
+	                    	
+	                    </ul>
+                    
+                </div>
+            </div>
+            <if condition="$apply['apply_state'] eq 2">
+                 <div class="tips">
+            		<p><img src="__STATIC__/images/icon01.gif">{$apply.review_msg}</p>
+            	</div>
+            </if>
+            <div class="gome-btn">
+                <a href="javascript:preStep();" class="gome-btn-gray">上一步</a>
+                <a href="javascript:nextStep();" class="gome-btn-red">保存资料</a>
+            </div>
+        </div></form>
+    </div>
+<include file="public/footer"/>
+<script>
+function preStep(){
+	window.location.href = "{:U('Newjoin/seller_info')}";
+}
+
+function nextStep(){
+	if($('#store_person_identity').val().length != 18){
+        showErrorMsg("请填写正确的身份证号");
+		$("#store_person_identity").focus();
+		return;
+	}
+	var flag = true
+	$('input[type="file"]').each(function(i,o){
+		if($(o).val() == '' && $(o).attr('data-val') == ''){
+			flag = false;
+		}
+	});
+	if(flag == false){
+        showErrorMsg("请上传必要证件");
+		return;
+	}
+	document.getElementById('remark_info').submit();
+}
+/**
+ *用户表单验证公共JS
+ * */
+//提示弹窗
+function showErrorMsg(msg){
+    layer.alert(msg, {icon: 2});
+}
+</script>
+</body>
+</html>

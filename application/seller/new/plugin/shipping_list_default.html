@@ -1,0 +1,67 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>发货设置</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a>{$plugin.name}配送区域配置</a></li>
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form method="post" id="addEditBrandForm">
+                    <input type="hidden" name="id" value="{$setting.shipping_area_id}">
+                    <input type="hidden" name="default" value="1">
+                    <dl>
+                        <dt><i class="required">*</i>配送区域名称：</dt>
+                        <dd>
+                            <input class="w400 text" readonly type="text" value="{$setting.shipping_area_name}" name="shipping_area_name"/>
+                            <p class="hint">配送区域名称。例如：珠三角地区.</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            首&nbsp;&nbsp;重
+                            <select name="config[first_weight]">
+                                <for start="500" end="8000" step="500" name="v">
+                                    <option value="{$v}" <if condition="$setting[config][first_weight] eq $v">selected="selected"</if> >{$v}</option>
+                                </for>
+                            </select>
+                            克以内费用：
+                        </dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$setting.config.money}" name="config[money]" maxlength="30" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                            <p class="hint">单位：元</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            续重每
+                            <select name="config[second_weight]">
+                                <for start="500" end="8000" step="500" name="v">
+                                    <option value="{$v}" <if condition="$setting[config][second_weight] eq $v">selected="selected"</if> >{$v}</option>
+                                </for>
+                            </select>
+                            克或其零数的费用：
+                        </dt>
+                        <dd>
+                            <input class="w400 text" type="text" value="{$setting.config.add_money}" name="config[add_money]" maxlength="30" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                            <p class="hint">单位：元</p>
+                        </dd>
+                    </dl>
+
+                    <div class="bottom"><label class="submit-border">
+                        <input type="submit" class="submit" value="提交"></label>
+                    </div>
+                </form>
+            </div>
+            <script type="text/javascript">
+
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

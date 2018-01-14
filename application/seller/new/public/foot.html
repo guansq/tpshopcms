@@ -1,0 +1,125 @@
+<div id="cti">
+  <div class="wrapper">
+    <ul>
+          </ul>
+  </div>
+</div>
+<div id="faq">
+  <div class="wrapper">
+      </div>
+</div>
+
+<div id="footer">
+  <p><a href="/">首页</a>
+                | <a  href="http://www.tpshop.cn">招聘英才</a>
+                | <a  href="http://www.tpshop.cn">合作及洽谈</a>
+                | <a  href="http://www.tpshop.cn">联系我们</a>
+                | <a  href="http://www.tpshop.cn">关于我们</a>
+                | <a  href="http://www.tpshop.cn">物流自取</a>
+                | <a  href="http://www.tpshop.cn">友情链接</a>
+  </p>
+  Copyright 2017 <a href="" target="_blank">TPshop商城</a> All rights reserved.<br />本演示来源于
+  <a href="http://www.tpshop.cn" target="_blank">www.tpshop.cn</a>  
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.cookie.js"></script>
+<link href="__PUBLIC__/static/js/perfect-scrollbar.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__PUBLIC__/static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/qtip/jquery.qtip.min.js"></script>
+<link href="__PUBLIC__/static/js/qtip/jquery.qtip.min.css" rel="stylesheet" type="text/css">
+<div id="tbox">
+  <div class="btn" id="msg"><a href="{:U('Seller/index/store_msg')}"><i class="msg"><notempty name="storeMsgNoReadCount"><em>{$storeMsgNoReadCount}</em></notempty></i>站内消息</a></div>
+  <div class="btn" id="im"><i class="im"><em id="new_msg" style="display:none;"></em></i>
+      <a href="tencent://message/?uin={$tpshop_config['shop_info_qq3']}&Site=TPshop商城&Menu=yes">在线联系</a>
+  </div>
+  <div class="btn" id="gotop" style="display: block;"><i class="top"></i><a href="javascript:void(0);">返回顶部</a></div>
+</div>
+<script type="text/javascript">
+var current_control = '{$Think.CONTROLLER_NAME}/{$Think.ACTION_NAME}';
+$(document).ready(function(){
+    //添加删除快捷操作
+    $('[nctype="btn_add_quicklink"]').on('click', function() {
+        var $quicklink_item = $(this).parent();
+        var item = $(this).attr('data-quicklink-act');
+        if($quicklink_item.hasClass('selected')) {
+            $.post("{:U('Seller/Index/quicklink_del')}", { item: item }, function(data) {
+                $quicklink_item.removeClass('selected');
+                var idstr = 'quicklink_'+ item;
+                $('#'+idstr).remove();
+            }, "json");
+        } else {
+            var scount = $('#quicklink_list').find('dd.selected').length;
+            if(scount >= 8) {
+                layer.msg('快捷操作最多添加8个', {icon: 2,time: 2000});
+            } else {
+                $.post("{:U('Seller/Index/quicklink_add')}", { item: item }, function(data) {
+                    $quicklink_item.addClass('selected');
+                    if(current_control=='Index/index'){
+                        var $link = $quicklink_item.find('a');
+                        var menu_name = $link.text();
+                        var menu_link = $link.attr('href');
+                        var menu_item = '<li id="quicklink_' + item + '"><a href="' + menu_link + '">' + menu_name + '</a></li>';
+                        $(menu_item).appendTo('#seller_center_left_menu').hide().fadeIn();
+                    }
+                }, "json");
+            }
+        }
+    });
+    //浮动导航  waypoints.js
+    $("#sidebar,#mainContent").waypoint(function(event, direction) {
+        $(this).parent().toggleClass('sticky', direction === "down");
+        event.stopPropagation();
+        });
+    });
+    // 搜索商品不能为空
+    $('input[nctype="search_submit"]').click(function(){
+        if ($('input[nctype="search_text"]').val() == '') {
+            return false;
+        }
+    });
+
+	function fade() {
+		$("img[rel='lazy']").each(function () {
+			var $scroTop = $(this).offset();
+			if ($scroTop.top <= $(window).scrollTop() + $(window).height()) {
+				$(this).hide();
+				$(this).attr("src", $(this).attr("data-url"));
+				$(this).removeAttr("rel");
+				$(this).removeAttr("name");
+				$(this).fadeIn(500);
+			}
+		});
+	}
+	if($("img[rel='lazy']").length > 0) {
+		$(window).scroll(function () {
+			fade();
+		});
+	};
+	fade();
+	
+    function delfunc(obj){
+    	layer.confirm('确认删除？', {
+    		  btn: ['确定','取消'] //按钮
+    		}, function(){
+    		    // 确定
+   				$.ajax({
+   					type : 'post',
+   					url : $(obj).attr('data-url'),
+   					data : {act:'del',del_id:$(obj).attr('data-id')},
+   					dataType : 'json',
+   					success : function(data){
+                        layer.closeAll();
+   						if(data==1){
+   							layer.msg('操作成功', {icon: 1});
+   							$(obj).parent().parent().parent().remove();
+   						}else{
+   							layer.msg(data, {icon: 2,time: 2000});
+   						}
+   					}
+   				})
+    		}, function(index){
+    			layer.close(index);
+    			return false;// 取消
+    		}
+    	);
+    }
+</script>

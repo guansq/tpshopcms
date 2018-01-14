@@ -1,0 +1,268 @@
+<include file="public/head"/>
+<style>
+
+
+.ncsc-order-contnet {
+    margin-top: 10px;
+}
+
+.ncsc-default-table tbody td{
+	text-align: left;
+}
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>修改订单</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" action="{:U('Order/edit_order')}" id="order-add">
+                    <div class="ncsc-form-goods active" id="tab_tongyong">
+                        <h3 id="demo1">修改订单信息</h3>
+                        <dl>
+                            <dt>费用信息:</dt>
+                            <dd>
+                            	<input type="hidden" name="order_id" value="{$order.order_id}">
+                                订单总额：{$order.total_amount} = 商品总价：{$order.goods_price}+运费:{$order.shipping_price}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>收货人：</dt>
+                            <dd>
+                                <input type="text" name="consignee" id="consignee" value="{$order.consignee}" class="text"> 
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>手机号码：</dt>
+                            <dd>
+                                  <input type="text" name="mobile" id="mobile" value="{$order.mobile}" class="text">
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>地址：</dt>
+                            <dd>
+                                <select onchange="get_city(this,0)" id="province" name="province">
+                                    <option value="0">选择省份</option>
+                                    <volist name="province" id="vo">
+                                        <option value="{$vo.id}" >{$vo.name}</option>
+                                    </volist>
+                                </select>
+                                <select onchange="get_area(this)" id="city" name="city">
+                                    <option value="0">选择城市</option>
+                                    <volist name="city" id="vo">
+                                        <option value="{$vo.id}">{$vo.name}</option>
+                                    </volist>
+                                </select>
+                                <select id="district" name="district" >
+                                    <option value="0">选择区域</option>
+                                    <volist name="area" id="vo">
+                                        <option value="{$vo.id}">{$vo.name}</option>
+                                    </volist>
+                                </select>
+                                <input name="address" id="address" value="{$order.address}" class="text" style="width:250px;vertical-align: middle;" placeholder="详细地址" >
+                            </dd> 
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>配送物流：</dt>
+                            <dd>
+                                <select id="shipping" name="shipping">
+                                    <volist name="shipping_list" id="shipping">
+                                        <option <if condition="$order[shipping_code] eq $shipping[code]">selected</if> value="{$shipping.code}" >{$shipping.name}</option>
+                                    </volist>
+                                </select>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>支付方式：</dt>
+                            <dd>
+                                <select id="payment" name="payment">
+                                    <volist name="payment_list" id="payment">
+                                        <option <if condition="$order[pay_code] eq $payment[code]">selected</if> value="{$payment.code}" >{$payment.name}</option>
+                                    </volist>
+                                </select>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>发票抬头：</dt>
+                            <dd>
+                                <input type="text" name="invoice_title" value="{$order.invoice_title}" class="text" placeholder="发票抬头">
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>添加商品：</dt>
+                            <dd>
+                                <div class="form-group">
+                                       <div class="col-xs-2">                                        
+                                        <a class="ncbtn ncbtn-grapefruit" href="javascript:void(0);" onclick="selectGoods()" ><i class="fa fa-search"></i>添加商品</a>
+                                       </div>                                                            
+                                       <div class="col-xs-2">
+                                           <span id="err_goods" style="color:#F00; display:none;">请添加下单商品</span>
+                                       </div>                                            
+                                   </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>商品列表：</dt>
+                            <dd>
+                                <div class="form-group">
+                                       	<div class="ncsc-order-contnet">
+                                       		<table class="ncsc-default-table order">
+                                       			<thead>
+	                                       			<tr>
+	                                       				<th class="w10">&nbsp;</th>
+										                <td ccolspan="2">商品名称</td>
+										                <td class="w120">规格</td>         
+										                <td class="w100">价格</td>								                
+										                <td class="w100">数量</td>
+										                <td class="w80" style="text-align:center">操作</td>
+										            </tr>
+									            </thead>
+									            <tbody>
+									            <foreach name="orderGoods" item="vo">
+									            	<tr>
+									            		<td class="w10">&nbsp;</td>
+										                <td >{$vo.goods_name}</td>            
+										                <td >{$vo.spec_key_name}</td>
+										                <td >{$vo.goods_price}</td>
+										                <td>
+										                <input type="hidden" name="spec[]" rel="{$vo.goods_id}" value="{$vo.spec_key}">
+										                <input type="text" class="input-sm" name="old_goods[{$vo.rec_id}]" value="{$vo.goods_num}" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"></td>
+										                <td style="text-align:center">
+                                                            <span>
+                                                                <a class="ncbtn ncbtn-lightgray" href="javascript:void(0)" onclick="delRow(this)"><p>删除</p></a>
+                                                            </span>
+                                                        </td>
+									           		</tr>
+									           </foreach>
+									           </tbody>
+                                       		</table>
+                                       	   </div>
+                                       </div>                                   
+                                       <div class="form-group">                                       
+                                            <div class="ncsc-order-contnet" id="goods_td">
+                                            </div>                                                                                                                                                      
+	                                   </div>  
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><i class="required">*</i>管理员备注：</dt>
+                            <dd>
+                                <textarea  name="admin_note" class="textarea h60 w400 valid">{$order.admin_note|htmlspecialchars_decode}</textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input nctype="formSubmit" class="submit" value="保存" type="submit" >
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+/* 用户订单区域选择 */
+$(document).ready(function(){
+	$('#province').val({$order.province});
+	$('#city').val({$order.city});
+	$('#district').val({$order.district});
+	$('#shipping_id').val({$order.shipping_id});
+	
+	$("#order-add").validate({
+		debug: true, //调试模式取消submit的默认提交功能   
+		focusInvalid: false, //当为false时，验证无效时，没有焦点响应  
+        onkeyup: false,   
+        submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form   
+        	if(($("input[name^='goods_id']").length ==0) && ($("input[name^='old_goods']").length == 0)){
+        		   layer.alert('订单中至少要有一个商品', {icon: 2});  // alert('少年,订单中至少要有一个商品');
+        		   return ;
+        	}
+        	form.submit();   //提交表单   
+        },  
+        ignore:":button",	//不验证的元素
+        rules:{
+        	consignee:{
+        		required:true
+        	},
+        	mobile:{
+        		required:true
+        	},
+        	province:{
+        		required:true
+        	},
+        	city:{
+        		required:true
+        	},
+        	district:{
+        		required:true
+        	},
+        	address:{
+        		required:true
+        	},
+        	admin_note:{
+        		required:true
+        	}
+        }, 
+        messages:{
+        	consignee:{
+        		required:"请填写收货人"
+        	},
+        	mobile:{
+        		required:"请填写手机号码"
+        	},
+        	province:{
+        		required:"请选择省份"
+        	},
+        	district:{
+        		required:"请选择区县"
+        	},
+        	address:{
+        		required:"请填写详细地址"
+        	},
+        	admin_note:{
+        		required:"请填写管理员备注"
+        	}
+        }
+	});
+	
+});
+// 选择商品
+function selectGoods(){
+    var url = "{:U('Seller/Order/search_goods')}";
+    layer.open({
+        type: 2,
+        title: '选择商品',
+        shadeClose: true,
+        shade: 0.8,
+        area: ['60%', '60%'],
+        content: url, 
+    });
+}
+
+function delRow(obj){
+	$(obj).parent().parent().parent().remove();
+	var length = $("#goos_table tr").length;
+	if(length == 1){
+		$('#goods_td').empty();
+	}
+}
+
+// 选择商品返回
+function call_back(table_html)
+{
+	$('#goods_td').empty().html('<table id="goos_table" class="ncsc-default-table order">'+table_html+'</table>');
+	//过滤选择重复商品
+	$('input[name*="spec"]').each(function(i,o){
+		if($(o).val()){
+			var name='goods_id['+$(o).attr('rel')+']['+$(o).val()+'][goods_num]';
+			$('input[name="'+name+'"]').parent().parent().remove();
+		}
+	});
+	layer.closeAll('iframe');
+} 
+ 
+</script>
+</body>
+</html>

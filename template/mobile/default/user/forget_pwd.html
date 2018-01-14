@@ -1,0 +1,66 @@
+<include file="public/header" title="找回密码" body=""/>
+<include file="public/header_nav" title="找回密码" href="javascript:history.back(-1)"/>
+    <div class="loginsingup-input singupphone findpassword">
+        <form action="{:U('User/forget_pwd')}" method="post" id="fpForm">
+            <div class="content30">
+                <div class="lsu bk">
+                    <span>账号</span>
+                    <input type="text" name="username" id="username" value="" placeholder="用户名 / 邮箱 / 手机号"/>
+                </div>
+                <div class="lsu bk ma">
+                    <input type="text" name="verify_code" id="verify_code" value="" placeholder="请输入验证码"/>
+                    <span><img src="/index.php?m=Mobile&c=User&a=verify&type=forget" id="verify_code_img" onclick="verify()"></span>
+                </div>
+                <div class="lsu submit">
+                    <input type="button" id="btn_submit"  value="下一步" />
+                </div>
+            </div>
+        </form>
+    </div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+</body>
+<script>
+    //加载验证码
+    function verify(){
+        $('#verify_code_img').attr('src','/index.php?m=Mobile&c=User&a=verify&type=forget&r='+Math.random());
+    }
+
+    $("#btn_submit").click(function(){
+        var username = $.trim($('#username').val());
+        var verify_code = $.trim($('#verify_code').val());
+        if(username == ' '){
+            showErrorMsg('账号不能为空');
+            return false;
+        }
+       if(verify_code == ''){
+           showErrorMsg('验证码不能为空');
+           return false;
+       }
+
+        $.ajax({
+            type:'POST',
+            url:"{:U('mobile/User/forget_pwd')}",
+            dataType:'JSON',
+            data:$("#fpForm").serialize(),
+            success:function(data){
+                if(data.status == 1){
+                    location.href=data.url;
+                }else {
+                    showErrorMsg(data.msg);
+                    verify();
+                }
+            },
+            error:function(){
+                showErrorMsg('网络错误，请刷新后再试！');
+            }
+        })
+    });
+    /**
+     * 提示弹窗
+     * @param msg
+     */
+    function showErrorMsg(msg){
+        layer.open({content:msg,time:2});
+    }
+</script>
+</html>

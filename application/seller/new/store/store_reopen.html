@@ -1,0 +1,48 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺信息</div>
+    <div class="main-content" id="mainContent">
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="normal"><a  href="{:U('Store/bind_class_list')}">经营类目</a></li>
+  <li class="normal"><a  href="{:U('Store/store_info')}">店铺信息</a></li>
+  <!--<li class="active"><a  href="{:U('Store/store_reopen')}">申请续签</a></li>-->
+  </ul>
+</div>
+<div class="alert alert-block mt10">
+  <ul>
+    <li>1. 店铺到期前 30 天可以申请店铺续签。</li>
+        <li>2. 您的店铺已签约至 1970-01-01，自 1970-01-01 起的 30 天内可以申请续签。</li>
+      </ul>
+</div>
+<table class="ncsc-default-table">
+  <thead>
+    <tr>
+      <th class="w10"></th>
+      <th>申请时间</th>
+      <th>收费标准(元/年)</th>
+      <th>续签时长(年)</th>
+      <th>付款金额(元)</th>
+      <th>续签起止有效期</th>
+      <th>付款凭证</th>
+      <th>状态</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+      </tbody>
+</table>
+<div class="ncsc-form-default">
+
+</div>
+  </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

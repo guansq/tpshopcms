@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的账户-{$tpshop_config['shop_info_store_title']}</title>
+		<meta name="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+		<meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<link rel="shortcut  icon" type="image/x-icon" href="__STATIC__/images/favicon.ico" media="screen"  />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__PUBLIC__/js/global.js"></script>
+		<script src="__PUBLIC__/js/pc_common.js"></script>
+	</head>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>我的订单</span>
+			    </div>
+			    <div class="home-main">
+					<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+			    		<div class="ordercencel">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>已取消订单</h1>
+			    				</div>
+			    				<div class="returngoods cancelorder">
+					    			<div class="book-tit">
+					    				<ul>
+					    					<li class="sx2">商品编号</li>
+					    					<li class="sx1">商品名称</li>
+					    					<li class="sx3">最新实价</li>
+					    					<li class="sx4 ">赠送积分</li>
+					    					<li class="sx5">商品数量</li>
+					    					<li class="sx6 ">操作</li>
+					    				</ul>
+					    			</div>
+					    			<volist name="order_info.order_goods" id="good">
+					    			<div class="book-tit conet-canc p">
+					    				<ul>
+					    					<li class="sx2">{$good.goods_sn}</li>
+					    					<li class="sx1">
+					    						<p class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">【{$store.store_name}】{$good.goods_name}</a></p>
+					    					</li>
+					    					<li class="sx3"><em>￥</em>{$good.member_goods_price}</li>
+					    					<li class="sx4">{$good.give_integral}</li>
+					    					<li class="sx5">{$good.goods_num}</li>
+					    					<li class="sx6"><a class="plusshcan" href="javascript:;AjaxAddCart({$good.goods_id},1,0)">放入购物车</a></li>
+					    				</ul>
+					    			</div>
+					    			</volist>
+								</div>
+				    		</div>
+			    		</div>
+			    		<div class="ordercencel ma-to-10">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>订单信息</h1>
+			    				</div>
+			    				<div class="sheet">
+			    					 <table border="1" width="100%" cellspacing="" cellpadding="">
+			    					 	<tr>
+			    					 		<td><span>订单编号</span></td>
+			    					 		<td><span>{$order_info.order_sn}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>支付方式</span></td>
+			    					 		<td><span>{$order_info.pay_name|default='在线支付'}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>配送方式</span></td>
+			    					 		<td><span>{$order_info.shipping_name}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>下单时间</span></td>
+			    					 		<td><span>{$order_info.add_time|date='Y-m-d H:i:s',###}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>取消时间</span></td>
+			    					 		<td><span>{$cancel_info.log_time|date='Y-m-d H:i:s',###}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>取消原因</span></td>
+			    					 		<td><span>{$cancel_info.action_note}</span></td>
+			    					 	</tr>
+			    					 </table>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="ordercencel ma-to-10">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>收货人信息</h1>
+			    				</div>
+			    				<div class="sheet">
+			    					 <table border="1" width="100%" cellspacing="" cellpadding="">
+			    					 	<tr>
+			    					 		<td><span>收货人姓名</span></td>
+			    					 		<td><span>{$order_info.consignee}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>地址</span></td>
+			    					 		<td><span>{$regionLits[$order_info['province']]},{$regionLits[$order_info['city']]},
+                    							{$regionLits[$order_info['district']]},{$order_info.address}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>固定电话</span></td>
+			    					 		<td><span>手机号码：{$order_info.mobile|default='无'}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>电子邮件</span></td>
+			    					 		<td><span>{$order_info.email|default='无'}</span></td>
+			    					 	</tr>
+			    					 </table>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="ordercencel ma-to-10">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>发票信息</h1>
+			    				</div>
+			    				<div class="sheet">
+			    					 <table border="1" width="100%" cellspacing="" cellpadding="">
+			    					 	<tr>
+			    					 		<td><span>发票类型</span></td>
+			    					 		<td><span>电子发票</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>发票抬头</span></td>
+			    					 		<td><span>{$order_info.invoice_title}</span></td>
+			    					 	</tr>
+			    					 	<tr>
+			    					 		<td><span>发票内容</span></td>
+			    					 		<td><span>明细</span></td>
+			    					 	</tr>
+			    					 </table>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="ordercencel ma-to-10">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>订单备注</h1>
+			    				</div>
+			    				<div class="sheet">
+			    					 <p class="manon">{$order_info.user_note|default='无'}</p>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="ordercencel ma-to-10">
+				    		<div class="ddlb-ayh">
+				    			<div class="ddlb-tit">
+			                       <h1>结算信息</h1>
+			    				</div>
+			    				<div class="sheet">
+			    					 <table border="1" width="100%" cellspacing="" cellpadding="">
+			    					 	<tr>
+			    					 		<td><span>商品金额</span></td>
+			    					 		<td><span><a class="red">{$order_info.goods_price} </a>元</span></td>
+			    					 	</tr>
+										 <tr>
+											 <td><span>优惠券</span></td>
+											 <td><span><a class="red">-{$order_info.coupon_price|default=0.00}</a>元</span></td>
+										 </tr>
+										 <tr>
+											 <td><span>运费</span></td>
+											 <td><span><a class="red">{$order_info.shipping_price} </a>元</span></td>
+										 </tr>
+										 <tr>
+											 <td><span>余额支付</span></td>
+											 <td><span><a class="red">-{$order_info.user_money} </a>元</span></td>
+										 </tr>
+										 <tr>
+											 <td><span>积分抵扣</span></td>
+											 <td><span><a class="red">-{$order_info.integral_money} </a>元</span></td>
+										 </tr>
+										 <tr>
+											 <td><span>订单总金额</span></td>
+											 <td><span><a class="red">{$order_info.order_amount} </a>元</span></td>
+										 </tr>
+			    					 </table>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<include file="user/footer" />
+	</body>
+</html>

@@ -1,0 +1,60 @@
+<include file="public/min-header"/>
+<div class="ncsc-layout wrapper" style="width: 1000px;margin: 0px;">
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="main-content" id="mainContent">
+            <form method="post" action="" id="form-user">
+                <input type="hidden" name="cid" id="cid" value="{$cid}">
+                <table class="ncsc-default-table">
+				    <thead>
+				    <tr>
+				        <th class="w30 tl"></th>
+				        <th class="w100">商品名称</th>
+				        <th class="w100">价格</th>
+				        <th class="w100 tl">库存</th>
+				    </tr>
+				    </thead>
+				    <empty name="goodsList">
+				  	<tbody>
+				  		<tr>
+				      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+				    	</tr>
+				      </tbody>
+				  <else/> 
+				    <tbody>
+				    <volist name="goodsList" id="list">
+						<empty name="list[specGoodsPrice]">
+							<tr class="bd-line">
+								<td class="tl"></td>
+								<td>{$list.goods_name}</td>
+								<td>{$list.shop_price}</td>
+								<td class="tl">{$list.store_count}</td>
+							</tr>
+							<else/>
+							<volist name="list[specGoodsPrice]" id="spec">
+								<if condition="$spec.prom_type eq 3 AND $spec.prom_id eq $Request.param.id">
+									<tr class="bd-line">
+										<td class="tl"></td>
+										<td>{$list.goods_name} {$spec.key_name}</td>
+										<td>{$spec.price}</td>
+										<td class="tl">{$spec.store_count}</td>
+									</tr>
+								</if>
+							</volist>
+						</empty>
+				    </volist>
+				    </tbody>
+				    </empty>
+				    <tfoot>
+				    <tr>
+				        <td colspan="20">
+				            {$page}
+				        </td>
+				    </tr>
+				    </tfoot>
+				</table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

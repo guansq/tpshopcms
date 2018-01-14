@@ -1,0 +1,92 @@
+<style>
+    a.ncbtn-mini i, a.ncbtn i {
+        vertical-align: bottom;
+    }
+</style>
+<table class="ncsc-default-table order deliver">
+<if condition="empty($orderList) eq true">
+  	<tbody>
+  		<tr>
+      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    	</tr>
+      </tbody>
+<else/> 
+<volist name="orderList" id="list">
+	<tbody>
+    <tr>
+      <td colspan="21" class="sep-row"></td>
+    </tr>
+    <tr>
+      <th colspan="21"><span class="ml5">订单编号：<strong>{$list.order_sn}</strong></span><span>下单时间：<em class="goods-time">{$list.add_time|date='Y-m-d H:i',###}</em></span>
+        </em></span> <span class="fr mr10">
+                <a href="{:U('Order/order_print',array('order_id'=>$list['order_id'],'template'=>'picking'))}" target="_blank" class="ncbtn-mini" title="打印配货单"><i class="icon-print"></i>打印配货单</a></span>
+      </th>
+   	 </tr>
+   	 <assign name="goodsList" value="$goodsArr[$list['order_id']]" />
+     <volist name="goodsList" id="good" key='k'>
+     <if condition="$k eq 1">
+     	<!--  第一行 -->
+     	<tr>
+	      <td class="bdl w10"></td>
+	      <td class="w50"><div class="pic-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}" target="_blank"><img src="{$good['goods_id']|goods_thum_images=240,240}" /></a></div></td>
+	      <td class="tl">
+	      	<dl class="goods-name">
+	          <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good['goods_name']}</a></dt>
+	          <dd><strong>￥{$good['goods_price']}</strong>&nbsp;x&nbsp;<em>{$good['goods_num']}</em>件</dd>
+	        </dl>
+	      </td>
+	      <td class="bdl bdr order-info w500" rowspan="{$goodsArr[$list['order_id']]|count}">
+	      	<dl>
+	          <dt>买家：</dt>
+	          <dd>{$users[$list['user_id']]}</dd>
+	        </dl>
+	        <dl>
+	          <dt>收货人：</dt>
+	          <dd>
+	            <div class="alert alert-info m0">
+	              <p><i class="icon-user"></i>{$list.consignee}<span class="ml30" title="电话"><i class="icon-phone"></i>{$list.mobile}</span></p>
+	              <p class="mt5" title="收货地址"><i class="icon-map-marker"></i>{$list.address}</p>
+				</div>
+	          </dd>
+	        </dl>
+	        <dl>
+	          <dt>运费：</dt>
+	          <dd><if condition="($list.shipping_price lt 0.01)">（免运费）<else />邮费:{$list.shipping_price}</if>
+	          	
+	          	<if condition="($list['shipping_status'] neq 1)  && (time() - $list['add_time'] lt (86400 * 90))">
+                	<span><a href="{:U('Seller/Order/delivery_info',array('order_id'=>$list['order_id']))}" class="ncbtn-mini ncbtn-mint fr"><i class="icon-truck"></i>去发货&nbsp;&nbsp;</a></span>
+            	<else/>
+            		<span><a href="{:U('Seller/Order/delivery_info',array('order_id'=>$list['order_id']))}" class="ncbtn-mini ncbtn-mint fr"><i class="icon-truck"></i>发货详情&nbsp;&nbsp;</a></span>
+            		<span><a href="{:U('Order/shipping_print',array('order_id'=>$list['order_id']))}" class="ncbtn-mini ncbtn-mint fr" style="position: relative;left: -5px;"><i class="icon-print"></i>打印快递单&nbsp;&nbsp;</a></span>
+            	</if>
+	          	
+	          </dd>
+	        </dl></td>
+	    </tr>
+     <else/>
+     	<!--  第二行 -->
+       <tr>
+	      <td class="bdl w10"></td>
+	      <td class="w50"><div class="pic-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}" target="_blank"><img src="{$good['goods_id']|goods_thum_images=240,240}"/></a></div></td>
+	      <td class="tl"><dl class="goods-name">
+	          <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good['goods_name']}</a></dt>
+	          <dd><strong>￥{$good['goods_price']}</strong>&nbsp;x&nbsp;<em>{$good['goods_num']}</em>件</dd>
+	        </dl></td>
+	     </tr>
+     </if>
+	</volist>
+	</tbody>
+  </volist>
+  <tfoot>
+    <tr>
+      <td colspan="21">{$page}</td>
+    </tr>
+      </tfoot>
+  </if>
+</table>
+<script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+</script>

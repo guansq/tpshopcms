@@ -1,0 +1,99 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>提现申请</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" id="withdrawals_form">
+                    <input type="hidden" name="id" value="{$withdrawals.id}">
+                    <div class="ncsc-form-goods">
+                        <h3 id="demo1">提现申请</h3>
+                            <dl>
+                                <dt><i class="required">*</i>提现金额：</dt>
+                                <dd>
+                                    <input type="text" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" placeholder="最少提现额度{$withdrawals_min}" name="money" id="money" value="{$withdrawals.money}" class="text w400">
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i>银行名称：</dt>
+                                <dd>
+                                    <input type="text" placeholder="如:支付宝,农业银行,工商银行等..." name="bank_name" id="bank_name" value="{$withdrawals.bank_name}" class="text w400">
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i>收款账号：</dt>
+                                <dd>
+                                    <input type="text" placeholder="如:支付宝账号,建设银行账号" name="bank_card" id="bank_card" value="{$withdrawals.bank_card}" class="text w400">
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt> <i class="required">*</i>开户名：</dt>
+                                <dd>
+                                    <input type="text" placeholder="开户人姓名" name="realname" id="realname" value="{$withdrawals.realname}" class="text w400">
+                                </dd>
+                            </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input class="submit" value="保存" type="button" onclick="checkSubmit()">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    var withdrawals_min = {$withdrawals_min};
+    var withdrawals_max = {$withdrawals_max};
+
+    // 表单验证提交
+    function checkSubmit(){
+
+        var money = $.trim($('#money').val());
+        var bank_name = $.trim($('#bank_name').val());
+        var bank_card = $.trim($('#bank_card').val());
+        var realname = $.trim($('#realname').val());
+
+        if(money == '')
+        {
+            layer.alert('提现金额必填');
+            return false;
+        }
+
+        if(withdrawals_min > withdrawals_max){
+            layer.alert('对不起，您的可申请提现金额小于最少提现额度￥'+withdrawals_min+',暂不能提现');
+            return false;
+        }
+        if(money < withdrawals_min)
+        {
+            layer.alert('提现金额必须大于'+withdrawals_min);
+            return false;
+        }
+        if(money > withdrawals_max){
+            layer.alert('对不起，您的申请提现金额已经超过您的可申请提现金额￥'+withdrawals_max);
+            return false;
+        }
+        if(bank_name == '')
+        {
+            layer.alert('银行名称必填');
+            return false;
+        }
+        if(bank_card == '')
+        {
+            layer.alert('收款账号必填');
+            return false;
+        }
+        if(realname == '')
+        {
+            layer.alert('开户名必填');
+            return false;
+        }
+
+        $('#withdrawals_form').submit();
+    }
+</script>
+</body>
+</html>

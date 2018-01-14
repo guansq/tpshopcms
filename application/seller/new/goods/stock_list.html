@@ -1,0 +1,109 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>库存日志
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Goods/brandList')}">库存日志列表</a></li>
+                </ul>
+            </div>
+            <form id="search-form2" method="post" action="">
+                <input type="hidden" name="ctime" id="ctime" value="{$ctime}">
+                <table class="search-form">
+                    <tr>
+                        <td></td>
+                        <th class="w70">日志类型</th>
+                        <td class="w70">
+                            <select class="select" id="status" name="mtype">
+                                <option value="">全部</option>
+                                <option value="1" <if condition="$_REQUEST['mtype'] eq 1">selected</if>>入库</option>
+                                <option value="-1" <if condition="$_REQUEST['mtype'] eq -1">selected</if>>出库</option>
+                            </select>
+                        </td>
+                        <th class="w70">商品名称</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" placeholder="商品名称" value="{$_REQUEST[goods_name]}" name="goods_name"/></td>
+                        <th>开始时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                        </td>
+                        <th>截止时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                        </td>
+                        <td class="w70 tc"><label class="submit-border"><input type="button" onclick="check_form();" class="submit" value="搜索" /></label></td>
+                    </tr>
+                </table>
+            </form>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w20"></th>
+                    <th class="w50">编号</th>
+                    <th class="w200 tl">商品名称</th>
+                    <th class="w100">商品规格</th>
+                    <th class="w100">订单号</th>
+                    <th class="w100">库存</th>
+                    <th class="w100">库存类型</th>
+                    <th class="w100">操作人</th>
+                    <th class="w100">日志时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <empty name="stock_list">
+			        <tr>
+			            <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+			        </tr>
+			    <else/>
+                <volist name="stock_list" id="v">
+                    <tr class="bd-line">
+                        <td></td>
+                        <td>{$v.id}</td>
+                        <td>{$v.goods_name|getSubstr=0,30}</td>
+                        <td>{$v.goods_spec}</td>
+                        <td>{$v.order_sn|default="N/A"}</td>
+                        <td>{$v.stock}</td>
+                        <td><empty name="v[order_sn]">货品库存<else/>商品库存</empty></td>
+                        <td>{$v.muid}</td>
+                        <td>{$v.ctime|date="Y-m-d H:i:s",###}</td>
+                    </tr>
+                </volist>
+                </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$page}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function () {
+        $('#start_time').layDate();
+        $('#end_time').layDate();
+    });
+    function check_form() {
+        var start_time = $.trim($('#start_time').val());
+        var end_time = $.trim($('#end_time').val());
+        if (start_time == '' ^ end_time == '') {
+            layer.alert('请选择完整的时间间隔', {icon: 2});
+            return false;
+        }
+        if (start_time !== '' && end_time !== '') {
+            $('#ctime').val(start_time + " - " + end_time);
+        }
+        if (start_time == '' && end_time == '') {
+            $('#ctime').val('');
+        }
+        $('#search-form2').submit();
+    }
+</script>
+</body>
+</html>

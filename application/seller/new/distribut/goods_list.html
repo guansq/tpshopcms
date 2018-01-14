@@ -1,0 +1,162 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>商品<i class="icon-angle-right"></i>分销商品</div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('seller/Distrbut/goods_list')}">分销商品</a></li>
+                </ul>
+                <!--<a title="批量生成商品二维码" class="ncbtn ncbtn-aqua">批量生成商品二维码</a>-->
+                <a href="{:U('seller/Goods/addStepOne')}" class="ncbtn ncbtn-mint" title="发布新商品"> 发布新商品</a>
+            </div>
+            <form method="post" id="search-form2" action="">
+                <table class="search-form">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th>商品分类</th>
+                        <td class="w160">
+                            <select name="cat_id" id="cat_id" class="w150">
+                                <option value="">所有分类</option>
+                                <foreach name="categoryList" item="v" key="k">
+                                    <option value="{$v['id']}"<if condition="$Think.post.cat_id eq $v['id']">selected="selected"</if>> {$v['name']}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                        <th>商品品牌</th>
+                        <td class="w160">
+                            <select name="brand_id" id="brand_id" class="w150">
+                                <option value="">所有品牌</option>
+                                <foreach name="brandList" item="v" key="k">
+                                    <option value="{$v['id']}">{$v['name']}</option>
+                                </foreach>
+                            </select>
+                        </td>
+                        <td class="w160">
+                            <input type="text" class="text w150" name="key_word" value="" placeholder="搜索词"/>
+                        </td>
+                        <td class="tc w70">
+                            <label class="submit-border"><input type="submit" class="submit" value="搜索"/></label>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr nc_type="table_header">
+                    <th class="w30">ID</th>
+                    <th class="w30">&nbsp;</th>
+                    <th class="w50">&nbsp;</th>
+                    <th coltype="editable" column="goods_name" checker="check_required" inputwidth="230px">商品名称</th>
+                    <th class="w100">价格</th>
+                    <th class="w100">库存</th>
+                    <th class="w100">上架时间</th>
+                    <th class="w120">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <if condition="count($goodsList) gt 0">
+                <volist name="goodsList" id="list">
+                    <tr class="bd-line">
+                        <td>{$list.goods_id}</td>
+                        <td class="trigger">
+                            <a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}"><i class="tip icon-plus-sign" title="点击查看此商品。"></i></a>
+                        </td>
+                        <td>
+                            <div class="pic-thumb">
+                                <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}" target="_blank">
+                                    <img src="{$list.goods_id|goods_thum_images=32,32}"/>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="tl">
+                            <dl class="goods-name">
+                                <dt style="max-width: 450px !important;">
+                                    <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}" target="_blank">
+                                        {$list.goods_name|getSubstr=0,33}
+                                    </a>
+                                </dt>
+                                <dd>商家货号：{$list.sku}</dd>
+                                <dd class="serve">
+                                    <if condition="$list.is_recommend eq 1">
+                                        <span class="open" title="店铺推荐"><i class="commend">荐</i></span>
+                                    </if>
+                                    <if condition="$list.is_new eq 1">
+                                        <span class="open" title="店铺新品"><i class="commend">新</i></span>
+                                    </if>
+                                    <if condition="$list.is_hot eq 1">
+                                        <span class="open" title="店铺热卖"><i class="commend">热</i></span>
+                                    </if>
+                                    <a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$list['goods_id']))}" target="_blank"><span class="" title="手机端商品详情"><i class="icon-tablet"></i></span></a>
+                                    <!--<span class="" title="商品页面二维码"><i class="icon-qrcode"></i>-->
+                                        <!--<div class="QRcode">-->
+                                            <!--<a target="_blank" href="http://www.tpshop.cn/data/upload/shop/store/1/100008.png">下载标签</a>-->
+                                            <!--<p><img src="http://www.tpshop.cn/data/upload/shop/store/1/100008.png"/></p>-->
+                                        <!--</div>-->
+                                    <!--</span>-->
+                                </dd>
+                            </dl>
+                        </td>
+                        <td><span>&yen;{$list.shop_price}</span></td>
+                        <td><span>{$list.store_count}件</span></td>
+                        <td class="goods-time">{$list.on_time|date="Y-m-d",###}</td>
+                        <td class="nscs-table-handle">
+                            <span>
+                                <a href="{:U('Goods/addEditGoods',array('goods_id'=>$list['goods_id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a>
+                            </span>
+                            <span>
+                                <a href="javascript:void(0);" onclick="del('{$list[goods_id]}')" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                        <td colspan="20">
+                            <div class="ncsc-goods-sku ps-container"></div>
+                        </td>
+                    </tr>
+                </volist>
+                    <else/>
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                </if>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$Page}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            <script>
+                // 删除操作
+                function del(id){
+                    layer.confirm('确定要删除吗？', {
+                                btn: ['确定','取消'] //按钮
+                            }, function(){
+                                // 确定
+                                $.ajax({
+                                    url:"/index.php?m=Seller&c=goods&a=delGoods&id="+id,
+                                    success: function(v){
+                                        layer.closeAll();
+                                        var v =  eval('('+v+')');
+                                        if(v.hasOwnProperty('status') && (v.status == 1))
+                                            ajax_get_table('search-form2',cur_page);
+                                        else
+                                            layer.msg(v.msg, {icon: 2,time: 1000}); //alert(v.msg);
+                                    }
+                                });
+                            }, function(index){
+                                layer.close(index);
+                            }
+                    );
+                }
+            </script>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

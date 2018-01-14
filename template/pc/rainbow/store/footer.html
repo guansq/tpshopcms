@@ -1,0 +1,111 @@
+<div id="faq">
+  <div class="faq-wrapper">
+      <ul>
+          <tpshop sql="select * from `__PREFIX__article_cat` where parent_id = 2" key="k" item='v'>
+              <li>
+                  <dl>
+                      <dt>
+                          {$v[cat_name]}
+                      </dt>
+                      <tpshop sql="select * from `__PREFIX__article` where cat_id = $v[cat_id]  and is_open=1" key="k2" item='v2'>
+                        <dd><i></i><a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}" title="{$v2[title]}"> {$v2[title]} </a></dd>
+                      </tpshop>
+                  </dl>
+              </li>
+          </tpshop>
+      </ul>
+<div class="help">
+		<div class="w1190 clearfix">
+    		<div class="contact f-l">
+    			<div class="contact-border clearfix">
+        			<span class="ic tel t20">0755-86140485</span>
+        			<span class="ic mail">soubao@163.cn</span>
+        			<div class="attention cleafix">
+        				<div class="weixin f-l">						
+    						<img src="/template/pc/rainbow/static/images/qrcode.png" class="f-l jImg img-error">
+	   					<p class="f-l">
+        						<span>扫一扫</span>
+        						<span>关注我们</span>
+        					</p>
+        				</div>
+        				<div class="weibo f-l">
+        					<div class="ic qq" style="padding-left: 0px;"><ul><li><a target="_blank" >腾讯微博</a></li></ul></div>
+        					<div class="ic sina" style="padding-left: 0px;"><ul><li><a target="_blank" >新浪微博</a></li></ul></div>
+        				</div>
+        			</div>
+    			</div>
+    		</div>
+		</div>
+	</div>			
+      </div>
+</div>
+<div id="footer" class="wrapper">
+  <p><a href="http://www.tpshop.com">首页</a>
+                | <a  href="">招聘英才</a>
+                | <a  href="">合作及洽谈</a>
+                | <a  href="">联系我们</a>
+                | <a  href="">关于我们</a>
+                | <a  href="">物流自取</a>
+                | <a  href="">友情链接</a>
+              </p>
+  Copyright 2015 <a href="http://www.tpshop.cn" target="_blank">TP商城</a> All rights reserved.<br />本演示来源于<a href="http://www.tpshop.cn" target="_blank">www.tpshop.cn</a><br/></div>
+<!-- 对比 -->
+<script type="text/javascript">
+$(function(){
+	//$('[nctype="mcard"]').membershipCard({type:'shop'});
+});
+function fade() {
+	$("img[rel='lazy']").each(function () {
+		var $scroTop = $(this).offset();
+		if ($scroTop.top <= $(window).scrollTop() + $(window).height()) {
+			$(this).hide();
+			$(this).attr("src", $(this).attr("data-url"));
+			$(this).removeAttr("rel");
+			$(this).removeAttr("name");
+			$(this).fadeIn(500);
+		}
+	});
+}
+if($("img[rel='lazy']").length > 0) {
+	$(window).scroll(function () {
+		fade();
+	});
+};
+fade();
+</script>
+<script type="text/javascript">
+$(function(){
+	$('a[nctype="search_in_store"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#search_act').val('show_store');
+		$('<input type="hidden" value="1" name="store_id" /> <input type="hidden" name="op" value="goods_all" />').appendTo("#formSearch");
+		$('#formSearch').submit();
+	});
+	$('a[nctype="search_in_shop"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#formSearch').submit();
+	});
+	$('#keyword').css("color","#999999");
+
+	var storeTrends	= true;
+	$('.favorites').mouseover(function(){
+		var $this = $(this);
+		if(storeTrends){
+			$.getJSON('index.php?act=show_store&op=ajax_store_trend_count&store_id=1', function(data){
+				$this.find('li:eq(2)').find('a').html(data.count);
+				storeTrends = false;
+			});
+		}
+	});
+
+	$('a[nctype="share_store"]').click(function(){
+		ajax_form('sharestore', '分享店铺', 'index.php?act=member_snsindex&op=sharestore_one&inajax=1&sid=1');
+	});
+});
+</script>
+</body>
+</html>

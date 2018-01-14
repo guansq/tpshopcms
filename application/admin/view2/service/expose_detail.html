@@ -1,0 +1,103 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="{:U('Service/expose_list')}" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>举报管理 - 处理举报</h3>
+        <h5>商城设置举报类型及处理被举报商品</h5>
+      </div>
+    </div>
+  </div>
+  <form id="handle_form" method="post"  action="" name="form1">
+   <div class="ncap-form-default">
+    <div class="title">
+      <h3>举报信息</h3>
+    </div>
+    <dl class="row">
+      <dt class="tit">被举报商家：</dt>
+      <dd class="opt">{$expose.expose_store_name}</dd>
+    </dl>
+    <dl>
+      <dt class="tit">举报证据：</dt>
+      <dd class="opt"><foreach name="expose.expose_pic" item="src"><img src="{$src}" height="100"></foreach></dd>
+    </dl>
+  	</div>
+    <div class="ncap-form-default">
+    <dl class="row">
+      <dt class="tit">
+        <label> 商品名称</label>
+      </dt>
+      <dd class="opt" id="goods_name">{$expose.expose_goods_name} <p class="notic"></p>
+      </dd>
+    </dl>
+    <dl>
+      <dt class="tit">举报类型：</dt>
+      <dd class="opt">{$expose.expose_type_name}</dd>
+    </dl>
+    <dl>
+      <dt class="tit">相关订单号：</dt>
+      <dd class="opt">{$expose.expose_order_sn}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">
+        <label>处理结果</label>
+      </dt>
+      <dd class="opt">
+        <ul>
+          <li>
+            <label>
+              <input type="radio" value="1" name="expose_handle_type">无效举报--商品会正常销售 </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" value="2" name="expose_handle_type"> 恶意举报--该用户的所有未处理举报将被取消。 </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" value="3" name="expose_handle_type">  有效举报--商品将被违规下架 </label>
+              <input type="hidden" name="expose_id" value="{$expose.expose_id}">
+          </li>
+        </ul>
+        <p class="notic"></p>
+      </dd>
+    </dl>
+    <dl class="row">
+      <dt class="tit">
+        <label>处理信息</label>
+      </dt>
+      <dd class="opt">
+        <textarea class="tarea" name="expose_handle_msg" rows="6" id="expose_handle_msg"></textarea>
+        <p class="notic"></p>
+      </dd>
+    </dl>
+    <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="btn_handle_submit">确认提交</a></div>
+    </dl>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    //默认选中第一个radio
+    $(":radio").first().attr("checked",true);
+    $("#btn_handle_submit").click(function () {
+        if ($("#expose_handle_msg").val() == '') {
+            layer.msg("处理信息不能为空且不能大于100个字符", {icon: 2});
+        }
+        else {
+            layer.confirm('确认处理该举报？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                $("#handle_form").submit();
+            }, function () {
+                layer.closeAll();
+            });
+        }
+    });
+});
+</script> <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+</body>
+</html>

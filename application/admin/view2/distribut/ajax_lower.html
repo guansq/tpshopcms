@@ -1,0 +1,29 @@
+<foreach name="list" item="v" key="k">
+    <tr class="tree_tr_{$v[user_id]} parent_id_{$v.first_leader}">
+        <td style="width: 20px;">
+            <div>&nbsp;</div>
+        </td>
+        <td class="sign">
+            <div style="text-align: center; width: 24px;">
+                <img class="tree_span" data-id="{$v[user_id]}" title="展开显示子分类" src="/public/static/images/tv-expandable.gif">
+            </div>
+        </td>
+        <td class="sort">
+            <div style="text-align: center; width: 60px;">{$v['user_id']}</div>
+        </td>
+        <td class="name">
+            <div style="text-align: center; width: 200px;">
+                <if condition="$v['nickname'] neq null">
+                    {$v['nickname']}
+                    <elseif condition="$v['mobile'] neq null" />
+                    {$v['mobile']}
+                    <elseif condition="$v['email'] neq null" />
+                    {$v['email']}
+                </if>
+            </div>
+        </td>
+        <td style="width: 100%;">
+            <div>&nbsp;</div>
+        </td>
+    </tr>
+</foreach>

@@ -1,0 +1,213 @@
+<include file="public/layout" />
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<div class="subject">
+				<h3>店铺管理</h3>
+				<h5>网站系统店铺索引与管理</h5>
+			</div>
+		</div>
+	</div>
+	<!-- 操作说明 -->
+	<div id="explanation" class="explanation" style="color: rgb(44, 188, 163); background-color: rgb(237, 251, 248); width: 99%; height: 100%;">
+		<div id="checkZoom" class="title"><i class="fa fa-lightbulb-o"></i>
+			<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+			<span title="收起提示" id="explanationZoom" style="display: block;"></span>
+		</div>
+		<ul>
+			<li>1. 平台在此处统一管理自营店铺，可以新增、编辑、删除平台自营店铺。</li>
+			<li>2. 可以设置未绑定全部商品类目的平台自营店铺的经营类目。</li>
+			<li>3. 已经发布商品的自营店铺不能被删除。</li>
+			<li>4. 删除平台自营店铺将会同时删除店铺的相关图片以及相关商家中心账户，请谨慎操作！</li>
+		</ul>
+	</div>
+	<div class="flexigrid">
+		<div class="mDiv">
+			<div class="ftitle">
+				<h3>店铺列表</h3>
+				<h5>(共{$pager->totalRows}条记录)</h5>
+			</div>
+			<div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+			<form class="navbar-form form-inline" id="search-form" action="{:U('Store/store_own_list')}" method="get">
+				<div class="sDiv">
+					<div class="sDiv2" style="margin-right: 10px;border: none;">
+						<select name="grade_id" class="form-control">
+							<option value="">所属等级</option>
+							<volist name="store_grade" id="item" key="k">
+								<option value="{$k}" <if condition="$Think.get.grade_id eq $k">selected</if>>{$item}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="sDiv2" style="margin-right: 10px;border: none;">
+						<select name="sc_id" class="form-control">
+							<option value="">店铺类别</option>
+							<volist name="store_class" id="item" key="k">
+								<option value="{$k}" <if condition="$Think.get.sc_id eq $k">selected</if>>{$item}</option>
+							</volist>
+						</select>
+					</div>
+					<div class="sDiv2" style="margin-right: 10px;border: none;">
+						<select name="store_state" class="form-control">
+							<option value="">店铺状态</option>
+							<option value="1" <if condition="$Think.get.store_state eq '1'">selected</if>>开启</option>
+							<option value="2" <if condition="$Think.get.store_state eq '2'">selected</if>>关闭</option>
+							<option value="3" <if condition="$Think.get.store_state eq '3'">selected</if>>即将到期</option>
+							<option value="4" <if condition="$Think.get.store_state eq '4'">selected</if>>已到期</option>
+						</select>
+					</div>
+					<div class="sDiv2" style="margin-right: 10px;">
+						<input size="30" name="seller_name" value="{$Think.get.seller_name}" placeholder="店主卖家名称" class="qsbox" type="text">
+					</div>
+					<div class="sDiv2">
+						<input size="30" name="store_name" value="{$Think.get.store_name}" class="qsbox" placeholder="输入店铺名称" type="text">
+						<input class="btn" value="搜索" type="submit">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="hDiv">
+			<div class="hDivBox">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+					<tr>
+						<th class="sign" axis="col0">
+							<div style="width: 24px;"><i class="ico-check"></i></div>
+						</th>
+						<th align="left" abbr="article_title" axis="col3" class="">
+							<div style="text-align: left; width: 120px;" class="">店铺名称</div>
+						</th>
+						<th align="left" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: left; width: 100px;" class="">店主账号</div>
+						</th>
+						<th align="left" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">店主卖家账号</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 120px;" class="">创建日期</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 80px;" class="">状态</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 80px;" class="">绑定所有类目</div>
+						</th>
+						<th align="center" axis="col1" class="handle">
+							<div style="text-align: center; width: 150px;">操作</div>
+						</th>
+						<th style="width:100%" axis="col7">
+							<div></div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="tDiv">
+			<div class="tDiv2">
+				<div class="fbutton"> <a href="{:U('Store/store_add',array('is_own_shop'=>1))}">
+					<div class="add" title="新增店铺">
+						<span><i class="fa fa-plus"></i>新增店铺</span>
+					</div>
+				</a> </div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="bDiv" style="height: auto;">
+			<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="list" item="vo" key="k" >
+						<tr>
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 120px;">{$vo.store_name}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: left; width: 100px;">{$vo.user_name}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: center; width: 100px;">{$vo.seller_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 120px;">{$vo.store_time|date='Y-m-d',###}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 80px;">
+									<if condition="$vo[store_state] eq 1">开启<else/>关闭</if>
+								</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 80px;">
+									<if condition='$vo[bind_all_gc] eq 1'>
+										<span class="yes" onClick="changeTableVal('store','store_id','{$vo.store_id}','bind_all_gc',this)" ><i class="fa fa-check-circle"></i>是</span>
+										<else />
+										<span class="no" onClick="changeTableVal('store','store_id','{$vo.store_id}','bind_all_gc',this)" ><i class="fa fa-ban"></i>否</span>
+									</if>
+								</div>
+							</td>
+							<td align="center" class="handle">
+								<div style="text-align: center; width: 170px; max-width:170px;">
+									<a href="{:U('Store/store_info_edit',array('store_id'=>$vo['store_id'],'is_own_shop'=>1))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>编辑</a>
+									<a class="btn red"  href="javascript:void(0)" data-url="{:U('Store/store_del')}" data-id="{$vo.store_id}" onClick="delfun(this)"><i class="fa fa-trash-o"></i>删除</a>
+								</div>
+							</td>
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="iDiv" style="display: none;"></div>
+		</div>
+		<!--分页位置-->
+		{$page} </div>
+</div>
+<script>
+	$(document).ready(function(){
+		// 表格行点击选中切换
+		$('#flexigrid > table>tbody >tr').click(function(){
+			$(this).toggleClass('trSelected');
+		});
+
+		// 点击刷新数据
+		$('.fa-refresh').click(function(){
+			location.href = location.href;
+		});
+
+	});
+
+
+	function delfun(obj) {
+		// 删除按钮
+		layer.confirm('确认删除？', {
+			btn: ['确定', '取消'] //按钮
+		}, function () {
+			$.ajax({
+				type: 'post',
+				url: $(obj).attr('data-url'),
+				data : {act:'del',del_id:$(obj).attr('data-id')},
+				dataType: 'json',
+				success: function (data) {
+					layer.closeAll();
+					if (data.status == 1) {
+                        layer.alert(data.msg, {icon: 1});
+						$(obj).parent().parent().parent().remove();
+					} else {
+						layer.alert(data.msg, {icon: 2});
+					}
+				}
+			})
+		}, function () {
+			layer.closeAll();
+		});
+	}
+</script>
+</body>
+</html>

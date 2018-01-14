@@ -1,0 +1,151 @@
+<include file="public/min-header" />
+<div class="wrapper">
+	<include file="public/breadcrumb"/>
+	<section class="content">
+       <div class="row">
+       		<div class="col-xs-12">
+	       		<div class="box">
+	             <div class="box-header">
+	           	   <nav class="navbar navbar-default">	     
+				      <div class="collapse navbar-collapse">
+	    				<div class="navbar-form form-inline">
+				            <div class="form-group">
+				            	<p class="text-success margin blod">店铺:</p>
+				            </div>
+				             <div class="form-group">
+                                 <a class="btn btn-default" href="{:U('Store/store_own_list')}">管理</a>&nbsp;&nbsp;&nbsp;&nbsp;                                            
+                                 <a class="btn btn-default" href="{:U('Store/store_add')}" >新增</a>&nbsp;&nbsp;&nbsp;&nbsp;                                            
+                                 <a class="btn btn-primary" href="javascript:;" >编辑</a>
+				            </div>
+    	                    <div class="pull-right">
+				                <a href="javascript:history.go(-1)" data-toggle="tooltip" title="" class="btn btn-default" data-original-title="返回"><i class="fa fa-reply"></i></a>
+				            </div>
+				          </div>
+				       </div>
+	    		 	</nav>	
+	               	<nav class="navbar navbar-default">
+              	         <div class="callout callout-inro">
+							<p>1. 可以修改自营店铺的店铺名称以及店铺状态是否为开启状态</p>
+					        <p>2. 可以修改自营店铺的店主商家中心登录账号。</p>
+					        <p>3. 如需修改店主登录密码，请到会员管理中，搜索“店主账号”相应的会员并编辑。</p>
+					        <p>4. 已绑定所有类目的自营店，如果将“绑定所有类目”设置为“否”，则会下架其所有商品，请谨慎操作！</p>
+		            	</div>
+	    			</nav>
+	             </div>
+	             <div class="box-body">
+	           	 <div class="col-xs-12">
+	            	 <form method="post" id="store_info">
+		              <table class="table table-bordered table-striped dataTable">
+                        <tbody>
+                        <tr><td>店铺名称：</td>
+                        	<td><input name="store_name" value="{$store.store_name}" class="form-control" onblur="store_check('store')"></td>
+                        	<td></td>
+                        </tr>
+                        <tr>
+                        	<td>开店时间：</td>
+                        	<td>{$store.store_time|date="Y-m-d H:i:s",###}</td>
+                        	<td></td>
+                        </tr> 
+                        <tr>
+                            <td>店主卖家账号：</td>
+                            <td><input name="seller_name" value="{$store.seller_name}" onblur="store_check('seller')"></td>
+                       		<td class="text-warning">用于登录商家中心，可与店主账号不同</td>
+                        </tr> 
+
+                         <tr>
+                            <td>绑定所有类目：</td>
+                            <td><input type="radio" name="bind_all_gc" value="1" <if condition="$store[bind_all_gc] eq 1">checked</if>>是
+                            	<input type="radio" name="bind_all_gc" value="0" <if condition="$store[bind_all_gc] eq 0">checked</if>>否
+                            </td>
+                       		<td></td>
+                        </tr>
+						<tr>
+							<td>商品是否需要审核：</td>
+							<td><input type="radio" name="goods_examine" value="1" <if condition="$store[goods_examine] eq 1">checked</if>>是
+								<input type="radio" name="goods_examine" value="0" <if condition="$store[goods_examine] eq 0">checked</if>>否
+							</td>
+						</tr>
+						<tr>
+                            <td>状态：</td>
+                            <td><input type="radio" name="store_state" value="1" <if condition="$store[store_state] eq 1">checked</if>>开启
+                            	<input type="radio" name="store_state" value="0" <if condition="$store[store_state] eq 0">checked</if>>关闭
+                            </td>
+                       		<td></td>
+                        </tr> 
+                        <tr> 
+                        	<td colspan="3" style="text-align:center;">
+                        		<input type="hidden" name="store_id" value="{$store.store_id}">
+	                        	<a href="javascript:void(0)" onclick="actsubmit()" class="btn btn-info margin">提交</a>
+	                        </td>
+                        </tr>
+                        </tbody>
+		               </table>
+		             </form>
+	            </div>
+	          </div>
+	        </div>
+       	</div>
+       </div>
+   </section>
+<script>
+var flag = true;
+function actsubmit(){
+	if($('input[name=store_name]').val() == ''){
+		layer.msg("店铺名称不能为空", {icon: 2,time: 2000});
+		return;
+	}
+	var user_name = $('input[name=user_name]').val();
+	if(user_name == ''){
+		layer.msg("店主账号不能为空", {icon: 2,time: 2000});
+		return;
+	}
+	if($('input[name=seller_name]').val() == ''){
+		layer.msg("店主卖家账号不能为空", {icon: 2,time: 2000});
+		return;
+	}
+	if(flag){
+		$('#store_info').submit();
+	}else{
+		layer.msg("请检查店铺名称和卖家账号", {icon: 2,time: 2000});
+	}
+}
+
+function store_check(type){
+	if(type=="store"){
+		$.ajax({
+			type:'post',
+			url:"{:U('Store/store_check')}",
+			dataType:'json',
+			data:{store_name:$('input[name=store_name]').val()},
+			success:function(res){
+				if(res.status != '1'){
+					layer.msg(res.msg, {icon: 2,time: 2000});
+					flag = false;
+					return;
+				}else{
+					flag = true;
+				}
+			}
+		});
+	}else{
+		$.ajax({
+			type:'post',
+			url:"{:U('Store/store_check')}",
+			dataType:'json',
+			data:{seller_name:$('input[name=seller_name]').val()},
+			success:function(res){
+				if(res.status != '1'){
+					layer.msg(res.msg, {icon: 2,time: 2000});
+					flag = false;
+					return;
+				}else{
+					flag = true;
+				}
+			}
+		});
+	}
+}
+</script>
+</div>
+</body>
+</html>   

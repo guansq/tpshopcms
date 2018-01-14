@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>商家入驻</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__PUBLIC__/js/pc_common.js"></script>
+	<link href="__STATIC__/css/common.min.css" rel="stylesheet" type="text/css" />
+	<link href="__STATIC__/css/qt_style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<include file="public/sign-header"/>
+<style>
+.btn_select_category {
+    font: normal 12px/20px "microsoft yahei";
+    color: #777;background-color: #DCDCDC;text-align: center;vertical-align: middle;
+    display: inline-block;height: 20px;padding: 4px 12px;border: solid 1px;
+    border-color: #DCDCDC #DCDCDC #B3B3B3 #DCDCDC;cursor: pointer;
+}
+.catable{width:640px; margin: 0 auto;border: solid 1px #DDD;}
+.catable th{
+	color: #777;text-align: center;background-color: #F7F7F7; vertical-align: top;
+    text-align: right;height: 22px;padding: 8px 4px;border-color: #EEE;
+}
+.w120 {width: 120px !important;}
+.tc {text-align: center !important;}
+.catable td{
+	text-align: center; border-style: solid;
+    border-width: 1px 1px 0 0;border-color: #DDD #DDD transparent transparent;
+}
+.w50 {width: 50px !important;}
+.hide{display:none;}
+.cate3{margin:8px 0;font-size:14px;}
+.cate3 input{margin-left:5px;}
+</style>
+<input type="hidden" id="mobileRegex" value="^(13[0-9]{9})|(14[57][0-9]{8})|(15[012356789][0-9]{8})|(170[0-9]{8})|(18[0-9]{9})$"/>
+<div class="gome-wrap bg">
+	<div style="position: relative;top: -40px;left: 350px;">
+    	<a href="/" target="_blank" class="item fl"><img height="60" width="160" src="{$tpshop_config['shop_info_store_logo']}"></a>
+    </div>
+	<div class="gome-layout-area">
+        <ul class="gome-nav">
+            <li><a href="{:U('Newjoin/index')}" target="_blank">招商首页</a></li>
+        	<tpshop sql="select * from `__PREFIX__article_cat` where parent_id=2" key="k" item='v'>
+            	<li><a href="{:U('Newjoin/question',array('cat_id'=>$v[cat_id]))}" target="_blank">{$v.cat_name}</a></li>
+            </tpshop>
+        </ul>
+    </div>
+</div>
+<div class="gome-layout-area pb50">
+    	<ul class="steps clearfix">
+        	<li class="first prev ok"><b>1</b><span class="going"></span><em class="f">入驻须知</em></li>
+        	<li class="prev ok"><b>2</b><span class="going"></span><em class="f">填写店铺信息</em></li>
+        	<li class="prev ok"><b>3</b><span class="going"></span><em class="f">填写身份信息</em></li>
+        	<li class="cur ok"><b>4</b><span class="going"></span><em class="f">结算账户</em></li>
+        	<li class="last"><b>5</b><em class="f">等待审核</em></li>
+        </ul>
+        <div class="settled-agreement-table pb50">
+        	<div class="agreement-title"><span>填写个人店铺信息</span></div>
+        	<form action="{:U('Newjoin/seller_info')}" id="seller_info" method="post" enctype="multipart/form-data">
+           <div class="table-part clearfix">
+            	<div class="table-part-title">店铺信息</div>
+                <table cellpadding="0" cellspacing="0" border="0" class="information-table1">
+                    <tbody>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺名称：</th>
+                        <td><input type="text" maxlength="40"  id="shopName" name="store_name" value="{$apply.store_name}" class="input260" err_msg="0" onchange="checkStore(this)">
+                        <!--<span id="shopNameSpan">点击查看店铺命名规则</span>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺主营大类：</th>
+                        <td>
+                        	<select id="supplier_ctgy_id" name="sc_id" class="input270 mr10" onchange="javascript:$('#sc_name').val($('#supplier_ctgy_id option:selected').text())">
+                        	<option value="">请选择</option>
+				 				<foreach name="store_class" item="vo" key="k">
+							 		<option value="{$k}" <if condition="$k eq $apply[sc_id]">selected</if>>{$vo}</option> 	
+							 	</foreach>
+                        	</select>
+                        	<input type="hidden" id="sc_name" name="sc_name" value="{$apply.sc_name}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺性质：</th>
+                        <td>
+                        	<select id="shopType" name="store_type" value="" class="input200">
+                        		<option value="0">请选择</option>
+                        		<option value="1">旗舰店</option>
+                        		<option value="2">专卖店</option>
+                        		<option value="3">专营店</option>
+                        	</select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺登录主账号：</th>
+                        <td><input type="text" maxlength="20" id="seller_name" name="seller_name" autocomplete="on" value="{$apply.seller_name}" class="input260"  err_msg="0" onblur="checkSeller(this)"><span id="mainAccountSpan" class="" style="display: none;"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺负责人姓名：</th>
+                        <td><input type="text" maxlength="64" id="contactPersonName" name="store_person_name" value="{$apply.store_person_name}" class="input260" onblur="checkEmpty(this.value,'contactPersonName','店铺负责人姓名','');"><span id="contactPersonNameSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>负责人手机号码：</th>
+                        <td><input type="text" maxlength="11" id="contactPersonPhone" name="store_person_mobile" value="{$apply.store_person_mobile}" class="input260" onblur="checkEmpty(this.value,'contactPersonPhone','手机号码','mobile');"><span id="contactPersonPhoneSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>负责人QQ号码：</th>
+                        <td><input type="text" maxlength="11" id="contactPersonQq" name="store_person_qq" value="{$apply.store_person_qq}" class="input260" onblur="checkEmpty(this.value,'contactPersonQq','qq号码','qq');"><span id="contactPersonQqSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>电子邮箱：</th>
+                        <td><input type="text" maxlength="32" id="shop_email" name="store_person_email" value="{$apply.store_person_email}" class="input260" onblur="checkEmpty(this.value,'email','电子邮箱','email');"><span id="emailSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺所在地：</th>
+                        <td>
+                        	<select id="provinces" name="company_province" onchange="get_city(this,'city',0)" class="input145 mr10">
+								<option value="">请选择</option>		
+								<volist name="province" id="vo">
+                                	<option value="{$vo.id}" <if condition="$vo[id] eq $apply[company_province]">selected</if>>{$vo.name}</option>
+                            	</volist>
+							</select>
+
+							<select onchange="get_area(this)" id="city" name="company_city" class="input145 mr10">
+								<option value="">请选择</option>
+	                        	<volist name="city" id="vo">
+                                     <option value="{$vo.id}" <if condition="$vo[id] eq $apply[company_city]">selected</if>>{$vo.name}</option>
+                                 </volist>
+							</select>
+							<select id="district" name="company_district" class="input145 mr10">
+								<option value="">请选择</option>
+                                <volist name="district" id="vo">
+                                   <option value="{$vo.id}" <if condition="$vo[id] eq $apply[company_district]">selected</if>>{$vo.name}</option>
+                                </volist>
+							</select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>店铺详细地址：</th>
+                        <td><input type="text" maxlength="100" id="storeAddress" name="store_address" class="input453" value="{$apply.store_address}" onblur="checkEmpty(this.value,'storeAddress','店铺详细地址','');"><span id="storeAddressSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr><th><em class="em-red">*</em>经营类目:</th>
+                        <td>
+                        <a href="###" id="btn_select_category" onclick="javascript:$(this).hide();$('.bind_cat').show();$('#class_1').val(0);" class="btn_select_category">+选择添加类目</a>
+			              <div class="bind_cat hide">
+			              <select id="class_1" name="class_1" class="input128" onchange="get_sub_cat(this,'class_2')">
+			                <option value="0">请选择</option>
+			                <foreach name="goods_category" item="vo" key="k">
+			                	<option value="{$k}">{$vo}</option>
+			                </foreach>
+			              </select>
+			              <select id="class_2" name="class_2" class="input128 hide" onchange="select_sub_cat(this,'class_3')">
+			              </select>
+			              <a class="gome-btn-gray" href="javascript:;" onclick="bind_store_class()">确定</a>
+			              <a class="gome-btn-gray" href="javascript:;" onclick="showbtn()">取消</a>
+			              <div id="class_3" name="class_3" class="hide cate3"></div>
+			              </div>
+                        </td>
+                    </tr>
+                    <tr><td></td>
+                    	<td>
+                    	<table cellpadding="0" cellspacing="0" class="catable">
+			              <thead>
+			                <tr>
+			                  <th class="w120 tc">一级类目</th>
+			                  <th class="w120 tc">二级类目</th>
+			                  <th class="tc">三级类目</th>
+			                  <th class="w50 tc">操作</th>
+			                </tr>
+			              </thead>
+            			<tbody id="new_cat">
+            			<foreach name="bind_class_list" item="vo" key="k">
+	            			<tr>
+		            			<td>{$vo.class_1}</td>
+		            			<td>{$vo.class_2}</td>
+		            			<td>{$vo.class_3}</td>
+	            				<td><a href="javascript:;" onclick="$(this).parent().parent().remove();del_store_class({$k});">删除</a></td>
+	            				<input name="store_class_ids[]" type="hidden" value="{$vo.value}">
+	            			</tr>
+            			</foreach>
+            			</tbody>
+            			</table>
+                    	</td>
+                    </tr>
+                </tbody></table>
+            </div>
+            <div class="table-part clearfix">
+            	<div class="table-part-title bt pt30 j-tabclick"><span>身份证信息</span></div>
+            	 <table cellpadding="0" cellspacing="0" border="0" class="information-table1 j-information-table">
+                    <tbody>
+                    <tr>
+                        <th><em class="em-red">*</em>身份证号：</th>
+                        <td><input maxlength="20" type="text" id="store_person_identity" name="store_person_identity" value="{$apply.store_person_identity}" class="input260" onblur="checkEmpty(this.value,'store_person_identity','身份证号','');"><span id="store_person_identitySpan" style="display:none"></span></td>
+                   		<td></td>
+                    </tr>
+                     <!--<tr>-->
+                        <!--<th><em class="em-red">*</em>身份证正面：</th>-->
+                        <!--<td><div class="update-btn width-170 fl"><input type="file" name="legal_identity_cert" id="file_upload_1"/></div></td>-->
+                    	<!--<td><notempty name="apply[legal_identity_cert]"><a href="{$apply.legal_identity_cert}" target="_blank"><img src="{$apply.legal_identity_cert}" height="100"/></a></notempty></td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <th><em class="em-red">*</em>身份证正反面复印件： </th>
+                        <td>
+                            <div class="update-btn width-170 fl">
+                                <input type="file" name="store_person_cert" id="file_upload_2"/>
+                            </div>
+                        </td>
+                    	<td>
+                            <notempty name="apply[store_person_cert]">
+                                <a href="{$apply.store_person_cert}" target="_blank">
+                                    <img src="{$apply.store_person_cert}" height="100"/>
+                                </a>上次提交申请上传的照片
+                            </notempty>
+                        </td>
+                    </tr>
+                    </tbody>
+                 </table>
+            </div>	
+           <div class="table-part clearfix">
+            	<div class="table-part-title bt pt30 j-tabclick"><span>结算银行账号</span></div>
+                <table cellpadding="0" cellspacing="0" border="0" class="information-table1 j-information-table">
+                    <tbody><tr>
+                        <th><em class="em-red">*</em>银行开户名：</th>
+                        <td><input maxlength="20" type="text" id="bankAccountName" name="bank_account_name" value="{$apply.bank_account_name}" class="input260" onblur="checkEmpty(this.value,'bankAccountName','银行开户名','');"><span id="bankAccountNameSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>银行账号：</th>
+                        <td><input maxlength="32" type="text" id="bankAccount" name="bank_account_number" value="{$apply.bank_account_number}" class="input260" onblur="checkEmpty(this.value,'bankAccount','公司银行账号','positiveInteger');"><span id="bankAccountSpan" style="display:none"></span></td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>开户银行支行名称：</th>
+                        <td>
+	                        <input type="text" id="bankBranchName" name="bank_branch_name" value="{$apply.bank_branch_name}" class="input260 ac_input"  onblur="checkEmpty(this.value,'bankBranchName','开户银行支行名称','');">
+	                        <input type="hidden" id="bankCode" name="bankCode">
+	                        <span id="bankBranchNameSpan" style="display:none"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><em class="em-red">*</em>开户银行支行所在地：</th>
+                        <td>
+                        	<select id="bank_province" name="bank_province" onchange="get_city(this,'bank_city',0)" class="input145 mr10">
+								<option value="">请选择</option>
+								<volist name="province" id="vo">
+                                	<option value="{$vo.id}" <if condition="$vo[id] eq $apply[bank_province]">selected</if>>{$vo.name}</option>
+                            	</volist>
+								
+							</select>
+							<select id="bank_city" name="bank_city" class="input145 mr10">
+								<option value="">请选择</option>
+							    <volist name="city" id="vo">
+                                     <option value="{$vo.id}" <if condition="$vo[id] eq $apply[bank_city]">selected</if>>{$vo.name}</option>
+                                 </volist>
+							</select>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            </form>
+            <div class="gome-btn pt30">
+                <a href="javascript:preStep();" class="gome-btn-gray">上一步</a>
+                <a href="javascript:nextStep();" class="gome-btn-red">下一步,店铺信息</a>
+            </div>
+        </div>
+    </div>
+
+<include file="public/footer"/>
+<script>
+
+function preStep(){
+	window.location.href = "{:U('Newjoin/contact')}";
+}
+
+/**
+* 检测非空
+*/
+var ret = 0;
+function checkEmpty(value, id, msg, type) {
+	var _email = /^([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	var _phone= /^((\+?[0-9]{2,4}\-[0-9]{3,4}\-)|([0-9]{3,4}\-))?([0-9]{7,8})(\-[0-9]+)?$/;
+	var _mobile =  /^1[0-9]{10}$/;
+	var _zip= /^[0-9][0-9]{5}$/;
+	var _positiveInteger = /^[0-9]*[1-9][0-9]*$/;
+	var _money = /^[1-9]{1}\d*(\.\d{1,2})?$/;
+	var _money1 = /^(?!0)\d{1,6}$|^(?!0)\d{1,6}[.]\d{1,6}$|^0[.]\d{1,6}$/;
+
+	if(value == "" ||  ($.trim(value)).length == 0){
+		var v = document.getElementById(id+"Span");
+		v.innerHTML = "请填写" + msg;
+		v.className="warning-text1";
+		v.style.display="block";
+		//输入框样式添加warning
+		$("#"+id).addClass("warning");
+	} else if(id == "corpName"){
+        var url = "{:U('Newjoin/check_company')}";
+        $.post(url, {"supplier.corpName":value, "supplierApplyIntention.member_id":1},
+			function(data) {
+                if (data == 'success') {
+                	document.getElementById(id+"Span").className="";
+					document.getElementById(id+"Span").innerHTML="";
+					document.getElementById(id+"Span").style.display="none";
+					$("#"+id).removeClass("warning");
+					ret = 1;
+                } else {
+                	var v = document.getElementById(id+"Span");
+					v.innerHTML = msg + "已经存在，请重新填写";
+					v.className="warning-text2";
+					v.style.display="block";
+					$("#"+id).addClass("warning");
+                }
+			}
+		);
+        return ret;
+    } else {
+		if ((type == "email" && !(_email.test(value))) || (type == "phone" && !(_phone.test(value))) || (type == "mobile" && !(_mobile.test(value))) || (type == "zip" && !(_zip.test(value))) || (type == "positiveInteger" && !(_positiveInteger.test(value))) || (type == "money" && !(_money.test(value)))  || (type == "money1" && (!(value > 0) || !(_money1.test(value))))) {
+			var v = document.getElementById(id+"Span");
+			if (type == "positiveInteger") {
+				msg = msg + "(正整数)";
+			} else if (type == "money") {
+				msg = msg + "(金额)";
+			} else if (type == "money1") {
+				msg = msg + "(6位整数6位小数的金额)";
+			}
+			v.innerHTML = "格式错误，请正确填写" + msg;
+			v.className="warning-text2";
+			v.style.display="block";
+			$("#"+id).addClass("warning");
+		} else {
+			document.getElementById(id+"Span").className="";
+			document.getElementById(id+"Span").innerHTML="";
+			document.getElementById(id+"Span").style.display="none";
+			$("#"+id).removeClass("warning");
+			ret = 1;
+		}
+	}
+	return ret;
+}
+
+
+function checkStore(obj){
+    var url = "{:U('Newjoin/check_store')}";
+    $.ajax({
+        type : "POST",
+        url  : url,
+        data :{'store_name':$(obj).val()},
+        error: function(request) {
+            showErrorMsg("服务器繁忙, 请联系管理员!");
+            return false;
+        },
+        success: function(res) {
+			if(res == 'success'){
+				$(obj).attr('err_msg',0);
+			}else{
+				$(obj).attr('err_msg',1);
+			}
+        }
+    });
+}
+
+function checkSeller(obj){
+    var seller_name = $.trim($(obj).val());
+    if(seller_name == '' || seller_name.length <=0){
+        $('#mainAccountSpan').show().html('请填写店铺登录主账号');
+        $('#mainAccountSpan').addClass('warning-text1');
+        return false;
+    }
+    $.ajax({
+        type : "POST",
+        url  : "{:U('Newjoin/check_seller')}",
+        data :{'seller_name':seller_name},
+        error: function(request) {
+            showErrorMsg("服务器繁忙, 请联系管理员!");
+            return false;
+        },
+        success: function(res) {
+			if(res == 'success'){
+				$(obj).attr('err_msg',0);
+                $('#mainAccountSpan').hide();
+                $('#mainAccountSpan').removeClass('warning-text1');
+			}else{
+                $('#mainAccountSpan').show().html('名称已存在');
+                $('#mainAccountSpan').addClass('warning-text1');
+				$(obj).attr('err_msg',1);
+			}
+        }
+    });
+}
+
+/**
+* 下一步
+*/
+function nextStep() {
+	if ($("#shopName").attr('err_msg') == 1) {
+		showErrorMsg("店铺名称被注册，请更换其他名称");
+		$("#shopName").focus();
+		return;
+	}
+	if($("#shopName").val() == ''){
+		showErrorMsg("请填写店铺名称");
+		$("#shopName").focus();
+		return;
+	}
+	
+	if ($("#seller_name").attr('err_msg') == 1) {
+		showErrorMsg("抱歉，此店铺登陆账号已被注册");
+		$("#seller_name").focus();
+		return;
+	}
+	if ($("#provinces").val()=="") {
+		showErrorMsg("请选择 店铺所在地省份");
+		$("#provinces").focus();
+		return;
+	}
+	if ($("#city").val()=="") {
+		showErrorMsg("请选择店铺所在地城市");
+		$("#city").focus();
+		return;
+	}
+	if($("#storeAddress").val() == ''){
+		showErrorMsg("请填写店铺详细地址");
+		$("#storeAddress").focus();
+		return;
+	}
+	if($("#seller_name").val() == ''){
+		showErrorMsg("请填写店铺登陆账号");
+		$("#seller_name").focus();
+		return;
+	}
+	if($('#store_person_identity').val().length != 18){
+		showErrorMsg("请填写正确的身份证号");
+		$("#store_person_identity").focus();
+		return;
+	}
+	if (checkEmpty($("#contactPersonName").val(),'contactPersonName','店铺负责人姓名','') != 1) {
+		showErrorMsg("店铺负责人姓名，填写有误");
+		$("#contactPersonName").focus();
+		return;
+	}
+	if (checkEmpty($("#contactPersonPhone").val(),'contactPersonPhone','手机号码','mobile') != 1) {
+		showErrorMsg("手机号码，填写有误");
+		$("#contactPersonPhone").focus();
+		return;
+	}
+	if (checkEmpty($("#contactPersonQq").val(),'contactPersonQq','qq','qq') != 1) {
+		showErrorMsg("店铺负责人QQ");
+		$("#contactPersonQq").focus();
+		return;
+	}
+	if (checkEmpty($("#shop_email").val(),'email','电子邮箱','email') != 1) {
+		showErrorMsg("电子邮箱，填写有误");
+		$("#shop_email").focus();
+		return;
+	}
+
+	// 设置shopApply.entity_shop
+	if (checkEmpty($("#bankAccountName").val(),'bankAccountName','银行开户名','') != 1) {
+		showErrorMsg("银行开户名，填写有误");
+		$("#bankAccountName").focus();
+		return;
+	}
+	if (checkEmpty($("#bankAccount").val(),'bankAccount','银行账号','positiveInteger') != 1) {
+		showErrorMsg("银行账号，填写有误");
+		$("#bankAccount").focus();
+		return;
+	}
+	if ($("#bankBranchName").val()=="") {
+		showErrorMsg("请选择开户银行支行名称");
+		$("#bankBranchName").focus();
+		return;
+	} else if ($("#f_shopBank").val()!=$("#bankBranchName").val()) {
+		//showErrorMsg("开户银行支行名称，选择有误");
+		//$("#bankBranchName").focus();
+		//return;
+	}
+	if ($("#bank_province").val()=="") {
+		showErrorMsg("请选择 开户银行支行所在地省份");
+		$("#bank_province").focus();
+		return;
+	}
+	if ($("#bank_city").val()=="") {
+		showErrorMsg("请选择 开户银行支行所在地城市");
+		$("#bank_city").focus();
+		return;
+	}
+	// 验证下拉框
+	if ($("#shopType").val()=="") {
+		showErrorMsg("请选择 店铺性质");
+		$("#shopType").focus();
+		return;
+	}
+	document.getElementById('seller_info').submit();
+}
+
+
+/**
+ * 获取省份
+ */
+function get_province(){
+    var url = '/index.php?m=Home&c=Api&a=getRegion&level=1&parent_id=0';
+    $.ajax({
+        type : "GET",
+        url  : url,
+        error: function(request) {
+            showErrorMsg("服务器繁忙, 请联系管理员!");
+            return;
+        },
+        success: function(v) {
+            v = '<option value="0">选择省份</option>'+ v;          
+            $('#province').empty().html(v);
+        }
+    });
+}
+
+
+/**
+ * 获取城市
+ * @param t  省份select对象
+ */
+ function get_city(t,obj,selected){
+	    var parent_id = $(t).val();
+	    if(!parent_id > 0){
+	        return;
+	    }
+	    $('#twon').empty().css('display','none');
+	    var url = '/index.php?m=Home&c=Api&a=getRegion&level=2&parent_id='+ parent_id+"&selected="+selected;
+	    $.ajax({
+	        type : "GET",
+	        url  : url,
+	        error: function(request) {
+	            showErrorMsg("服务器繁忙, 请联系管理员!");
+	            return;
+	        },
+	        success: function(v) {
+	            v = '<option value="0">选择城市</option>'+ v;          
+	            $('#'+obj).empty().html(v);
+                $('#district').empty().html('<option value="0">选择区域</option>');
+	        }
+	    });
+}
+
+
+
+function get_sub_cat(obj,element){
+    var parent_id = $(obj).val();
+    if(!parent_id > 0){
+        return;
+    }
+    $.ajax({
+        type : "GET",
+        url  : "{:U('Home/Api/get_category')}",
+        data : {'parent_id':parent_id},
+        error: function(request) {
+            showErrorMsg("服务器繁忙, 请联系管理员!");return;
+        },
+        success: function(v) {
+            v = '<option value="">选择分类</option>'+ v;
+            $('#'+element).empty().html(v).show();
+        }
+    });
+}
+
+function select_sub_cat(obj,element){
+    var parent_id = $(obj).val();
+    if(!parent_id > 0){
+        return;
+    }
+    $.ajax({
+        type : "GET",
+        url  : "{:U('Home/Api/get_cates')}",
+        data : {'parent_id':parent_id},
+        error: function(request) {
+            showErrorMsg("服务器繁忙, 请联系管理员!");return;
+        },
+        success: function(v){
+            $('#'+element).empty().html(v).show();
+        }
+    });
+}
+
+var aa = [];
+function bind_store_class(){
+   if($("input[type='checkbox']:checked").length == 0)
+   {
+	   showErrorMsg('请在三级分类里至少选择一个经营类目');
+	   return false;
+   }
+   var cattr = '';
+   $("input[type='checkbox']:checked").each(function(i,o){
+	    if($.inArray($(o).val(), aa) == -1){
+			var conmmis = $(o).attr('rel');
+			var cat_str = $('#class_1').val()+','+$('#class_2').val()+','+$(o).val();
+			cattr += '<tr><td>'+$('#class_1').find("option:selected").text()+'</td>';
+			cattr += '<td>'+$('#class_2').find("option:selected").text()+'</td>';
+			cattr += '<td>'+$(o).attr('data-name')+'(佣金比例：'+conmmis+'%)</td>';
+			cattr += '<td><a href="javascript:;" onclick="$(this).parent().parent().remove();del_store_class('+$(o).val()+');">删除</a></td>';
+			cattr += '<input name="store_class_ids[]" type="hidden" value="'+cat_str+'"></tr>';
+			aa.push($(o).val());
+	    }
+   });
+   $('#new_cat').append(cattr);
+   showbtn();
+}
+
+function del_store_class(value)
+{
+	$.each(aa,function(index,item){
+		// index是索引值（即下标）   item是每次遍历得到的值；
+		if(item==value){
+			aa.splice(index,1);
+		}
+	});
+}
+
+
+function showbtn(){
+	$('.bind_cat').hide();
+	$('#class_2').empty().hide();
+	$('#class_3').empty().hide();
+	$('#btn_select_category').show()
+}
+
+/**
+ *用户表单验证公共JS
+ * */
+//提示弹窗
+function showErrorMsg(msg){
+    layer.alert(msg, {icon: 2});
+}
+</script>
+</body>
+</html>

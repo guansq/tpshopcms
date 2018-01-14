@@ -1,0 +1,56 @@
+        <foreach name="return_list" item="vo">
+        <div class="severde tuharecha  ma-to-20">
+            <div class="myorder p">
+                <div class="content30">
+                    <a>
+                        <div class="order">
+                            <div class="fl">
+                                    <span>服务单号：<em>{$vo.id}</em></span>
+                            </div>
+                            <div class="fr">
+                                <span>{$rtype[$vo[type]]}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="sc_list se_sclist paycloseto">
+                <div class="maleri30">
+                    <div class="shopimg fl">
+                        <img src="{$vo.goods_id|goods_thum_images=100,100}">
+                    </div>
+                    <div class="deleshow fr">
+                        <div class="deletes">
+                            <a class="daaloe">{$goodsList[$vo[goods_id]]}</a>
+                        </div>
+                        <div class="qxatten">
+                            <p class="weight"><span>申请时间：</span><span>{$vo.addtime|date='Y-m-d H:i:s',###}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="myorder p">
+                <div class="content30">
+                    <a href="{:U('Order/return_goods_info',array('id'=>$vo[id]))}">
+                        <div class="order">
+                            <div class="fl">
+                                <span class="red">{$state[$vo[status]]}</span>
+                                <span></span>
+                            </div>
+                            <div class="fr">
+                                <i class="Mright"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!--  
+            <div class="xomjdche">
+                <div class="maleri30">
+                    <a href="{:U('Order/return_goods_info',array('id'=>$vo[id]))}">进度查询</a>
+                    <a class="red" href="">去评价</a>
+                </div>
+            </div>
+            -->
+        </div>
+        </foreach>

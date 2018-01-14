@@ -1,0 +1,60 @@
+<include file="public/header" title="进度查询" body="g4"/>
+<include file="public/header_nav" title="审核进度" href="javascript:history.back(-1);"/>
+		<div class="dindboxt">
+			<div class="maleri30">
+				<p><span class="gray">订单编号：</span><span>{$return_goods.order_sn}</span></p>
+				<p><span class="gray">申请时间：</span><span>{$return_goods.addtime|date='Y-m-d H:i:s',###}</span></p>
+			</div>
+		</div>
+		<!--<div class="comnes">
+			<div class="maleri30 applyover">
+				<a href="{:U('Order/return_goods_list')}">已解决返回</a>
+				<a href="{:U('Order/dispute_apply',array('order_id'=>$return_goods[order_id]))}">未解决投诉</a>
+			</div>
+		</div>-->
+		<div class="listschdule">
+			<if condition="$return_goods.canceltime gt 0">
+			<div class="tittimlord red-around">
+				<h2>亲爱的客户，您的服务单已经您本人取消</h2>
+				<p>{$return_goods.canceltime|date='Y-m-d H:i:s',###}</p>
+				<p><span>经办人：</span><span class="store_dd">本人</span></p>
+			</div>
+			</if>
+			<if condition="$return_goods.refund_time gt 0">
+			<div class="tittimlord gray-around">
+				<h2>亲爱的客户，您的服务单卖家已退款完成</h2>
+				<p>{$return_goods.refund_time|date='Y-m-d H:i:s',###}</p>
+				<p><span>经办人：</span><span class="store_dd">管理员</span></p>
+			</div>
+			</if>
+			<notempty name="return_goods.seller_delivery">
+			<div class="tittimlord gray-around">
+				<h2>亲爱的客户，卖家已重新发货,快递公司：{$return_goods[seller_delivery][express_name]},快递单号：{$return_goods[seller_delivery][express_sn]}</h2>
+				<p>{$return_goods[seller_delivery][express_time]}</p>
+				<p><span>经办人：</span><span class="store_dd">卖家</span></p>
+			</div>
+			</notempty>
+			<if condition="$return_goods.receivetime gt 0">
+			<div class="tittimlord gray-around">
+				<h2>亲爱的客户，卖家已收到您寄回的物品</h2>
+				<p>{$return_goods.receivetime|date='Y-m-d H:i:s',###}</p>
+				<p><span>经办人：</span><span class="store_dd">卖家</span></p>
+			</div>
+			</if>
+			
+			<if condition="$return_goods.checktime gt 0">
+			<div class="tittimlord gray-around">
+				<h2>亲爱的客户，您的服务单第三方卖家已审核</h2>
+				<p>{$return_goods.checktime|date='Y-m-d H:i:s',###}</p>
+				<p><span>经办人：</span><span class="store_dd">卖家</span></p>
+			</div>
+			</if>
+			<div class="tittimlord gray-around">
+				<h2>您的服务单已申请成功，待售后审核中</h2>
+				<p>{$return_goods.addtime|date='Y-m-d H:i:s',###}</p>
+				<p><span>经办人：</span><span class="store_dd">系统</span></p>
+			</div>
+		</div>
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

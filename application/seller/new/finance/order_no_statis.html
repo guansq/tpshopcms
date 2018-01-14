@@ -1,0 +1,124 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>统计结算<i class="icon-angle-right"></i>结算记录
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Finance/order_no_statis')}">结算记录</a></li>
+                </ul>
+            </div>
+            <table class="search-form">
+                <form method="get" action="{:U('Finance/order_no_statis')}" id="search-form2" onsubmit="check_form();">
+                    <input type="hidden" id="create_date" value="{$create_date}" name="create_date">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th class="w80">申请开始时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                        </td>
+                        <th class="w80">申请截止时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                        </td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w50">订单ID</th>
+                    <th class="w120">订单SN</th>
+                    <th class="w120">发货时间</th>
+                    <th class="w120">下单时间</th>
+                    <th class="w80">订单总价</th>
+                    <th class="w80">付款金额</th>
+                    <th class="w80">积分金额</th>
+                    <th class="w80">优惠金额</th>
+                    <th class="w80">余额抵扣</th>
+                    <th class="w80">商品总价</th>
+                    <th class="w80">订单状态</th>
+                    <th class="w100">发货状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <if condition="count($list) gt 0">
+                <volist name="list" id="v">
+                    <tr class="bd-line">
+                        <td>{$v.order_id}</td>
+                        <td style="padding: 0 10px">{$v.order_sn}</td>
+                        <td><if condition="$v['shipping_time'] eq 0">未发货<else/>{$v.shipping_time|date="Y-m-d H:i",###}</if></td>
+                        <td>{$v.add_time|date="Y-m-d H:i",###}</td>
+                        <td>{$v.total_amount}</td>
+                        <td>{$v.order_amount}</td>
+                        <td>{$v.integral_money}</td>
+                        <td>{$v.coupon_price}</td>
+                        <td>{$v.user_money}</td>
+                        <td>{$v.goods_price}</td>
+                        <td>{$shipping_status[$v['shipping_status']]}</td>
+                        <td>{$order_status[$v['order_status']]}</td>
+                    </tr>
+                </volist>
+                    <else/>
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                </if>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">
+                        {$show}
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function(){
+		// 起始位置日历控件
+		laydate.skin('molv');//选择肤色
+		laydate({
+		  elem: '#start_time',
+		  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+		  festival: true, //显示节日
+		  istime: false,
+		  choose: function(datas){ //选择日期完毕的回调
+			 
+		  }
+		});
+		 
+		 // 结束位置日历控件
+		laydate({
+		  elem: '#end_time',
+		  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+		  festival: true, //显示节日
+		  istime: false,
+		  choose: function(datas){ //选择日期完毕的回调
+			   
+		  }
+		});	
+    });
+    function check_form(){
+        var start_time = $.trim($('#start_time').val());
+        var end_time =  $.trim($('#end_time').val());
+        if(start_time == '' ^ end_time == ''){
+            layer.alert('请选择完整的时间间隔', {icon: 2});
+            return false;
+        }
+        if(start_time !== '' && end_time !== ''){
+            $('#create_date').val(start_time+" - "+end_time);
+        }
+        if(start_time == '' && end_time == ''){
+            $('#create_date').val('');
+        }
+    }
+</script>
+</body>
+</html>

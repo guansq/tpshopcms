@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$store.store_name}</title>
+<meta name="keywords" content="TPshop,搜豹网络," />
+<meta name="description" content="TPshop,搜豹网络," />
+<link href="__STATIC__/css/store_base.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/store_header.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/tpshop.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/js/global.js"></script>
+<!--[if IE 6]>
+<script src="__PUBLIC__/js/IE6_PNG.js"></script>
+<script>
+DD_belatedPNG.fix('.pngFix');
+</script>
+<script>
+// <![CDATA[
+if((window.navigator.appName.toUpperCase().indexOf("MICROSOFT")>=0)&&(document.execCommand))
+	try{
+		document.execCommand("BackgroundImageCache", false, true);
+	}
+	catch(e){}
+// ]]>
+</script>
+<![endif]-->
+<script>var _CHARSET = 'utf-8';</script>
+<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/js/common.js" charset="utf-8"></script>
+<script src="__PUBLIC__/js/layer/layer.js"></script>
+<script type="text/javascript">
+var PRICE_FORMAT = '&yen;%s';
+$(function(){
+	$('#button').click(function(){
+	    if ($('#keyword').val() == '') {
+		    return false;
+	    }
+	});
+});
+
+$(function(){
+	//search
+	var act = "show_store";
+	if (act == "store_list"){
+		$("#search").children('ul').children('li:eq(1)').addClass("current");
+		$("#search").children('ul').children('li:eq(0)').removeClass("current");
+		}
+	$("#search").children('ul').children('li').click(function(){
+		$(this).parent().children('li').removeClass("current");
+		$(this).addClass("current");
+		$('#search_act').attr("value",$(this).attr("act"));
+		$('#keyword').attr("placeholder",$(this).attr("title"));
+	});
+	$("#keyword").blur();
+});
+</script>
+</head>
+<body>
+<!-- PublicTopLayout Begin -->
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<include file="public/sidebar_cart" />
+<div class="public-top-layout w">
+  <div class="topbar wrapper">
+    <div class="user-entry">
+		<if condition="$user['user_id'] gt 0">
+			您好 <span><a href="{:U('User/index')}">{$user['nickname']|default=$user['mobile']}</a>
+	   		<div class="nc-grade-mini" style="cursor:pointer;" onclick="javascript:go();">VO</div></span>
+			欢迎回来，<a href="{:U('Index/index')}" title="首页" alt="首页">
+			<span>TP商城</span></a> <span>[<a href="{:U('User/logout')}">退出</a>] </span>
+			<else/>
+			Hi，欢迎来 <a href="{:U('Index/index')}" title="首页" alt="首页">TP商城</a>
+			<a href="{:U('User/login')}">请登录</a></span> <span><a href="{:U('User/register')}">免费注册</a></span>
+		</if>
+   </div>
+    <div class="quick-menu">
+		<dl class="down_app">
+	        <dt><em class="ico_tel"></em><a href="{:U('Mobile/Index/index')}">手机移动端</a><i></i></dt>
+	        <dd>
+	       	<div class="qrcode"><img src="__STATIC__/images/app.png"></div>
+	        <div class="hint"><h4>扫描二维码</h4> 下载手机客户端</div>
+	        <div class="addurl">
+	              <a href="http://fir.im/tpshopAndroid" target="_blank"><i class="icon-android"></i>Android</a>
+	              <a href="https://itunes.apple.com/cn/app/sou-bao-shang-cheng/id1119059153?mt=8" target="_blank"><i class="icon-apple"></i>iPhone</a>
+	        </div>
+	    	</dd>
+    	</dl>
+    	<dl>
+        <dt><em class="ico_shop"></em><a href="{:U('Newjoin/index')}" title="商家管理">商家管理</a><i></i></dt>
+        <dd>
+          <ul>
+		    <li><a href="{:U('Newjoin/index')}" title="招商入驻">招商入驻</a></li>
+            <li><a href="{:U('Seller/Admin/login')}" target="_blank" title="登录商家管理中心">商家登录</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_order"></em><a href="{:U('Order/order_list')}">我的订单</a><i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="{:U('Order/order_list',array('type'=>'WAITPAY'))}">待付款订单</a></li>
+            <li><a href="{:U('Order/order_list',array('type'=>'WAITRECEIVE'))}">待确认收货</a></li>
+            <li><a href="{:U('Order/order_list',array('type'=>'WAITCCOMMENT'))}">待评价交易</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_store"></em><a href="{:U('User/goods_collect')}">我的收藏</a><i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="{:U('User/goods_collect',array('collect_type'=>1))}">商品收藏</a></li>
+            <li><a href="{:U('User/goods_collect',array('collect_type'=>2))}">店铺收藏</a></li>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="ico_service"></em>客户服务<i></i></dt>
+        <dd>
+          <ul>
+            <li><a href="{:U('Article/detail',array('article_id'=>1))}">帮助中心</a></li>
+            <li><a href="{:U('Article/detail',array('article_id'=>2))}">售后服务</a></li>
+            <li><a href="{:U('Article/detail',array('article_id'=>3))}">客服中心</a></li>
+          </ul>
+        </dd>
+      </dl>
+      	  <dl class="weixin">
+        <dt>关注我们<i></i></dt>
+        <dd>
+          <h4>扫描二维码<br/>关注商城微信号</h4>
+          <img src="__STATIC__/images/weixin.png" > </dd>
+        </dl>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+//动画显示边条内容区域
+$(function() {
+	$(function() {
+		$('#activator').click(function() {
+			$('#content-cart').animate({'right': '-250px'});
+			$('#content-compare').animate({'right': '-250px'});
+			$('#vToolbar').animate({'right': '-60px'}, 300,
+			function() {
+				$('#ncHideBar').animate({'right': '59px'},	300);
+			});
+	        $('div[nctype^="bar"]').hide();
+		});
+		$('#ncHideBar').click(function() {
+			$('#ncHideBar').animate({
+				'right': '-86px'
+			},
+			300,
+			function() {
+				$('#content-cart').animate({'right': '-250px'});
+				$('#content-compare').animate({'right': '-250px'});
+				$('#vToolbar').animate({'right': '6px'},300);
+			});
+		});
+	});
+    $("#rtoolbar_cart").click(function(){
+        if ($("#content-cart").css('right') == '-250px') {
+         	$('#content-compare').animate({'right': '-250px'});
+    		$("#content-cart").animate({right:'0px'});
+    		$.ajax({
+    			type: "GET",
+    			url: "/index.php?m=Home&c=Cart&a=header_cart_list",//+tab,
+    			dataType:'html',		
+    			success: function (data) {
+    				var data = eval('('+data+')');
+    				$('#rtoolbar_cartlist').empty().html($.trim(data));
+    			}
+    		});
+        } else {
+        	$(".close").click();
+        	$(".chat-list").css("display",'none');
+        }
+	});
+	$(".close").click(function(){
+		$(".content-box").animate({right:'-250px'});
+      });
+
+	$(".quick-menu dl").hover(function() {
+		$(this).addClass("hover");
+	},
+	function() {
+		$(this).removeClass("hover");
+	});
+
+
+    $('div[nctype="a-barUserInfo"]').click(function(){
+        $('div[nctype="barUserInfo"]').toggle();
+    });
+    // 右侧bar登录
+    $('div[nctype="a-barLoginBox"]').click(function(){
+       // $('div[nctype="barLoginBox"]').toggle();
+       //document.getElementById('codeimage').src='http://www.xiaomi.com/shop/index.php?act=seccode&op=makecode&nchash=a8011a99&t=' + Math.random();
+    });
+    $('a[nctype="close-barLoginBox"]').click(function(){
+        $('div[nctype="barLoginBox"]').toggle();
+    });
+	    
+});
+
+function DrawImage(ImgD,FitWidth,FitHeight){
+    var image=new Image();
+    image.src=ImgD.src;
+    if(image.width>0 && image.height>0)
+    {
+        if(image.width/image.height>= FitWidth/FitHeight)
+        {
+            if(image.width>FitWidth)
+            {
+                ImgD.width=FitWidth;
+                ImgD.height=(image.height*FitWidth)/image.width;
+            }
+            else
+            {
+                ImgD.width=image.width;
+                ImgD.height=image.height;
+            }
+        }
+        else
+        {
+            if(image.height>FitHeight)
+            {
+                ImgD.height=FitHeight;
+                ImgD.width=(image.width*FitHeight)/image.height;
+            }
+            else
+            {
+                ImgD.width=image.width;
+                ImgD.height=image.height;
+            }
+        }
+    }
+}
+</script>
+<!-- PublicHeadLayout Begin -->
+<div class="header-wrap">
+  <div class="public-head-layout wrapper">
+    <h1 class="site-logo"><a href="{:U('Index/index')}"><img src="{$store.store_logo|default='__STATIC__/images/newLogo.png'}" class="pngFix"></a></h1>
+	<div class="heade_store_info">
+    	<div class="slogo">
+        	<a href="{:U('Store/index',array('store_id'=>$store[store_id]))}" title="搜豹网络" class="store_name">{$store.store_name}</a>
+            <br>
+        </div>
+        <div class="pj_info">
+        	<div class="shopdsr_item">
+                <div class="shopdsr_title">描述相符</div>
+                <div class="shopdsr_score">{$store.store_desccredit}</div>
+            </div>
+            <div class="shopdsr_item">
+                <div class="shopdsr_title">服务态度</div>
+                <div class="shopdsr_score">{$store.store_servicecredit}</div>
+            </div>
+            <div class="shopdsr_item">
+                <div class="shopdsr_title">发货速度</div>
+                <div class="shopdsr_score">{$store.store_deliverycredit}</div>
+            </div>
+        </div>
+		<div class="sub">
+		 <div class="store-logo">
+		 	<if condition="$store[store_logo] neq ''">
+		 	<img src="{$store.store_logo}" alt="{$store.store_name}" title="{$store.store_name}">
+		 	<else/>
+		 	<img src="__STATIC__/images/default_store_logo.gif" alt="{$store.store_name}" title="{$store.store_name}">
+		 	</if>
+		 </div>
+		 <!--店铺基本信息 S-->
+		<div class="ncs-info">
+		  <div class="title">
+		    <h4>{$store.store_name}</h4>
+		  </div>
+		  <div class="content">
+		  		<if condition="$store[is_own_shop] neq 1">
+			    <dl class="all-rate">
+			      <dt>综合评分：</dt>
+			      <dd>
+			        <div class="rating"><span style="width: {($store[store_desccredit]+$store[store_servicecredit]+$store[store_deliverycredit])*200/3}%"></span></div>
+			        <em>{:round(($store[store_desccredit]+$store[store_servicecredit]+$store[store_deliverycredit])/3,1)}</em>分</dd>
+			    </dl>
+			    <div class="ncs-detail-rate">
+			      <h5><strong>店铺动态评分</strong>与行业相比</h5>
+				      <ul>
+				           <li> 描述相符<span class="credit">{$store[store_desccredit]|number_format=1}分</span>
+							   <if condition='number_format($store[store_desccredit],1) gt $storeStatistics[store_desccredit_avg]'>
+								   <span class="high"><i></i>大于<em>{$storeStatistics['store_desccredit_avg']}</em></span>
+								   <elseif condition='number_format($store[store_desccredit],1) lt $storeStatistics[store_desccredit_avg]'/>
+								   <span class="low"><i></i>小于<em>{$storeStatistics['store_desccredit_avg']}</em></span>
+								   <else/>
+								   <span class="equal"><i></i>持平<em>{$storeStatistics['store_desccredit_avg']}</em></span>
+							   </if>
+						   </li>
+				           <li> 服务态度<span class="credit">{$store[store_servicecredit]|number_format=1}分</span>
+							   <if condition='number_format($store[store_servicecredit],1) gt $storeStatistics[store_servicecredit_avg]'>
+								   <span class="high"><i></i>大于<em>{$storeStatistics['store_servicecredit_avg']}</em></span>
+								   <elseif condition='number_format($store[store_servicecredit],1) lt $storeStatistics[store_servicecredit_avg]'/>
+								   <span class="low"><i></i>小于<em>{$storeStatistics['store_servicecredit_avg']}</em></span>
+								   <else/>
+								   <span class="equal"><i></i>持平<em>{$storeStatistics['store_servicecredit_avg']}</em></span>
+							   </if>
+						   </li>
+				           <li> 发货速度<span class="credit">{$store[store_deliverycredit]|number_format=1}分</span>
+							   <if condition='number_format($store[store_deliverycredit],1) gt $storeStatistics[store_deliverycredit_avg]'>
+								   <span class="high"><i></i>大于<em>{$storeStatistics['store_deliverycredit_avg']}</em></span>
+								   <elseif condition='number_format($store[store_deliverycredit],1) lt $storeStatistics[store_deliverycredit_avg]'/>
+								   <span class="low"><i></i>小于<em>{$storeStatistics['store_deliverycredit_avg']}</em></span>
+								   <else/>
+								   <span class="equal"><i></i>持平<em>{$storeStatistics['store_deliverycredit_avg']}</em></span>
+							   </if>
+						   </li>
+				      </ul>
+			    </div>
+			    </if>
+		        <dl class="messenger">
+		      <dt>联系方式：</dt>
+		      <dd><span member_id="2">
+		         <notempty name="store.store_qq">
+		        	<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$store.store_qq};?>&site=qq&menu=yes" title="QQ:{$store.store_qq}"><img border="0" src="http://wpa.qq.com/pa?p=2:{$store.store_qq}:52" style=" vertical-align: middle;"/></a>
+		         </notempty>
+		      </span></dd>
+		    </dl>
+		      <!--只有实名认证实体店认证后才显示保障体系 by haoid.cn -->
+		      <!--保证金金额-->
+			  <!--保障体系 by haoid.cn-->
+			<notempty name="store.company_name">
+		    <dl class="no-border">
+		        <dt>公司名称：</dt><dd>{$store.company_name}</dd>
+		    </dl>
+		    </notempty>
+		    <dl>
+		        <dt>所&nbsp;在&nbsp;地：</dt>
+		        <dd>{$store.store_address}</dd>
+		    </dl>
+		    <div class="goto"><a href="{:U('Store/index',array('store_id'=>$store[store_id]))}" >进入商家店铺</a>
+		    	<a href="javascript:collect_store('{$store[store_id]}')">收藏店铺<em nctype="store_collect"></em></a>
+		    </div>
+		    <div class="shop-other" id="shop-other">
+			    <ul>
+			      <li class="ncs-info-btn-map"><a href="javascript:void(0)" class="pngFix"><span>店铺地图</span><b></b><!-- 店铺地图 -->
+			        <div class="ncs-info-map" id="map_container" style="width:208px;height:208px;"></div>
+			        </a></li>
+			      <li class="ncs-info-btn-qrcode"><a href="javascript:void(0)" class="pngFix"><span>店铺二维码</span><b></b>
+			        <p class="ncs-info-qrcode"><img src="{:U('Index/store_qrcode',array('store_id'=>$store[store_id]))}" title="店铺原始地" style="width:208px;height:208px"></p>
+			        </a></li>
+			    </ul>
+		    </div>
+		  </div>
+		</div>
+		<!--店铺基本信息 E-->
+		<script type="text/javascript">
+            var cityName = "{$store.store_address}"; //店铺详细地址
+            var address = "{$store.province_id} {$store.city_id} {$store.district}";  //省市区
+            var store_name = "{$store.store_name}";  //店铺名
+		function initialize() {
+			map = new BMap.Map("map_container");
+			localCity = new BMap.LocalCity();
+			map.enableScrollWheelZoom();
+			localCity.get(function(cityResult){
+			  if (cityResult) {
+			  	var level = cityResult.level;
+			  	if (level < 13) level = 13;
+			    map.centerAndZoom(cityResult.center, level);
+			    cityResultName = cityResult.name;
+			    if (cityResultName.indexOf(cityName) >= 0) cityName = cityResult.name;
+			    	    getPoint();
+			   	}
+			});
+		}
+
+		function loadScript() {
+			var script = document.createElement("script");
+			script.src = "http://api.map.baidu.com/api?v=1.2&callback=initialize";
+			document.body.appendChild(script);
+		}
+		function getPoint(){
+			var myGeo = new BMap.Geocoder();
+			myGeo.getPoint(address, function(point){
+			  if (point) {
+			    setPoint(point);
+			  }
+			}, cityName);
+		}
+		function setPoint(point){
+			  if (point) {
+			    map.centerAndZoom(point, 16);
+			    var marker = new BMap.Marker(point);
+			    map.addOverlay(marker);
+			  }
+		}
+
+		// 当鼠标放在店铺地图上再加载百度地图。
+		$(function(){
+			$('.ncs-info-btn-map').one('mouseover',function(){
+				loadScript();
+			});
+			$('.ncs-info-btn-map').one('click',function(){
+				loadScript();
+			});
+		});
+
+		//收藏店铺
+		function collect_store(store_id){
+			if(getCookie('user_id') == ''){
+				pop_login();
+			}else{
+				$.ajax({
+					type:'post',
+					dataType:'json',
+					data:{store_id:store_id},
+					url:"{:U('Home/Store/collect_store')}",
+					success:function(res){
+						if(res.status == 1){
+							layer.msg('成功添加至收藏夹', {icon: 1});
+						}else{
+							layer.msg(res.msg, {icon: 3});
+						}
+					}
+				});
+			}
+		}
+
+		function pop_login(){
+		    layer.open({
+		        type: 2,
+		        title: '<b>登陆TPshop网</b>',
+		        skin: 'layui-layer-rim',
+		        shadeClose: true,
+		        shade: 0.5,
+		        area: ['490px', '460px'],
+		        content: "{:U('Home/User/pop_login')}",
+		    });
+		}
+		</script>
+		</div>
+	</div>
+    <div class="heade_service_info">
+        <div class="displayed">
+            <i></i>在线客服
+            <div class="sub">
+			  <div class="ncs-message-bar">
+			  	<div class="default">
+			    	<h5><a href="{:U('Store/index',array('store_id'=>$store[store_id]))}" title="进入店铺">{$store.store_name}</a></h5>
+			    	<span member_id="1"></span>
+			    </div>
+			    <div class="service-list" store_id="1" store_name="{$store.store_name}">
+				     <dl>
+					<volist name="store[store_presales]" id="vo">
+				      <dt>售前客服：</dt>
+						<dd><span>{$vo.name}</span><span>
+							<if condition="$vo['type'] eq 'qq'">
+								<a href="http://wpa.qq.com/msgrd?v=3&uin={$vo.account}&site=qq&menu=yes" title="QQ:{$vo.account}" target="_blank">
+									<img border="0" src="http://wpa.qq.com/pa?p=2:{$vo.account}:52" alt="点击这里给我发消息" style=" vertical-align: middle;">
+								</a>
+								<else/>
+								<a href="http://amos1.taobao.com/msg.ww?v=2&amp;uid={$vo.account}&amp;s=2" target="_blank">
+									<img border="0" src="__STATIC__/images/T1B7m.XeXuXXaHNz_X-16-16.gif" alt="点击这里给我发消息" style=" vertical-align: middle;">
+								</a>
+							</if>
+			                </span>
+						</dd>
+					</volist>
+					 </dl>
+				     <dl>
+						 <volist name="store[store_aftersales]" id="vo">
+							 <dt>售后客服：</dt>
+							 <dd><span>{$vo.name}</span><span>
+							<if condition="$vo['type'] eq 'qq'">
+								<a href="http://wpa.qq.com/msgrd?v=3&uin={$vo.account}&site=qq&menu=yes" title="QQ:{$vo.account}" target="_blank">
+									<img border="0" src="http://wpa.qq.com/pa?p=2:{$vo.account}:52" alt="点击这里给我发消息" style=" vertical-align: middle;">
+								</a>
+								<else/>
+								<a href="http://amos1.taobao.com/msg.ww?v=2&amp;uid={$vo.account}&amp;s=2" target="_blank">
+									<img border="0" src="__STATIC__/images/T1B7m.XeXuXXaHNz_X-16-16.gif" alt="点击这里给我发消息" style=" vertical-align: middle;">
+								</a>
+							</if>
+			                </span>
+							 </dd>
+						 </volist>
+				      </dl>
+			    </div>
+			  </div>
+            </div>
+        </div>
+   </div>
+    <div id="search" class="head-search-bar">
+	<!--商品和店铺-->
+      <!--<ul class="tab">
+        <li title="请输入您要搜索的商品关键字" act="search" class="current">商品</li>
+        <li title="请输入您要搜索的店铺关键字" act="store_list">店铺</li>
+      </ul>-->
+      <form class="search-form" method="get" action="{:U('Goods/search')}">
+        <input type="hidden" value="search" id="search_act" name="act">
+         <input placeholder="请输入您要搜索的商品关键字" name="q" id="q" type="text" class="input-text" value="" maxlength="60" x-webkit-speech lang="zh-CN" onwebkitspeechchange="foo()" x-webkit-grammar="builtin:search" />
+        <input type="submit" id="button" value="搜索" class="input-submit">
+      </form>
+	  <!--搜索关键字-->
+      <!--<div class="keyword">热门搜索：
+          <ul>
+             <li><a href="http://www.xiaomi.com/shop/index.php?act=search&op=index&keyword=%E5%A5%BD%E5%95%86%E5%9F%8EV4">好商城V4</a></li>
+             <li><a href="http://www.xiaomi.com/shop/index.php?act=search&op=index&keyword=%E5%86%85%E8%A1%A3">内衣</a></li>
+             <li><a href="http://www.xiaomi.com/shop/index.php?act=search&op=index&keyword=%E7%AC%94%E8%AE%B0%E6%9C%AC">笔记本</a></li>
+             <li><a href="http://www.xiaomi.com/shop/index.php?act=search&op=index&keyword=%E6%89%8B%E6%9C%BA">手机</a></li>
+           </ul>
+      </div>-->
+    </div>
+  </div>
+</div>
+<!-- PublicHeadLayout End -->
+<link href="__STATIC__/css/shop.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/css/shop_custom.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/style/{$store.store_theme}/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/js/shop.js" charset="utf-8"></script>
+<div id="header" class="ncs-header"></div>
+<div id="store_decoration_content" class="background" style="<?php echo $output['decoration_background_style'];?>">
+<?php if(!empty($output['decoration_nav'])) {?>
+<style><?php echo $output['decoration_nav']['style'];?></style>
+<?php } ?>
+<div class="ncsl-nav">
+      <?php if(isset($output['decoration_banner'])) { ?>
+     <!-- 启用店铺装修 -->
+     <?php if($output['decoration_banner']['display'] == 'true') { ?>
+     <div id="decoration_banner" class="ncsl-nav-banner">
+         <img src="<?php echo $output['decoration_banner']['image'];?>" alt="">
+     </div>
+     <?php } ?>
+     <?php } else { ?>
+    <!-- 不启用店铺装修 -->
+	<div class="banner">
+		<a href="{:U('Store/index',array('store_id'=>$store[store_id]))}" class="img">
+       	  <?php if(!empty($store['store_banner'])){?>
+	      	<img src="<?php echo $store['store_banner'];?>" alt="<?php echo $store['store_name'];?>" title="<?php echo $store['store_name'];?>" class="pngFix">
+	      <?php }else{?>
+	      <div class="ncs-default-banner"></div>
+	      <?php }?>
+        </a>
+    </div>
+    <?php } ?>
+    <div id="nav" class="ncs-nav">
+      <ul>
+        <li <if condition="$action eq 'index'">class="active" <else/>class="normal"</if> ><a href="{:U('Store/index',array('store_id'=>$store[store_id]))}"><span>店铺首页<i></i></span></a></li>
+        <li <if condition="$action eq 'dynamic'">class="active" <else/>class="normal"</if> ><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id]))}"><span>店铺动态<i></i></span></a></li>
+        <notempty name="link_cat">
+      		<foreach name="link_cat" item="vl" key="kl">
+      		<li class="normal"><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'cat_id'=>$vl[cat_id]))}"><span>{$vl.cat_name}<i></i></span></a></li>
+      		</foreach>
+      	</notempty>
+        <foreach name="navigation" item="vv" key="kk">
+        	<li class="normal">
+        	<if condition="empty($vv[sn_url])">
+        	<a href="{:U('Store/store_news',array('store_id'=>$store[store_id],'sn_id'=>$vv[sn_id]))}">
+        	<else/>
+        	<a href="{$vv.sn_url}">
+        	</if>
+        	<span>{$vv.sn_title}<i></i></span></a>
+        	</li>
+      	</foreach>
+      </ul>
+    </div>
+  </div>

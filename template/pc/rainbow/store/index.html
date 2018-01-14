@@ -1,0 +1,331 @@
+<include file="store/header"/>
+  <if condition="$store['store_decoration_switch'] gt 0">
+	<script type="text/javascript" src="__STATIC__/js/tp_slider.js" charset="utf-8"></script>
+	<script type="text/javascript">
+	//图片延迟加载
+	(function($) {
+	    $.fn.nc_lazyload_init = function() {
+	        this.each(function() {
+	            $(this).after($(this).val().replace(/src=/gi, 'data-src='));
+	        }).remove();
+	    };
+	})(jQuery);
+	
+	//图片延迟加载
+	(function($) {
+	    $.fn.nc_lazyload = function() {
+	        var lazy_items = [];
+	        this.each(function() {
+	            if($(this).attr("data-src") !== undefined){
+	                var lazy_item = {
+	                    object: $(this),
+	                    url: $(this).attr("data-src")
+	                };
+	                lazy_items.push(lazy_item);
+	            }
+	        });
+	
+	        var load_img = function() {
+	            var window_height = $(window).height();
+	            var scroll_top = $(window).scrollTop();
+	
+	            $.each(lazy_items, function(i, lazy_item) {
+	                if(lazy_item.object) {
+	                    item_top = lazy_item.object.offset().top - scroll_top;
+	                    if(item_top >= 0 && item_top < window_height) {
+	                        if(lazy_item.url) {
+	                            lazy_item.object.attr("src",lazy_item.url);
+	                        }
+	                        lazy_item.object = null;
+	                    }
+	                }
+	            });
+	        };
+	        load_img();
+	        $(window).bind("scroll", load_img);
+	    };
+	})(jQuery);
+	</script>
+	<div id="store_decoration_area" class="store-decoration-page">
+	<textarea class="lazyload_container" rows="10" cols="30" style="display:none;">
+	    <foreach name="output[block_list]" item="block">
+	      	<include file="store/store_decoration_block"/>
+	    </foreach>
+	</textarea>
+	</div>
+	<script type="text/javascript">
+	    $(document).ready(function(){
+	        //图片延迟加载
+	        $(".lazyload_container").nc_lazyload_init();
+	        $("img").nc_lazyload();
+	        //幻灯片
+	        $('[nctype="store_decoration_slide"]').nc_slider();
+	    });
+	</script>
+  </if>
+  <notempty name="coupon">
+  	<style>
+	.banneryhq-lis{width: 1200px;height: 178px;margin: 0 auto;background: white;}
+	.thcoupon3 ul li{
+		float: left;background: url(__STATIC__/images/roc_10.jpg) no-repeat;
+		width: 303px;height: 140px;padding: 0 18px;margin-left: 2px;box-sizing: border-box;
+		-webkit-box-sizing: border-box;-moz-box-sizing: border-box;-o-box-sizing: border-box;-ms-box-sizing: border-box;
+	}
+	.thcoupon3 ul{overflow: hidden;padding: 3px 37px;}
+	.thcoupon3 ul li:first-child{margin-left: 0;}
+	.shogetco{float: left;margin-left: 40px;}
+	.thcoupon3{float: left;}
+	.sewn{font-family:"黑体";color: white;float: left;padding: 24px 0;}
+	.sewn em{font-size: 30px;font-style: normal;}
+	.sewn span{font-size: 80px;}
+	.bunget{float: right;font-family:"黑体";padding: 35px 0;}
+	.bunget span{font-size: 28px;display: block;}
+	.bunget a{
+		font-size: 22px;color: #1ea5a8;display: block;padding: 2px 10px;background: white;border-radius: 16px;margin-top: 8px;
+		transition: all .2s linear 0s; -webkit-transition: all .2s linear 0s;-moz-transition: all .2s linear 0s;
+	}
+	.bunget a:hover{
+		box-shadow: 0px 3px 6px #aaaaaa;-webkit-box-shadow: 0px 3px 6px #aaaaaa;-moz-box-shadow: 0px 3px 6px #aaaaaa;-o-box-shadow: 0px 3px 6px #aaaaaa;
+	}
+	.bunget a i{font: 400 30px/20px consolas;margin-left: 10px;}
+	</style>
+	<div class="banneryhq-lis">
+		<img class="shogetco" src="__STATIC__/images/lis.png"/>
+		<div class="thcoupon3">
+			<ul>
+				<foreach name="coupon" item="cp">
+				<li>
+					<div class="sewn">
+						<em>￥</em>
+						<span>{$cp.money|intval}</span>
+					</div>
+					<div class="bunget">
+						<span>满{$cp.condition|intval}可用</span>
+						<a href="{:U('Activity/get_coupon',array('id'=>$cp[id]))}">点击领取<i>></i></a>
+					</div>
+				</li>
+				</foreach>
+			</ul>
+		</div>
+   </div>
+  </notempty>	
+  <if condition="($store[store_decoration_only] eq 0) OR ($store[store_decoration_switch] eq 0)">
+  <div class="wrapper mt10">
+  <div class="ncs-main">
+    <div class="flexslider">
+      <ul class="slides">
+      	 <foreach name="store[store_slide_list]" item="vimg">
+      	 	<notempty name="vimg.store_slide_img">
+         	<li><a href="{$vimg.store_slide_url}"><img src="{$vimg.store_slide_img}"></a></li>
+         	</notempty>
+         </foreach>
+      </ul>
+    </div>
+    <div class="ncs-main-container">
+      <div class="title"> <span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'is_recommend'))}" class="more">更多</a></span>
+        <h4>推荐商品</h4>
+      </div>
+      <div class="content ncs-goods-list">
+      	<notempty name="recomend_goods">
+        	<ul>
+	        <foreach name="recomend_goods" item="vo">
+	           <li>
+	            <dl>
+	              <dt><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="goods-thumb" target="_blank"><img src="{$vo.goods_id|goods_thum_images=240,240}" alt="{$vo.goods_name}"/></a>
+	                <ul class="goods-thumb-scroll-show">
+	                <assign name="i" value="0"/>
+	                <foreach name="goods_images" item="v2" key="k2">
+	                   <if condition="$v2[goods_id] eq $vo[goods_id]">
+	                   	  <li <if condition="$i eq 0">class="selected"</if>><a href="javascript:void(0); rel={$i++}"><img src="{$v2[image_url]}"/></a></li>
+	                   </if>
+	                 </foreach>
+	                 </ul>
+	              </dt>
+	              <dd class="goods-name"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" title="{$vo.goods_name}" target="_blank">{$vo.goods_name|getSubstr=0,30}</a></dd>
+	              <dd class="goods-info"><span class="price"><i>&yen;</i> {$vo.shop_price} </span> <span class="goods-sold">已售：<strong>{$vo.sales_sum}</strong> 件</span></dd>
+	              <if condition="$vo[prom_type] gt 0">
+		              <dd class="goods-promotion">
+		              		<span><if condition="$vo[prom_type] eq 1">抢购商品</if><if condition="$vo[prom_type] eq 2">团购商品</if><if condition="$vo[prom_type] eq 3">限时折扣</if></span>
+		              </dd>
+	              </if>
+	            </dl>
+	          </li>
+			</foreach>
+            </ul>
+         <else/>
+         <div class="nothing"><p>很抱歉! 没有找到相关商品</p></div>   
+         </notempty>   
+        </div>
+    </div>
+    <div class="ncs-main-container">
+      <div class="title"><span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'is_new'))}" class="more">更多</a></span>
+        <h4>新品</h4>
+      </div>
+      <div class="content ncs-goods-list">
+      		<notempty name="new_goods">
+            <ul>
+			<foreach name="new_goods" item="vo">
+	           <li>
+	            <dl>
+	              <dt><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="goods-thumb" target="_blank"><img src="{$vo.goods_id|goods_thum_images=240,240}" alt="{$vo.goods_name}"/></a>
+	                <ul class="goods-thumb-scroll-show">
+	                <assign name="i" value="0"/>
+	                <foreach name="goods_images" item="v2" key="k2">
+	                   <if condition="$v2[goods_id] eq $vo[goods_id]">
+	                   	  <li <if condition="$i eq 0">class="selected"</if>><a href="javascript:void(0); rel={$i++}"><img src="{$v2[image_url]}"/></a></li>
+	                   </if>
+	                 </foreach>
+	                 </ul>
+	              </dt>
+	              <dd class="goods-name"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" title="{$vo.goods_name}" target="_blank">{$vo.goods_name|getSubstr=0,30}</a></dd>
+	              <dd class="goods-info"><span class="price"><i>&yen;</i> {$vo.shop_price} </span> <span class="goods-sold">已售：<strong>{$vo.sales_sum}</strong> 件</span></dd>
+	              <if condition="$vo[prom_type] gt 0">
+		              <dd class="goods-promotion">
+		              		<span><if condition="$vo[prom_type] eq 1">抢购商品</if><if condition="$vo[prom_type] eq 2">团购商品</if><if condition="$vo[prom_type] eq 3">限时折扣</if></span>
+		              </dd>
+	              </if>
+	            </dl>
+	          </li>
+			</foreach>
+            </ul>
+            <else/>
+            <div class="nothing"><p>很抱歉! 没有找到相关商品</p></div>
+            </notempty>
+       </div>
+    </div>
+  </div>
+  <div class="ncs-sidebar">
+    
+	<div class="ncs-sidebar-container ncs-class-bar">
+	  <div class="title">
+	    <h4>商品分类</h4>
+	  </div>
+	  <div class="content">
+	    <p>
+		    <span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'is_new'))}">新品</a></span>
+		    <span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'shop_price'))}">价格</a></span>
+		    <span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'sales_sum'))}">销量</a></span>
+		    <span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'is_recommend'))}">人气</a></span>
+	    </p>
+	    <div class="ncs-search">
+	      <form id="" name="searchShop" method="get" action="{:U('Home/Store/goods_list')}" >
+	        <input type="hidden" name="store_id" value="{$store.store_id}" />
+	        <input type="text" class="text w120" name="keyword" value="" placeholder="搜索店内商品">
+	        <a href="javascript:document.searchShop.submit();" class="ncs-btn">搜索</a>
+	      </form>
+	    </div>
+	    <ul class="ncs-submenu">
+	      <li><span class="ico-none"><em>-</em></span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id]))}">全部商品</a></li>
+	      <foreach name="main_cat" item="vo">
+	      <li><span class="ico-none"  onclick="class_list(this);" span_id="{$vo.cat_id}"><em>-</em></span>
+	      		<a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'cat_id'=>$vo[cat_id]))}">{$vo.cat_name}</a>
+	      		<if condition="$sub_cat[$vo[cat_id]] neq ''">
+	      		<ul id="stc_{$vo.cat_id}" style="display: block;">
+	      			<foreach name="sub_cat[$vo[cat_id]]" item="v2">
+	                <li><span class="ico-sub">&nbsp;</span><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'cat_id'=>$v2[cat_id]))}">{$v2.cat_name}</a></li>
+	                </foreach>
+	            </ul>
+	            </if>
+	      </li>
+	      </foreach>
+	    </ul> 
+	  </div>
+	</div>
+
+	<div class="ncs-sidebar-container ncs-top-bar">
+	  <div class="title">
+	    <h4>商品排行</h4>
+	  </div>
+	  <div class="content">
+	    <ul class="ncs-top-tab pngFix">
+	      <li id="hot_sales_tab" class="current"><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'sales_sum'))}">热销商品排行</a></li>
+	      <li id="hot_collect_tab"><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id],'key'=>'collect_sum'))}">收藏商品排行</a></li>
+	    </ul>
+	    <div id="hot_sales_list" class="ncs-top-panel">
+	        <ol>
+	        <foreach name="hot_goods" item="vo">
+	         <li>
+	          <dl>
+	            <dt><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">{$vo.goods_name|getSubstr=0,30}</a></dt>
+	            <dd class="goods-pic"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}"><span class="thumb size40"><i></i><img src="{$vo.goods_id|goods_thum_images=60,60}"  onload="javascript:DrawImage(this,40,40);"></span></a>
+	              <p><span class="thumb size100"><i></i><img src="{$vo.goods_id|goods_thum_images=240,240}" onload="javascript:DrawImage(this,100,100);" title="{$vo.goods_name}"><big></big><small></small></span></p>
+	            </dd>
+	            <dd class="price pngFix">{$vo.shop_price}</dd>
+	            <dd class="selled pngFix">售出：<strong>{$vo.sales_sum}</strong>笔</dd>
+	          </dl>
+	         </li>
+	        </foreach>
+	       </ol>
+	    </div>
+	    <div id="hot_collect_list" class="ncs-top-panel hide">
+	        <ol>
+	        	<foreach name="collect_goods" item="vo">
+		        <li>
+		          <dl>
+		            <dt><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">{$vo.goods_name|getSubstr=0,30}</a></dt>
+		            <dd class="goods-pic"><a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}" title=""><span class="thumb size40"><i></i> <img src="{$vo.goods_id|goods_thum_images=60,60}" onload="javascript:DrawImage(this,40,40);"></span></a>
+		              <p><span class="thumb size100"><i></i><img src="{$vo.goods_id|goods_thum_images=240,240}" onload="javascript:DrawImage(this,100,100);" title="{$vo.goods_name}"><big></big><small></small></span></p>
+		            </dd>
+		            <dd class="price pngFix">{$vo.shop_price}</dd>
+		            <dd class="collection pngFix">收藏人气：<strong>{$vo.collect_sum}</strong></dd>
+		          </dl>
+		        </li>
+		        </foreach>
+	         </ol>
+	    </div>
+	    <p><a href="{:U('Store/goods_list',array('store_id'=>$store[store_id]))}">查看本店其他商品</a></p>
+	  </div>
+	</div>
+	<script type="text/javascript">
+	    $(document).ready(function(){
+	        //热销排行切换
+	        $('#hot_sales_tab').on('mouseenter', function() {
+	            $(this).addClass('current');
+	            $('#hot_collect_tab').removeClass('current');
+	            $('#hot_sales_list').removeClass('hide');
+	            $('#hot_collect_list').addClass('hide');
+	        });
+	        $('#hot_collect_tab').on('mouseenter', function() {
+	            $(this).addClass('current');
+	            $('#hot_sales_tab').removeClass('current');
+	            $('#hot_sales_list').addClass('hide');
+	            $('#hot_collect_list').removeClass('hide');
+	        });
+	    });
+	    /** left.php **/
+	    // 商品分类
+	    function class_list(obj){
+	    	var stc_id=$(obj).attr('span_id');
+	    	var span_class=$(obj).attr('class');
+	    	if(span_class=='ico-block') {
+	    		$("#stc_"+stc_id).show();
+	    		$(obj).html('<em>-</em>');
+	    		$(obj).attr('class','ico-none');
+	    	}else{
+	    		$("#stc_"+stc_id).hide();
+	    		$(obj).html('<em>+</em>');
+	    		$(obj).attr('class','ico-block');
+	    	}
+	    }
+	</script> 
+  </div>
+</div>
+</if>
+<!-- 引入幻灯片JS --> 
+<script type="text/javascript" src="__STATIC__/js/jquery.flexslider-min.js"></script> 
+<!-- 绑定幻灯片事件 --> 
+<script type="text/javascript">
+	$(window).load(function() {
+		$('.flexslider').flexslider();
+	    // 图片切换效果
+	    $('.goods-thumb-scroll-show').find('a').mouseover(function(){
+	        $(this).parents('li:first').addClass('selected').siblings().removeClass('selected');
+	        var _src = $(this).find('img').attr('src');
+	        _src = _src.replace('_60.', '_240.');
+	        $(this).parents('dt').find('.goods-thumb').find('img').attr('src', _src);
+	    });
+	});
+</script>
+  <div class="clear">&nbsp;</div>
+</div>
+<include file="store/footer"/>

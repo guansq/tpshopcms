@@ -1,0 +1,120 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+  <include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>发货列表</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul id="tab" class="tab pngFix">
+  	<li class="<if condition='$Request.param.shipping_status eq 0'>active</if>" data-val="0"><a  href="#">待发货</a></li>
+  	<li class="normal  <if condition='$Request.param.shipping_status eq 2'>active</if>" data-val="2"><a  href="#">部分发货</a></li>
+  	<li class="normal <if condition='$Request.param.shipping_status eq 1'>active</if>" data-val="1"><a  href="#">已发货</a></li>
+  	<li class="normal" ><a href="{:U('Service/return_list')}">已退换货</a>
+  </ul>
+  </div>
+  <div class="alert alert-block mt10">
+	  <ul class="mt5">
+	    <li>1、发货列表包含"待发货"、"部分发货"、"已发货"三个状态</li>
+	    <li>2、待发货订单可发货, 部分发货订单可继续发货, 已发货订单可打印发货单</li>
+	    <li>3、已经发货订单, 如果买家没有确认收货, 系统会根据设置结算周期自动结算订单</li>
+	  </ul>
+</div>
+<form method="post" action="{:U('Order/ajaxdelivery')}" id="search-form2" onsubmit="return false">
+  <input type="hidden" name="shipping_status" id="shipping_status" value="{$Request.param.shipping_status}">
+  <table class="search-form">
+    <tr>
+      <th>收货人</th>
+      <td class="w120"><input type="text" class="text w150" name="consignee" placeholder="收货人" value=""/></td>
+      <th>订单编号</th>
+      <td class="w120"><input type="text" class="text w150" name="order_sn" placeholder="订单编号" value=""/></td>
+      <th>下单时间</th>
+      <td class="w340">
+	      <input type="text" class="text w120" name="add_time_begin" id="add_time_begin" placeholder="开始时间" value="{$begin}"/>&nbsp;&#8211;&nbsp;
+	      <input type="text" class="text w120" name="add_time_end" id="add_time_end" placeholder="结束时间" value="{$end}"/>
+	   </td>
+	   <td class="w70 tc"><label class="submit-border"><input type="button" onclick="ajax_get_table('search-form2',1)" class="submit" value="搜索" /></label></td>
+     </tr>
+  </table>
+</form>
+<div id="ajax_return">
+</div>
+<script>
+$(document).ready(function(){	
+	   
+ 	$('#add_time_begin').layDate(); 
+ 	$('#add_time_end').layDate();
+ 	 
+ 	ajax_get_table('search-form2',1);
+ 	
+ 	$("#tab > li").each(function(){
+		$(this).click(function(){
+			tabSelect(this);
+		});
+	});
+});
+
+function tabSelect(obj){
+	var currHasClass = $(obj).hasClass('active');
+	if(currHasClass)return;
+	
+	$("#tab > li").each(function(){
+		$(this).removeClass('active');
+	});
+	
+	$(obj).addClass('active');
+	var shippingStatus = $(obj).attr("data-val");
+	 
+	$("#shipping_status").val(shippingStatus);
+	ajax_get_table('search-form2',1);
+}
+
+//ajax 抓取页面
+function ajax_get_table(tab,page){
+    var start_time = $.trim($('#add_time_begin').val());
+    var end_time =  $.trim($('#add_time_end').val());
+    if(start_time == '' ^ end_time == ''){
+        layer.alert('请选择完整的时间间隔', {icon: 2});
+        return false;
+    }
+    cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/order/ajaxdelivery/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('');
+                $("#ajax_return").append(data);
+            }
+        });
+}
+
+    // 起始位置日历控件
+	laydate.skin('molv');//选择肤色
+	laydate({
+	  elem: '#add_time_begin',
+	  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	  festival: true, //显示节日
+	  istime: false,
+	  choose: function(datas){ //选择日期完毕的回调
+		 compare_time($('#add_time_begin').val(),$('#add_time_end').val());
+	  }
+	});
+	 
+	 // 结束位置日历控件
+	laydate({
+	  elem: '#add_time_end',
+	  format: 'YYYY-MM-DD', // 分隔符可以任意定义，该例子表示只显示年月
+	  festival: true, //显示节日
+	  istime: false,
+	  choose: function(datas){ //选择日期完毕的回调
+		   compare_time($('#add_time_begin').val(),$('#add_time_end').val());
+	  }
+	});	 
+</script>    
+</div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

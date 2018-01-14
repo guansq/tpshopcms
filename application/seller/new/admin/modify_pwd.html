@@ -1,0 +1,72 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>账号<i class="icon-angle-right"></i>修改密码</div>
+        <div class="main-content" id="mainContent">
+            <div class="item-publish">
+                <form method="post" id="adminHandle" >
+                    <input type="hidden" name="seller_id" value="{$info.seller_id}">
+                    <div class="ncsc-form-goods">
+                        <h3 id="demo1">管理员修改密码</h3>
+                            <dl>
+                                <dt><i class="required">*</i> 原密码：</dt>
+                                <dd>
+                                    <input type="password" value="" name="password" class="text w400">
+                                    <p class="hint">密码长度至少6个字符</p>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt><i class="required">*</i> 新密码：</dt>
+                                <dd>
+                                    <input type="password" value="" name="password2" class="text w400">
+                                    <p class="hint">密码长度至少6个字符</p>
+                                </dd>
+                            </dl>
+                    </div>
+                    <div class="bottom tc hr32">
+                        <label class="submit-border">
+                            <input class="submit" value="保存" type="button" onclick="adsubmit();">
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function adsubmit() {
+        
+        if ($('input[name=password]').val() == '') {
+            layer.msg('原密码不能为空！', {icon: 2, time: 1000});//alert('少年，密码不能为空！');
+            return false;
+        }
+
+        if ($('input[name=password2]').val() == '') {
+            layer.msg('新密码不能为空！', {icon: 2, time: 1000});//alert('少年，密码不能为空！');
+            return false;
+        }
+         
+        $.ajax({
+            url:"{:U('Seller/Admin/modify_pwd')}",
+            type:'POST',
+            dataType:'JSON',
+            data:$('#adminHandle').serialize(),
+            success:function(data){
+                if(data.status == 1){
+                    layer.msg(data.msg, {icon: 1},function(){
+                        location.href = data.url;
+                    });
+                }else{
+                    layer.alert(data.msg, {icon: 2});
+                }
+            },
+            error : function() {
+                layer.alert('网络失败，请刷新页面后重试', {icon: 2});
+            }
+        })
+    }
+</script>
+</body>
+</html>

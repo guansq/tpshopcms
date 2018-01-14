@@ -1,0 +1,59 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>发货设置<i class="icon-angle-right"></i>{$plugin.name}
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a>{$plugin.name}配送列表</a></li>
+                </ul>
+                <a href="{:U('Plugin/shipping_list_edit',array('id'=>$list[shipping_area_id],'type'=>$plugin['type'],'code'=>$plugin['code']))}" class="ncbtn ncbtn-mint" title="添加配送区">添加配送区</a>
+            </div>
+            <form method="post" id="addEditGoodsForm">
+                <table class="ncsc-default-table">
+                    <thead>
+                    <tr>
+                        <th class="w20"></th>
+                        <th class="w200 tl">配送区名称 </th>
+                        <th class="w200 tl">配送区域 </th>
+                        <th class="w100">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="shipping_list" id="list">
+                        <tr class="bd-line">
+                            <td></td>
+                            <td class="tl">{$list.shipping_area_name}</td>
+                            <td class="tl">{$list.region_list}<if condition="$list['is_default'] eq 1">全国其他地区</if></td>
+                            <td class="nscs-table-handle">
+                                <span><a href="{:U('Plugin/shipping_list_edit',array('id'=>$list[shipping_area_id],'type'=>$plugin['type'],'code'=>$plugin['code'],'edit'=>1,'default'=>$list['is_default']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a></span>
+                                <if condition="$list['is_default'] neq 1">
+                                <span><a data-href="{:U('Plugin/del_area',array('id'=>$list[shipping_area_id],'type'=>$plugin['type'],'code'=>$plugin['code']))}" onclick="del(this)" class="btn-grapefruit"><i class="icon-trash"></i><p>删除</p></a></span>
+                                </if>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    function del(obj) {
+        layer.confirm('确认删除？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    // 确定
+                    location.href = $(obj).data('href');
+                }, function (index) {
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

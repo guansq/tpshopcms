@@ -1,0 +1,127 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺分类</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="active"><a  href="">店铺分类</a></li></ul>
+  <a href="javascript:void(0)" class="ncbtn ncbtn-mint" onclick="go_class_info(this)" data-url="{:U('Store/goods_class_info')}">新增分类</a></div>
+	<table class="ncsc-default-table" id="my_category">
+	  <thead>
+	    <tr nc_type="table_header">
+	      <!--<th class="w30"></th>-->
+	      <th coltype="editable" column="stc_name" checker="check_required" inputwidth="50%">分类名称</th>
+	      <th class="w60" coltype="editable" column="stc_sort" checker="check_max" inputwidth="30px">排序</th>
+	      <th class="w120" coltype="switchable" column="stc_state" checker="" onclass="showclass-ico-btn" offclass="noshowclass-ico-btn">显示</th>
+	      <th class="w100">操作</th>
+	    </tr>
+	  </thead>
+	  <empty name="cat_list">
+	  <tfoot>
+	    <tr>
+	      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+	    </tr>
+	  </tfoot>
+	  <else/>
+	  <tbody id="treet1">
+	   <foreach name="cat_list" item="vo" key="k" >
+	    <tr class="bd-line" nc_type="table_item" idvalue="1">
+	      <!--<td class="tc"><input type="checkbox" class="checkitem" name="category[]" value="{$vo.cat_id}"></td>-->
+	      <td class="tl">
+	      <if condition="$vo[deep] eq 1">
+	      	<img src="__PUBLIC__/static/images/tv-collapsable.gif" class="parimg" data-id="{$vo['cat_id']}">
+	      	<span class="ml5" nc_type="editobj">{$vo.cat_name}</span>
+	      	<span class="add_ico_a"> <a class="ncbtn" data-url="{:U('Store/goods_class_info',array('parent_id'=>$vo['cat_id']))}" href="javascript:;" onclick="go_class_info(this)">新增下级</a></span>
+	      <else/>
+	      	<img src="__PUBLIC__/static/images/seller/blank.gif" class="preimg">
+	      	<img src="__PUBLIC__/static/images/seller/tv-item-last.gif" class="ttimage son_cat_{$vo['parent_id']}">
+	      	<span class="ml5" nc_type="editobj">{$vo.cat_name}</span>
+	      </if> 	
+	      </td>
+	      <td><span nc_type="editobj">{$vo.cat_sort}</span></td>
+	      <td> <if condition="$vo[is_show] eq 1">是<else/>否</if>  </td>
+	      <td class="nscs-table-handle">
+	        <span><a href="javascript:void(0)" data-url="{:U('Store/goods_class_info',array('cat_id'=>$vo['cat_id']))}" href="javascript:;" onclick="go_class_info(this)"  class="btn-bluejeans"><i class="icon-edit"></i>
+	        <p>编辑</p></a></span> 
+	        <span><a href="javascript:void(0)" href="javascript:void(0)" data-url="{:U('Store/goods_class_save')}" data-id="{$vo.cat_id}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i>
+	        <p>删除</p></a></span>
+	      </td>
+	    </tr>
+	    </foreach>
+	    <!--<tr>-->
+	      <!--<th class="tc"><input id="all2" type="checkbox" class="checkall" onclick="$('input[name*=\'category\']').prop('checked', this.checked);"></th>-->
+	      <!--<th colspan="15"><label for="all2">全选</label>-->
+	        <!--<a href="javascript:void(0)" class="ncbtn-mini" nc_type="batchbutton" name="class_id" confirm="您确实要删除该分类吗?"><i class="icon-trash"></i>删除</a></th>-->
+	    <!--</tr>-->
+	    <tfoot>
+	    <tr><td colspan="20"><div class="pagination">{$page}</div></td></tr>
+	    </tfoot>
+	  </tbody>
+	  </empty>
+  </table>
+ </div>
+  </div>
+</div>
+<include file="public/foot"/>
+<script type="text/javascript">
+function delfun(obj){
+	layConfirm('确认删除?' , function(){
+		 $.ajax({
+			type : 'post',
+			url : $(obj).attr('data-url'),
+			data : {act:'del',cat_id:$(obj).attr('data-id')},
+			dataType : 'json',
+			success : function(data){
+				if(data.status==1){
+					window.location.reload();
+				}else{
+					layer.alert(data, {icon: 2});  //alert(data);
+				}
+			}
+		} , false); 
+	});
+}
+
+function go_class_info(o){
+    var url = $(o).attr('data-url');
+    layer.open({
+        type: 2,
+        title: '编辑分类',
+        shadeClose: true,
+        shade: 0.2,
+        area: ['350px', '420px'],
+        skin: 'layui-layer-rim',
+        content: [url,'no'], 
+    });
+}
+
+//回调函数
+function call_back(msg){
+	if(msg>0){
+		layer.msg('操作成功', {icon: 1});
+		layer.closeAll('iframe');
+		window.location.reload();
+	}else{
+		layer.msg('操作失败', {icon: 3});
+		layer.closeAll('iframe');
+	}
+}
+$(function(){
+	$(document).on("click", '.parimg', function (e) {
+		var src = $(this).attr('src');
+		var cat_id= $(this).attr('data-id');
+		if (src == '/public/static/images/tv-expandable.gif') {
+			$(".son_cat_" + cat_id).parents('tr').show();
+			$(this).attr('src', '/public/static/images/tv-collapsable-last.gif');
+		} else {
+			$(".son_cat_" + cat_id).parents('tr').hide();
+			$(this).attr('src', '/public/static/images/tv-expandable.gif');
+		}
+	})
+})
+</script>
+</body>
+</html>

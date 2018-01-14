@@ -1,0 +1,78 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>店铺分类管理 - 编辑店铺分类</h3>
+                <h5>网站系统店铺分类管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="handleposition" method="post">
+        <input type="hidden" name="sc_id" value="{$info.sc_id}">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sc_name"><em>*</em>分类名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" id="sc_name" name="sc_name" value="{$info.sc_name}" class="input-txt">
+                    <span class="err" id="err_sc_name"></span>
+                    <p class="notic">设置店铺分类名称</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sc_bail"><em>*</em>保证金额度</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sc_bail" value="{$info.sc_bail}" id="sc_bail" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')">
+                    <span class="err" id="err_sc_bail"></span>
+                    <p class="notic">0表示没有限制</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sc_sort"><em>*</em>排序</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sc_sort" value="{$info.sc_sort}" id="sc_sort" class="input-txt">
+                    <span class="err" id="err_sc_sort"></span>
+                    <p class="notic">数值越大表明前台列表排得越前</p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" onclick="verifyForm();"  class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function verifyForm(){
+        $('span.err').show();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Store/class_info_save')}",
+            data: $('#handleposition').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    location.href = "{:U('Admin/Store/store_class')}";
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $.each(data.result, function (index, item) {
+                        $('#err_' + index).text(item).show();
+                    });
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的账户-{$tpshop_config['shop_info_store_title']}</title>
+		<meta name="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
+		<meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<link rel="shortcut  icon" type="image/x-icon" href="__STATIC__/images/favicon.ico" media="screen"  />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			    </div>
+			    <div class="home-main">
+					<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+			    		<div class="menu-ri-t p">
+			    			<div class="mu-head fl">
+			    				<img src="{$user.head_pic|default='__STATIC__/images/pers.png'}"/>
+			    			</div>
+			    			<div class="mu-midd fl">
+			    				<a class="mu-m-phone" href="{:U('Home/User/index')}">{$user.nickname}</a>
+			    				<a class="mu-m-vip">{$level[$user['level']]['level_name']}</a>
+			    				<p>
+			    					<span>账户安全：</span>
+			    					<span class="tt-zd">
+                                        <if condition="($user['mobile_validated'] eq 0) or ($user['email_validated'] eq 0)">
+                                            <i style="width: 30%;"></i>
+                                        </if>
+                                        <if condition="($user['mobile_validated'] eq 1) and ($user['email_validated'] eq 1) and ($user[paypwd] eq null)">
+                                            <i style="width: 60%;"></i>
+                                        </if>
+                                        <if condition="($user['mobile_validated'] eq 1) and ($user['email_validated'] eq 1) and ($user[paypwd] neq null)">
+                                            <i style="width: 90%;"></i>
+                                        </if>
+			    					</span>
+                                    <if condition="($user['mobile_validated'] eq 0) or ($user['email_validated'] eq 0)">
+                                        <span class="c_ye">较低</span>
+                                    </if>
+                                    <if condition="($user['mobile_validated'] eq 1) and ($user['email_validated'] eq 1) and ($user[paypwd] eq null)">
+                                        <span class="c_ye">一般</span>
+                                    </if>
+                                    <if condition="($user['mobile_validated'] eq 1) and ($user['email_validated'] eq 1) and ($user[paypwd] neq null)">
+                                        <span class="c_ye">较高</span>
+                                    </if>
+			    					<!--<a class="c_bl" href="">提升</a>-->
+			    				</p>
+			    			</div>
+			    			<div class="mu-afte fl">
+			    				<ul class="mu-a1">
+			    					<li class="" hidden>
+			                           <a href="">
+			                               <i class="icon-card"></i>
+			                               <span>会员折扣</span>
+			                               <em class="mu-unit">&nbsp;折</em>
+			                               <em class="mu-num">{$user['discount']*10}</em>
+			                               <i class="icon-ar"></i>
+			                            </a>
+			                        </li>
+			                        <li class="">
+			                            <a href="{:U('Home/User/recharge')}">
+			                               <i class="icon-balance"></i>
+			                               <span>账户余额</span>
+			                               <em class="mu-unit">&nbsp;元</em>
+			                               <em class="mu-num">{$user.user_money}</em>
+			                               <i class="icon-ar"></i>
+			                            </a>
+			                        </li>
+                                    <li>  <!--下一个ul里拿上来的-->
+                                        <a href="{:U('Home/User/account')}">
+                                            <i class="icon-point"></i>
+                                            <span>可用积分</span>
+                                            <em class="mu-unit">&nbsp;分</em>
+                                            <em class="mu-num">{$user.pay_points}</em>
+                                            <i class="icon-ar"></i>
+                                        </a>
+                                    </li>
+			    				</ul>
+			    				<ul class="mu-a2">
+			    					<!--<li>
+			                            <a href="{:U('Home/User/account')}">
+			                               <i class="icon-point"></i>
+			                               <span>可用积分</span>
+			                               <em class="mu-unit">&nbsp;分</em>
+			                               <em class="mu-num">{$user.pay_points}</em>
+			                               <i class="icon-ar"></i>
+			                            </a>
+			                        </li>-->
+			                        <li>
+			                            <a href="{:U('Home/User/coupon')}">
+			                               <i class="icon-coupon"></i>
+			                               <span>优惠券</span>
+			                               <em class="mu-unit">&nbsp;张</em>
+			                               <em class="mu-num">{$user['coupon_count']}</em>
+			                               <i class="icon-ar"></i>
+			                            </a>
+			                        </li>
+			    				</ul>
+			    			</div>
+			    		</div>
+			    		<div class="order-list p">
+			    			<div class="ddlb-ayh">
+			    				<div class="ddlb-tit">
+			                       <h1>我的订单</h1>
+			                       <a class="u-view-all" href="{:U('Home/Order/order_list')}">查看全部订单</a>
+			                       <i class="u-sep"></i>
+			                       <!--<a class="u-view-pre" href="">预售单<span class="hide">(待付款 <em>0</em>)</span></a>-->
+			    				</div>
+								<empty name="order">
+									<div class="car-none-pl">
+										<i class="account-acco1"></i>您最近没有待处理订单，<a href="/">快去逛逛吧~</a>
+									</div>
+								<else/>
+								    <div class="order-alone-li">
+                                    <table width="100%" border="" cellspacing="" cellpadding="">
+                                        <tr class="time_or">
+                                            <td colspan="6">
+                                                <div class="fl_ttmm">
+                                                    <span class="time-num">下单时间：<em class="num">{$order.add_time|date='Y-m-d H:i:s',###}</em></span>
+                                                    <span class="time-num">订单编号：<em class="num">{$order.order_sn}</em></span>
+                                                    <span class="time-num">卖家：<a href="tencent://message/?uin={$order.store[store_qq]}&Site=TPshop商城&Menu=yes"><em class="num">{$order.store[store_name]}<i class="ear"></i></em></a></span>
+                                                    <div class="paysoon">
+                                                    <if condition="$order.order_button[pay_btn] eq 1">
+                                                        <a class="ps_lj" href="{:U('Home/Cart/cart4',array('order_id'=>$order[order_id]))}"  target="_blank">立即支付</a>
+                                                    </if>
+                                                    <if condition="$order.order_button[receive_btn] eq 1">
+                                                        <a class="ps_lj" href="javascript:;" onclick="order_confirm({$order.order_id});">收货确认</a>
+                                                    </if>
+                                                    <if condition="$order.order_button[cancel_btn] eq 1">
+                                                        <a class="consoorder" href="javascript:;" data-url="{:U('Home/Order/refund_order',array('order_id'=>$order[order_id]))}" onClick="refund_order(this)" >取消订单</a>
+                                                    </if>
+                                                    </div>
+                                                    <!--<div class="dele"></div>-->
+                                                </div>
+                                                <div class="fr_ttmm"></div>
+                                            </td>
+                                        </tr>
+                                        <foreach name="$order[order_goods]" item="goods">
+                                            <tr class="conten_or">
+                                            <td class="sx1">
+                                                <div class="shop-if-dif">
+                                                    <div class="shop-difimg">
+                                                        <img style="width:100px;height:100px" src="{$goods.goods_id|goods_thum_images=100,100}"/>
+                                                    </div>
+                                                    <div class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">{$goods.goods_name}</a></div>
+                                                </div>
+                                            </td>
+                                            <td class="sx2"><span>￥</span><span>{$goods.member_goods_price}</span></td>
+                                            <td class="sx3">{$goods.goods_num}</td>
+                                            <if condition="$key eq 0">
+                                                <td class="sx4" rowspan="{:count($order['order_goods'])}">
+                                                    <div class="pric_rhz">
+                                                        <p class="d_pri"><span>￥</span><span>{$order.total_amount}</span></p>
+
+                                                        <p class="d_yzo">
+                                                            <span>含运费：</span>
+                                                            <span>{$order.shipping_price}</span></p>
+                                                        <p class="d_yzo"><a href="javascript:void(0);">{$order.pay_name}</a></p>
+                                                    </div>
+                                                </td>
+                                            </if>
+                                            <td class="sx5">
+                                                <div class="detail_or">
+                                                    <p class="d_yzo">
+                                                        <if condition="$goods[is_comment] eq 1">
+                                                            已完成
+                                                            <elseif condition="$goods[is_comment] neq 1 and $order['shipping_status'] eq 2"/>
+                                                            <if condition="$goods[is_send] eq 0">
+                                                                待发货
+                                                                <else/>
+                                                                已发货
+                                                            </if>
+                                                            <else/>
+                                                            {$order['order_status_detail']}
+                                                        </if>
+                                                    </p>
+                                                    <p><if condition="$order.order_prom_type eq 5"><a href="{:U('Order/virtual_order',array('order_id'=>$order['order_id']))}">查看详情</a>
+                                                        <else/><a href="{:U('Home/Order/order_detail',array('id'=>$order['order_id']))}">查看详情</a></if></p>
+                                                    <!--<p class="ps_r"><a href="javascript:void(0);">配送</a></p>-->
+                                                </div>
+                                            </td>
+                                            <td class="sx6">
+                                                <div class="rbac">
+                                                    <if condition="($order.order_button[return_btn] eq 1) and ($goods[is_send] lt 2)">
+                                                        <p><a href="{:U('Home/Order/return_goods',array('rec_id'=>$goods['rec_id']))}">退货/退款</a></p>
+                                                    </if>
+                                                    <p class=""><a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">再次购买</a></p>
+                                                    <if condition="($order.order_button[comment_btn] eq 1) and ($goods[is_comment] eq 0)">
+                                                        <p class="inspect"><a href="{:U('Home/Order/comment')}">评价</a></p>
+                                                    </if>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </foreach>
+                                    </table>
+								</div>
+                                </empty>
+			    			</div>
+			    		</div>
+			    		<div class="order-list bgno p">
+			    			<div class="ddlb-zy">
+			    				<div class="coll-coupon fl">
+			    					<div class="coll-etl">
+										<div class="ddlb-tit">
+					                       <h1>我的收藏</h1>
+					                       <a class="cx-fk" class="J-childCollect" href="{:U('Home/User/goods_collect')}"></a>
+					                       <a class="u-view-all" href="{:U('Home/User/goods_collect')}">查看更多</a>
+					    				</div>
+					    				<div class="shop-sc-t">
+					    					<ul>
+												<foreach name="collect_result" item="v">
+													<li>
+														<a href="{:U('Home/Goods/goodsInfo',array('id'=>$v[goods_id]))}">
+															<img src="{$v.goods_id|goods_thum_images=80,80}"/>
+															<p><em>￥</em><em>{$v.shop_price}</em></p>
+														</a>
+													</li>
+												</foreach>
+					    					</ul>
+					    				</div>
+			    					</div>
+			    				</div>
+			    				<div class="coll-coupon malrh fl">
+			    					<div class="coupon-etl">
+			    						<div class="ddlb-tit">
+					                       <h1>我的优惠券</h1>
+					                       <a class="u-view-all" href="{:U('Home/User/coupon')}">查看更多</a>
+					    				</div>
+					    				<div class="shop-sc-t">
+											<tpshop sql="select l.*,c.condition,c.money,c.store_id from __PREFIX__coupon_list l INNER JOIN __PREFIX__coupon c on c.id = l.cid where l.uid = $user[user_id] and l.use_time = 0 and l.status<1 and c.status=1 order by l.id desc limit 2" item="v">
+												<div class="coupon-bgimg">
+													<a href="{:U('Home/store/index',array('store_id'=>$v[store_id]))}">
+														<div class="cp-jal">
+															<h1><em class="li-fh">￥</em><em>{$v.money|ceil}</em></h1>
+															<span>满{$v.condition|ceil}减{$v.money|ceil}</span>
+														</div>
+														<div class="cp-jay">
+															<span>立即使用</span>
+														</div>
+													</a>
+												</div>
+											</tpshop>
+					    				</div>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<include file="user/footer" />
+	</body>
+	<script type="text/javascript">
+    /**
+     * 确认收货
+     * @param orderId
+     */
+    function order_confirm(orderId)
+    {
+        layer.confirm('你确定收到货了吗?', {
+                    btn: ['是','否']
+                }, function(){
+                    $.ajax({
+                        url:"{:U('Order/order_confirm')}",
+                        type:'POST',
+                        dataType:'JSON',
+                        data:{order_id:orderId},
+                        success:function(data){
+                            if(data.status == 1){
+                                layer.alert(data.msg, {icon: 1});
+                                location.href ='/index.php?m=home&c=Order&a=order_detail&id='+orderId;
+                            }else{
+                                layer.alert(data.msg, {icon: 2});
+                                location.href ='/index.php?m=home&c=Order&a=order_list&type={$Request.param.type}&p={$Request.param.p}';
+                            }
+                        },
+                        error : function() {
+                            layer.alert('网络失败，请刷新页面后重试', {icon: 2});
+                        }
+                    })
+                }, function(tmp){
+                    layer.close(tmp);
+                }
+        );
+    }
+
+    function refund_order(obj){
+        layer.open({
+            type: 2,
+            title: '<b>订单取消申请</b>',
+            skin: 'layui-layer-rim',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['600px', '500px'],
+            content: $(obj).attr('data-url'),
+        });
+    }
+	</script>
+</html>

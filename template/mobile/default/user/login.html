@@ -1,0 +1,183 @@
+<include file="public/header" title="登录"  body=""/>
+<include file="public/header_nav" title="登录"  href="javascript:history.back(-1);"/>
+		<div class="flool loginsignup2">
+            <!--LOGO-->
+			<img src="__STATIC__/images/logo-login.png" alt="LOGO"/>
+		</div>
+		<div class="loginsingup-input">
+            <!--登录表单-s-->
+			<form  onsubmit="return false;"  method="post"  >
+				<div class="content30">
+					<div class="lsu">
+						<span>账号</span>
+						<input type="text" name="username" id="username" value=""  placeholder="请输入邮箱/手机号"/>
+					</div>
+					<div class="lsu">
+						<span>密码</span>
+						<input type="password" name="password" id="password" value="" placeholder="请输入密码"/>
+						<i></i>
+					</div>
+                    <notempty name="first_login">
+					<div class="lsu test">
+						<span>验证码</span>
+						<input type="text" name="verify_code" id="verify_code" value="" placeholder="请输入验证码"/>
+						<img  id="verify_code_img" src="{:U('Mobile/User/verify')}" onClick="verify()" style="width:3rem;"/>
+					</div>
+                    </notempty>
+					<div class="lsu submit">
+						<input type="button"  value="提交"  onclick="submitverify()" class="btn_big1"  />
+                        <input type="hidden" name="referurl" id="referurl" value="{$referurl}">
+					</div>
+					<div class="radio">
+                        <!--<lable>-->
+                         <!--<span class="che check_t" onclick="remember(this)">-->
+							<!--<i><input type="checkbox" name="remember" value="1" checked="" style="display: none"> </i>-->
+							<!--<span>自动登录</span>-->
+						<!--</span>-->
+                        <!--</lable>-->
+					</div>
+					<div class="signup-find p">
+						<div class="note fl">
+							<img src="__STATIC__/images/not.png"/>
+							<a href="{:U('User/reg')}"><span>快速注册</span></a>
+						</div>
+						<div class="note fr">
+							<img src="__STATIC__/images/ru.png"/>
+							<a href="{:U('User/forget_pwd')}"><span>找回密码</span></a>
+						</div>
+					</div>
+				</div>
+			</form>
+            <!--登录表单-e-->
+		</div>
+
+        <!--第三方登陆-s-->
+		<div class="thirdlogin">
+			<h4>第三方登陆</h4>
+			<ul>
+                <tpshop sql="select * from __PREFIX__plugin where type='login' AND status = 1" item="v" key="k">
+                <!--    <if condition="$v['code'] eq 'weixin' AND is_weixin() neq 1">
+                        <li>
+                            <a class="ta-weixin" href="{:U('LoginApi/login',array('oauth'=>'weixin'))}" target="_blank" title="weixin">
+                                <div class="icon">
+                                    <img src="__STATIC__/images/wechat.png"/>
+                                    <p>微信登陆</p>
+                                </div>
+                            </a>
+                        </li>
+                    </if>-->
+                    <if condition="$v['code'] eq 'alipay' AND is_alipay() neq 1">
+                        <li>
+                            <a href="{:U('LoginApi/login',array('oauth'=>'alipay'))}">
+                                <div class="icon">
+                                    <img src="__STATIC__/images/alpay.png"/>
+                                    <p>支付宝</p>
+                                </div>
+                            </a>
+                        </li>
+                    </if>
+                    <if condition="$v['code'] eq 'qq' AND is_qq() neq 1">
+                        <li>
+                            <a class="ta-qq" href="{:U('LoginApi/login',array('oauth'=>'qq'))}" target="_blank" title="QQ">
+                                <div class="icon">
+                                    <img src="__STATIC__/images/qq.png"/>
+                                    <p>qq登陆</p>
+                                </div>
+                            </a>
+                        </li>
+                    </if>
+                </tpshop>
+			</ul>
+		</div>
+        <!--第三方登陆-e-->
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function verify(){
+        $('#verify_code_img').attr('src','/index.php?m=Mobile&c=User&a=verify&r='+Math.random());
+    }
+
+    //复选框状态
+    function remember(obj){
+         var che= $(obj).attr("class");
+        if ( che == 'che'){
+            $('#remember').val(1);
+        }else if(che == 'che check_t'){
+            $('#remember').val(0);
+        }
+    }
+    function submitverify()
+    {
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        var remember = $('#remember').val();
+        var referurl = $('#referurl').val();
+        var verify_code = $.trim($('#verify_code').val());
+        if(username == ''){
+            showErrorMsg('用户名不能为空!');
+            return false;
+        }
+        if(!checkMobile(username) && !checkEmail(username)){
+            showErrorMsg('账号格式不匹配!');
+            return false;
+        }
+        if(password == ''){
+            showErrorMsg('密码不能为空!');
+            return false;
+        }
+        var codeExist = $('#verify_code').length;
+        if (codeExist && verify_code == ''){
+            showErrorMsg('验证码不能为空!');
+            return false;
+        }
+
+        var data = {username:username,password:password,referurl:referurl};
+        if (codeExist) {
+            data.verify_code = verify_code;
+        }
+        $.ajax({
+            type : 'post',
+            url : '/index.php?m=Mobile&c=User&a=do_login&t='+Math.random(),
+            data : data,
+            dataType : 'json',
+            success : function(res){
+                if(res.status == 1){
+                    var url = res.url.toLowerCase();
+                    if (url.indexOf('user') !==  false && url.indexOf('login') !== false || url == '') {
+                        window.location.href = '/index.php/mobile';
+                    }
+                    window.location.href = res.url;
+                }else{
+                    showErrorMsg(res.msg);
+                    if (codeExist) {
+                        verify();
+                    } else {
+                        location.reload();
+                    }
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                showErrorMsg('网络失败，请刷新页面后重试');
+            }
+        })
+    }
+        //切换密码框的状态
+        $(function(){
+            $('.loginsingup-input .lsu i').click(function(){
+                $(this).toggleClass('eye');
+                if ($(this).hasClass('eye')) {
+                    $(this).siblings('input').attr('type','text')
+                } else{
+                    $(this).siblings('input').attr('type','password')
+                }
+            });
+        })
+    /**
+     * 提示弹窗
+     * @param msg
+     */
+    function showErrorMsg(msg){
+        layer.open({content:msg,time:2});
+    }
+    </script>
+</body>
+</html>

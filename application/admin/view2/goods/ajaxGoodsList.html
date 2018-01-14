@@ -1,0 +1,125 @@
+<table>
+       <tbody>
+       <empty name="goodsList">
+           <tr>
+               <td class="no-data" align="center" axis="col0" colspan="50">
+                   <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+               </td>
+           </tr>
+           <else/>
+            <volist name="goodsList" id="list">
+              <tr>
+                <td align="center" axis="col0">
+                  <div style="width: 50px;">                  
+                  	<input type="checkbox" name="goods_id[]" value="{$list.goods_id}"/>{$list.goods_id}
+                  </div>
+                </td>                
+                <td align="center" axis="col0">
+                  <div style="text-align: left; width: 300px;">{$list.goods_name|getSubstr=0,33}</div>
+                </td>
+                <td align="center" axis="col0">
+                  <div style="text-align: left; width: 100px;">{$list.goods_sn}</div>
+                </td>
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 200px;">{$catList[$list[cat_id1]][name]}</div>
+                </td>
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">{$list.shop_price}</div>
+                </td>
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">{$list.store_count}</div>
+                </td>                
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">
+                    <if condition='$list[is_recommend] eq 1'>
+                      <span class="yes" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_recommend',this)" ><i class="fa fa-check-circle"></i>是</span>
+                      <else />
+                      <span class="no" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_recommend',this)" ><i class="fa fa-ban"></i>否</span>
+                    </if>
+                  </div>
+                </td>                
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">
+                    <if condition='$list[is_new] eq 1'>
+                      <span class="yes" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_new',this)" ><i class="fa fa-check-circle"></i>是</span>
+                      <else />
+                      <span class="no" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_new',this)" ><i class="fa fa-ban"></i>否</span>
+                    </if>
+                  </div>
+                </td>       
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">
+                    <if condition='$list[is_hot] eq 1'>
+                      <span class="yes" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_hot',this)" ><i class="fa fa-check-circle"></i>是</span>
+                      <else />
+                      <span class="no" onClick="changeTableVal('goods','goods_id','{$list.goods_id}','is_hot',this)" ><i class="fa fa-ban"></i>否</span>
+                    </if>
+                  </div>
+                </td>       
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 60px;">
+                        <if condition="$list[is_on_sale] eq 0">下架</if>
+                        <if condition="$list[is_on_sale] eq 1">出售中</if>
+                        <if condition="$list[is_on_sale] eq 2">违规下架</if>
+                  </div>
+                </td>    
+                <td align="center" axis="col0">
+                    <div style="text-align: center; width: 50px;">
+                        <if condition="$list[goods_state] eq 0">待审核</if>
+                        <if condition="$list[goods_state] eq 1">通过</if>
+                        <if condition="$list[goods_state] eq 2">未通过</if>
+                    </div>
+                </td>
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 100px;">{$store_list[$list[store_id]]}</div>
+                </td>  
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 50px;">{$store_type[$list[is_own_shop]]}</div>
+                </td>                                                        
+                <td align="center" axis="col0">
+                  <div style="text-align: center; width: 120px; max-width:120px;">
+                  	<if condition="$list[goods_state] lt 3 and $list.is_on_sale lt 2">
+                  	<a class="btn red" href="javascript:void(0);" onclick="takeoff(this)" goods_id="{$list['goods_id']}" goods_sn="{$list['goods_sn']}" goods_name="{$list['goods_name']}">
+                  	<i class="fa fa-ban"></i>下架</a></if>
+                  	<a class="btn blue" target="_blank"  href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id'],'identity'=>'admin'))}"><i class="fa fa-search"></i>查看</a>
+                  </div>
+                </td>
+                <td align="" class="" style="width: 100%;">
+                  <div>&nbsp;</div>
+                </td>
+              </tr>
+            </volist>          
+            <tr class="spe_select">
+	            <td colspan="14">
+                    <div class="col-sm-3 form-inline">
+                        	全选
+                        <input type="checkbox" onclick="$('input[name=\'goods_id\[\]\']').prop('checked', this.checked);">
+
+                            <select id="func_id" class="form-control" style="width: 120px;" onblur="fuc_change(this);">
+                                <option value="-1">请选择...</option>
+                                <option value="0">推荐</option>
+                                <option value="1">新品</option>
+                                <option value="2">热卖</option>
+                                <option value="3">审核商品</option>
+                            </select>
+                            <select id="state_id" class="form-control" style="display: none" onblur="state_change(this);">
+                                <option value="">请选择...</option>
+                                <foreach name="goods_state" item="vo" >
+                                    <option value="{$key}">{$goods_state[$key]}</option>
+                                </foreach>
+                            </select> 
+                        <a id="act_button" href="javascript:;" onclick="act_submit();" style="color:#FFF;" class="ncap-btn-mini ncap-btn-green disabled"><i class="fa"></i> 确定</a>
+                    </div>                
+                </td>
+            </tr>
+           </empty>
+          </tbody>
+        </table>
+        <!--分页位置--> {$page}
+		<script>
+            // 点击分页触发的事件
+            $(".pagination  a").click(function(){
+                cur_page = $(this).data('p');
+                ajax_get_table('search-form2',cur_page);
+            });
+        </script>        

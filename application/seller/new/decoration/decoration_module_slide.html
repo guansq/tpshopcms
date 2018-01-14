@@ -1,0 +1,9 @@
+<?php $block_content = empty($block_content) ? $output['block_content'] : $block_content; ?>
+<?php $block_content = unserialize($block_content);?>
+<ul nctype="store_decoration_slide" style="height:{$block_content['height']}px; overflow:hidden;">
+    <foreach name="block_content['images']"  item="value">
+	    <li data-image-name="{$value['image_name']}" data-image-url="{$value['image_url']}" data-image-link="{$value['image_link']}" style="height:{$block_content['height']}px; background: url({$value['image_url']}) no-repeat scroll center top transparent;">
+	    	<a href="{$value['image_link']}" target="_blank" style="display:block;width:100%;height:100%;"></a>
+	    </li>
+    </foreach>
+</ul>

@@ -1,0 +1,308 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>类型关联 - 添加修改模型</h3>
+        <h5>添加修改模型</h5>
+      </div>
+    </div>
+  </div>
+  <div class="explanation" id="explanation">
+    <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+      <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+      <span id="explanationZoom" title="收起提示"></span>
+    </div>
+    <ul>
+      <li>商品模型是一种产品的统称. 例如：手机、衣服等</li>
+      <li>商品模型关联某一产品的规格、属性</li>
+      <li>发布某一个商品时，将其关联商品模型就知道该商品有哪里规格属性</li>
+    </ul>
+  </div>
+	<form method="post" id="addEditGoodsTypeForm" onsubmit="return checkgoodsTypeName();">
+    <div class="ncap-form-default">
+<!--商品类型-->     
+      <dl class="row">
+        <dt class="tit">
+          <label for="t_mane"><em>*</em>类型名称:</label>
+        </dt>
+        <dd class="opt">
+            <input type="text" value="{$goodsType.name}" name="name" class="input-txt" style="width:300px;"/>
+            <span class="err" id="err_name" style="color:#F00; display:none;">商品类型名称不能为空!!</span>         
+            <p class="notic"></p>
+        </dd>
+      </dl>      
+      <dl class="row">
+        <dt class="tit" colspan="2">
+          <label class="" for="s_sort">所属分类</label>
+        </dt>
+        <dd class="opt">
+          <div id="gcategory"> 
+              <select name="cat_id1" id="cat_id1" onblur="get_category(this.value,'cat_id2','0');"  class="class-select valid">
+                <option value="0">请选择商品分类</option>                                      
+                     <foreach name="cat_list" item="v" key="k" >                                                                                          
+                       <option value="{$v['id']}" <if condition="$v['id'] eq $goodsType[cat_id1]">selected="selected"</if> >
+                            {$v['name']}
+                       </option>
+                     </foreach>
+              </select>
+              <select name="cat_id2" id="cat_id2" onblur="get_category(this.value,'cat_id3','0');" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select>    
+              <select name="cat_id3" id="cat_id3" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select>
+              <span id="err_cat_id" style="color:#F00; display:none;"></span>                                 
+          </div>
+          <p class="notic">这个模型归属哪个分类下, 仅仅方便检索用</p>
+        </dd>
+      </dl>
+<!--商品类型 end-->       
+<!--关联规格-->	      
+<dl class="row">
+        <dt class="tit">
+          <label>关联规格</label>
+        </dt>
+        <dd class="opt">
+          <div>
+              <select name="spec_cat_id1" id="spec_cat_id1" onblur="get_category(this.value,'spec_cat_id2','0');spec_scroll(this);" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+                     <foreach name="cat_list" item="v" key="k" >
+                       <option value="{$v['id']}">
+                            {$v['name']}
+                       </option>
+                     </foreach>
+              </select>
+              <select name="spec_cat_id2" id="spec_cat_id2" onblur="get_category(this.value,'spec_cat_id3','0');" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select> 
+              <select name="spec_cat_id3" id="spec_cat_id3"  class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select>  
+              <p class="notic">此处选择分类仅仅方便筛选以下规格, 此分类不与模型关联  </p>
+              <span id="spec_cat_id" style="color:#F00; display:none;"></span>              
+           </div>
+          <div class="scrollbar-box ps-container ps-active-y">
+            <div class="ncap-type-spec-list" id="ajax_specList" class="ajax_bradnlist" style="height:160px;overflow: auto;"></div>
+          </div>
+        </dd>
+      </dl>           
+<!--关联规格 end-->       
+      
+<!--关联品牌-->
+<dl class="row">
+        <dt class="tit">
+          <label>关联品牌</label>
+        </dt>
+        <dd class="opt">
+          <div>
+              <select name="brand_cat_id1" id="brand_cat_id1" onblur="get_category(this.value,'brand_cat_id2','0');brand_scroll(this);" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+                     <foreach name="cat_list" item="v" key="k" >
+                       <option value="{$v['id']}">
+                            {$v['name']}
+                       </option>
+                     </foreach>
+              </select>
+              <select name="brand_cat_id2" id="brand_cat_id2" onblur="get_category(this.value,'brand_cat_id3','0');" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select>  
+              <select name="brand_cat_id3" id="brand_cat_id3" class="form-control" class="class-select valid">
+                <option value="0">请选择商品分类</option>
+              </select> 
+              <p class="notic">此处选择分类仅仅方便筛选以下品牌, 此分类不与模型关联 </p>
+           </div>
+          <div class="scrollbar-box ps-container ps-active-y">
+            <div class="ncap-type-spec-list" id="ajax_brandList" class="ajax_bradnlist" style="height:160px;overflow: auto;"></div>
+          </div>
+        </dd>
+      </dl>
+<!--关联品牌 end-->
+
+<!--添加属性-->
+	 <dl class="row">
+        <dt class="tit">添加属性</dt>
+        <dd class="opt">
+          <ul class="ncap-ajax-add" id="ul_attr">
+              <foreach name="attributeList" item="v" key="k" >  
+                 <li>
+	                 <input type="text" name="attr_id[]" value="{$v['attr_id']}"  class="form-control" style="display:none;"/>
+                     
+                     <label title="排序"><input type="text" class="w30" name="order[]" value="{$v['order']}"  /></label>
+                     
+                     <label><input type="text" class="w150" name="attr_name[]" value="{$v['attr_name']}" placeholder="输入属性名称" /></label>
+                     
+                     <label><input type="text" class="w300" name="attr_values[]" value="{$v['attr_values']}" placeholder="输入属性可选值"></label>
+                       
+                     <label>显示&nbsp;<input type="checkbox" name="attr_index[]" value="1" <if condition="$v['attr_index'] eq 1">checked="checked"</if> /></label>
+                     
+                     <label><a class="ncap-btn ncap-btn-red del_attr" href="JavaScript:void(0);">移除</a></label>
+                 </li>
+               </foreach>
+          </ul>
+          <a id="add_type" class="ncap-btn" href="JavaScript:void(0);" onclick="add_attribute(this);"><i class="fa fa-plus"></i>添加一个属性</a> 
+          <p class="notic">多个属性值需要用英文逗号","隔开,商家发布商品是即可下拉选择属性值</p>  
+          </dd>
+      </dl>     
+      
+<!--添加属性 end-->	         
+                   
+      <div class="bot"><a id="submitBtn" class="ncap-btn-big ncap-btn-green" href="JavaScript:void(0);" onClick="$('#addEditGoodsTypeForm').submit();">确认提交</a></div>
+    </div>
+	 <input type="hidden" name="id" value="{$goodsType.id}">
+  </form>
+  
+<!--添加属性模板-->
+<ul id="attribute_html" style="display:none;">      
+    <li>
+         <input type="text" style="display:none;" class="form-control" value="" name="attr_id[]">
+         
+         <label title="排序"><input type="text" value="0" name="order[]" class="w30"></label>
+         
+         <label><input type="text" placeholder="输入属性名称" value="" name="attr_name[]" class="w150"></label>
+         
+         <label><input type="text" placeholder="输入属性可选值" value="" name="attr_values[]" class="w300"></label>
+           
+         <label>显示&nbsp;<input type="checkbox" value="1" name="attr_index[]"></label>
+         
+         <label><a href="JavaScript:void(0);" class="ncap-btn ncap-btn-red del_attr">移除</a></label>
+         
+     </li>  
+     
+</ul> 
+<!--添加属性模板end -->
+</div>
+<script>
+
+// 将品牌滚动条里面的 对应分类移动到 最上面
+//javascript:document.getElementById('category_id_3').scrollIntoView();
+var brandScroll = 0;
+function brand_scroll(o){
+	var id = $(o).val();
+	//if(!$('#category_id_'+id).is('h5')){
+	//	return false;
+	//}
+	$('#ajax_brandList').scrollTop(-brandScroll);
+	var sp_top = $('#category_id_'+id).offset().top; // 标题自身往上的 top
+	var div_top = $('#ajax_brandList').offset().top; // div 自身往上的top
+	$('#ajax_brandList').scrollTop(sp_top-div_top); // div 移动
+	brandScroll = sp_top-div_top;
+}
+
+ // 将规格滚动条里面的 对应分类移动到 最上面
+//javascript:document.getElementById('category_id_3').scrollIntoView();
+var specScroll = 0;
+function spec_scroll(o){
+	var id = $(o).val();
+
+	//if(!$('#categoryId'+id).is('h5')){
+		//return false;
+	//}
+	$('#ajax_specList').scrollTop(-specScroll);
+	var sp_top = $('#categoryId'+id).offset().top; // 标题自身往上的 top
+	var div_top = $('#ajax_specList').offset().top; // div 自身往上的top
+	$('#ajax_specList').scrollTop(sp_top-div_top); // div 移动
+	specScroll = sp_top-div_top;
+}
+
+
+// 判断输入框是否为空
+function checkgoodsTypeName(){
+	var name = $("#addEditGoodsTypeForm").find("input[name='name']").val();
+    if($.trim(name) == '')
+	{
+		$("#err_name").show();
+		return false;
+	}
+	return true;
+}
+
+
+
+/** 以下是编辑时默认选中某个商品分类*/
+$(document).ready(function(){
+
+	<if condition="$goodsType['cat_id2'] gt 0">
+		 // 商品分类第二个下拉菜单
+		 get_category('{$goodsType[cat_id1]}','cat_id2','{$goodsType[cat_id2]}');
+	</if>
+	<if condition="$goodsType['cat_id3'] gt 0">
+		// 商品分类第二个下拉菜单
+		 get_category('{$goodsType[cat_id2]}','cat_id3','{$goodsType[cat_id3]}');
+	</if>
+
+	getSpecList(0,0); // 默认查询所有规格
+	getBrandList(0,0); // 默认查出所有品牌
+
+});
+
+
+/**
+*获取筛选规格 查找某个分类下的所有Spec
+* v 是分类id  l 是分类等级 比如 1级分类 2级分类 等
+*/
+function getSpecList(v,l)
+{
+	$.ajax({
+		type : "GET",
+		url:"/index.php?m=Admin&c=Goods&a=getSpecByCat&cat_id="+v+"&l="+l+"&type_id={$goodsType[id]}",//+tab,
+		success: function(data)
+		{
+		   $("#ajax_specList").html('').append(data);
+		}
+	});
+}
+
+/**
+*获取筛选品牌 查找某个分类下的所有品牌
+* v 是分类id  l 是分类等级 比如 1级分类 2级分类 等
+*/
+function getBrandList(v,l)
+{
+		$.ajax({
+			type : "GET",
+			url:"/index.php?m=Admin&c=Goods&a=getBrandByCat&cat_id="+v+"&l="+l+"&type_id={$goodsType[id]}",//+tab,
+			success: function(data)
+			{
+			   $("#ajax_brandList").html('').append(data);
+			}
+		});
+}
+
+// 添加一行属性
+function add_attribute(obj)
+{
+  var attribute_html = $('#attribute_html').html();
+  $(obj).siblings('ul').prepend(attribute_html);
+}
+
+// 删除一个 属性
+$(document).on("click",".del_attr",function(){
+	var _this = this;
+    layer.confirm('确定要删除吗？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                //确定
+                var attr_id = $(_this).parent().parent().find("input[name='attr_id\[\]']").val();
+                $(_this).parent().parent().remove();
+                layer.closeAll();
+                if (attr_id == '')
+                    return false;
+                $.ajax({
+                    type: "GET",
+                    url: "/index.php?m=Admin&c=Goods&a=delGoodsAttribute&id=" + attr_id,
+                    success: function (data) {
+                    }
+                });
+            }, function (index) {
+                layer.close(index);
+            }
+    );
+
+});
+</script>
+</body>
+</html>

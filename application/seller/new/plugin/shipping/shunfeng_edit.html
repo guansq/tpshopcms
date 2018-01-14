@@ -1,0 +1,37 @@
+<body style="cursor: auto;">
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    .tags{
+        height: 22px;
+        background: white;
+    	margin-left:20px;
+    	margin-top:10px;
+    }
+    .tags > i{
+        background:url('/public/images/wrong.png');
+        background-repeat:no-repeat;
+        width: 16px;
+        height: 16px;
+    }	
+</style>
+	<img alt="" src="/plugins/shipping/shunfeng/template.jpg">
+<script src="/public/js/jquery-1.8.2.min.js"></script>
+<script src="/public/js/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+    $(function(){
+        $( ".tags" ).draggable();
+		//alert(location.href);
+    });
+    $( ".tags").dblclick(function(){
+        $(this).hide();
+    })
+</script>
+
+<div class="tags ui-draggable ui-draggable-handle" style="position: relative; width: 100px; right: auto; height: 22px; bottom: auto; left: 96px; top: -424px;">网店-名称<i style="cursor:default" onClick="$(this).parent().remove();">    </i></div>
+<div class="tags ui-draggable ui-draggable-handle" style="position: relative; width: 100px; right: auto; height: 22px; bottom: auto; left: 90px; top: -425px;">网店-地址<i style="cursor:default" onClick="$(this).parent().remove();">    </i></div>
+<div class="tags ui-draggable ui-draggable-handle" style="position: relative; width: 120px; right: auto; height: 22px; bottom: auto; left: 72px; top: -329px;">收件人-省份<i style="cursor:default" onClick="$(this).parent().remove();">    </i></div>
+<div class="tags ui-draggable ui-draggable-handle" style="position: relative; width: 130px; right: auto; height: 22px; bottom: auto; left: 227px; top: -441px;">网店-联系电话<i style="cursor:default" onClick="$(this).parent().remove();">    </i></div>
+</body>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>退换货，返修</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>退换货，返修</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+				
+			    	<div class="ri-menu fr">
+			    		<div class="menumain p">
+			    		<form name="" id="searchform" method="" action="">
+				    		<div class="return-top p">
+				    			<ul>
+				    				<li class="red"><a href="{:U('Order/return_goods_index')}">可申请退换货</a></li>
+				    				<li><a href="{:U('Order/return_goods_list')}">退换货记录</a></li>
+				    				<li><a href="{:U('Order/return_goods_refund')}">退款明细</a></li>
+				    				<!--  <li class="red"><a href="javascript:void(0);">搜索结果</a></li> -->
+				    			</ul>
+				    		</div>
+				    		<div class="greatco-se">
+				    			<!--<div class="greatco">
+				    				<a href=""><i></i>一键好评</a>
+				    			</div>-->
+				    			<div class="chx-se">
+				    				<input type="text" name="keywords" value="{$Request.param.keywords}" placeholder="订单编号"/>
+				    				<a href="javascript:$('#searchform').submit();">查询</a>
+				    			</div>
+				    		</div>
+				    		<div class="sheetbd" style="display: ;">
+				    			<table width="100%" border="" cellspacing="" cellpadding="">
+			    					<tr class="ttoda">
+			    						<td class="r_1">订单编号</td>
+			    						<td class="r_2">订单商品</td>
+			    						<td class="r_1"></td>
+			    						<td class="r_2"> 
+			    							<select class="sele_t" name="sale_t">
+			    								<option <if
+													condition="$Request.param.sale_t eq 0 OR $REQUEST.params.sale_t eq ''">selected </if>
+												value="0">下单时间</option>
+			    								<option <if
+													condition="$Request.param.sale_t eq 1">selected </if> value="1">最近三个月</option>
+			    								<option <if
+													condition="$Request.param.sale_t eq 2">selected </if>
+												value="2">三个月以前</option>
+			    							</select>
+			    						</td>
+			    					</tr>
+			    					<volist name="order_list" id="vo">
+			    					    <tr>
+			    						<td class="r_1"><a class="co_blue" href="{:U('Order/order_detail',array('id'=>$vo['order_id']))}">{$vo.order_sn}</a></td>
+			    						<td class="r_2">
+			    							<foreach name="vo.goods_list" item="goods">
+			    							<div class="shop-app-trac">
+				    							<div class="jt-shp">
+				    								<img src="{$goods.goods_id|goods_thum_images=100,100}"/>
+				    							</div>
+				    							<div class="jt-butan">
+				    								<if condition="$goods[is_send] lt 2">
+				    								    <a href="{:U('Order/return_goods',array('rec_id'=>$goods[rec_id]))}" class="">申请</a>
+				    								<else/>
+				    								    <a href="javascript:;" class="">申请</a>
+				    								</if>
+				    							</div>
+				    						</div>
+				    						</foreach>	
+			    						</td>
+			    						<td class="r_1"><a href="tencent://message/?uin={$store_list[$vo[store_id]][store_qq]}&Site=TPshop商城&Menu=yes"><i class="ear"></i>&nbsp;&nbsp;联系卖家</a></td>
+			    						<td class="r_2"><p class="lig6"><span>{$vo.add_time|date='Y-m-d',###}</span><br /><span>{$vo.add_time|date='H:i:s',###}</span></p></td>
+			    					</tr>
+			    					</volist>
+			    				</table>
+			    				<div class="page usercenter ma-to-20 p">
+									<div class="fr">{$page}</div>
+								</div>
+				    		</div>
+			    		</div>
+			    		</form>
+			    		<div class="menumain ma-to-20 p">
+			    			<div class="goodpiece">
+								<h1>返修/退换货申请常见问题</h1>
+								<!--<a href=""><span class="co_blue">成长值说明<em class="thoma">></em></span></a>-->
+							</div>	
+							<div class="app-con">
+								<p>1.“申请”按钮若为灰色，可能是因为订单尚未完成或该商品正在返修/退换货中；</p>
+								<p>2. 查看&nbsp;<a href="" class="co_blue">售后政策;</a></p>
+							</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+	</body>
+</html>

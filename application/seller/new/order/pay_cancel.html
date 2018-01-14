@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>选择商品</title>
+	<link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+	<link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+	<link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="__PUBLIC__/static/font/css/font-awesome-ie7.min.css">
+	<![endif]-->
+	<script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/waypoints.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/jquery-ui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/jquery.validation.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/global.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/js/myFormValidate.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="__PUBLIC__/static/js/html5shiv.js"></script>
+	<script src="__PUBLIC__/static/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body style="min-width:0px;">
+<div class="ncsc-layout wrapper" style="width: 700px;margin: 0px;">
+	<div id="layoutRight" class="ncsc-layout-right" style="width: 700px;">
+		<div class="main-content" id="mainContent">
+			<div class="item-publish">
+				<form method="post" id="search-form2" action="{:U('order/pay_cancel')}">
+					<input type="hidden" name="order_id" value="{$order.order_id}">
+					<input type="hidden" name="user_id" value="{$order.user_id}">
+					<div class="ncsc-form-goods">
+							<dl>
+								<dt>退款方式：</dt>
+								<dd>
+									<ul class="ncsc-form-radio-list">
+										<li>
+											<label>
+												<input value="0" name="refundType" type="radio"  checked="checked">
+												退款到用户余额</label>
+										</li>
+										<li>
+											<label>
+												<input value="1" name="refundType" type="radio">
+												已通过其他方式退款</label>
+										</li>
+										<li>
+											<label>
+												<input value="2" name="refundType" type="radio">
+												不处理，误操作时选择此项</label>
+										</li>
+									</ul>
+								</dd>
+							</dl>
+							<dl>
+								<dt>退款金额：</dt>
+								<dd>
+									<input type="text" name="amount" id="amount" value="{$order.order_amount}" class="text w400" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')">
+								</dd>
+							</dl>
+							<dl>
+								<dt>退款说明：</dt>
+								<dd>
+									<input type="text" name="remark" class="text w400">
+								</dd>
+							</dl>
+					</div>
+					<div class="bottom tc hr32">
+						<label class="submit-border">
+							<input class="submit" value="取消" type="button" onclick="javascript:window.parent.layer.closeAll('iframe');">
+						</label>
+						<label class="submit-border">
+							<input class="submit" value="保存" type="button" onclick="dosubmit();">
+						</label>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function dosubmit(){
+		if($('input[name=remark]').val()== ''){
+			layer.alert('请填写退款简要说明', {icon: 2});  //alert('请填写退款简要说明');
+			return;
+		}
+		$('#search-form2').submit();
+	}
+</script>
+</body>
+</html>

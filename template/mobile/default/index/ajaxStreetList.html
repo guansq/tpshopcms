@@ -1,0 +1,67 @@
+<volist name="store_list" id="store">       
+        <div class="dis-box p">
+            <div class="g-s-i-img fl">
+            	<a href="{:U('Store/index',array('store_id'=>$store[store_id]))}"><img src="{$store['store_logo']}"></a>
+            </div>
+            <div class="g-s-i-title fl">
+                <h3 class="ellipsis-one">{$store.store_name}</h3>
+                <p class="t-remark m-top04">已经有 <span class="num1">{$store.store_collect}</span>人关注</p>
+                <!--<p class="t-remark"><span class="red">距离1500米</span></p>-->
+            </div>
+            <div class="g-s-info-add fr" id="store_{$store.store_id}">
+                <if condition='empty($store.add_time)'>
+                    <a href="javascript:void(0)" onclick="favoriteStore({$store.store_id})" class="fgaze1">关注</a>
+                <else/>
+                    <a href="javascript:void(0)" class="collect">已关注</a>
+                </if>
+            </div>
+            <div class="comment">
+            	<ul>
+            		<li>
+            			<span>宝贝描述</span>
+            			<span class="red"><if condition="$store['store_desccredit'] eq 0">5.0<else />{$store['store_desccredit']|number_format=1}</if>分</span>
+            			<em><between name="store.store_desccredit" value="0,1.99">低</between>
+            				<between name="store.store_desccredit" value="2,3.99">中</between>
+							<between name="store.store_desccredit" value="4,5">高</between>
+            			</em>
+            		</li>
+            		<li>
+            			<span>卖家服务</span>
+            			<span class="red"><if condition="$store['store_servicecredit'] eq 0">5.0<else />{$store['store_servicecredit']|number_format=1}</if>分</span>
+						<em><between name="store.store_desccredit" value="0,1.99">低</between>
+						<between name="store.store_desccredit" value="2,3.99">中</between>
+						<between name="store.store_desccredit" value="4,5">高</between></em>
+            		</li>
+            		<li>
+            			<span>物流速度</span>
+            			<span><if condition="$store['store_deliverycredit'] eq 0">5.0<else />{$store['store_deliverycredit']|number_format=1}</if>分</span>
+            			<em><between name="store.store_desccredit" value="0,1.99">低</between>
+						<between name="store.store_desccredit" value="2,3.99">中</between>
+						<between name="store.store_desccredit" value="4,5">高</between></em>
+            		</li>
+            	</ul>
+            </div>
+            <notempty name="store['goods_array']['goods_list']">
+            <div class="baokaun">
+				<div class="shop">
+					<ul>
+					<volist name="store['goods_array']['goods_list']" id="goods">
+						<li>
+							<a href="{:U('Goods/goodsInfo',array('id'=>$goods['goods_id']))}">
+								<div class="similer-product">
+									<img src="{$goods['goods_id']|goods_thum_images=150,150}">
+									<span class="similar-product-text">{$goods['goods_name']}</span>
+									<span class="similar-product-price">
+										¥<span class="big-price">{$goods['shop_price']}</span>
+										<span class="small-price"></span>
+									</span>
+								</div>
+							</a>
+						</li>
+				     </volist>
+					</ul>
+				</div>
+			</div>
+			</notempty>
+        </div>
+</volist>        

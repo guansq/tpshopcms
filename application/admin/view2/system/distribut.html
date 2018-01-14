@@ -1,0 +1,194 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>分销设置</h3>
+                <h5>平台分销选项设置</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <foreach name="group_list" item="v" key="k">
+                    <li><a href="{:U('System/index',['inc_type'=> $k])}" <if condition="$k==$inc_type">class="current"</if>><span>{$v}</span></a></li>
+                </foreach>
+            </ul>
+        </div>
+    </div>
+    <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <li>如果分销开关关闭，那么不会平台启用分销模块</li>
+            <li>如果规则由平台设置，那么分销规则统一按平台设置的规则返利，否则按各商家自行设置的比例规则</li>
+        </ul>
+    </div>
+    <form method="post" enctype="multipart/form-data" name="form1" id="handlepost" action="{:U('System/handle')}">
+        <input type="hidden" name="inc_type" value="{$inc_type}">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">分销开关</dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="switch1" class="cb-enable  <if condition="$config['switch'] eq 1">selected</if>">开启</label>
+                        <label for="switch0" class="cb-disable <if condition="$config['switch'] eq 0">selected</if>">关闭</label>
+                        <input type="radio" onclick="$('#switch_on_off').show();"  id="switch1"  name="switch" value="1" <if condition="$config['switch'] eq 1">checked="checked"</if>>
+                        <input type="radio" onclick="$('#switch_on_off').hide();" id="switch0" name="switch" value="0" <if condition="$config['switch'] eq 0">checked="checked"</if> >
+                    </div>
+                    <p class="notic">分销开关</p>
+                </dd>
+            </dl>
+            <div id="switch_on_off" <if condition="$config['switch'] eq 0">style="display: none;"</if>>
+            <dl class="row">
+                <dt class="tit">
+                    <label>分销规则设置</label>
+                </dt>
+                <dd class="opt">
+				    <input type="radio" name="distribut_set_by" value="0" <if condition="$config['distribut_set_by'] eq 0"> checked </if> >由平台设置  &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="distribut_set_by" value="1"<if condition="$config['distribut_set_by'] eq 1"> checked </if> >由商家设置
+                </dd>
+            </dl>
+            <!--
+            <dl class="row">
+                <dt class="tit">
+                    <label>成为分销商条件</label>
+                </dt>
+                <dd class="opt">
+                    <input type="radio" name="condition" value="0" <if condition="$config[condition] eq 0">checked="checked"</if>>无条件成为分销商 &nbsp;&nbsp;
+                    <input type="radio" name="condition" value="1" <if condition="$config[condition] eq 1">checked="checked"</if>>需下单成为分销商 &nbsp;&nbsp;
+                    <input type="radio" name="condition" value="2" <if condition="$config[condition] eq 2">checked="checked"</if>>需提交申请审核 &nbsp;&nbsp;
+                    <p class="notic">分销商条件</p>
+                </dd>
+            </dl>
+            -->
+            <dl class="row">
+                <dt class="tit">
+                    <label>一级分销商获佣百分比</label>
+                </dt>
+                <dd class="opt">
+                    <input name="first_rate" id="distribut_first_rate" value="{$config.first_rate|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" >
+                    <p class="notic">默认为0表示不获佣，最大为50</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>二级分销商获佣百分比</label>
+                </dt>
+                <dd class="opt">
+                    <input name="second_rate" id="distribut_second_rate" value="{$config.second_rate|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" >
+                    <p class="notic">默认为0表示不获佣，最大为50</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>三级分销商获佣百分比</label>
+                </dt>
+                <dd class="opt">
+                    <input name="third_rate" id="distribut_third_rate" value="{$config.third_rate|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d]/g,'')" >
+                    <p class="notic">默认为0表示不获佣，最大为100</p>
+                </dd>
+            </dl>
+            <dl class="row"><dt class="tit"><label><b>二维码相关设定</b></label></dt></dl>
+            <dl class="row">
+                <dt class="tit">
+                  <label>页面二维码背景</label>
+                </dt>
+                <dd class="opt">
+                  <div class="input-file-show">
+                      <span class="show">
+                          <a id="qr_back_a" target="_blank" class="nyroModal" rel="gal" href="{$config.qr_back}">
+                            <i id="qr_back_i" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$config.qr_back}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                          </a>
+                      </span>
+                      <span class="type-file-box">
+                          <input type="text" id="qr_back" name="qr_back" value="{$config.qr_back}" class="type-file-text">
+                          <input type="button" value="选择上传..." class="type-file-button">
+                          <input class="type-file-file" onClick="GetUploadify(1,'','weixin','qr_back_call_back')" size="30" hidefocus="true" nc_type="change_site_logo" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                      </span>
+                  </div>
+                  <span class="err"></span>
+                </dd>
+              </dl>
+              <dl class="row">
+                <dt class="tit">
+                  <label>‘我的二维码’大背景</label>
+                </dt>
+                <dd class="opt">
+                  <div class="input-file-show">
+                      <span class="show">
+                          <a id="qr_big_back_a" target="_blank" class="nyroModal" rel="gal" href="{$config.qr_big_back}">
+                            <i id="qr_big_back_i" class="fa fa-picture-o" onmouseover="layer.tips('<img src={$config.qr_big_back}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();"></i>
+                          </a>
+                      </span>
+                      <span class="type-file-box">
+                          <input type="text" id="qr_big_back" name="qr_big_back" value="{$config.qr_big_back}" class="type-file-text">
+                          <input type="button" value="选择上传..." class="type-file-button">
+                          <input class="type-file-file" onClick="GetUploadify(1,'','weixin','qr_big_back_call_back')" size="30" hidefocus="true" nc_type="change_site_logo" title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                      </span>
+                  </div>
+                  <span class="err"></span>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>微信菜单关键字</label>
+                </dt>
+                <dd class="opt">
+                    <input name="qrcode_menu_word" value="{$config.qrcode_menu_word}" class="input-txt" type="text">
+                    <p class="notic">用户点击微信菜单中的某项，响应‘我的二维码’图片</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>微信输入关键字</label>
+                </dt>
+                <dd class="opt">
+                    <input name="qrcode_input_word"  value="{$config.qrcode_input_word}" class="input-txt" type="text">
+                    <p class="notic">用户在微信中输入的文本，响应‘我的二维码’图片</p>
+                </dd>
+            </dl>
+            </div>
+            <div class="bot">
+                <input type="hidden" name="inc_type" value="{$inc_type}">
+                <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onClick="formsubmit()">确认提交</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+<script type="text/javascript">
+
+function formsubmit(){
+	var distribut_first_rate  = $.trim($('#distribut_first_rate').val());
+	var distribut_second_rate = $.trim($('#distribut_second_rate').val());
+	var distribut_third_rate  = $.trim($('#distribut_third_rate').val());		
+	
+	var rate = parseInt(distribut_first_rate) + parseInt(distribut_second_rate) + parseInt(distribut_third_rate);
+	if(rate > 100)
+	{
+		layer.msg('三个分销商比例总和不得超过100%', {icon: 2,time: 2000});//alert('少年，邮箱不能为空！');		
+		// alert('三个分销商比例总和不得超过100%');
+		return false;
+	}
+	
+	$('#handlepost').submit();
+}
+    
+function qr_back_call_back(fileurl_tmp)
+{
+  $("#qr_back").val(fileurl_tmp);
+  $("#qr_back_a").attr('href', fileurl_tmp);
+  $("#qr_back_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+}
+function qr_big_back_call_back(fileurl_tmp)
+{
+  $("#qr_big_back").val(fileurl_tmp);
+  $("#qr_big_back_a").attr('href', fileurl_tmp);
+  $("#qr_big_back_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+}
+</script>
+</body>
+</html>

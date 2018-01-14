@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商家中心</title>
+<link href="__PUBLIC__/static/css/base.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/css/seller_center.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/font/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+<script src="__PUBLIC__/js/global.js"></script>
+</head>
+<body>
+<div class="dialog_content w500" style="margin: 0px; padding: 0px;">
+<div class="eject_con">
+  <div id="warning"></div>
+    <input type="hidden" name="order_id" id="order_id" value="{$order.order_id}">
+    <dl>
+      <dt>订单编号：</dt>
+      <dd><span class="num">{$order.order_sn}</span></dd>
+    </dl>
+    <dl>
+      <dt>取消缘由：</dt>
+      <dd>
+        <ul class="checked">
+          <li>
+            <input type="radio" checked="" name="state_info" id="d1" value="无法备齐货物">
+            <label for="d1">无法备齐货物</label>
+          </li>
+          <li>
+            <input type="radio" name="state_info" id="d2" value="不是有效的订单">
+            <label for="d2">不是有效的订单</label>
+          </li>
+          <li>
+            <input type="radio" name="state_info" id="d3" value="买家主动要求">
+            <label for="d3">买家主动要求</label>
+          </li>
+          <li>
+            <input type="radio" name="state_info" flag="other_reason" id="d4" value="">
+            <label for="d4">其他原因</label>
+          </li>
+          <li id="other_reason" style="display:none; height:48px;">
+            <textarea name="state_info1" rows="2" id="other_reason_input" style="width:200px;"></textarea>
+          </li>
+        </ul>
+      </dd>
+    </dl>
+    <dl class="bottom">
+      <dt>&nbsp;</dt>
+      <dd>
+        <input type="button" class="submit" id="confirm_button" value="确定" onclick="formSubmit()">
+      </dd>
+    </dl>
+</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){	 
+	$('input[name="state_info"]').click(function(){
+		if($(this).attr('id') == 'd4'){
+			$('#other_reason').show();
+		}else{
+			$('#other_reason').hide();
+		}
+	})
+});
+
+function formSubmit(){
+	var admin_note = '';
+	admin_note = $('input[name="state_info"]:checked').val();
+	if(admin_note == '' ){
+		admin_note = $('#other_reason_input').val();
+	}
+	if(admin_note == '' ){
+		layer.alert('请填写原因', {icon: 2});
+		return false;
+	}
+	$.ajax({
+		type:'post',
+		url:"{:U('Order/virtual_cancel')}",
+		data:{'order_id':$('#order_id').val(),'admin_note':admin_note},
+		dataType : 'json',
+		success : function(data){
+			if(data.status == 1){
+				layer.msg('操作成功', {icon: 1});
+				window.parent.location.reload();
+			}else{
+				layer.alert(data.msg, {icon: 2});
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>

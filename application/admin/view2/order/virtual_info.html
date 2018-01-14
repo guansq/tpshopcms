@@ -1,0 +1,139 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>虚拟订单</h3>
+        <h5>商城虚拟商品交易订单查询及管理</h5>
+      </div>
+    </div>
+  </div>
+  <div class="ncap-order-style">
+    <div class="titile">
+      <h3></h3>
+    </div>
+    <div class="ncap-order-flow">
+      <ol class="num5">
+        <li class="current">
+          <h5>生成订单</h5>
+          <i class="fa fa-arrow-circle-right"></i>
+          <time>{$order.add_time|date='Y-m-d H:i:s',###}</time>
+        </li>
+        <li class="<if condition='$order[pay_status] eq 1'>current</if>" style=" width: 40%;">
+          <h5>发放兑换码</h5>
+          <i class="fa fa-arrow-circle-right"></i>
+          <if condition='$order[pay_status] eq 1'>
+          <div class="code-list tip" title="如列表过长超出显示区域时可滚动鼠标进行查看">
+            <div id="codeList">
+              <ul>
+              	<foreach name="vrorder" item="vo">
+              	<if condition='$vo[vr_state] eq 1'>
+             		<li class=""><strong>697000303173046343</strong> 已使用，使用时间{$vo.vr_usetime|date='Y-m-d',###} </li>
+             	<else/>
+             		<li class=""><strong>697000303173046343</strong> 未使用，有效期至 2017-12-27 </li>
+             	</if>
+             	</foreach>
+              </ul>
+            </div>
+          </div>
+          </if>
+        </li>
+        <li class="long <if condition='$order[confirm_time] gt 0'>current</if>">
+          <h5>订单完成</h5>
+          <time><if condition='$order[confirm_time] gt 0'>{$order.confirm_time|date='Y-m-d H:i:s'}</if></time>
+        </li>
+      </ol>
+    </div>
+    <div class="ncap-order-details">
+      <ul class="tabs-nav">
+        <li class="current"><a href="javascript:void(0);">订单详情</a></li>
+      </ul>
+      <div class="tabs-panels">
+        <div class="misc-info">
+          <h4>下单/支付</h4>
+          <dl>
+            <dt>订单号：</dt>
+            <dd>{$order.order_sn}</dd>
+            <dt>订单来源：</dt>
+            <dd>PC端</dd>
+            <dt>下单时间：</dt>
+            <dd>{$order.add_time|date='Y-m-d H:i:s',###}</dd>
+          </dl>
+          <if condition="$order[pay_status] eq 1">
+          <dl>
+            <dt>支付单号：</dt>
+            <dd>{$order.transaction_id}</dd>
+            <dt>支付方式：</dt>
+            <dd>{$order.pay_name}</dd>
+            <dt>支付时间：</dt>
+            <dd>{$order.pay_time|date='Y-m-d H:i:s',###}</dd>
+          </dl>
+          </if>
+        </div>
+        <div class="addr-note">
+          <h4>购买/收货方信息</h4>
+          <dl>
+            <dt>买家：</dt>
+            <dd>{$order.consignee}</dd>
+            <dt>接收手机：</dt>
+            <dd>{$order.mobile}</dd>
+          </dl>
+          <dl>
+            <dt>买家留言：</dt>
+            <dd>{$order.user_note}</dd>
+          </dl>
+        </div>
+        <div class="contact-info">
+          <h4>销售/发货方信息</h4>
+          <dl>
+            <dt>店铺：</dt>
+            <dd>{$store.store_name}</dd>
+            <dt>店主名称：</dt>
+            <dd>{$store.seller_name}</dd>
+            <dt>联系电话：</dt>
+            <dd>{$store.store_phone}</dd>
+          </dl>
+          <dl>
+            <dt>地&#12288;&#12288;址：</dt>
+            <dd>{$store.store_address}</dd>
+          </dl>
+        </div>
+        <div class="goods-info">
+          <h4>商品信息</h4>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="2">商品</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>佣金比例</th>
+                <th>收取佣金</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="w30"><div class="goods-thumb"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods['goods_id']))}" target="_blank">
+                <img alt="" src="{$order_goods['goods_id']|goods_thum_images=240,240}" /> </a></div></td>
+                <td style="text-align: left;">
+                <a href="{:U('Home/Goods/goodsInfo',array('id'=>$order_goods['goods_id']))}" target="_blank">{$order_goods.goods_name}</a>
+                                                    使用时效：即日起 至  {$order_goods.virtual_indate|date='Y-m-d',###} </td>
+                <td class="w80">￥{$order_goods.goods_price}</td>
+                <td class="w60">{$order_goods.goods_num}</td>
+                <td class="w60">{$order_goods.commission}</td>
+                <td class="w80">{$order_goods.commission_money}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="total-amount">
+          <h3>订单总额：<strong class="red_common">￥{$order.order_amount}</strong></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

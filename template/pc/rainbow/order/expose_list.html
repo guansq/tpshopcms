@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户中心-我的举报信息</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>我的举报</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+			    	<div class="ri-menu tradejf fr">
+			    		<div class="menumain p">
+			    			<div class="coup-tit p">
+			    				<h1>我的举报信息</h1>
+			    			</div>
+			    		</div>
+			    		<div class="applyaum p ma-to-20">
+			    			<div class="orderlist-servecenter">
+			    				<div class="orderbook-list">
+					    			<div class="book-tit">
+					    				<ul>
+					    					<li class="sx1">举报单详情</li>
+					    					<li class="sx2">被举报人</li>
+					    					<li class="sx3">举报类型</li>
+					    					<li class="sx4">状态</li>
+					    				</ul>
+					    			</div>
+					    		</div>
+					    		<div class="order-alone-li">
+					    		<volist name="expose_list" id="vo">
+					    			<table width="100%" border="" cellspacing="" cellpadding="">
+					    				<tr class="time_or">
+					    					<td colspan="6">
+					    						<div class="fl_ttmm">
+					    							<span class="time-num time">{$vo.expose_time|date='Y-m-d H:i:s',###}</span>
+					    							<span class="time-num">举报单号：<em class="num">{$vo.expose_id}</em></span>
+					    							<span class="time-num"><em class="num">{$vo.expose_type_name}</em></span>
+					    							<!--<div class="dele"></div>-->
+					    						</div>
+					    					</td>
+					    				</tr>
+					    				<tr class="conten_or">
+					    					<td class="sx1">
+					    						<div class="duoal">
+					    							<img src="{$vo.expose_goods_id|goods_thum_images=100,100}"/>
+					    							<div class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo[expose_goods_id]))}">{$vo.expose_goods_name}</a></div>
+					    							<div class="iu">商品ID{$vo.expose_goods_id}</div>
+					    						</div>
+					    					</td>
+					    					<td class="sx2">
+					    						<span class="xuname">{$vo.expose_store_name}</span>
+					    						<i class="las-pp"></i>
+					    					</td>
+					    					<td class="sx3"><span>{$vo.expose_subject_name}</span></td>
+					    					<td class="sx4">
+					    						<span><if condition="$vo[expose_state] eq 1">待处理<else/>已处理</if></span>
+						    					<a href="{:U('Order/expose_info',array('expose_id'=>$vo[expose_id]))}">举报单详情</a>
+					    					</td>
+					    				</tr>
+					    			</table>
+					    		</volist>
+					    		</div>
+								<div class="operating fixed" id="bottom">
+									<div class="fn_page clearfix">
+										{$page}
+									</div>
+								</div>
+			    			</div>
+		    			</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.cn-apply a').click(function(){
+					$(this).addClass('curp').siblings().removeClass('curp')
+				})
+			})
+		</script>
+	</body>
+</html>

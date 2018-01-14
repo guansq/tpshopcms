@@ -1,0 +1,372 @@
+<include file="public/head"/>
+<style>
+    table {
+        border-collapse: inherit !important;
+    }
+
+    .ncsc-order-contnet thead td {
+        background-color: #f5f5f5;
+    }
+
+    .ncsc-order-contnet tfoot td {
+        padding: 10px 0;
+    }
+
+    .ncsc-order-contnet h3 {
+        background-color: #f5f5f5;
+        clear: both;
+        color: #000;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 22px;
+        padding: 5px 0 5px 12px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .ncsc-order-contnet td .sum em {
+        color: #c00;
+        font: 16px/24px Verdana, Arial;
+        margin: 0 4px;
+        vertical-align: bottom;
+    }
+
+    .ncsc-order-step dl.step-first {
+        margin-left: 0;
+    }
+
+    .ncsc-order-contnet h3 {
+        display: inline-block;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>订单物流<i class="icon-angle-right"></i>订单详情</div>
+
+        <div class="main-content" id="mainContent">
+
+            <div class="ncsc-oredr-show">
+                <div class="ncsc-order-info">
+                    <div class="ncsc-order-condition">
+                        <if condition="isset($button['edit'])">
+                            <a class="ncbtn ncbtn-grapefruit mt5" href="{:U('order/edit_order',array('order_id'=>$order['order_id']))}" data-original-title="修改订单">修改订单</a>
+                        </if>
+                        <if condition="isset($button['split'])">
+                            <a class="ncbtn ncbtn-grapefruit mt5" href="{:U('order/split_order',array('order_id'=>$order['order_id']))}" ata-original-title="拆分订单">拆分订单</a>
+                        </if>
+                        <a class="ncbtn ncbtn-grapefruit mt5" href="{:U('Order/order_print',array('order_id'=>$order['order_id']))}" ata-original-title="打印订单"><i
+                                class="fa fa-print"></i>打印订单</a>
+
+                    </div>
+                </div>
+                <div class="ncsc-order-info" style="margin-top:30px">
+                    <div class="ncsc-order-details">
+                        <div class="title">订单信息</div>
+                        <div class="content">
+                            <dl>
+                                <dt>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</dt>
+                                <dd>{$order.consignee}&nbsp; {$order.mobile}&nbsp; {$order.address2}</dd>
+                            </dl>
+                            <dl>
+                                <dt>支付方式：</dt>
+                                <dd>
+                                    <if condition="$order[pay_status] eq 1 and empty($order.pay_name)">
+                                        在线支付
+                                        <else/>
+                                        {$order.pay_name}
+                                    </if>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;票：</dt>
+                                <dd></dd>
+                            </dl>
+                            <dl>
+                                <dt>买家留言：</dt>
+                                <dd>{$order.user_note}</dd>
+                            </dl>
+                            <dl class="line">
+                                <dt>订单编号：</dt>
+                                <dd>{$order.order_sn}</dd>
+                            </dl>
+                            <dl>
+                                <dt>配送方式：</dt>
+                                <dd>{$order.shipping_name}</dd>
+                            </dl>
+                            <dl>
+                                <dt></dt>
+                                <dd></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="ncsc-order-condition">
+                        <dl>
+                            <dt><i class="icon-ok-circle green"></i>订单状态：</dt>
+                            <dd>{$Think.config.ORDER_STATUS[$order[order_status]]}</dd>
+                        </dl>
+                        <ul>
+                            <!--<li>该订单还未确认</li>-->
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="order-step" class="ncsc-order-step">
+                    <!-- 订单未支付 -->
+                    <dl class="step-first current">
+                        <dt>提交订单</dt>
+                        <dd class="bg"></dd>
+                        <dd class="date" title="下单时间">{$order.add_time|date='Y-m-d H:i:s',###}</dd>
+                    </dl>
+                    <!-- 已经支付, 单还未发货 -->
+                    <dl
+                    <if condition="$show_status egt 2"> class="current"</if>
+                    >
+                    <dt>支付订单</dt>
+                    <dd class="bg"></dd>
+                    <dd class="date" title="付款时间">{$order.pay_time|date='Y-m-d H:i:s',###}</dd>
+                    </dl>
+                    <dl
+                    <if condition="$show_status egt 3">class="current"</if>
+                    >
+                    <dt>商家发货</dt>
+                    <dd class="bg"></dd>
+                    <dd class="date" title="发货时间">{$order.shipping_time|date='Y-m-d H:i:s',###}</dd>
+                    </dl>
+                    <dl
+                    <if condition="$show_status egt 4 ">class="current"</if>
+                    >
+                    <dt>确认收货</dt>
+                    <dd class="bg"></dd>
+                    <dd class="date" title="收货时间">{$order.confirm_time|date='Y-m-d H:i:s',###}</dd>
+                    </dl>
+                    <dl
+                    <if condition="$show_status eq 5">class="current"</if>
+                    >
+                    <dt>评价</dt>
+                    <dd class="bg"></dd>
+                    <dd class="date" title="评价时间">{$comment_time|date='Y-m-d H:i:s',###}</dd>
+                    </dl>
+                </div>
+                <div class="ncsc-order-contnet">
+                    <table class="ncsc-default-table order">
+                        <thead>
+                        <tr>
+                            <th class="w10">&nbsp;</th>
+                            <th colspan="2">商品</th>
+                            <th class="w120">单价(元)</th>
+                            <th class="w60">数量</th>
+                            <th class="w100">规格属性</th>
+                            <th class="w200">会员折扣价</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="orderGoods" id="good">
+                            <tr class="bd-line">
+                                <td>&nbsp;</td>
+                                <td class="w50">
+                                    <div class="pic-thumb">
+                                        <a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}"><img
+                                                src="{$good['goods_id']|goods_thum_images=200,200}"></a></div>
+                                </td>
+                                <td class="tl">
+                                    <dl class="goods-name">
+                                        <dt><a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$good['goods_id']))}">{$good.goods_name}</a></dt>
+                                    </dl>
+                                </td>
+                                <td>{$good.goods_price}<p class="green"></p></td>
+                                <td>{$good.goods_num}</td>
+                                <td>{$good.spec_key_name}</td>
+                                <td>{$good.goods_total}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="20">
+                                <dl class="sum">
+                                    <dt>小计：</dt>
+                                    <dd><em>{$order.goods_price}</em>元</dd>
+                                </dl>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 费用信息 -->
+            <div class="ncsc-order-contnet">
+                <table class="ncsc-default-table order">
+                    <thead>
+                    <tr>
+                        <td colspan="20">
+                            <dl class="freight">
+                                <h3>费用信息</h3>
+                                <if condition="isset($button['edit'])">
+                                    <span><a title="修改费用信息" class="ncbtn-mini" target="_blank" href="{:U('Order/editprice',array('order_id'=>$order['order_id']))}"><i
+                                            class="icon-edit"></i>修改费用信息</a></span>
+                                </if>
+                            </dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="w100">小计</th>
+                        <th class="w100">运费</th>
+                        <th class="w100">积分(-0)</th>
+                        <th class="w100">余额抵扣</th>
+                        <th class="w200">优惠券抵扣</th>
+                        <th class="w100">价格调整</th>
+                        <th class="w100">应付</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="bd-line">
+                        <td class="w100">{$order.goods_price}</td>
+                        <td class="w100">+{$order.shipping_price}</td>
+                        <td class="w100">-{$order.integral_money}</td>
+                        <td class="w100">-{$order.user_money}</td>
+                        <td class="w100">-{$order.coupon_price}</td>
+                        <td class="w100">减:{$order.order_prom_amount}</td>
+                        <!--   <td class="w100">减:{$order.discount}</td>-->
+                        <td class="w100">
+                            <dl class="sum"><em>{$order.order_amount} </em>元
+                            </dl>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--操作信息-->
+            <div class="ncsc-form-goods" style="margin-top:30px">
+                <h3 id="demo1">操作</h3>
+                <dl>
+                    <dt>操作备注</dt>
+                    <dd>
+                        <form id="order-action">
+                            <textarea name="note" placeholder="请输入操作备注" class="textarea h60 w400 valid"></textarea>
+                        </form>
+                        <span></span>
+
+                        <p class="hint">备注字不能超过140个汉字</p>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>可执行操作</dt>
+                    <dd>
+                        <!--上面显示过的按钮这里不再显示-->
+                        <?php unset($button['edit']); unset($button['split']); ?>
+                        <foreach name="button" item="vo" key="k">
+                            <if condition="$k eq 'pay_cancel'">
+                                <a href="javascript:void(0)" class="ncbtn ncbtn-grapefruit mt5" data-url="{:U('Order/pay_cancel',array('order_id'=>$order['order_id']))}"
+                                   onclick="pay_cancel(this)">{$vo}</a>
+                                <elseif condition="$k eq 'delivery'"/>
+                                <a class="ncbtn ncbtn-grapefruit mt5" href="{:U('Order/delivery_info',array('order_id'=>$order['order_id']))}">{$vo}</a>
+                                <elseif condition="$k eq 'refund'"/>
+                                <!--退货商品列表-->
+                                <!--<input class="btn btn-primary" type="button" onclick="selectGoods2({$order['order_id']})" value="退货申请"> 	-->
+                                <elseif condition="$k neq 'delivery_confirm'"/>
+                                <label class="submit-border">
+                                    <input class="submit" nctype="formSubmit" type="button"
+                                           onclick="ajax_submit_form('order-action','{:U('Order/order_action',array('order_id'=>$order['order_id'],'type'=>$k))}');" value="{$vo}">
+                                </label>
+                            </if>
+                        </foreach>
+                    </dd>
+                </dl>
+            </div>
+
+            <!-- 操作记录 -->
+            <div class="ncsc-order-contnet">
+                <table class="ncsc-default-table order">
+                    <thead>
+                    <tr>
+                        <td colspan="20">
+                            <dl class="freight"><h3>操作记录</h3></dl>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="w100">操作者</th>
+                        <th class="w160">操作时间</th>
+                        <th class="w100">订单状态</th>
+                        <th class="w100">付款状态</th>
+                        <th class="w200">发货状态</th>
+                        <th class="w80">描述</th>
+                        <th class="w200">备注</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="action_log" id="log">
+                        <tr class="bd-line">
+                            <td class="w100">
+                                <if condition="$log.action_user neq 0">{$log[seller_name]}
+                                    <else/>
+                                    用户
+                                </if>
+                            </td>
+                            <td class="w160">{$log.log_time|date='Y-m-d H:i:s',###}</td>
+                            <td class="w100">{$order_status[$log[order_status]]}</td>
+                            <td class="w100">{$pay_status[$log[pay_status]]}
+                                <if condition="$order['pay_code'] eq 'code'"><span style="color: red">(货到付款)</span></if>
+                            </td>
+                            <td class="w100">{$shipping_status[$log[shipping_status]]}</td>
+                            <td class="w80">{$log.status_desc}</td>
+                            <td class="w200">{$log.action_note}</td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <script>
+            function pay_cancel(obj) {
+                var url = $(obj).attr('data-url');
+                layer.open({
+                    type: 2,
+                    title: '退款操作',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['45%', '50%'],
+                    content: url,
+                });
+            }
+            //取消付款
+            function pay_callback(s) {
+                if (s == 1) {
+                    layer.msg('操作成功', {icon: 1});
+                    layer.closeAll('iframe');
+                    location.href = location.href;
+                } else {
+                    layer.msg('操作失败', {icon: 3});
+                    layer.closeAll('iframe');
+                    location.href = location.href;
+                }
+            }
+
+            // 弹出退换货商品
+            function selectGoods2(order_id) {
+                var url = "/index.php?m=Seller&c=Order&a=get_order_goods&order_id=" + order_id;
+                layer.open({
+                    type: 2,
+                    title: '选择商品',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['60%', '60%'],
+                    content: url,
+                });
+            }
+            // 申请退换货
+            function call_back(order_id, goods_id) {
+                var url = "/index.php?m=Seller&c=Order&a=add_return_goods&order_id=" + order_id + "&goods_id=" + goods_id;
+                location.href = url;
+            }
+        </script>
+    </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

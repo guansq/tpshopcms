@@ -1,0 +1,97 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+	<include file="public/left"/>
+	<div id="layoutRight" class="ncsc-layout-right">
+		<div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>订单促销管理
+		</div>
+		<div class="main-content" id="mainContent">
+			<div class="tabmenu">
+				<ul class="tab pngFix">
+					<li class="active"><a href="{:U('Promotion/prom_order_list')}">订单促销列表</a></li>
+				</ul>
+				<!--<a href="" style="right:100px" class="ncbtn ncbtn-mint" title="新增虚拟商品抢购"><i class="icon-plus-sign"></i>新增虚拟抢购</a>-->
+				<a href="{:U('Promotion/prom_order_info')}" class="ncbtn ncbtn-mint" title="新增活动"><i class="icon-plus-sign"></i>新增活动</a>
+			</div>
+			<div class="alert alert-block mt10">
+				<ul class="mt5">
+					<li>1、点击新增活动按钮可以添加促销活动</li>
+				</ul>
+			</div>
+			<table class="ncsc-default-table">
+				<thead>
+				<tr>
+					<th class="w20"></th>
+					<th class="w120 tl">活动名称</th>
+					<th class="w100">活动类型</th>
+					<!--<th class="w200" hidden>适用范围</th>-->
+					<th class="w100">开始时间</th>
+					<th class="w100">结束时间</th>
+					<th class="w50">状态</th>
+					<th class="w130">操作</th>
+				</tr>
+				</thead>
+				<if condition="empty($prom_list) eq true">
+			  	<tbody>
+			  		<tr>
+			      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+			    	</tr>
+			      </tbody>
+			    <else/>
+				<tbody>
+				<foreach name="prom_list" item="vo" key="k" >
+					<tr class="bd-line">
+						<td></td>
+						<td class="tl">{$vo.title|getSubstr=0,30}</td>
+						<td>{$vo.prom_desc}</td>
+						<td>{$vo.start_time|date='Y-m-d',###}</td>
+						<td>{$vo.end_time|date='Y-m-d',###}</td>
+						<td>{$vo.status_desc}</td>
+						<td class="nscs-table-handle">
+                                <span><a href="{:U('Promotion/prom_order_info',array('id'=>$vo['id']))}" class="btn-bluejeans"><i class="icon-edit"></i><p>编辑</p></a></span>
+                                <span><a href="javascript:;" class="btn-grapefruit" onclick="delfun(this,{$vo['id']})"><i class="icon-trash"></i><p>删除</p></a></span>
+						</td>
+					</tr>
+				</foreach>
+				</tbody>
+				</if>
+				<tfoot>
+				<tr>
+					<td colspan="20">
+						{$page}
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+<include file="public/foot"/>
+<script>
+    function delfun(obj,id){
+        layer.confirm('确定要删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    // 确定
+                    $.ajax({
+                        type : 'post',
+                        url : "/index.php?m=seller&c=Promotion&a=prom_order_del",
+                        data:{id:id},
+                        dataType : 'json',
+                        success : function(data){
+                            layer.closeAll();
+                            if(data.status == 1){
+                                $(obj).parent().parent().parent().remove();
+                                layer.msg(data.msg, {icon: 1});
+                            }else{
+                                layer.alert(data.msg, {icon: 2});  //alert('删除失败');
+                            }
+                        }
+                    })
+                }, function(index){
+                    layer.close(index);
+                }
+        );
+    }
+</script>
+</body>
+</html>

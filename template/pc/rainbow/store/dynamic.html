@@ -1,0 +1,178 @@
+<include file="store/header"/>
+<script type="text/javascript" src="__PUBLIC__/js/seller/member.js" charset="utf-8"></script>
+<script src="__PUBLIC__/js/pc_common.js" charset="utf-8"></script>
+<script>
+var MAX_RECORDNUM = 20;
+</script>
+<div class="cms-sns">
+  <div class="cms-sns-left">
+    <div class="cms-sns-tabmene">
+      <ul>
+        <li><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id]))}" id="all">全部动态<i></i></a></li>
+        <li><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id],'type'=>'prom'))}" id="prom">促销<i></i></a></li>
+        <li><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id],'type'=>'is_new'))}" id="is_new">新品<i></i></a></li>
+        <li><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id],'type'=>'is_hot'))}" id="is_hot">热卖<i></i></a></li>
+        <li><a href="{:U('Store/dynamic',array('store_id'=>$store[store_id],'type'=>'is_recommend'))}" id="is_recommend">店主推荐<i></i></a></li>
+      </ul>
+    </div>
+      <script>
+          $(function(){
+              var type = "{$Request.param.type}"
+              if(type == '')type='all';
+              $('#'+type).addClass('selected').parent('li').siblings('li').removeClass('selected');
+          })
+      </script>
+    <div class="cms-sns-content">
+            <ul class="cms-sns-content-list">
+            <foreach name="goods_list" item="vo">
+                <li nc_type="tracerow_4">
+          <dl>
+            <dt><h5>{$vo.goods_remark|getSubstr=0,30}</h5></dt>
+            <dd> <div class="fd-media">
+					<div class="goodsimg"><a target="_blank" href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+					<img src="{$vo.goods_id|goods_thum_images=240,240}" onload="javascript:DrawImage(this,120,120);" alt=""></a></div>
+    					<div class="goodsinfo">
+    					<dl>
+    					   <dt>
+                              <!--<i class="desc-type desc-type-new">新品发布</i>-->
+                              <a target="_blank" href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">{$vo.goods_name|getSubstr=0,30}</a>
+                           </dt>
+							<dd>价&nbsp;&nbsp;格：&yen;{$vo.shop_price}</dd>
+							<dd>市场价：&yen;{$vo.market_price}</dd>
+	                  		<dd nctype="collectbtn_232"><a href="javascript:void(0);" onclick="collect_goods('{$vo.goods_id}');">收藏该宝贝</a></dd>
+	                  	</dl>
+	                  </div>
+	             </div> </dd>
+            <dd> <span class="goods-time fl">{$vo.on_time|date='Y-m-d H:i',###}</span>
+               <!-- <span class="fr">
+            <a href="javascript:void(0);" nc_type="sd_forwardbtn" data-param='{"txtid":"4"}'>转发</a>&nbsp;|&nbsp;<a href="javascript:void(0);" nc_type="sd_commentbtn" data-param='{"txtid":"4"}'>评论</a>
+                </span> -->
+            </dd>
+            <dd> 
+              <!-- 评论模块start -->
+              <div id="tracereply_4" style="display:none;"></div>
+              <!-- 评论模块end --> 
+              <!-- 转发模块start -->
+              <div id="forward_4" style="display:none;">
+                <div class="forward-widget">
+                  <div class="forward-edit">
+                    <form id="forwardform_4" method="post" action="index.php?act=store_snshome&op=addforward">
+                      <input type="hidden" name="stid" value="4"/>
+                      <div class="forward-add">
+                        <textarea resize="none" id="content_forward4" name="forwardcontent"></textarea>
+                        <span class="error"></span> 
+                        <!-- 验证码 -->
+                        <div id="forwardseccode4" class="seccode" style="display: none;">
+                          <label for="captcha">验证码：</label>
+                          <input name="captcha" class="text" type="text" size="4" maxlength="4"/>
+                          <img src="" title="点击更换验证码" name="codeimage" onclick="this.src='index.php?act=seccode&op=makecode&nchash=97c3fab3&t=' + Math.random()"/> <span>您的操作过度频繁，请输入验证码后继续。</span>
+                          <input type="hidden" name="nchash" value="97c3fab3"/>
+                        </div>
+                        <input type="text" style="display:none;" />
+                        <!-- 防止点击Enter键提交 -->
+                        <div class="act"> <span class="skin-blue"><span class="btn"><a href="javascript:void(0);" nc_type="s_forwardbtn" data-param='{"txtid":"4"}'>转发</a></span></span> <span id="forwardcharcount4" style="float:right;"></span> <a class="face" nc_type="smiliesbtn" data-param='{"txtid":"forward4"}' href="javascript:void(0);" >表情</a> </div>
+                      </div>
+                    </form>
+                  </div>
+                  <ul class="forward-list">
+                  </ul>
+                </div>
+              </div>
+              <!-- 转发模块end -->
+              <div class="clear"></div>
+            </dd>
+          </dl>
+        </li>
+        </foreach>
+              </ul>
+      <div id="pagehtml" class="tc mt10 mb10">
+       		{$page_show}
+      </div>
+          </div>
+    <!-- 表情弹出层 -->
+    <div id="smilies_div" class="smilies-module"></div>
+  </div>
+  <div class="cms-sns-right">
+    <div class="cms-sns-right-container">
+      <div class="cms-store-pic"><a href="{:U('home/Store/index',['store_id'=>$store[store_id]])}"><img src="{$store.store_logo|default='__STATIC__/images/z-icon.png'}" alt="{$store.store_name}" title="{$store.store_name}" /></a></div>
+      <dl class="cms-store-info">
+        <dt>{$store.store_name}</dt>
+        <dd>已收藏：<em nctype="store_collect">{$store.store_collect}</em></dd>
+      </dl>
+      <div class="cms-store-favorites"><a href="javascript:collect_store('{$store[store_id]}')"><i class="icon-plus"></i>收藏店铺</a></div>
+    </div>
+    <div class="cms-sns-right-container">
+            <div class="title">最新收藏用户</div>
+      <div class="cms-favorites-user">
+        <ul>
+        	<foreach name="store_collect" item="vc">
+                <li>
+                    <a >
+                        <img alt="{$vc.user_name}" title="{$vc.user_name}" src="{$user_arr[$vc[user_id]]|default='__STATIC__/images/default_user_portrait.gif'}" />
+                    </a>
+                </li>
+            </foreach>
+        </ul>
+      </div>
+    </div>
+      </div>
+</div>
+  <div class="clear">&nbsp;</div>
+</div>
+<include file="store/footer"/>
+<script type="text/javascript">
+function fade() {
+	$("img[rel='lazy']").each(function () {
+		var $scroTop = $(this).offset();
+		if ($scroTop.top <= $(window).scrollTop() + $(window).height()) {
+			$(this).hide();
+			$(this).attr("src", $(this).attr("data-url"));
+			$(this).removeAttr("rel");
+			$(this).removeAttr("name");
+			$(this).fadeIn(500);
+		}
+	});
+}
+if($("img[rel='lazy']").length > 0) {
+	$(window).scroll(function () {
+		fade();
+	});
+};
+fade();
+</script>
+<script type="text/javascript">
+$(function(){
+	$('a[nctype="search_in_store"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#search_act').val('show_store');
+		$('<input type="hidden" value="1" name="store_id" /> <input type="hidden" name="op" value="goods_all" />').appendTo("#formSearch");
+		$('#formSearch').submit();
+	});
+	$('a[nctype="search_in_shop"]').click(function(){
+		if ($('#keyword').val() == '') {
+			return false;
+		}
+		$('#formSearch').submit();
+	});
+	$('#keyword').css("color","#999999");
+
+	var storeTrends	= true;
+	$('.favorites').mouseover(function(){
+		var $this = $(this);
+		if(storeTrends){
+			$.getJSON('index.php?act=show_store&op=ajax_store_trend_count&store_id=1', function(data){
+				$this.find('li:eq(2)').find('a').html(data.count);
+				storeTrends = false;
+			});
+		}
+	});
+
+	$('a[nctype="share_store"]').click(function(){
+		login_dialog();
+	});
+});
+</script>
+</body>
+</html>

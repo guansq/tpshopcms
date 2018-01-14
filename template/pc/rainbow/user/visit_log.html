@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的足迹</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+		<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>我的足迹</span>
+			    </div>
+			    <div class="home-main">
+					<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+						<div class="menumain p">
+							<div class="goodpiece">
+								<h1>我的足迹</h1>
+								<!--<a href=""><span class="co_blue">帮助</span></a>-->
+							</div>
+							<div class="foot-print p">
+								<ul>
+									<li <if condition="$Request.param.cat_id3 eq null">class="red"</if>><a href="{:U('User/visit_log')}">全部（{$visit_total}）</a></li>
+									<foreach name="catids" item="vv">
+									<li <if condition="$Request.param.cat_id3 eq $vv[cat_id3]">class="red"</if>>
+                                        <a href="{:U('User/visit_log',array('cat_id3'=>$vv[cat_id3]))}" >
+                                            {$vv.name}（{$vv.csum}）
+                                        </a>
+                                    </li>
+									</foreach>
+								</ul>
+                                <!-- 临时隐藏 -->
+								<span class="moanmo_b" style="display:none"><a href="">更多<i class="mm_b"></i></a></span>
+							</div>
+							<div class="perinc_pri p">
+								<div class="near_threet">
+									以下是你最近30天的商品浏览记录
+								</div>
+								<!-- 临时隐藏 -->
+								<div class="dxchoi" style="display:none">
+									<input type="checkbox" name="" id="cx" value=""/><label for="cx">仅显示促销</label>
+									<input type="checkbox" name="" id="jj" value=""/><label for="jj">仅显示降价</label>
+									<a href="{:U('User/visit_log')}">清空</a>
+								</div>
+							</div>
+							<div class="feetprin p ma-to-20">
+								<div class="shop-list-splb m-prod-list">
+									<foreach name="visit_log" key="key2" item="vo">
+									<div class="u-title">
+										<i class="<if condition='$key eq 0'>gray_ryh</if>"></i>
+										<span class="z-date">{$key2}</span>
+										<span class="z-time">{$vo[0][visittime]|date='Y-m-d',###}</span>
+										<span class="z-del"><!-- 临时隐藏 -->
+											<a class="J-delHistory" style="display:none" href="javascript:;" type="2" text="2016-12-13">删除</a>
+										</span>
+									</div>
+									<ul>
+										<volist name="vo" id="vv">
+										<li>
+											<div class="s_xsall">
+												<div class="xs_img"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$vv['goods_id']))}"><img src="{$vv.goods_id|goods_thum_images=230,230}" style="display: inline;"></a></div>
+												<div class="shop_name2">
+													<a href="{:U('Home/Goods/goodsInfo',array('id'=>$vv['goods_id']))}">{$vv.goods_name}</a>
+												</div>
+												<div class="price-tag">
+													<span class="now"><em class="li_xfo">￥</em><em>{$vv.shop_price}</em></span>
+													<!--<span class="old"><em>￥</em><em>200</em></span>-->
+												</div>
+											</div>
+											<div class="dele" onclick="del_visit('{$vv.visit_id}')"></div>
+										</li>
+										</volist>
+									</ul>
+									</foreach>
+								</div>
+							</div>
+                            <empty name="visit_log">
+                                <p class="end_cord">--暂无记录--</p>
+                            </empty>
+							<div class="page p">
+								<div class="fr">
+                                    {$page}
+								</div>
+							</div>
+						</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){
+				$('.foot-print ul li').click(function(){
+					$(this).addClass('red').siblings().removeClass('red');
+				})
+			})
+			
+			function del_visit(visit_id){
+				$.ajax({
+					url: "/index.php?m=home&c=user&a=del_visit_log",
+					type:'post',
+					data:{visit_id:visit_id},
+					dataType:'json',
+					success:function(res){
+						if(res.status == 1){
+							layer.msg(res.msg, {icon: 1, time: 1000}); 
+							window.location.reload()
+						}else{
+							layer.msg(res.msg, {icon: 2, time: 1000});
+						}
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

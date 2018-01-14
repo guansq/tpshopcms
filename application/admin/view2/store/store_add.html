@@ -1,0 +1,143 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title"><a class="back" href="{:U('Store/store_list')}" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+			<div class="subject">
+				<h3>店铺 - 新增"</h3>
+				<h5>商城自营店铺相关设置与管理</h5>
+			</div>
+		</div>
+	</div>
+	<!-- 操作说明 -->
+	<div class="explanation" id="explanation">
+		<div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+			<h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+			<span id="explanationZoom" title="收起提示"></span> </div>
+		<ul>
+			<if condition="$is_own_shop eq 1">
+				<li>平台可以在此处添加自营店铺，新增的自营店铺默认为开启状态</li>
+				<li>新增自营店铺默认绑定所有经营类目并且佣金为0，可以手动设置绑定其经营类目</li>
+				<li>新增自营店铺将自动创建店主会员账号（用于登录网站会员中心）以及商家账号（用于登录商家中心）</li>
+            <else/>
+				<li>1. 平台可以在此处添加外驻店铺，新增的外驻店铺默认为开启状态</li>
+				<li>2. 新增外驻店铺默认绑定所有经营类目并且佣金为0，可以手动设置绑定其经营类目。</li>
+				<li>3. 新增外驻店铺将自动创建店主会员账号（用于登录网站会员中心）以及商家账号（用于登录商家中心）。</li>
+			</if>
+		</ul>
+	</div>
+	<form id="store_info" method="post">
+		<div class="ncap-form-default">
+			<dl class="row">
+				<dt class="tit">
+					<label for="store_name"><em>*</em>店铺名称</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" value="{$store.store_name}" id="store_name" name="store_name" class="input-txt" />
+					<span class="err"></span>
+					<p class="notic"></p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="member_name"><em>*</em>会员账号</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" value="{$store.user_name}" id="user_name" name="user_name" class="input-txt" />
+					<span class="err"></span>
+					<p class="notic">请输入手机号或者邮箱，用于登录会员中心</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="seller_name"><em>*</em>商家账号</label>
+				</dt>
+				<dd class="opt">
+					<input type="text" value="{$store.seller_name}" id="seller_name" name="seller_name" class="input-txt" />
+					<span class="err"></span>
+					<p class="notic">用于登录商家中心，可与店主账号不同</p>
+				</dd>
+			</dl>
+			<dl class="row">
+				<dt class="tit">
+					<label for="member_passwd"><em>*</em>登录密码</label>
+				</dt>
+				<dd class="opt">
+					<input type="password" value="{$store.password}" id="password" name="password" class="input-txt" />
+					<span class="err"></span>
+					<p class="notic"></p>
+				</dd>
+			</dl>
+			<div class="bot">
+				<a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="actsubmit()">确认提交</a>
+				<input type="hidden" name="is_own_shop" value="{$is_own_shop}">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	var flag = true;
+	function actsubmit(){
+		if($('input[name=store_name]').val() == ''){
+			layer.msg("店铺名称不能为空", {icon: 2,time: 2000});
+			return;
+		}
+		var user_name = $('input[name=user_name]').val();
+		if(user_name == ''){
+			layer.msg("店主账号不能为空", {icon: 2,time: 2000});
+			return;
+		}
+		if(!checkEmail(user_name) && !checkMobile(user_name)){
+			layer.msg("前台账号要求是手机号或者邮箱号", {icon: 2,time: 2000});
+			return;
+		}
+		if($('input[name=seller_name]').val() == ''){
+			layer.msg("店主卖家账号不能为空", {icon: 2,time: 2000});
+			return;
+		}
+		if($('input[name=password]').val() == ''){
+			layer.msg("登陆密码不能为空", {icon: 2,time: 2000});
+			return;
+		}
+		if(flag){
+            $.ajax({
+                type:'post',
+                url:"{:U('Store/store_add')}",
+                dataType:'json',
+                data:$('#store_info').serialize(),
+                success:function(res){
+                    if(res.status != '1'){
+                        layer.msg(res.msg, {icon: 2,time: 2000});
+                        return;
+                    }else{
+                        layer.msg(res.msg, {icon: 1,time: 2000});
+                        window.location.href=res.url;
+                    }
+                }
+            });
+//			$('#store_info').submit();
+		}
+	}
+
+	function store_check(){
+		$.ajax({
+			type:'post',
+			url:"{:U('Store/store_check')}",
+			dataType:'json',
+			data:{store_name:$('input[name=store_name]').val(),seller_name:$('input[name=seller_name]').val(),user_name:$('input[name=user_name]').val()},
+			success:function(res){
+				if(res.status != '1'){
+					layer.msg(res.msg, {icon: 2,time: 2000});
+					flag = false;
+					return;
+				}else{
+					flag = true;
+				}
+			}
+		});
+	}
+</script>
+</body>
+</html>

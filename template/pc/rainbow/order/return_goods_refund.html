@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>退换货，返修</title>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/myaccount.css" />
+		<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body class="bg-f5">
+	<include file="user/header"/>
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:U('Home/User/index')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>退换货，返修</span>
+			    </div>
+			    <div class="home-main">
+				<include file="user/menu"/>
+			    	<div class="ri-menu fr">
+			    		<div class="menumain p">
+				    		<div class="return-top p">
+				    			<ul>
+				    				<li><a href="{:U('Order/return_goods_index')}">可申请退换货</a></li>
+				    				<li><a href="{:U('Order/return_goods_list')}">退换货记录</a></li>
+				    				<li class="red"><a href="{:U('Order/return_goods_refund')}">退款明细</a></li>
+				    			</ul>
+				    		</div>
+				    		<form action="" method="get" id="searchform">
+				    		<div class="greatco-se">
+				    			<div class="chx-se">
+				    				<input type="text" name="order_sn" id=""  value="{$_GET['order_sn']}" placeholder="订单编号"/>
+				    				<a href="javascript:$('#searchform').submit()">查询</a>
+				    			</div>
+				    		</div>
+				    		
+			    			<div class="sheetbd spitysheet">
+				    			<table width="100%" border="" cellspacing="" cellpadding="">
+			    					<tr class="ttoda">
+			    						<td class="sx1">服务单信息</td>
+			    						<td class="rc_1">退款明细</td>
+			    						<td class="">差额原因</td>
+			    						<td class="rc_1">退款信息</td>
+			    						<td class="">操作</td>
+			    					</tr>
+			    					<foreach name="list" item="vo">
+			    					<tr class="time_or">
+										<td colspan="5">
+											<div class="fl_ttmm">
+												<span class="time-num fl">申请时间：<em class="num">{$vo.addtime|date="Y-m-d H:i:s",###}</em></span>
+												<span class="time-num">订单编号：<em class="num">{$vo.order_sn}</em></span>
+											</div>
+											<div class="fr_ttmm"></div>
+										</td>
+									</tr>
+			    					<tr class="testrac">
+			    						<td class="sx1">
+			    							<div class="shop-if-dif">
+												<div class="shop-difimg">
+													<img src="{$vo.goods_id|goods_thum_images=100,100}" width="100" height="100">
+												</div>
+												<div class="shop_name"><a href="{:U('Home/Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+												{$goodsList[$vo[goods_id]]}</a></div>
+											</div>
+			    						</td>
+			    						<td class="rc_1">
+			    							<div class="xindw">
+												<if condition="$vo[refund_time] gt 0">
+													<p>退款金额：<b style="color: #e4393c;">￥{$vo.refund_money}</b></p>
+													<if condition="$vo[status] eq 5">
+														<p>退回到用户余额：<b>￥{$vo.refund_money}</b></p>
+													</if>
+													<else/>
+													<p>无</p>
+												</if>
+			    							</div>
+			    						</td>
+			    						<td class="">无</td>
+			    						<td class="rc_1 co_blue">{$state[$vo[status]]}</td>
+			    						<td class=""><a href="{:U('Order/return_goods_info',array('id'=>$vo[id]))}">查看</a></td>
+			    					</tr>
+			    					</foreach>
+			    				</table>
+			    			</div>
+			    			</form>
+			    			<div class="operating fixed">
+								<div class="fn_page clearfix" style="margin-top:10px">
+									{$page}
+								</div>
+							</div>
+			    		</div>
+			    		<div class="menumain ma-to-20 p">
+			    			<div class="goodpiece">
+								<h1>返修/退换货申请常见问题</h1>
+								<!--<a href=""><span class="co_blue">成长值说明<em class="thoma">></em></span></a>-->
+							</div>	
+							<div class="app-con">
+								<p>1.“申请”按钮若为灰色，可能是因为订单尚未完成或该商品正在返修/退换货中；</p>
+								<p>2. 查看&nbsp;
+								<tpshop sql="select * from `__PREFIX__article` where cat_id = 6  and is_open=1 limit 1" key="k2" item='v2'>
+			                    	<a class="co_blue" href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">售后政策</a>
+								</tpshop>
+							</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+		<include file="user/footer" />
+		<!--footer-e-->
+	</body>
+</html>

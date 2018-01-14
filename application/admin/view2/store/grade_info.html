@@ -1,0 +1,92 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>店铺等级管理 - 编辑店铺等级</h3>
+                <h5>网站系统店铺等级管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="handleposition" action="{:U('Store/grade_info_save')}" method="post">
+        <input type="hidden" name="sg_id" value="{$info.sg_id}">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sg_name"><em>*</em>等级名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" id="sg_name" name="sg_name" value="{$info.sg_name}" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">设置店铺等级名称</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sg_goods_limit">可发布商品数</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sg_goods_limit" value="{$info.sg_goods_limit}" id="sg_goods_limit" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">0表示没有限制</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sg_template_limit">可选模板套数</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sg_template_limit" value="{$info.sg_template_limit}" id="sg_template_limit" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">0表示没有限制</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sg_price">收费标准</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sg_price" value="{$info.sg_price}" id="sg_price" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">收费标准，单：元/年，必须为数字，在会员开通或升级店铺时将显示在前台</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="sg_sort">级别</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="sg_sort" value="{$info.sg_sort}" id="sg_sort" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">数值越大表明级别越高</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    申请说明
+                </dt>
+                <dd class="opt">
+                    <textarea  name="sg_description" class="tarea" rows="6">{$info.sg_description}</textarea>
+                    <span class="err"></span>
+                    <p class="notic">申请说明，在会员开通或升级店铺时将显示在前台</p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" onclick="adsubmit();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function adsubmit(){
+        if($('#sg_name').val()==''){
+            layer.alert('等级名称不能为空', {icon: 2});
+            return false;
+        }
+        $('#handleposition').submit();
+    }
+</script>
+</body>
+</html>

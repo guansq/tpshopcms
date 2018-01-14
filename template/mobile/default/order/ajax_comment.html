@@ -1,0 +1,24 @@
+<foreach name="comment_list" item="comment">
+    <div class="shopprice dapco p">
+        <div class="sonfbst">
+            <div class="maleri30">
+                <span>订单编号：{$comment[order_sn]}</span>
+            </div>
+        </div>
+        <div class="img_or fl"><img src="{$comment[goods_id]|goods_thum_images=200,200}"></div>
+        <div class="fon_or fl">
+            <h2 class="similar-product-text">
+                <a href="{:U('Goods/goodsInfo',array('id'=>$comment[goods_id]))}">{$comment[goods_name]}</a>
+                <p><a href="{:U('Goods/goodsInfo',array('id'=>$comment[goods_id]))}">{$comment[spec_key_name]}</a></p>
+            </h2>
+            <p class="pall0">购买时间：{$comment.add_time|date='Y-m-d H:i',###}</p>
+        </div>
+        <div class="dyeai">
+            <if condition="$comment[is_comment] eq 0">
+                <a class="compj" href="{:U('Mobile/Order/comment_list',array('order_id'=>$comment['order_id'],'store_id'=>$comment['store_id'],'rec_id'=>$comment['rec_id']))}"><i class="said"></i>评价订单</a>
+            <else/>
+                <a class="compj nomar" href="{:U('Mobile/Order/comment_info',array('rec_id'=>$comment[rec_id]))}"><i class="said c23"></i>查看评价</a>
+            </if>
+        </div>
+    </div>
+</foreach>

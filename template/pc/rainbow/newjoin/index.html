@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>商家入驻</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css" />
+	<script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__PUBLIC__/js/pc_common.js"></script>
+</head>
+<body>
+<include file="public/header" w="w1224"/>
+<style type="text/css">
+.gome-layout-area {width: 990px;margin: 0 auto;overflow: hidden;margin-bottom:30px;}
+.gome-part {width: 990px;overflow: hidden;margin-top: 50px;}
+.gome-merchants-settled {float: left;width: 290px;overflow: hidden;}
+.mr60 {margin-right: 60px;}
+.mt45 {margin-top: 45px;}
+.gome-merchants-settled span {float: left;}
+.settled-list { float: left;margin: 0 0 0 19px;width: 181px; height: 90px;}
+.settled-list li.list-title {font: bold 16px/16px '微软雅黑';background: none;padding: 0;height: 24px;margin-bottom: 3px;}
+.settled-list li {list-style: none;background: url(__STATIC__/images/list-point.jpg) no-repeat center left;padding: 0 0 0 14px;font: normal 12px/22px '新宋体';overflow: hidden;height: 22px;}
+.settled-list li a {width: 130px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;color: #888888;float: left;text-decoration: none;}
+.settled-process-title {width: 990px;text-align: left;font: normal 24px/24px '微软雅黑';margin-bottom:40px;}
+.settled-process {width: 990px;overflow: hidden;margin: 20px 0;background: #fafafa;border-top: 1px solid #e8e8e8;}
+.settled-process-title span {float: left;}
+.settled-process-title a {float: right;font: normal 12px/12px '新宋体';color: #0066cc;margin: 12px 0 0 0;}
+.settled-merchants-title {width: 990px;text-align: left;font: 400 24px/24px '微软雅黑';}
+.settled-merchants-title span {float: left;}
+.merchants-list {float: left;margin-left: 50px;margin-top: 30px}
+.merchants-list li {list-style: none;float: left;font: 400 12px/22px '新宋体';color: #5e5e5e;text-align: center;width: 150px;height: 34px; margin-right: 6px;cursor: pointer;}
+.merchants-list li.active {border-bottom: 4px solid #c00;height: 30px; color: #c00;}
+.merchants-tab-con {float: left;width: 990px;overflow: hidden;margin: 30px 0 0;display: none;}
+.merchants-tab-con img {float: left;margin: 1px 0 0 1px;}
+#cms_first_dom{width:100%}
+.bgs{width:100%;height:300px;background-position:50% 0px;background-repeat:no-repeat;margin-bottom:20px}
+.zs_kv_box{position:relative;width:1190px;height:300px;margin:0 auto}
+.p_c_list{position:relative;overflow:hidden}.p_c_list ul{position:absolute}
+.p_c_list ul li{display:inline-block;float:left;margin-right:10px}
+.p_c_hd{position:absolute;bottom:10px;right:280px;z-index:8}
+.p_c_hd ul li{width:12px;height:12px;border-radius:50%;text-indent:-9999px;margin-right:10px;background:#999;border:1px #999 solid;float:left;cursor:pointer}
+.p_c_hd ul li.on{background:#fff}.kv_enter{position:absolute;top:0px;right:0px;width:250px;height:300px;z-index:2}
+.en_btn{position:absolute;left:35px;top:60px;width:180px;height:40px;background-color:#f93;border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;-moz-border-radius:5px;line-height:40px;text-align:center;z-index:5}
+.en_btn a{font-family:'microsoft yahei';font-size:16px;color:#fff}
+.en_btn_check{top:160px}
+.en_bg{filter:alpha(opacity=30);-moz-opacity:.3;-khtml-opacity:.3;opacity:.3;width:250px;height:300px;background:#000;z-index:0}
+</style>
+<div id="cms_first_dom">
+	<div id="anchor_div1343768" showbegintime="" showendtime="" isrelatedpro="0" data-tpa="m1343768">
+		<div class="bgs" id="bgs" style="background-color: rgb(176, 176, 178);">
+			<div class="zs_kv_box" id="pic_change">
+				<div class="kv_enter">
+					<div class="en_btn"><a href="{:U('Newjoin/agreement')}">立即入驻</a></div>
+					<div class="en_btn en_btn_check"><a href="{:U('Newjoin/agreement')}">查询入驻进度</a></div>
+					<div class="en_word"></div>
+					<div class="en_bg"></div>
+				</div>
+				<div class="p_c_list" id="p_c_list" style="width: 1190px; height: 300px;">
+					<ul style="height: 300px;">
+                        <adv pid="10" limit="4" item="v">
+                            <li style="width: 1190px; height: 300px;">
+                                <a href="{$v.ad_link}" target="_blank">
+                                    <img src="{$v[ad_code]}" style="width: 980px; height: 260px;">
+                                </a>
+                            </li>
+                        </adv>
+					</ul>
+				</div>
+				<div class="p_c_hd" id="p_c_hd">
+					<ul></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="gome-layout-area">
+    	<div class="gome-part">
+	    			<div class="gome-merchants-settled   mr60"> 
+					<span><img width="90" height="90" src="http://img13.gomein.net.cn/image/prodimg/promimg/topics/201412/20141222113505.jpg"></span>
+			            <ul class="settled-list">
+			              <li class="list-title"><a target="_blank">信息公告</a></li>
+			              		<!--<li><a href="" target="_blank" title="【通知】商品规格参数数据维护工作安排">【通知】商品规格参数数据维护工作安排</a></li>-->
+                                <tpshop sql="select * from `__PREFIX__article` where cat_id = 24" key="k2" item='v2'>
+                                    <li><a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a></li>
+                                </tpshop>
+			            </ul>
+          			</div>
+	    			<div class="gome-merchants-settled   mr60"> 
+							<span><img width="90" height="90" src="http://img14.gomein.net.cn/image/prodimg/promimg/topics/201412/20141222113832.jpg"></span>
+			            <ul class="settled-list">
+			              <li class="list-title"><a target="_blank">招商标准</a></li>
+                            <!--<li><a href="" target="_blank" title="招商方向">招商方向</a></li>-->
+                            <!--<li><a href="" target="_blank" title="招商政策">招商政策</a></li>-->
+                            <!--<li><a href="" target="_blank" title="入驻资质">入驻资质</a></li>-->
+                            <tpshop sql="select * from `__PREFIX__article` where cat_id = 25  and is_open=1" key="k2" item='v2'>
+                                <li>
+                                    <a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a>
+                                </li>
+                            </tpshop>
+			            </ul>
+          			</div>
+	    			<div class="gome-merchants-settled   "> 
+							<span><img width="90" height="90" src="http://img10.gomein.net.cn/image/prodimg/promimg/topics/201412/20141222114426.jpg"></span>
+			            <ul class="settled-list">
+			              <li class="list-title"><a target="_blank">资费标准</a></li>
+			              		<!--<li><a href="" target="_blank" title="资费标准">资费标准</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="代运资费">代运资费</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="入驻须知">入驻须知</a></li>-->
+                            <tpshop sql="select * from `__PREFIX__article` where cat_id = 26  and is_open=1" key="k2" item='v2'>
+                                <li>
+                                    <a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a>
+                                </li>
+                            </tpshop>
+			            </ul>
+          			</div>
+	    			<div class="gome-merchants-settled mt45 mr60"> 
+							<span><img width="90" height="90" src="http://img11.gomein.net.cn/image/prodimg/promimg/topics/201412/20141222114116.jpg"></span>
+			            <ul class="settled-list">
+			              <li class="list-title">
+                              <!--<a href="http://help.gome.com.cn/question/246.html" target="_blank">TPSHOP优势</a>-->
+                              <a target="_blank">TPSHOP优势</a>
+                          </li>
+			              		<!--<li><a href="" target="_blank" title="发展优势">发展优势</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="物流优势">物流优势</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="品牌优势">品牌优势</a></li>-->
+                            <tpshop sql="select * from `__PREFIX__article` where cat_id = 27  and is_open=1" key="k2" item='v2'>
+                                <li>
+                                    <a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a>
+                                </li>
+                            </tpshop>
+			            </ul>
+          			</div>
+	    			<div class="gome-merchants-settled mt45 mr60"> 
+							<span><img width="90" height="90" src="http://img12.gomein.net.cn/image/prodimg/promimg/topics/201412/20141222114302.jpg"></span>
+			            <ul class="settled-list">
+			              <li class="list-title"><a href="{:U('Home/Article/detail')}" target="_blank">帮助中心</a></li>
+			              		<!--<li><a href="" target="_blank" title="平台总则">平台总则</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="业务规范">业务规范</a></li>-->
+			              		<!--<li><a href="" target="_blank" title="店铺促销">店铺促销</a></li>-->
+                            <tpshop sql="select * from `__PREFIX__article` where cat_id = 15  and is_open=1" key="k2" item='v2'>
+                                <li>
+                                    <a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a>
+                                </li>
+                            </tpshop>
+			            </ul>
+          			</div>
+			    		<div class="gome-merchants-settled mt45">
+			                <span><img src="http://app.gomein.net.cn/images/icon6.jpg" width="90" height="90"></span>
+			                <ul class="settled-list">
+				              <li class="list-title"><a target="_blank">联系方式</a></li>
+				              <li>入驻咨询QQ群：216961593</li>
+				              <li><a target="_blank" class="blue" title="招商电话点此链接">招商电话：{$tpshop_config['shop_info_phone']}</a></li>
+                                <tpshop sql="select * from `__PREFIX__article` where cat_id = 13  and is_open=1" key="k2" item='v2'>
+                                    <li>
+                                        <a href="{:U('Home/Article/detail',array('article_id'=>$v2[article_id]))}">{$v2[title]}</a>
+                                    </li>
+                                </tpshop>
+			                </ul>
+			            </div>
+      </div>
+      <div class="gome-part">
+      	<div class="settled-process-title clearfix"><span>入驻流程</span>
+            <a href="{:U('Article/detail',array('article_id'=>6))}" class="blue" target="_blank">查看入驻标准 &gt;</a>
+        </div>
+          <div class="settled-process mt45">
+          		<img src="__STATIC__/images/20141222115236.jpg" width="990" height="225">
+          </div>
+      </div>
+      <div class="gome-part" id="merchants-tab">
+        <div class="settled-merchants-title clearfix">
+            <span>热招品牌</span>
+            <ul class="merchants-list" id="merchants-list">
+                <tpshop sql="select * from `__PREFIX__brand` where status = 0 and cat_name !='' group by cat_name " key="k" item='v'>
+                        <li class="<if condition='$k eq 0'>active</if>">{$v[cat_name]}</li>
+                        <!--<li class="active">汽车用品</li>-->
+                </tpshop>
+            </ul>
+        </div>
+		  	<tpshop sql="select * from `__PREFIX__brand` group by cat_name" key="k" item="v">
+                    <div class="merchants-tab-con" style="display: <if condition='$k eq 0'>block <else/>none</if>;">
+						<tpshop sql="select * from `__PREFIX__brand` where cat_name = '$v[cat_name]'" key="k2" item='v2'>
+                        <img src="{$v2[logo]}" width="120" height="85" alt="{$v2[name]}">
+						</tpshop>
+                    </div>
+			  </tpshop>
+            </div>
+    </div>
+<include file="public/footer"/>
+<script src="__STATIC__/js/common.js"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+    move_pic();
+    $('#merchants-list li').each(function(i,o){
+    	$(o).hover(function(){
+    		$(o).siblings().removeClass('active');
+    		$(o).addClass('active');
+    		$('.merchants-tab-con').hide();
+    		$('.merchants-tab-con').eq(i).show();
+    	});
+    })
+});
+function move_pic() {
+	var p_width = 1190;//图片宽度
+	var p_height = 300;//图片高度
+	var speed = 500;//滑动快慢
+	var interval_speed = 5000//自动滑动间隔时间
+	
+	var p_now = 0;//当前显示第几屏
+	var one_pic = 1;//每屏显示图片数量
+	var bgs = $("#bgs");
+	var pic_change = $("#pic_change");
+	var p_c_list = $("#p_c_list");
+	var pic_ul = p_c_list.find("ul");
+	var pic_li = p_c_list.find("li");
+	var p_num = pic_li.length;//屏数，小按钮数量
+	var p_c_hd = $("#p_c_hd");
+	var hd_ul = p_c_hd.find("ul");
+	var k=0;//根据p_num判断小按钮数量
+	var html_li = "<li></li>";
+	for(k;k<p_num;k++){
+		hd_ul.append(html_li);
+	}
+        
+	var hd_li = p_c_hd.find("li");
+	var box_width = p_width*one_pic+(one_pic-1)*10;//外框宽度	
+	var all_width = (p_width+10)*p_num;//ul框架宽度
+	
+	//滑动
+	function slideAnim(p_now){
+		pic_ul.stop(true,false).animate({left:-(p_width+10)*p_now},speed);
+		change_hd_li(p_now);
+		change_color(p_now);
+	}
+	//变换背景颜色	
+	function change_color(p_now){
+		if(p_now==0){
+		bgs.css("background-color","#C7422F");	
+			}
+		else if(p_now==1){
+		bgs.css("background-color","#004797");	
+			}
+		else if(p_now==2){
+		bgs.css("background-color","#313b33");	
+			}
+		else if(p_now==3){
+		bgs.css("background-color","#b0b0b2");	
+			}
+		}	
+	//变换小按钮样式	
+	function change_hd_li(p_now){
+		hd_li.removeClass("on");
+    	hd_li.eq(p_now).addClass("on");	
+	}
+	//点击小按钮滑动
+	hd_li.click(function() {
+		var li_n = $(this);
+    	p_now = li_n.index();
+		slideAnim(p_now);
+	});	
+		
+	//鼠标滑上焦点图时停止自动播放，滑出时开始自动播放
+ 	pic_change.hover(function() {
+		clearInterval(picTimer);
+	},function() {
+		picTimer = setInterval(function() {
+			p_now++;
+			if(p_now == p_num) {p_now = 0;}
+			slideAnim(p_now);
+		},interval_speed);
+	}).trigger("mouseleave");
+	
+	//init
+	function init(){
+		bgs.css("background-color","#C7422F");
+		p_c_list.css({
+			width:box_width,
+			height:p_height
+		});
+		pic_ul.css({
+			width:all_width+10,
+			height:p_height
+		});
+		pic_li.css({
+			width:p_width,
+			height:p_height
+		});	
+		pic_li.find("img").css({
+			width:p_width,
+			height:p_height
+		});
+		hd_li.eq(p_now).addClass("on");	
+	}//init------end
+	init();		
+}
+</script>
+</body>
+</html>

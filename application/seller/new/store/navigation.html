@@ -1,0 +1,133 @@
+<include file="public/head"/>
+<script type="text/javascript">
+    window.UEDITOR_Admin_URL = "__ROOT__/public/plugins/Ueditor/";
+    var URL_upload = "{$URL_upload}";
+    var URL_fileUp = "{$URL_fileUp}";
+    var URL_scrawlUp = "{$URL_scrawlUp}";
+    var URL_getRemoteImage = "{$URL_getRemoteImage}";
+    var URL_imageManager = "{$URL_imageManager}";
+    var URL_imageUp = "{$URL_imageUp}";
+    var URL_getMovie = "{$URL_getMovie}";
+    var URL_home = "{$URL_home}";    
+</script>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.config.js"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.all.js"/>
+<div class="ncsc-layout wrapper">
+<include file="public/left"/>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺导航</div>
+    <div class="main-content" id="mainContent">
+      
+<div class="tabmenu">
+  <ul class="tab pngFix">
+  <li class="normal"><a  href="{:U('Store/navigation_list')}">导航列表</a></li><li class="active"><a  href="http://www.tpshop.cn/index.php?act=store_navigation&op=navigation_add">添加导航</a></li></ul>
+</div>
+<div class="ncsc-form-default">
+  <form method="post" id="handleposition" action="{:U('Store/navigationHandle')}" target="_parent" name="store_navigation_form" enctype="multipart/form-data">
+      <input type="hidden" name="sn_id" value="{$info.sn_id}">
+    <dl>
+      <dt><i class="required">*</i>导航名称：</dt>
+      <dd>
+        <input type="text" class="w150 text" name="sn_title" value="{$info.sn_title}" /><span></span>
+      </dd>
+    </dl>
+    <dl>
+      <dt>是否显示：</dt>
+      <dd>
+        <ul class="ncsc-form-radio-list">
+          <li>
+            <label for="sn_is_show_0"><input type="radio" class="radio" name="sn_is_show" id="sn_is_show_0" value="1" <if condition="$info[sn_is_show] eq 1"> checked="checked"</if>/>
+            是</label></li>
+          <li>
+            <label for="sn_is_show_1"><input type="radio" class="radio" name="sn_is_show" id="sn_is_show_1" value="0" <if condition="$info[sn_is_show] eq 0"> checked="checked"</if>/>
+            否</label></li>
+        </ul>
+      </dd>
+    </dl>
+    <dl>
+      <dt>排序：</dt>
+      <dd>
+        <input type="text" class="w50 text" name="sn_sort" value="{$info.sn_sort}"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>内容：</dt>
+      <dd>
+        <textarea id="post_content" name="sn_content" style="height:300px;">{$info.sn_content}</textarea>
+	  </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>导航URL地址：</dt>
+      <dd>
+        <p>
+          <input type="text" class="w300 text" name="sn_url" value="{$info.sn_url}" />
+        </p>
+        <p class="hint">请填写包含http://的完整URL地址,如果填写此项则点击该导航会跳转到该链接</p>
+    </dl>
+    <dl>
+      <dt>新窗口打开：</dt>
+      <dd>
+        <ul class="ncsc-form-radio-list">
+          <li>
+            <label for="sn_new_open_1"><input type="radio" class="radio" name="sn_new_open" id="sn_new_open_1" value="1"  <if condition="$info[sn_new_open] eq 1"> checked="checked"</if>>
+            是</label></li>
+          <li>
+            <label for="sn_new_open_0"><input type="radio" class="radio" name="sn_new_open" id="sn_new_open_0" value="0"  <if condition="$info[sn_new_open] eq 0"> checked="checked"</if>>
+            否</label></li>
+        </ul>
+      </dd>
+    </dl>
+    <div class="bottom">
+      <label class="submit-border"><input type="button" onclick="adsubmit()" class="submit" value="提交" /></label>
+    </div>
+  </form>
+</div>
+<script>
+function adsubmit(){
+    if($('input[name=sn_title]').val() ==''){
+        layer.msg('请填写导航名称',{icon:2});
+        return false;
+    }
+    if($('input[name=sn_url]').val() ==''){
+        layer.msg('请填写http://开头的地址',{icon:2});
+        return false;
+    }
+	$('#handleposition').submit();
+}
+
+var editor;
+$(function () {
+    //具体参数配置在  editor_config.js 中
+    var options = {
+        zIndex: 999,
+        initialFrameWidth: "100%", //初化宽度
+        initialFrameHeight: 350, //初化高度
+        focus: false, //初始化时，是否让编辑器获得焦点true或false
+        maximumWords: 99999, removeFormatAttributes: 'class,style,lang,width,height,align,hspace,valign',//允许的最大字符数 'fullscreen',
+        pasteplain: true, autoHeightEnabled: false,
+        autotypeset: {
+            mergeEmptyline: true,        //合并空行
+            removeClass: true,           //去掉冗余的class
+            removeEmptyline: false,      //去掉空行
+            textAlign: "left",           //段落的排版方式，可以是 left,right,center,justify 去掉这个属性表示不执行排版
+            imageBlockLine: 'center',    //图片的浮动方式，独占一行剧中,左右浮动，默认: center,left,right,none 去掉这个属性表示不执行排版
+            pasteFilter: false,          //根据规则过滤没事粘贴进来的内容
+            clearFontSize: false,        //去掉所有的内嵌字号，使用编辑器默认的字号
+            clearFontFamily: false,      //去掉所有的内嵌字体，使用编辑器默认的字体
+            removeEmptyNode: false,      //去掉空节点
+            removeTagNames: {"font": 1},
+            indent: false,               //行首缩进
+            indentValue: '0em'           //行首缩进的大小
+        }
+    };
+    editor = new UE.ui.Editor(options);
+    editor.render("post_content");
+});
+
+</script>
+    </div>
+  </div>
+</div>
+<include file="public/foot"/>
+</body>
+</html>

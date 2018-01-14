@@ -1,0 +1,197 @@
+<include file="public/header" title="注册" body="g4"/>
+<include file="public/header_nav" title="注册" href="javascript:history.back(-1)"/>
+<style>
+    #verify_code_img{
+        padding: .55467rem .21333rem;
+        width: 4.6rem;
+        height: 2.9rem;
+        color: white;
+        border-radius: .128rem;
+    }
+    #sendcode{
+        pointer-events: none;
+        background-color: #666;
+    }
+</style>
+<!--注册表单-s-->
+<div class="loginsingup-input singupphone">
+    <form action="" method="post" id="regFrom" >
+        <div class="content30">
+            <div class="lsu boo wicheck">
+                <input type="text" name="username" id="username" value="" placeholder="请输入手机号" maxlength="11"  class="c-form-txt-normal" onBlur="checkMobilePhone(this.value);">
+                <span id="mobile_phone_notice"></span>
+            </div>
+            <div class="lsu boo wicheck">
+                <input type="password" name="password" id="password" value="" maxlength="16" placeholder="请设置6-16位登录密码" class="c-form-txt-normal" onBlur="check_password(this.value);">
+                <span id="password_notice"></span>
+            </div>
+            <div class="lsu boo wicheck">
+                <input type="password" id="password2" name="password2" value=""  maxlength="16"placeholder="确认密码" onBlur="check_confirm_password(this.value);">
+                <span id="confirm_password_notice"></span>
+            </div>
+            <div class="lsu boo zc_se">
+                <input type="text"  value="" name="verify_code" placeholder="请输入图像验证码" >
+                <img src="" id="verify_code_img" onclick="verify()">
+            </div>
+            <if condition="$regis_sms_enable eq 1">
+              <div class="lsu boo zc_se">
+                <input type="text" id="mobile_code" value="" name="mobile_code" placeholder="请输入短信验证码" >
+                <a rel="mobile" onClick="sendcode(this)">获取短信验证码</a>
+            </div>
+            </if>
+            <div class="lsu submit">
+                <input type="button" name="" id="" onclick="checkSubmit()" value="注册"/>
+            </div>
+            <div class="signup-find">
+
+                <p class="recept">注册即视为同意<a href="">《开源用户注册协议》</a></p>
+            </div>
+        </div>
+    </form>
+</div>
+<!--注册表单-s-->
+<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function(){
+        verify();
+    })
+    // 普通 图形验证码
+    function verify(){
+        $('#verify_code_img').attr('src','/index.php?m=Home&c=User&a=verify&type=user_reg&r='+Math.random());
+    }
+    var flag = false;
+    //手机验证
+    function checkMobilePhone(mobile){
+        if(mobile == ''){
+            showErrorMsg('手机不能空');
+            flag = false;
+        }else if(checkMobile(mobile)){ //判断手机格式
+            $.ajax({
+                type : "GET",
+                url:"/index.php?m=Home&c=Api&a=issetMobile",
+                data :{mobile:mobile},// 你的formid 搜索表单 序列化提交
+                success: function(data)
+                {
+                    if(data == '0')
+                    {
+                       flag = true;
+                    }else{
+                        showErrorMsg('* 手机号已存在');
+                       flag = false;
+                    }
+                }
+            });
+        }else{
+            showErrorMsg('* 手机号码格式不正确');
+           flag = false;
+        }
+    }
+
+    //密码
+    function check_password(password) {
+        var password = $.trim(password);
+        if(password == ''){
+            showErrorMsg("*登录密码不能包含空格");
+           flag = false;
+        }else if (password.length < 6) {
+            showErrorMsg('*登录密码不能少于 6 个字符。');
+           flag = false;
+        }
+    }
+
+    //验证确认密码
+    function check_confirm_password(confirm_password) {
+        var password1 = $.trim($('#password').val());
+        var password2 = $.trim(confirm_password);
+        if (password2.length < 6) {
+            showErrorMsg('*登录密码不能少于 6 个字符。');
+           flag = false;
+        }
+        if (password2 != password1) {
+            showErrorMsg('*两次密码不一致');
+           flag = false;
+        }else{
+            flag = true;
+        }
+    }
+
+    function countdown(obj) {
+        var s =  {$tpshop_config['sms_sms_time_out']};
+        //改变按钮状态
+        $(obj).attr('id','sendcode')
+        callback();
+        //循环定时器
+        var T = window.setInterval(callback,1000);
+        function callback()
+        {
+            if(s <= 0){
+                //移除定时器
+                window.clearInterval(T);
+                $(obj).removeAttr('id')
+                obj.innerHTML='获取短信验证码';
+            }else{
+                if(s<=10){
+                    obj.innerHTML = '0'+ --s + '秒后再获取';
+                }else{
+                    obj.innerHTML = --s+ '秒后再获取';
+                }
+            }
+        }
+    }
+
+    //发送短信验证码
+    function sendcode(obj){
+        if(flag){
+            $.ajax({
+                url:'/index.php?m=Home&c=Api&a=send_validate_code&t='+Math.random() ,
+                type:'post',
+                dataType:'json',
+                data:{type:$(obj).attr('rel'),send:$.trim($('#username').val()), scene:1},
+                success:function(res){
+                    if(res.status==1){
+                        //成功
+                        showErrorMsg(res.msg);
+                        countdown(obj)
+                    }else{
+                        //失败
+                        showErrorMsg(res.msg);
+                    }
+                },
+                error:function(){
+                    showErrorMsg('网络错误，请稍后再试');
+                }
+            })
+        }else{
+            showErrorMsg('请先填写完所有信息！');
+        }
+    }
+
+    //提交表单
+    function checkSubmit()
+    {
+        $.ajax({
+        type:'POST',
+        url:"/index.php?m=Mobile&c=User&a=reg",
+        dataType:'JSON',
+        data:$('#regFrom').serialize(),
+        success:function(data){
+            if(data.status == 1){
+                showErrorMsg(data.msg);
+                location.href='/index.php/Mobile/User/index';
+            }else {
+                showErrorMsg(data.msg);
+                verify();
+            }
+        }
+    })
+    }
+    /**
+     * 提示弹窗
+     * @param msg
+     */
+    function showErrorMsg(msg){
+        layer.open({content:msg,time:2});
+    }
+</script>
+	</body>
+</html>

@@ -1,0 +1,83 @@
+<include file="public/layout" />
+ 
+<style type="text/css">
+html, body {
+	overflow: visible;
+}
+.page{
+	padding: 0px !import;
+}
+</style>  
+<body style="background-color: #FFF; overflow: auto; min-width : auto">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div >
+  <form class="form-horizontal" id="msg_form" action="{:U('Admin/User/doSendMail')}" method="post"  >    
+  	<input name="call_back" type="hidden" value="call_back" />
+  	<input name="smtp" type="hidden" value="{$smtp}" />
+    <div class="ncap-form-default">
+	<dl class="row">
+			<dt class="tit"></dt>
+           <dd class="opt">
+               <if condition="count($users) gt 0"><input id="allvip" type="radio"checked="checked" name="type">发送给以下会员</if>
+           </dd>
+     </dl>
+     <if condition="count($users) gt 0">
+      <dl class="row">
+        <dt class="tit">
+          <label for="cate_id"><em></em>会员列表:</label>
+        </dt>
+        <dd class="opt">
+        	<volist name="users" id="user">
+				<input type="hidden" name="user[]" value="{$user['user_id']}" />
+				<p><span>ID:{$user['user_id']}</span>&nbsp;<span>昵称:{$user['nickname']}</span>&nbsp;<span>邮箱:{$user['email']}</span></p>
+         	</volist>
+        </dd>
+      </dl> 
+      </if>
+      <dl class="row">
+        <dt class="tit">
+          <label for="cate_id"><em></em>邮件标题:</label>
+        </dt>
+        <dd class="opt">
+         <input name="title" id="title"  placeholder="邮件标题" class='text'>
+        </dd>
+      </dl> 
+      <dl class="row">
+        <dt class="tit">
+          <label for="cate_id"><em></em>邮件内容:</label>
+        </dt>
+        <dd class="opt">
+         <textarea name="text" rows="6"  placeholder="邮件内容" name="text" id="text" class="tarea" id="subject_desc">{$keyword.text}</textarea>
+        </dd>
+      </dl>    
+      <input type="hidden" value="{$keyword.id}" name="kid">
+      <div class="bot"><a href="JavaScript:void(0);" onClick="checkForm()" class="ncap-btn-big ncap-btn-green" id="submitBtn">发送</a></div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+function checkForm(){
+    var text = $('#text').val();
+    var title = $('#title').val();
+    var user = $("input[name='user[]']").val();
+    var error = '';
+    if(text == ''){
+        error += '邮件内容不能为空 <br/>';
+    }
+    if(title == ''){
+        error += '邮件标题不能为空 <br/>';
+    }
+    if((typeof(user))  == "undefined"){
+        error += '所选的会员没有邮箱 <br/>';
+    }
+    if(error){
+		layer.alert(error, {icon: 2});
+        return ;
+    }
+    $('#msg_form').submit();
+}
+</script>
+</body>
+</html>

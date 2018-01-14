@@ -1,0 +1,82 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title"><a class="back" href="javascript:history.back(-1);" title="返回投诉主题列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      <div class="subject">
+        <h3>投诉管理 - 新增</h3>
+        <h5>商城对商品交易投诉管理及仲裁</h5>
+      </div>
+    </div>
+  </div>
+  <form id="add_form" method="post" enctype="multipart/form-data" action="">
+    <div class="ncap-form-default">
+      <dl class="row">
+        <dt class="tit">
+          <label for="subject_content"><em>*</em>投诉主题</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" id="subject_content" name="subject_name" class="input-txt">
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label for="subject_desc"><em>*</em>投诉主题描述</label>
+        </dt>
+        <dd class="opt">
+          <textarea name="subject_desc" rows="6" class="tarea" id="subject_desc"></textarea>
+          <span class="err"></span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+//按钮先执行验证再提交表单
+$(function(){$("#submitBtn").click(function(){
+	    var subject_name = $.trim($('input[name="subject_name"]').val());
+	    var subject_desc = $.trim($('#subject_desc').val());
+	    var error ='';
+	    if(subject_name == ''){
+	        error += "投诉主题不能为空\n";
+	    }
+	    
+	    if(subject_desc == ''){
+	    	 error += "投诉主题描述不能为空\n";
+	    }
+	    
+	    if(error){
+	        layer.alert(error, {icon: 2});  //alert(error);
+	        return false;
+	    }
+        $.ajax({
+            type : "POST",
+            url:"{:U('admin/Service/complain_subject_info')}",
+            data:$('#add_form').serialize(),
+            dataType:'json',
+            success: function(data)
+            {
+                if(data.status == 1){
+                    layer.alert(data.msg, {icon: 1})
+                    window.location.href=data.url
+                }else{
+                    layer.alert(data.msg, {icon: 2})
+                }
+            },
+            error:function(){
+                layer.alert('系统正忙，请稍后再试！', {icon: 2})
+            }
+        });
+	});
+});
+//
+</script> 
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>系统提示-{$tpshop_config['shop_info_store_title']}</title>
+    <meta name="keywords" content="{$tpshop_config['shop_info_store_keyword']}"/>
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/tpshop.css"/>
+    <script src="__STATIC__/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+</head>
+<style>
+    .box-ts{width:500px; padding:60px 0; background-color:rgba(105, 95, 95, 0.06); text-align:center; margin:0 auto; overflow:hidden; margin-top:100px; margin-bottom:100px; font-family:simsun,tahoma,arial,sans-serif; color:#555555}
+    .box-ts i{ display:inline-block; vertical-align:middle;}
+    .box-ts ul{display:inline-block; text-align:left; vertical-align:middle}
+    .box-ts ul li{line-height:2.4}
+    .box-ts ul li h3{font-size:18px; font-weight:bold}
+    .box-ts:after{content:''; clear:both}
+</style>
+<body class="detailfont">
+<include file="public/header" w="w1224"/>
+	<div class="operation_success_fail">
+		<!--操作成功-s--->
+		<?php if($code == 1) {?>
+		<div class="boxoperation p" style="display: ;">
+			<div class="success_fial_img fl">
+				<img src="__STATIC__/images/right_06.jpg"/>
+			</div>
+			<div class="success_describe fl">
+				<div class="sd1">
+					<i class="suc"></i>
+					<span><?php echo(strip_tags($msg)); ?></span>
+				</div>
+				<div class="sd2">
+					<a id="href" href="<?php echo($url); ?>">页面跳转中...</a>
+					<span>等待时间：<em id="wait"><?php echo($wait); ?></em></span>
+				</div>
+				<div class="sd3">
+					<a href="/">首页</a>
+					<a href="/index.php?m=Home&c=Cart&a=index">购物车</a>
+					<a href="/index.php?m=Home&c=User&a=index">用户中心</a>
+				</div>
+			</div>
+		</div>
+		<!--操作成功-s--->
+		<?php }else{?>
+		<!--操作失败-s--->
+		<div class="boxoperation p" style="display:;">
+			<div class="success_fial_img fl">
+				<img src="__STATIC__/images/wrong_05.jpg"/>
+			</div>
+			<div class="success_describe fl">
+				<div class="sd1">
+					<i class="wro"></i>
+					<span><?php echo(strip_tags($msg)); ?></span>
+				</div>
+				<div class="sd2">
+					<a id="href" href="<?php echo($url); ?>">页面跳转中...</a>
+					<span>等待时间：<em id="wait"><?php echo($wait); ?></em></span>
+				</div>
+				<div class="sd3">
+					<a href="/">首页</a>
+					<a href="/index.php?m=Home&c=Cart&a=index">购物车</a>
+					<a href="/index.php?m=Home&c=User&a=index">用户中心</a>
+				</div>
+			</div>
+		</div>
+		<!--操作失败-e--->
+		<?php }?>
+	</div>
+<include file="public/footer"/>
+<script type="text/javascript">
+    (function () {
+        var wait = document.getElementById('wait'), href = document.getElementById('href').href;
+        var interval = setInterval(function () {
+            var time = --wait.innerHTML;
+            if (time <= 0) {
+                window.location.href = href;
+                clearInterval(interval);
+            }
+            ;
+        }, 1000);
+    })();
+    
+    /*******用户登录变化class****/
+    function user_login_or_no()
+    {
+    	var uname = getCookie('uname');
+    	if (uname == '') {
+    		$('.islogin').remove();
+    		$('.nologin').show();
+    	} else {
+    		$('.nologin').remove();
+    		$('.islogin').show();
+    		$('.userinfo').html(decodeURIComponent(uname));
+    	}
+    }
+	
+    $(document).ready(function(){
+    	user_login_or_no();
+    })
+    
+</script>
+</body>
+</html>

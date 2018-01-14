@@ -1,0 +1,98 @@
+<include file="public/head"/>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>统计结算<i class="icon-angle-right"></i>汇款记录
+        </div>
+        <div class="main-content" id="mainContent">
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a href="{:U('Finance/remittance')}">汇款记录列表</a></li>
+                </ul>
+            </div>
+            <table class="search-form">
+                <form method="get" action="{:U('Finance/remittance')}" id="search-form2" onsubmit="check_form();">
+                    <input type="hidden" name="create_time" id="create_time" value="{$create_time}">
+                    <tr>
+                        <td>&nbsp;</td>
+                        <th class="w80">申请开始时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90"  id="start_time" value="{$start_time}" placeholder="记录开始时间"/>
+                        </td>
+                        <th class="w80">申请截止时间</th>
+                        <td class="w100">
+                            <input type="text" style="width: 90px;" class="text w90" id="end_time" value="{$end_time}" placeholder="记录截止时间"/>
+                        </td>
+                        <th class="w70">收款账号</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="{$Think.request.bank_card}" name="bank_card"/></td>
+                        <th class="w80">收款账户名</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="{$Think.request.realname}" name="realname"/></td>
+                        <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索"/></label></td>
+                    </tr>
+                </form>
+            </table>
+            <table class="ncsc-default-table">
+                <thead>
+                <tr>
+                    <th class="w100">ID</th>
+                    <th class="w130 tl">银行名称</th>
+                    <th class="w130 tl">银行账号</th>
+                    <th class="w90 tl">银行账户</th>
+                    <th class="w100">申请金额</th>
+                    <th class="w90">状态</th>
+                    <th class="w100">操作时间</th>
+                    <th class="w90 tl">备注</th>
+                </tr>
+                </thead>
+                <tbody>
+                <empty name="list">
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                    <else/>
+                <volist name="list" id="v">
+                    <tr class="bd-line">
+                        <td>{$v.id}</td>
+                        <td class="tl">{$v.bank_name}</td>
+                        <td class="tl">{$v.bank_card}</td>
+                        <td class="tl">{$v.realname}</td>
+                        <td>{$v.money}</td>
+                        <td><if condition="$v[status] eq 2">已付款<else/>待付款</if></td>
+                        <td>{$v.create_time|date="Y-m-d H:i:s",###}</td>
+                        <td class="tl">{$v.remark}</td>
+                    </tr>
+                </volist>
+                </empty>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20">{$show}</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<include file="public/foot"/>
+<script>
+    $(document).ready(function(){
+        $('#start_time').layDate();
+        $('#end_time').layDate();
+    });
+    function check_form(){
+        var start_time = $.trim($('#start_time').val());
+        var end_time =  $.trim($('#end_time').val());
+        if(start_time == '' ^ end_time == ''){
+            layer.alert('请选择完整的时间间隔', {icon: 2});
+            return false;
+        }
+        if(start_time !== '' && end_time !== ''){
+            $('#create_time').val(start_time+" - "+end_time);
+        }
+        if(start_time == '' && end_time == ''){
+            $('#create_time').val('');
+        }
+    }
+</script>
+</body>
+</html>
