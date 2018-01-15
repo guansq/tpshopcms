@@ -91,29 +91,8 @@ class System extends Base{
            $navigation = DB::name('navigation')->where('id',$id)->find();  
            
            // 系统菜单
-           $GoodsLogic = new GoodsLogic();
-           $cat_list = $GoodsLogic->goods_cat_list();
-           $select_option = array();              
-            if(!empty($cat_list))
-            {
-                foreach ($cat_list AS $key => $value)
-                {
-                        $strpad_count = $value['level']*4;
-                        $select_val = U("/Home/Goods/goodsList",array('id'=>$key));
-                        $select_option[$select_val] = str_pad('',$strpad_count,"-",STR_PAD_LEFT).$value['name'];                                        
-                }
-            }
-           $system_nav = array(
-               'http://www.tpshop.cn' => 'tpshop官网',                              
-               'http://www.99soubao.com' => '搜豹公司',
-               '/index.php?m=Home&c=Activity&a=promoteList' => '促销活动',
-               '/index.php?m=Home&c=Activity&a=flash_sale_list' => '限时抢购',
-               '/index.php?m=Home&c=Activity&a=group_list' => '团购',       
-               '/index.php?m=Home&c=Index&a=street' => '店铺街',
-               '/index.php?m=Home&c=Goods&a=integralMall' => '积分商城',
-           );           
-           $system_nav = array_merge($system_nav,$select_option);
-           $this->assign('system_nav',$system_nav);
+
+
            
            $this->assign('navigation',$navigation);
            return $this->fetch('_navigation');

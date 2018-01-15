@@ -16,14 +16,12 @@
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit">
-                    <label for="system_nav"><em>*</em>系统内容</label>
+                    <label for="parent_id"><em>*</em>系统内容</label>
                 </dt>
                 <dd class="opt">
-                    <select class="small form-control" id="system_nav" name="system_nav">
+                    <select class="small form-control" id="parent_id" name="system_nav">
                         <option value="">自定义导航</option>
-                        <foreach name="system_nav"  key='k' item="v" >
-                            <option value="{$k}"<if condition="$k eq $navigation[url]"> selected </if> >{$v}</option>
-                        </foreach>
+
                     </select>
                     <span class="err"></span>
                     <p class="notic">自定义导航</p>
