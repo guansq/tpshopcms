@@ -16,12 +16,12 @@
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit">
-                    <label for="parent_id"><em>*</em>系统内容</label>
+                    <label for="parent_id"><em>*</em>上级导航</label>
                 </dt>
                 <dd class="opt">
-                    <select class="small form-control" id="parent_id" name="system_nav">
-                        <option value="">自定义导航</option>
-
+                    <select class="small form-control" id="parent_id" name="parent_id" >
+                        <option value="0">顶级导航</option>
+                        {$menu}
                     </select>
                     <span class="err"></span>
                     <p class="notic">自定义导航</p>

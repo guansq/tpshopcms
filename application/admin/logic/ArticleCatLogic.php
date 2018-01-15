@@ -95,7 +95,7 @@ class ArticleCatLogic extends Model
         $pre_key = 0;
         foreach ($options AS $key => $value)
         {
-            $options[$key]['has_children'] = 1;
+            $options[$key]['has_children'] = 0;
             if ($pre_key > 0)
             {
                 if ($options[$pre_key]['cat_id'] == $options[$key]['parent_id'])

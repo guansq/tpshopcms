@@ -15,6 +15,7 @@
 
 namespace app\admin\controller;
 use app\admin\logic\GoodsLogic;
+use app\admin\logic\NavigationLogic;
 use think\Db;
 use think\Cache;
 class System extends Base{
@@ -75,7 +76,8 @@ class System extends Base{
      * 添加修改编辑 前台导航
      */
     public  function addEditNav(){                        
-            $model = D("Navigation");            
+            $model = D("Navigation");
+            $parent_id = I('get.parent_id/d');
             if(IS_POST)
             {
                     if (I('id'))
@@ -91,9 +93,9 @@ class System extends Base{
            $navigation = DB::name('navigation')->where('id',$id)->find();  
            
            // 系统菜单
-
-
-           
+            $navLogic = new NavigationLogic();
+            $menu = $navLogic->get_all_nav_list(0, $navigation['parent_id'], true);
+            $this->assign('menu',$menu);
            $this->assign('navigation',$navigation);
            return $this->fetch('_navigation');
     }   
