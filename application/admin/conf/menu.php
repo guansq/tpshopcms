@@ -24,6 +24,10 @@ return	array(
 						array('name'=>'广告列表','act'=>'adList','op'=>'Ad'),
 						array('name'=>'广告位置','act'=>'positionList','op'=>'Ad'),
 				)),
+                array('name' => '产品','child' => array(
+                    array('name'=>'产品列表','act'=>'prList','op'=>'Produce'),
+                    array('name'=>'产品分类','act'=>'categoryList','op'=>'Produce'),
+                )),
 				array('name' => '文章','child'=>array(
 						array('name' => '文章列表', 'act'=>'articleList', 'op'=>'Article'),
 						array('name' => '文章分类', 'act'=>'categoryList', 'op'=>'Article'),
@@ -40,9 +44,9 @@ return	array(
 						//array('name' => '供应商列表', 'act'=>'supplier', 'op'=>'Admin'),
 				)),*/
 			
-				array('name' => '模板','child'=>array(
+/*				array('name' => '模板','child'=>array(
 						array('name' => '模板设置', 'act'=>'templateList', 'op'=>'Template'),
-				)),
+				)),*/
 				array('name' => '数据','child'=>array(
 						array('name' => '数据备份', 'act'=>'index', 'op'=>'Tools'),
 						array('name' => '数据恢复', 'act'=>'restore', 'op'=>'Tools'),
