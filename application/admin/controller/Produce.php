@@ -29,7 +29,7 @@ class Produce extends Base{
 
     public function category()
     {
-        $ArticleCat = new ArticleCatLogic();
+        $ProduceCat = new ProduceCatLogic();
         $act = I('get.act', 'add');
         $cat_id = I('get.cat_id/d');
         $parent_id = I('get.parent_id/d');
@@ -38,7 +38,7 @@ class Produce extends Base{
             $parent_id = $cat_info['parent_id'];
             $this->assign('cat_info', $cat_info);
         }
-        $cats = $ArticleCat->article_cat_list(0, $parent_id, true);
+        $cats = $ProduceCat->produce_cat_list(0, $parent_id, true);
         $this->assign('act', $act);
         $this->assign('cat_select', $cats);
         return $this->fetch();
@@ -48,7 +48,7 @@ class Produce extends Base{
     {
         $data = I('post.');
 
-        $result = $this->validate($data, 'ArticleCategory.'.$data['act'], [], true);
+        $result = $this->validate($data, 'ProduceCategory.'.$data['act'], [], true);
         if ($result !== true) {
             $this->ajaxReturn(['status' => 0, 'msg' => '参数错误', 'result' => $result]);
         }

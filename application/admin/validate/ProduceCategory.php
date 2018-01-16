@@ -66,8 +66,8 @@ class ProduceCategory extends Validate
             return '所选分类的上级分类不能是当前分类';
         }
 
-        $ArticleCat = new \app\admin\logic\ProduceCatLogic;
-        $children = array_keys($ArticleCat->produce_cat_list($value, 0, false)); // 获得当前分类的所有下级分类
+        $ProduceCat = new \app\admin\logic\ProduceCatLogic;
+        $children = array_keys($ProduceCat->produce_cat_list($value, 0, false)); // 获得当前分类的所有下级分类
         if (in_array($data['parent_id'], $children)) {
             return '所选分类的上级分类不能是当前分类的子分类';
         }
@@ -88,7 +88,7 @@ class ProduceCategory extends Validate
             return '还有子分类，不能删除';
         }
 
-        $res = D('article')->where('cat_id', $value)->select();
+        $res = D('produce')->where('cat_id', $value)->select();
         if ($res) {
             return '非空的分类不允许删除';
         }
