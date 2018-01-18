@@ -1,4 +1,12 @@
 <include file="public/layout" />
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.config.js"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.all.min.js"/>
+<script type="text/javascript" charset="utf-8" src="__ROOT__/public/plugins/Ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+
+<style type="text/css">
+    html, body {overflow: visible;}
+</style>
 <body style="background-color: #FFF; overflow: auto;">
 <div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
 <div id="append_parent"></div>
@@ -12,7 +20,7 @@
             </div>
         </div>
     </div>
-    <form class="form-horizontal" action="{:U('Article/aticleHandle')}" id="add_post" method="post" onsubmit="return submit_info()">
+    <form class="form-horizontal" action="{:U('Article/aticleHandle')}" id="add_post" method="post" >
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit"><label><em>*</em>标题</label></dt>
@@ -55,6 +63,26 @@
                     </div>
                 </dd>
             </dl>
+            <dl class="row">
+                <dt class="tit"><label><em>*</em>产品描述</label></dt>
+                <dd class="opt">
+                    <input type="text" value="" name="produce_desc" class="input-txt">
+                    <span class="err" id="err_produce_desc"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>产品内容</label>
+                </dt>
+                <dd class="opt">
+            <textarea class="span12 ckeditor" id="produce_content" name="content" title="">
+
+            </textarea>
+                    <span class="err"  id="err_produce_content"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
             <dl class="row" id="testinfo">
                 <dt class="tit"><label>新增产品属性</label></dt>
                 <dd class="opt">
@@ -62,10 +90,11 @@
                     <input type="hidden" value="" name="attr_num" id="attr_num">
                 </dd>
             </dl>
-
+            <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
         </div>
         <input type="hidden" name="act" value="{$act}">
         <input type="hidden" name="produce_id" value="{$info.produce_id}"></label>
+
     </form>
 </div>
 <script>
@@ -181,6 +210,48 @@
     }
     function call_back_video(fileurl_tmp){
         $("#produce_video").val(fileurl_tmp);
+    }
+
+    var url="{:url('Ueditor/index',array('savePath'=>'article'))}";
+    var ue = UE.getEditor('produce_content',{
+        serverUrl :url,
+        zIndex: 999,
+        initialFrameWidth: "80%", //初化宽度
+        initialFrameHeight: 300, //初化高度
+        focus: false, //初始化时，是否让编辑器获得焦点true或false
+        maximumWords: 99999, removeFormatAttributes: 'class,style,lang,width,height,align,hspace,valign',//允许的最大字符数 'fullscreen',
+        pasteplain:false, //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+        autoHeightEnabled: true
+    });
+    $(document).on("click", '#submitBtn', function () {
+        verifyForm();
+    });
+    function verifyForm(){
+        $('span.err').hide();
+
+        $.ajax({
+            type: "POST",
+            url: "{:U('Produce/produceHandle')}",
+            data: $('#add_post').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status === 1) {
+                    layer.msg(data.msg, {icon: 1,time: 1000}, function() {
+                        location.href = "{:U('Admin/Article/articleList')}";
+                    });
+                } else if(data.status === 0) {
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                    $.each(data.result, function(index, item) {
+                        $('#err_' + index).text(item).show();
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                }
+            }
+        });
     }
 </script>
 </body>

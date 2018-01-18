@@ -36,6 +36,7 @@ class Produce extends Base{
         return $this->fetch();
     }
 
+
     public function categoryList(){
         $ProduceCat = new ProduceCatLogic();
         $cat_list = $ProduceCat->produce_cat_list(0, 0, false);
@@ -80,6 +81,35 @@ class Produce extends Base{
         if (!$r) {
             $this->ajaxReturn(['status' => -1, 'msg' => '操作失败']);
         }
+        $this->ajaxReturn(['status' => 1, 'msg' => '操作成功']);
+    }
+
+
+    public function produceHandle()
+    {
+        $data = I('post.');
+        $data['publish_time'] = strtotime($data['publish_time']);
+        //$referurl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : U('Admin/Article/articleList');
+
+        $result = $this->validate($data, 'Article.'.$data['act'], [], true);
+        if ($result !== true) {
+            $this->ajaxReturn(['status' => 0, 'msg' => '参数错误', 'result' => $result]);
+        }
+
+        if ($data['act'] == 'add') {
+            $data['click'] = mt_rand(1000,1300);
+            $data['add_time'] = time();
+            $r = D('article')->add($data);
+        } elseif ($data['act'] == 'edit') {
+            $r = D('article')->where('article_id='.$data['article_id'])->save($data);
+        } elseif ($data['act'] == 'del') {
+            $r = D('article')->where('article_id='.$data['article_id'])->delete();
+        }
+
+        if (!$r) {
+            $this->ajaxReturn(['status' => -1, 'msg' => '操作失败']);
+        }
+
         $this->ajaxReturn(['status' => 1, 'msg' => '操作成功']);
     }
 }
