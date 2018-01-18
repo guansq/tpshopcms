@@ -17,7 +17,23 @@ class Produce extends Base{
      * 产品列表
      */
     public function prList(){
+        $produce = M('Produce');
+        return $this->fetch('produceList');
+    }
 
+    public function produce(){
+        $ProduceCat = new ProduceCatLogic();
+        $act = I('GET.act','add');
+        $info = array();
+        if(I('GET.produce_id')){
+            $produce_id = I('GET.produce_id');
+            $info = D('produce')->where('produce_id='.$produce_id)->find();
+        }
+        $cats = $ProduceCat->produce_cat_list(0,$info['cat_id']);
+        $this->assign('cat_select',$cats);
+        $this->assign('act',$act);
+        $this->assign('info',$info);
+        return $this->fetch();
     }
 
     public function categoryList(){

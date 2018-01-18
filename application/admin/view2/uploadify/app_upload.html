@@ -95,7 +95,7 @@ function SetImgContent(data){
 	if(obj.state == 'SUCCESS'){
 		var sLi = "";
 		sLi += '<li class="img">';
-		sLi += '<img src="' + obj.url + '" width="100" height="100" onerror="this.src=\'__ROOT__/public/plugins/uploadify/nopic.png\'">';
+		sLi += '<img src="' + obj.url + '" width="100" height="100" onerror="this.src=\'/public/plugins/uploadify/nopic.png\'">';
 		sLi += '<input type="hidden" name="fileurl_tmp[]" value="' + obj.url + '">';
 		sLi += '<a href="javascript:void(0);">删除</a>';
 		sLi += '</li>';

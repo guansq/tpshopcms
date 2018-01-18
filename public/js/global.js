@@ -172,7 +172,9 @@ function checkTelphone(tel){
 function GetUploadify(num,elementid,path,callback){	   	
 	common_uploadify(num,elementid,path,callback , 'Admin');
 }
-
+function GetUploadifyVideo(num,elementid,path,callback){
+    common_video_uploadify(num,elementid,path,callback , 'Admin');
+}
 /*
  * 上传图片 前台专用
  * @access  public
@@ -202,6 +204,22 @@ function common_uploadify(num,elementid,path,callback , module)
      });
 }
 
+/*
+ * 通用上传视频方法
+ */
+function common_video_uploadify(num,elementid,path,callback , module)
+{
+    var upurl ='/index.php?m='+module+'&c=Uploadify&a=uploadvideo&num='+num+'&input='+elementid+'&path='+path+'&func='+callback;
+    layer.open({
+        type: 2,
+        title: '上传视频',
+        shadeClose: true,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['50%', '60%'],
+        content: upurl
+    });
+}
 /*
  * 删除组图input
  * @access   public

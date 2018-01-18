@@ -2,7 +2,7 @@
 return	array(	
 	'system'=>array('name'=>'平台','child'=>array(
 				array('name' => '设置','child' => array(
-						//array('name'=>'商城设置','act'=>'index','op'=>'System'),
+						//array('name'=>'设置','act'=>'index','op'=>'System'),
 						//array('name'=>'支付方式','act'=>'index1','op'=>'System'),
 						//array('name'=>'地区&配送','act'=>'region','op'=>'Tools'),
 						//array('name'=>'短信模板','act'=>'index','op'=>'SmsTemplate'),

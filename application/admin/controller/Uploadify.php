@@ -33,7 +33,23 @@ class Uploadify extends Base{
         $this->assign('info',$info);
         return $this->fetch();
     }
-    
+
+    public function uploadvideo(){
+        $func = I('func');
+        $path = I('path','temp');
+        $info = array(
+            'num'=> I('num/d'),
+            'title' => '',
+            'upload' =>U('Admin/Ueditor/videoFileUp',array('savepath'=>$path,'pictitle'=>'banner','dir'=>'videos')),
+            'fileList'=>U('Admin/Uploadify/fileList',array('path'=>$path)),
+            'size' => '1024M',
+            'type' =>'3gp,mp4,rmvb,mov,avi,m4v',
+            'input' => I('input'),
+            'func' => empty($func) ? 'undefined' : $func,
+        );
+        $this->assign('info',$info);
+        return $this->fetch();
+    }
     /*
               删除上传的图片
      */

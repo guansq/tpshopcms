@@ -209,7 +209,7 @@ $(function() {
 			if(data.state == 'SUCCESS'){
 				var sLi = "";
 				sLi += '<li class="img">';
-				sLi += '<img src="' + data.url + '" width="100" height="100" onerror="this.src=\'__ROOT__/Public/plugins/uploadify/nopic.png\'">';
+				sLi += '<img src="' + data.url + '" width="100" height="100" onerror="this.src=\'/Public/plugins/uploadify/nopic.png\'">';
 				sLi += '<input type="hidden" name="fileurl_tmp[]" value="' + data.url + '">';
 				sLi += '<a href="javascript:void(0);">删除</a>';
 				sLi += '</li>';
@@ -930,7 +930,7 @@ $(function() {
 			//console.log(data);
 			var sLi = "";
 			sLi += '<li class="img">';
-			sLi += '<img src="' + data.url + '" width="100" height="100" onerror="this.src=\'__ROOT__/Public/plugins/uploadify/nopic.png\'">';
+			sLi += '<img src="' + data.url + '" width="100" height="100" onerror="this.src=\'/Public/plugins/uploadify/nopic.png\'">';
 			sLi += '<input type="hidden" name="fileurl_tmp[]" value="' + data.url + '">';
 			sLi += '<a href="javascript:void(0);">删除</a>';
 			sLi += '</li>';
