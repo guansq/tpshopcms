@@ -25,9 +25,21 @@
             <dl class="row">
                 <dt class="tit"><label><em>*</em>标题</label></dt>
                 <dd class="opt">
-                    <input type="text" value="" name="title" class="input-txt">
+                    <input type="text" value="" name="produce_title" class="input-txt">
                     <span class="err" id="err_title"></span>
                     <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="cat_id"><em>*</em>所属分类</label>
+                </dt>
+                <dd class="opt">
+                    <select class="small form-control" name="cat_id" id="cat_id">
+                        <option value="0">选择分类</option>
+                        {$cat_select}
+                    </select>
+                    <span class="err" id="err_cat_id"></span>
                 </dd>
             </dl>
             <dl class="row">
@@ -83,6 +95,7 @@
                     <p class="notic"></p>
                 </dd>
             </dl>
+            <div class="produce_attr">
             <dl class="row" id="testinfo">
                 <dt class="tit"><label>新增产品属性</label></dt>
                 <dd class="opt">
@@ -90,6 +103,7 @@
                     <input type="hidden" value="" name="attr_num" id="attr_num">
                 </dd>
             </dl>
+            </div>
             <div class="bot"><a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
         </div>
         <input type="hidden" name="act" value="{$act}">
@@ -128,7 +142,7 @@
             innerinfo = innerinfo.replace(/img_i/,'img_i'+addNum);
             innerinfo = innerinfo.replace(/img_call_back/,'img_call_back'+addNum);
             //console.log(innerinfo);
-            $('.ncap-form-default').append(innerinfo);
+            $('.produce_attr').append(innerinfo);
             addNum += 1;
         }else{
             alert('最多添加10个属性');
@@ -228,7 +242,7 @@
     });
     function verifyForm(){
         $('span.err').hide();
-
+        //console.log($('#add_post').serialize());return;
         $.ajax({
             type: "POST",
             url: "{:U('Produce/produceHandle')}",

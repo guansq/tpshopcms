@@ -30,6 +30,7 @@ class Produce extends Base{
             $info = D('produce')->where('produce_id='.$produce_id)->find();
         }
         $cats = $ProduceCat->produce_cat_list(0,$info['cat_id']);
+        $this->assign('cats',$cats);
         $this->assign('cat_select',$cats);
         $this->assign('act',$act);
         $this->assign('info',$info);
@@ -91,7 +92,7 @@ class Produce extends Base{
         $data['publish_time'] = strtotime($data['publish_time']);
         //$referurl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : U('Admin/Article/articleList');
 
-        $result = $this->validate($data, 'Article.'.$data['act'], [], true);
+        $result = $this->validate($data, 'Produce.'.$data['act'], [], true);
         if ($result !== true) {
             $this->ajaxReturn(['status' => 0, 'msg' => '参数错误', 'result' => $result]);
         }
@@ -99,6 +100,7 @@ class Produce extends Base{
         if ($data['act'] == 'add') {
             $data['click'] = mt_rand(1000,1300);
             $data['add_time'] = time();
+            print_r($data);die;
             $r = D('article')->add($data);
         } elseif ($data['act'] == 'edit') {
             $r = D('article')->where('article_id='.$data['article_id'])->save($data);
