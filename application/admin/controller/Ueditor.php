@@ -536,7 +536,7 @@ class Ueditor extends Base
         // 获取表单上传文件
         //$file = request()->file('Filedata');
         //$dir = I('dir');
-        $dir = 'public/upload/videos/';
+        $dir = '/public/upload/videos/';
         $path = htmlspecialchars($dir, ENT_QUOTES);
         if (!file_exists($path)) {
             mkdir($path);

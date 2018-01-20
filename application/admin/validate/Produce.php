@@ -33,6 +33,7 @@ class Produce extends Validate
     protected $scene = [
         'add'  => ['produce_title', 'cat_id', 'produce_content','produce_desc','produce_cover'],
         'edit' => ['produce_title', 'cat_id', 'produce_content','produce_desc','produce_cover'],
+        'del'  => ['produce_id']
     ];
 
     protected function checkEmpty($value)

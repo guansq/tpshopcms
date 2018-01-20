@@ -25,7 +25,7 @@ return	array(
 						array('name'=>'广告位置','act'=>'positionList','op'=>'Ad'),
 				)),
                 array('name' => '产品','child' => array(
-                    array('name'=>'产品列表','act'=>'prList','op'=>'Produce'),
+                    array('name'=>'产品列表','act'=>'produceList','op'=>'Produce'),
                     array('name'=>'产品分类','act'=>'categoryList','op'=>'Produce'),
                 )),
 				array('name' => '文章','child'=>array(
