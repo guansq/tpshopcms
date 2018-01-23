@@ -8,49 +8,50 @@
                 <li class="item-f active">
                     <a href="javascript:void(0);">home</a>
                 </li>
-                <li class="item-f has-sub">
-                    <a href="javascript:void(0);">nieuws</a>
-                    <ul class="sub-nav">
-                        <li class="secondary-item">
-                            <a href="javascript:void(0);">nieuws</a>
-                        </li>
-                        <li class="secondary-item has-subs">
-                            <a href="javascript:void(0);">nieuws</a>
-                            <ul class="sub-navs">
-                                <li class="secondary-item">
-                                    <a href="javascript:void(0);">nieuws</a>
-                                </li>
-                                <li class="secondary-item">
-                                    <a href="javascript:void(0);">nieuws</a>
-                                </li>
-                                <li class="secondary-item">
-                                    <a href="javascript:void(0);">nieuws</a>
-                                </li>
-                                <li class="secondary-item">
-                                    <a href="javascript:void(0);">nieuws</a>
-                                </li>
+                <volist name="menu" id="item">
+                    <eq name="item.level" value="0">
+                        <eq name="item.has_children" value="1">
+                        <li class="item-f has-sub">
+                            <a href="javascript:void(0);">{$item.name}</a>
+                            <ul class="sub-nav">
+                            <volist name="menu" id="level1">
+                                <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
+                                    <eq name="level1.has_children" value="1">
+                                        <li class="secondary-item has-subs">
+                                            <a href="javascript:void(0);">{$level1.name}</a>
+                                            <ul class="sub-navs">
+                                                <volist name="menu" id="level2">
+                                                    <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
+                                                        <li class="secondary-item">
+                                                            <a href="javascript:void(0);">{$level2.name}</a>
+                                                        </li>
+                                                    </if>
+                                                </volist>
+                                            </ul>
+
+                                        </li>
+
+                                        <else/>
+
+                                        <li class="secondary-item">
+                                            <a href="javascript:void(0);">{$level1.name}</a>
+                                        </li>
+                                    </eq>
+
+                                </if>
+                            </volist>
                             </ul>
+
                         </li>
-                        <li class="secondary-item">
-                            <a href="javascript:void(0);">nieuws</a>
+                            <else/>
+                        <li class="item-f">
+                            <a href="javascript:void(0);">{$item.name}</a>
                         </li>
-                        <li class="secondary-item">
-                            <a href="javascript:void(0);">nieuws</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="item-f">
-                    <a href="javascript:void(0);">over ons</a>
-                </li>
-                <li class="item-f">
-                    <a href="javascript:void(0);">producten</a>
-                </li>
-                <li class="item-f">
-                    <a href="javascript:void(0);">vacatures</a>
-                </li>
-                <li class="item-f">
-                    <a href="javascript:void(0);">contact</a>
-                </li>
+                        </eq>
+
+                    </eq>
+                </volist>
+
                 <div class="clear"></div>
             </ul>
         </div>

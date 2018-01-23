@@ -16,6 +16,7 @@ use think\Controller;
 use think\Cookie;
 use think\Session;
 use think\Db;
+use app\admin\logic\NavigationLogic;
 class Base extends Controller {
     public $session_id;
     public $cateTrre = array();
@@ -36,15 +37,18 @@ class Base extends Controller {
         header("Cache-control: private");  // history.back返回后输入框值丢失问题 参考文章 http://www.tp-shop.cn/article_id_1465.html  http://blog.csdn.net/qinchaoguang123456/article/details/29852881
     	$this->session_id = session_id(); // 当前的 session_id
         define('SESSION_ID',$this->session_id); //将当前的session_id保存为常量，供其它方法调用        
-        $first_leader = I('first_leader');
-        if($first_leader) setcookie('first_leader',$first_leader);
+
         $this->public_assign();
     }
     /**
      * 保存公告变量到 smarty中 比如 导航 
      */
     public function public_assign()
-    {                             
+    {
+       $navLogic = new NavigationLogic();
+       $menu = $navLogic->get_all_nav_list(0, 0, false);
+       //print_r($menu);
+        $this->assign('menu',$menu);
        $tpshop_config = $this->get_tpshop_config();
        $this->assign('tpshop_config', $tpshop_config);
        $goods_category_tree = get_goods_category_tree();    
