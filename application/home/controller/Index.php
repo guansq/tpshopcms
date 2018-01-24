@@ -35,6 +35,7 @@ class Index extends Base
             $ad = Db::name("ad")->where($where)->order("orderby desc")->select();
             $bannerArr[$key] = $ad;
         }
+
         $this->assign('banner1',$bannerArr[0]);
         $this->assign('banner2',$bannerArr[1]);
         $this->assign('banner3',$bannerArr[2]);

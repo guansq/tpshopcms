@@ -22,8 +22,18 @@
 		  <span class="err" id="err_ad_name" style="color:#F00; display:none;">广告名称不能为空</span>                                                  
           <p class="notic"></p>
         </dd>
-      </dl>	   
-	  <dl class="row">
+      </dl>
+      <dl class="row">
+        <dt class="tit">
+          <label><em>*</em>广告名称：</label>
+        </dt>
+        <dd class="opt">
+          <input type="text" placeholder="名称" class="input-txt" name="ad_desc" value="{$info.ad_desc|default='自定义广告描述'}">
+          <span class="err" id="err_ad_desc" style="color:#F00; display:none;">广告描述不能为空</span>
+          <p class="notic"></p>
+        </dd>
+      </dl>
+      <dl class="row">
         <dt class="tit" colspan="2">
           <label>广告类型：</label>
         </dt>
@@ -99,7 +109,7 @@
           <p class="notic">请上传图片格式文件</p>
         </dd>
       </dl>
-      <dl class="row">
+      <!--<dl class="row">
         <dt class="tit">
           <label><em>*</em>背景颜色：</label>
         </dt>
@@ -108,7 +118,7 @@
 		  <span class="err" id="err_bgcolor" style="color:#F00; display:none;"></span>
           <p class="notic"></p>
         </dd>
-      </dl>                 		 		       
+      </dl> -->
       <dl class="row">
         <dt class="tit">
           <label>默认排序：</label>

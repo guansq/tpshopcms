@@ -42,13 +42,13 @@
                 <div style="text-align: left; width: 50px;" class="">广告id</div>
               </th>
               <th align="left" abbr="ac_id" axis="col4" class="">
-                <div style="text-align: left; width: 200px;" class="">广告位名称</div>
+                <div style="text-align: left; width: 300px;" class="">广告位名称</div>
               </th>
               <th align="center" abbr="article_show" axis="col5" class="">
-                <div style="text-align: center; width: 50px;" class="">广告位宽度</div>
+                <div style="text-align: center; width: 150px;" class="">广告位宽度</div>
               </th>
               <th align="center" abbr="article_time" axis="col6" class="">
-                <div style="text-align: center; width: 50px;" class="">广告位高度</div>
+                <div style="text-align: center; width: 150px;" class="">广告位高度</div>
               </th>     
               <th align="center" abbr="article_time" axis="col6" class="">
                 <div style="text-align: center; width: 100px;" class="">广告位描述</div>
@@ -57,7 +57,7 @@
                 <div style="text-align: center; width: 50px;" class="">状态</div>
               </th>
               <th align="center" abbr="article_time" axis="col6" class="">
-                <div style="text-align: center; width: 100px;" class="">操作</div>
+                <div style="text-align: center; width: 400px;" class="">操作</div>
               </th>             
               <th style="width:100%" axis="col7">
                 <div></div>
@@ -86,13 +86,13 @@
                   <div style="text-align: left; width: 50px;">{$vo[position_id]}</div>
                 </td>
                 <td align="left" class="">
-                  <div style="text-align: left; width: 200px;">{$vo.position_name}</div>
+                  <div style="text-align: left; width: 300px;">{$vo.position_name}</div>
                 </td>                
                 <td align="left" class="">
-                  <div style="text-align: left; width: 50px;">{$vo.ad_width}</div>
+                  <div style="text-align: left; width: 150px;">{$vo.ad_width}</div>
                 </td>
                 <td align="left" class="">
-                  <div style="text-align: left; width: 50px;">{$vo.ad_height}</div>
+                  <div style="text-align: left; width: 150px;">{$vo.ad_height}</div>
                 </td>            
                 <td align="left" class="">
                   <div style="text-align: left; width: 100px;">{$vo.position_desc}</div>
@@ -107,7 +107,7 @@
                   </div>
                 </td>             
                 <td align="center" class="handle">
-                  <div style="text-align: center; width: 150px;">                    
+                  <div style="text-align: center; width: 400px;">
                     <a class="btn blue" href="{:U('Admin/Ad/adList',array('pid'=>$vo['position_id']))}"><i class="fa fa-search"></i>查看广告</a>                                                            
                     <a href="{:U('Admin/Ad/position',array('act'=>'edit','position_id'=>$vo['position_id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>编辑</a>
                     <a class="btn blue" href="javascript:;" onclick="copyToClipBoard({$vo['position_id']}, 1)">代码调用</a>
