@@ -22,34 +22,25 @@ use think\Image;
 class Index extends Base
 {
     public function index()
-    {        
-//         $cateList = array();
-//         foreach ($this->cateTrre as $k => $v) {
-//         	$cat_path = explode('_', $v['parent_id_path']);
-//         	$v['hot_goods'] = M('goods')->field('goods_id,goods_name,shop_price')->where(array('cat_id1'=>$cat_path[1],'is_on_sale'=>1,'is_hot'=>1))->order('sort')->limit(10)->cache(true)->select();  
-//             if($v['is_hot']){
-//             	$cateList[] = $v;
-//             }
-//         }
-        trace('测试一下我的');
-        $web_list = S('web_index_data');
-        if(!$web_list){
-        	$web_list = M('web')->where(array('web_show'=>1))->order('web_sort')->select();
-        	if($web_list){
-        		foreach ($web_list as $kb=>$vb){
-        			$block_list =  M('web_block')->where(array('web_id'=>$vb['web_id']))->order('web_id')->select();
-        			if(is_array($block_list) && !empty($block_list)) {
-        				foreach ($block_list as $key => $val) {//将变量输出到页面
-        					$val['block_info'] = unserialize($val['block_info']);
-        					$web_list[$kb][$val['var_name']] = $val['block_info'];
-        				}
-        			}
-        		}
-        		S('web_index_data',$web_list);
-        	}
+    {
+        //首页的广告
+        $adArr = [1,9,10,50,51];
+        foreach($adArr as $key => $val){
+            $where = array(
+                'pid' => $val,
+                'enabled' => 1,
+                //'start_time' => array('lt', strtotime(date('Y-m-d H:00:00'))),
+                //'end_time' => array('gt', strtotime(date('Y-m-d H:00:00'))),
+            );
+            $ad = Db::name("ad")->where($where)->order("orderby desc")->select();
+            $bannerArr[$key] = $ad;
         }
-        //halt($web_list);
-        $this->assign('web_list', $web_list);
+        $this->assign('banner1',$bannerArr[0]);
+        $this->assign('banner2',$bannerArr[1]);
+        $this->assign('banner3',$bannerArr[2]);
+        $this->assign('banner4',$bannerArr[3]);
+        $this->assign('banner5',$bannerArr[4]);
+        //$this->assign('web_list', $web_list);
         return $this->fetch();
     }
 
