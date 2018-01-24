@@ -32,10 +32,10 @@ class Index extends Base
                 //'start_time' => array('lt', strtotime(date('Y-m-d H:00:00'))),
                 //'end_time' => array('gt', strtotime(date('Y-m-d H:00:00'))),
             );
-            $ad = Db::name("ad")->where($where)->order("orderby desc")->select();
+            $ad = Db::name("ad")->where($where)->order("orderby asc")->select();
             $bannerArr[$key] = $ad;
         }
-
+        //print_r($bannerArr[0]);
         $this->assign('banner1',$bannerArr[0]);
         $this->assign('banner2',$bannerArr[1]);
         $this->assign('banner3',$bannerArr[2]);

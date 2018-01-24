@@ -13,8 +13,11 @@
     <div class="wrap ffc">
         <div class="swiper-container bag">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" data-title="这是我的图片标题11" data-title-desc="这是我很长很长的标题描述11" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题22" data-title-desc="这是我很长很长的标题描述22" src="__STATIC__/image/index/zipper_walls.jpg" alt="">
+                <volist  name="banner1" id="item">
+                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+                </volist>
+                <!--<img class="swiper-slide" data-title="这是我的图片标题11" data-title-desc="这是我很长很长的标题描述11" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+                <img class="swiper-slide" data-title="这是我的图片标题22" data-title-desc="这是我很长很长的标题描述22" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
             </div>
         </div>
 
@@ -27,8 +30,11 @@
 
         <div class="swiper-container bag">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" data-title="这是我的图片标题33" data-title-desc="这是我很长很长的标题描述33" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题44" data-title-desc="这是我很长很长的标题描述44" src="__STATIC__/image/index/zipper_walls.jpg" alt="">
+                <volist  name="banner2" id="item">
+                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+                </volist>
+                <!--<img class="swiper-slide" data-title="这是我的图片标题33" data-title-desc="这是我很长很长的标题描述33" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
+                <!--<img class="swiper-slide" data-title="这是我的图片标题44" data-title-desc="这是我很长很长的标题描述44" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
             </div>
         </div>
 
@@ -42,8 +48,11 @@
 
         <div class="swiper-container bag">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题66" data-title-desc="这是我很长很长的标题描述66" src="__STATIC__/image/index/zipper_walls.jpg" alt="">
+                <volist  name="banner3" id="item">
+                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+                </volist>
+                <!--<img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+                <img class="swiper-slide" data-title="这是我的图片标题66" data-title-desc="这是我很长很长的标题描述66" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
             </div>
         </div>
 
@@ -56,8 +65,11 @@
 
         <div class="swiper-container bag">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" data-title="这是我的图片标题77" data-title-desc="这是我很长很长的标题描述77" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题88" data-title-desc="这是我很长很长的标题描述88" src="__STATIC__/image/index/zipper_walls.jpg" alt="">
+                <volist  name="banner4" id="item">
+                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+                </volist>
+                <!--<img class="swiper-slide" data-title="这是我的图片标题77" data-title-desc="这是我很长很长的标题描述77" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+                <img class="swiper-slide" data-title="这是我的图片标题88" data-title-desc="这是我很长很长的标题描述88" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
             </div>
         </div>
 
@@ -70,8 +82,11 @@
 
         <div class="swiper-container bag">
             <div class="swiper-wrapper">
-                <img class="swiper-slide" data-title="这是我的图片标题99" data-title-desc="这是我很长很长的标题描述99" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题10" data-title-desc="这是我很长很长的标题描述10" src="__STATIC__/image/index/zipper_walls.jpg" alt="">
+                <volist  name="banner5" id="item">
+                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+                </volist>
+                <!--<img class="swiper-slide" data-title="这是我的图片标题99" data-title-desc="这是我很长很长的标题描述99" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
+                <!--<img class="swiper-slide" data-title="这是我的图片标题10" data-title-desc="这是我很长很长的标题描述10" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
             </div>
         </div>
     </div>
@@ -158,7 +173,9 @@
             $('.com_class').hide()
         });
         function changSwiper(swiper,cur){
-            var index = swiper.realIndex;
+            //  var index = swiper.realIndex;
+            var index = swiper.activeIndex;
+            //console.log(index);
             var img = swiper.slides[index];
             Global.curindex = index;
             if(Global.curclass != ''){
