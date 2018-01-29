@@ -13,23 +13,15 @@
                         <a href="javascript:void(0);">home</a>
                     </li>
                     <div class="content">
-
-                        <li class="item-f">
-                            <a href="javascript:void(0);">nieuws</a>
-                        </li>
-                        <li class="item-f">
-                            <a href="javascript:void(0);">over ons</a>
-                        </li>
-                        <li class="item-f">
-                            <a href="javascript:void(0);">producten</a>
-                        </li>
-                        <li class="item-f">
-                            <a href="javascript:void(0);">vacatures</a>
-                        </li>
-                        <li class="item-f">
-                            <a href="javascript:void(0);">contact</a>
-                        </li>
+                        <volist name="menu" id="item">
+                            <eq name="item.level" value="0">
+                                <li class="item-f">
+                                    <a href="javascript:void(0);">{$item.name}</a>
+                                </li>
+                            </eq>
+                        </volist>
                         <div class="clear"></div>
+                    </div>
                 </ul>
             </div>
             <div id="topBtn" class="go-top">
@@ -50,5 +42,75 @@
         </div>
     </div>
     <div class="footer-bottom">
+        <div class="content fixWauto">
+            <div class="fl footerLeft">
+                <div class="contactInfo">
+                    Platinastraat 34<br>
+                    6031 TW Nederweert<br>
+                    The Netherlands
+                </div>
+                <div class="contactInfo">
+                    <a href="javascript:void(0);">0031 (0)85 06 60 300</a><br><br>
+                    <a href="javascript:void(0);">info@promic.com</a><br>
+                </div>
+                <div class="submenu">
+                    <p><a href="javascript:void(0);">sitemap</a></p>
+                    <p><a href="javascript:void(0);">disclaimer</a></p>
+                    <p><a href="javascript:void(0);">algemene voorwaarden</a></p>
+                </div>
+                <div class="komma">
+                    <div class="komma_logo">
+                        <span class="up"></span>
+                        <span class="hover"></span>
+                    </div>
+                    <a href="javascript:void(0);">
+                        website ontwikkeld door
+                        <br>
+                        Komma Mediadesign
+                    </a>
+                </div>
+                <div class="esf">
+                    <img src="__STATIC__/image/index/esf.png" alt="">
+                </div>
+            </div>
+            <ul class="fr footerRight">
+                <li>
+                    <a href="javascript:void(0);">Pop-Ups</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Zipper-Walls</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Roll-Banners</a></li>
+                <li>
+                    <a href="javascript:void(0);">Banner<br>Stands</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Lighting</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Counters</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Flex<br>Tower</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Brochure<br>holders</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Poster<br>holders</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Outdoor</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Flags</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Cases</a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     </div>
 </footer>

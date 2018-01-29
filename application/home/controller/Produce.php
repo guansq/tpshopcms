@@ -7,8 +7,14 @@
  */
 namespace app\home\controller;
 
-class Index extends Base
+class Produce extends Base
 {
+    /*
+     * 首页
+     */
+    public function index(){
+        return $this->fetch();
+    }
     /*
      * 产品列表
      */

@@ -6,13 +6,13 @@
         <div class="fr disableSelection hoofdmenu">
             <ul>
                 <li class="item-f active">
-                    <a href="javascript:void(0);">home</a>
+                    <a href="/">home</a>
                 </li>
                 <volist name="menu" id="item">
                     <eq name="item.level" value="0">
                         <eq name="item.has_children" value="1">
                         <li class="item-f has-sub">
-                            <a href="javascript:void(0);">{$item.name}</a>
+                            <a href="{$item.url}">{$item.name}</a>
                             <ul class="sub-nav">
                             <volist name="menu" id="level1">
                                 <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
@@ -45,7 +45,7 @@
                         </li>
                             <else/>
                         <li class="item-f">
-                            <a href="javascript:void(0);">{$item.name}</a>
+                            <a href="{$item.url}">{$item.name}</a>
                         </li>
                         </eq>
 
