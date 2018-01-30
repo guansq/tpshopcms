@@ -18,6 +18,13 @@ class Article extends Base
 
     public function index()
     {
+        $years = array();
+        $currentYear = date('Y');
+        for ($i=0; $i<5; $i++)
+        {
+            $years[$i] = $currentYear - $i;
+        }
+        array_shift($years);
         $article_id = I('article_id/d', 38);
         $article = D('article')->where("article_id", $article_id)->find();
         $this->assign('article', $article);

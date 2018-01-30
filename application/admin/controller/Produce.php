@@ -101,8 +101,9 @@ class Produce extends Base{
         $cat_id = I('get.cat_id/d');
         $parent_id = I('get.parent_id/d');
         if ($cat_id) {
-            $cat_info = D('article_cat')->where('cat_id=' . $cat_id)->find();
+            $cat_info = D('produce_cat')->where('cat_id=' . $cat_id)->find();
             $parent_id = $cat_info['parent_id'];
+            //print_r($cat_info);die;
             $this->assign('cat_info', $cat_info);
         }
         $cats = $ProduceCat->produce_cat_list(0, $parent_id, true);
