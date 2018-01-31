@@ -19,8 +19,8 @@ use app\admin\logic\ArticleCatLogic;
 
 class Article extends Base {
 
-    public static $article_system_id = array(1, 2, 3, 4, 5);//系统默认的文章分类id，不可删除
-    public static $article_main_system_id = array(1, 2);//系统保留分类，不允许在该分类添加文章
+    public static $article_system_id = array(1);//系统默认的文章分类id，不可删除, 2, 3, 4, 5
+    public static $article_main_system_id = array();//系统保留分类，不允许在该分类添加文章1, 2
     public static $article_top_system_id = array(1);//系统分类，不允许在该分类添加新的分类
     public static $article_able_id = array(1);//系统预定义文章id，不能删除。此文章用于商品详情售后服务
 
