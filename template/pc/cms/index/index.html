@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
-<!--header-s-->
+<!--head-s-->
 <include file="public/miniheader"/>
-<!--header-e-->
+<!--head-e-->
 <!--header-s-->
 <include file="public/header"/>
 <!--header-e-->
-
+<style>
+    @media screen and (min-width: 1300px) {
+        main, .main01 .wrap{
+            margin:0 auto;
+            margin-top: 80px;
+            width:1300px;
+        }
+        .main01 .wrap .bag{
+            width:25rem;
+            height:25rem;
+        }
+    }
+</style>
 <body>
 
 <main id="main01" class="main01">
@@ -96,8 +108,6 @@
 <include file="public/footer"/>
 <!--footer-e-->
 </body>
-
-
 
 <script type="text/javascript">
     $(document).ready(function () {

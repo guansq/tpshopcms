@@ -7,6 +7,7 @@ html, body {
 }
 
 * {
+  cursor: pointer;
   box-sizing: border-box;
   outline: none;
 }
@@ -949,7 +950,7 @@ body {
 }
 #terugNaarOverzicht ul{
   background: #f3f3f3;
- 
+  
 }
 #mainProductMenulist li, #terugNaarOverzicht li{
   text-align: center;
@@ -1124,7 +1125,7 @@ ul.listImg{
   height: 90px;
 }
 #ctaBlockFull .shadowRight {
-
+  
   top: 0;
   width: 40px;
   height: 90px;
@@ -1143,14 +1144,14 @@ p {
   padding-bottom: 27px;
   float: left;
 }
-  #ctaBlockFull .gegevens {
-    margin-left: 110px;
+#ctaBlockFull .gegevens {
+  margin-left: 110px;
 }
 
 #ctaBlockFull p {
-    color: #fff;
-    margin-top: 18px;
-    padding-bottom: 0;
+  color: #fff;
+  margin-top: 18px;
+  padding-bottom: 0;
 }
 
 #ctaBlockFull a {
@@ -1167,7 +1168,7 @@ p {
   -moz-border-radius: 8px;
   background: #5E5D5D;
 }
- a.ctaButton:hover{
+a.ctaButton:hover{
   background-color: #F7750B;
 }
 .ctaButton .left {
@@ -1204,51 +1205,80 @@ p {
 }
 
 /*nieuws.htmlnieuws.htmlnieuws.htmlnieuws.htmlnieuws.htmlnieuws.htmlnieuws.html*/
-.bounce{
-  /*width: 900px;*/
-  /*height: 600px;*/
-  /*z-index: 100;*/
-  display: none;
+.txt_content li p{
+  width: 100%;
+}
+.txt_content li img{
+  margin:10px 0;
+  width:100%;
+}
+
+.txt_content li.bounce{
+  width: 1000px;
+  height:80%;
+  z-index: 999;
   margin: 10px 0;
-  background: #f4f4f4;
+  background: #ffffff;
+  position: fixed;
+  padding:20px;
+  left: 50%;
+  top:50%;
+  margin-left: -500px;
+  margin-top:-350px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.txt_content li.bounce p{
+  width: 100%;
+}
+.txt_content li.bounce p img{
+  display: block;
+  margin-top:10px;
 }
 .less_meer{
-  display: none;
   background: #F7750B;
   z-index:10;
-  width: 110px;
-  height: 28px;
+  width: 130px;
+  height: 30px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
 }
+
 .less_meer span{
-  display: block;
+  display: inline-block;
   line-height:28px;
+  font-size: 16px;
+  color: #ffffff;
 }
 
 .less_meer span.left{
+  height:100%;
   text-align: center;
-  width:75%;
+  width:80%;
   display: block;
   border-right: 1px solid #ffffff;
 }
-.title-div{
-  padding:20px;
+.less_meer span.right{
+  text-align: center;
+  width: 25px;
+  font-size:18px;
 }
-.title-div span{
-  font-size: 16px;
-  color: #333;
+.title-p{
+  width:100%;
 }
-.title-div span.close{
+span.close{
   display: block;
   background: url("../image/index/header_bg.png");
   width: 10px;
   height: 10px;
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
-  top: 2px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: 450px;
+  margin-top: -320px;
 }
 .NieuwsContentList{
   flex-wrap: wrap;
@@ -1305,11 +1335,26 @@ p {
   text-align: center;
   font-size: 16px;
 }
+.txt_content li{
+  width:45%;
+}
+.txt_content .src,.txt_content .tit{
+  color: #F7750B;
+}
+.txt_content .tit{
+  font-size: 18px;
+  margin: 20px 0;
+}
 
-
-
-
-
+.maskDiv{
+  background: #000;
+  opacity:0.5;
+  height:100%;
+  width:100%;
+  z-index:100;
+  position: fixed;
+  top:0;
+}
 
 
 

@@ -1,11 +1,12 @@
 
 var imgNameArr = [
-  '../image//1.jpg',
-  '../image//2.jpg',
-  '../image/3.jpg',
-  '../image/4.jpg',
-  '../image/5.jpg'
+  "/template/pc/cms/static/image/1.jpg",
+  '/template/pc/cms/static/image/2.jpg',
+  '/template/pc/cms/static/image/3.jpg',
+  '/template/pc/cms/static/image/4.jpg',
+  '/template/pc/cms/static/image/5.jpg'
 ]
+
 var selectionW = $('.selection').width()
 var selectionH = $('.selection').height()
 var width = selectionW*0.55;
