@@ -13,33 +13,33 @@
    <div class="fixWauto mg_b_20 mg_t_20 pd_t_20">
       <div id="mainProductMenulist" >
          <ul class="clearfloat">
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
+            <volist name="cat_list" id="item">
+               <eq name="$item[level]" value="0">
+                  <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if> >
+                     <a href="{:url('',array('cat_id'=>$item[cat_id]))}">{$item.name}</a>
+                  </li>
+               </eq>
+            </volist>
+            <!--<li><a href="#">hgd</a></li>-->
          </ul>
          <ul class="clearfloat">
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li class="sixth"><a href="#">hgd</a></li>
-         
+            <volist name="cat_list" id="item">
+               <eq name="$item[level]" value="1">
+                  <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if> >
+                     <a href="{:url('',array('cat_id'=>$item[cat_id]))}"> {$item.name}</a>
+                  </li>
+               </eq>
+            </volist>
+            <!--<li class="sixth"><a href="#">hgd</a></li>-->
          </ul>
       </div>
       <div id="terugNaarOverzicht">
          <ul class="clearfloat">
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
-            <li><a href="#">hgd</a></li>
+            <volist name="produce" id="item" offset="1" length='8'>
+               <li>
+                  <a href="{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}" target="_blank">{$item.produce_title} </a>
+               </li>
+            </volist>
          </ul>
          <ul class="clearfloat">
             <li><a href="#"></a></li>
@@ -53,34 +53,15 @@
    </div>
    
    <ul class="ffc intro_pd">
-      <li>
-         <img src="__STATIC__/image/index/roll_banners.jpg" alt="">
-         <span class=" ">我是标题</span>
-      </li>
-      <li>
-         <img src="__STATIC__/image/index/zipper_walls.jpg" alt="">
-         <span class=" ">我是标题</span>
-      </li>
-      <li>
-         <img src="__STATIC__/image/index/roll_banners.jpg" alt="">
-         <span class=" ">我是标题</span>
-      </li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt="">  <span>我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt="">  <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt="">  <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt="">  <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/roll_banners.jpg" alt=""> <span class=" ">我是标题</span></li>
-      <li><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""> <span class=" ">我是标题</span></li>
-   
+
+      
+      <volist name="produce" id="item">
+         <li>
+            <a href="{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}">
+               <img src="{$item.produce_cover}" alt=""> <span>{$item.produce_title}</span>
+            </a>
+         </li>
+      </volist>
    </ul>
 </main>
 <div class="maskDiv" style="display: none"></div>
@@ -91,10 +72,10 @@
 
 <script type="text/javascript">
   $(".intro_pd li").hover(function () {
-    $(this).addClass('shadow')
+    $(this).addClass('shadows')
     $(this).find('span').show().addClass('span-title')
   }, function () {
-    $(this).removeClass('shadow')
+    $(this).removeClass('shadows')
     $(this).find('span').hide()
   })
 </script>

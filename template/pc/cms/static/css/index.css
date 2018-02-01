@@ -7,7 +7,6 @@ html, body {
 }
 
 * {
-  cursor: pointer;
   box-sizing: border-box;
   outline: none;
 }
@@ -25,6 +24,7 @@ html, body {
 a,
 a:hover,
 a:focus {
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -75,7 +75,7 @@ body {
 }
 
 .content {
-  width: 980px;
+  width: 1300px;
   margin: 0 auto;
   height: auto;
 }
@@ -95,7 +95,7 @@ body {
 .hoofdmenu .item-f {
   float: left;
   cursor: pointer;
-  margin-left: 2vw;
+  margin:0 2vw;
   position: relative;
   height: 80px;
   line-height: 105px;
@@ -374,7 +374,7 @@ body {
   height: 10px;
   background: url("../image/index/promic_sprite.png") -20px -520px;
   z-index: 11;
-  opacity: .3;
+  opacity: .5;
 }
 
 .contentRight .r-content li {
@@ -717,7 +717,7 @@ body {
 }
 
 .fixWauto {
-  width: 980px;
+  width: 1300px;
   margin: 0 auto;
 }
 .mg_lr_20{
@@ -836,7 +836,8 @@ body {
 
 .intro_pd {
   flex-wrap: wrap;
-  width: 100%;
+  width: 80%;
+  margin:10px auto;
 }
 
 .intro_pd li {
@@ -896,7 +897,7 @@ body {
   z-index: 20;
   color: #333333;
   font-size: 20px;
-  width: 980px;
+  width: 1300px;
   height: 300px;
 }
 
@@ -932,7 +933,7 @@ body {
 }
 
 .title-a {
-  width: 980px;
+  width: 1300px;
   margin: 60px auto 0 auto;
 }
 
@@ -957,7 +958,7 @@ body {
   float: left;
   margin-left: 30px;
   height: 40px;
-  width: 66px;
+  /*width: 66px;*/
 }
 #mainProductMenulist li.sixth{
   margin-left: 400px;
@@ -1319,10 +1320,11 @@ span.close{
   background-repeat: no-repeat;
 }
 
-.intro_pd li.shadow{
-  background: #000;
-  opacity: 0.5;
+.intro_pd li.shadows{
+  background-color: #000000;
+  opacity: 0.8;
   position: relative;
+  z-index: 10;
 }
 .intro_pd li > span{
   display: none;

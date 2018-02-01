@@ -66,28 +66,31 @@
             <h3 class="Optional_wrap28 pd_b_40">Nieuws 2012 <i class="down"></i></h3>
             <ul class="NieuwsContentList ffc_sb">
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
+                
                   <h5 class="hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
                </li>
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                   <h5 class="hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
                </li>
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
+                 
                   <h5 class=" hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
+                 
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
@@ -130,28 +133,32 @@
             <h3 class="Optional_wrap28 pd_b_40">Nieuws 2012 <i class="down"></i></h3>
             <ul class="NieuwsContentList ffc_sb">
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
+                 
                   <h5 class=" hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
+                 
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
                </li>
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                   <h5 class=" hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
+                 
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
                </li>
                <li class="inli">
-                  <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt=""> <br>
+                 
                   <h5 class=" hoverturn">hds2015.10.33</h5>
                   <h3 style="font-size:18px;" class="mg_b_20 hoverturn">健康需何时可掇</h3>
                   <div class="mg_b_20">
+                     <img class="mg_b_20" src="__STATIC__/image/2.jpg" alt="">
                      <p>加十分快速的数学课拒收的两个房间的死哦功能吗jkcdgldfdhkjhgjkfdhgdnmfbnxvdfshdfhdfdjghjfd</p>
                      <p>课拒爱上对方是个长短句吃烧烤的</p>
                   </div>
@@ -168,19 +175,24 @@
 <!--footer-e-->
 <script type="text/javascript">
   
-  function cover () {
+  function cover() {
     $('.maskDiv').show()
   }
-  function undercover () {
+  
+  function undercover() {
     $('.maskDiv').hide()
   }
   
   $(() => {
-    $('.txt_content li').hover(() => {
-      $('.less_meer').stop().fadeIn(3000);
-    }, () => {
-      $('.less_meer').stop().fadeOut(3000);
-    });
+    $('.txt_content li').each(function (i, item) {
+      $(item).hover(() => {
+        console.log(this);
+        $(this).find('.less_meer').stop().fadeIn(3000);
+      }, () => {
+        $(this).find('.less_meer').stop().fadeOut(3000);
+      });
+    })
+    
     
     $('.txt_content li').each(function (i, item) {
       var pList = $(item).find('p')
@@ -221,26 +233,30 @@
       
     });
     
-    $('.inli').hover(
-        () => {
-          $('.hoverturn').css('color', '#F7750B');
-          $('.inli p').css('color', '#000');
-        },
-        () => {
-          $('.hoverturn').css('color', '#b6b4b4');
-          $('.inli p').css('color', '#b6b4b4');
-        }
-    );
+    $('.inli').each(function (i, item) {
+      $(item).hover(
+          () => {
+            $('.hoverturn').css('color', '#F7750B');
+            $('.inli p').css('color', '#000');
+          },
+          () => {
+            $('.hoverturn').css('color', '#b6b4b4');
+            $('.inli p').css('color', '#b6b4b4');
+          }
+      )
+    })
+    
     
     showcontent = (obj) => {
       $(obj).find('.NieuwsContentList li').click((e) => {
         e.stopPropagation()
-        var pArr = $(obj).find('.NieuwsContentList li').find('div')
+        var pArr = $(obj).find('.NieuwsContentList li').find('div');
 //        console.log(pArr)
         $(pArr).each((i, ele) => {
-          $(ele).find('p:gt(0)').slideToggle(400)
+          $(ele).find('p:gt(0)').hide()
         })
       })
+      
       var i = $(obj).find('h3').find('i');
       if (i.hasClass('up')) {
         i.removeClass('up');
