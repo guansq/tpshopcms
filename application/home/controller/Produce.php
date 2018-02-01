@@ -39,7 +39,7 @@ class Produce extends Base
                 $produce = Db::name("produce")->field('produce_id,produce_title,produce_cover')
                     ->where("cat_id in ($catinfo) and is_show = 1")->select();
             }
-            print_r($produce);
+            //print_r($produce);
         }else{
             //得到全部商品
             $produce = Db::name("produce")->field('produce_id,produce_title,produce_cover')
@@ -55,6 +55,7 @@ class Produce extends Base
      * 产品详情
      */
     public function produceDetail(){
+        $produce_id = input('produce_id');
         return $this->fetch();
     }
     /*
