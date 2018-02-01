@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{:input('cat_id')}</title>
+</head>
+<body>
+<!-- 当前第一级菜单 -->
+<volist name="cat_list" id="item">
+    <eq name="$item[level]" value="0">
+        <if $item[cat_id] eq $Think.get.cat_id><p>当前的CLASS的ID为{$item.cat_id}</p></if>
+        <p>分类名{$item.name}{$Think.get.cat_id}</p>
+        <p>URL:{:url('',array('cat_id'=>$item[cat_id]))}</p>
+    </eq>
+</volist>
+
+<!--  当前第二级菜单-->
+<volist name="cat_list" id="item">
+    <eq name="$item[level]" value="1">
+        <if $item[cat_id] eq $Think.get.cat_id><p>当前的CLASS的ID为{$item.cat_id}</p></if>
+        <p>分类名{$item.name}{$Think.get.cat_id}</p>
+        <p>URL:{:url('',array('cat_id'=>$item[cat_id]))}</p>
+    </eq>
+</volist>
+
+<!--当前产品所有的标题-->
+<volist name="produce" id="item" offset="1" length='8'>
+    <p>产品名：{$item.produce_title}</p>
+    <p>产品URL：{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}</p>
+</volist>
+
+<!--所有产品-->
+<volist name="produce" id="item">
+    <p>产品名：{$item.produce_title}</p>
+    <p>产品URL：{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}</p>
+    <p>产品图片{$item.produce_cover}</p>
+</volist>
+</body>
+</html>

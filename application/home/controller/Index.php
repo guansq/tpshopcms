@@ -35,14 +35,18 @@ class Index extends Base
             $ad = Db::name("ad")->where($where)->order("orderby asc")->select();
             $bannerArr[$key] = $ad;
         }
-        //print_r($bannerArr[0]);
+        //底部的广告
+        $bottom = Db::name("ad")->where("pid = 52 and enabled = 1")->select();
+        //print_r($bottom);
         $this->assign('banner1',$bannerArr[0]);
         $this->assign('banner2',$bannerArr[1]);
         $this->assign('banner3',$bannerArr[2]);
         $this->assign('banner4',$bannerArr[3]);
         $this->assign('banner5',$bannerArr[4]);
+        $this->assign('bottom',$bottom);
         //$this->assign('web_list', $web_list);
-        return $this->fetch();
+        return $this->fetch('index_test');
+        //return $this->fetch();
     }
 
     /**
