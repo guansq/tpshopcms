@@ -1214,8 +1214,8 @@ a.ctaButton:hover{
   width:100%;
 }
 
-.txt_content li.bounce{
-  width: 1000px;
+.txt_content li.bounce,.inli.bounce{
+  width: 1300px;
   height:80%;
   z-index: 999;
   margin: 10px 0;
@@ -1224,7 +1224,7 @@ a.ctaButton:hover{
   padding:20px;
   left: 50%;
   top:50%;
-  margin-left: -500px;
+  margin-left: -650px;
   margin-top:-350px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -1236,7 +1236,7 @@ a.ctaButton:hover{
   display: block;
   margin-top:10px;
 }
-.less_meer{
+.less_meer, .see_more{
   background: #F7750B;
   z-index:10;
   width: 130px;
@@ -1246,21 +1246,21 @@ a.ctaButton:hover{
   -moz-border-radius: 5px;
 }
 
-.less_meer span{
+.less_meer span,.see_more span{
   display: inline-block;
   line-height:28px;
   font-size: 16px;
   color: #ffffff;
 }
 
-.less_meer span.left{
+.less_meer span.left, .see_more span.left{
   height:100%;
   text-align: center;
   width:80%;
   display: block;
   border-right: 1px solid #ffffff;
 }
-.less_meer span.right{
+.less_meer span.right,.see_more span.right{
   text-align: center;
   width: 25px;
   font-size:18px;
@@ -1268,30 +1268,31 @@ a.ctaButton:hover{
 .title-p{
   width:100%;
 }
-span.close{
+span.close,.closer{
   display: block;
   background: url("../image/index/header_bg.png");
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;
   top: 50%;
   left: 50%;
-  margin-left: 450px;
+  margin-left: 585px;
   margin-top: -320px;
 }
 .NieuwsContentList{
   flex-wrap: wrap;
 }
 .inli{
-  width:45%;
+  width:46%;
   display: none;
   margin-bottom: 100px;
   padding-bottom: 50px;
 }
+
 .inli h5{
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 .inli img.mg_b_20{
   width: 100%;
@@ -1299,6 +1300,7 @@ span.close{
 
 .inli div p{
   line-height: 200%;
+  float: none;
 }
 
 .hoverturn{
