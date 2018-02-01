@@ -45,8 +45,8 @@ class Index extends Base
         $this->assign('banner5',$bannerArr[4]);
         $this->assign('bottom',$bottom);
         //$this->assign('web_list', $web_list);
-        return $this->fetch('index_test');
-        //return $this->fetch();
+        //return $this->fetch('index_test');
+        return $this->fetch();
     }
 
     /**

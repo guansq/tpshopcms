@@ -48,8 +48,8 @@ class Produce extends Base
         $this->assign('cat_list',$cat_list);
         $this->assign('sec_list',$sec_list);
         $this->assign('produce',$produce);
-        return $this->fetch('index_test');
-        //return $this->fetch();
+        //return $this->fetch('index_test');
+        return $this->fetch();
     }
     /*
      * 产品详情
