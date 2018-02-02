@@ -12,7 +12,8 @@
  * $Author: IT宇宙人 2015-08-10 $
  */
 namespace app\home\controller;
- 
+
+use think\Db;
 class Article extends Base
 {
 
@@ -25,9 +26,23 @@ class Article extends Base
             $years[$i] = $currentYear - $i;
         }
         array_shift($years);
-        $article_id = I('article_id/d', 38);
-        $article = D('article')->where("article_id", $article_id)->find();
-        $this->assign('article', $article);
+        $curArticle = Db::name('article')->where("cat_id != 1 and YEAR(FROM_UNIXTIME(add_time)) = $currentYear")->select();
+        foreach($curArticle as &$item){
+            $item['content'] = htmlspecialchars_decode($item['content']);
+        }
+        $history = [];
+        foreach($years as $val){
+            $info = Db::name('article')->where("cat_id != 1 and YEAR(FROM_UNIXTIME(add_time)) = $val")->select();
+            foreach($info as &$item){
+                $item['content'] = htmlspecialchars_decode($item['content']);
+            }
+            $history[$val] = $info;
+        }
+        $this->assign('curArticle',$curArticle);
+        $this->assign('history',$history);
+        //print_r($curArticle);
+        //print_r($history);
+        //$this->assign('article', $article);
         return $this->fetch();
     }
 
