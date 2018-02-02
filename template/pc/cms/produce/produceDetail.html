@@ -34,14 +34,17 @@
         <div class="specificaties Optional_wrap28">
             <h3>Promic video</h3>
         </div>
-        <div class="video">
-            <video width="500" height="300" controls="controls">
-                <source src="__STATIC__/image/index/tv.mp4" type="video/ogg"/>
-            </video>
-        </div>
+        <notempty name="$produce_info[produce_video]">
+            <div class="video">
+                <video width="500" height="300" controls="controls">
+                    <source src="{$produce_info.produce_video}" type="video/ogg"/>
+                </video>
+            </div>
+        </notempty>
+
         <!-- Product specificaties-->
         <div class="specificaties Optional_wrap28">
-            <h3> Product specificaties</h3>
+            {$produce_info.content}
         </div>
     </div>
     <!-- Optional -->
