@@ -18,12 +18,12 @@
                                 <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
                                     <eq name="level1.has_children" value="1">
                                         <li class="secondary-item has-subs">
-                                            <a href="javascript:void(0);">{$level1.name}</a>
+                                            <a href="{$level1.url}">{$level1.name}</a>
                                             <ul class="sub-navs">
                                                 <volist name="menu" id="level2">
                                                     <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
                                                         <li class="secondary-item">
-                                                            <a href="javascript:void(0);">{$level2.name}</a>
+                                                            <a href="{$level2.url}">{$level2.name}</a>
                                                         </li>
                                                     </if>
                                                 </volist>
@@ -34,7 +34,7 @@
                                         <else/>
 
                                         <li class="secondary-item">
-                                            <a href="javascript:void(0);">{$level1.name}</a>
+                                            <a href="{$level1.url}">{$level1.name}</a>
                                         </li>
                                     </eq>
 
