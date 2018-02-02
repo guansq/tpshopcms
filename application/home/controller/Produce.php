@@ -55,8 +55,38 @@ class Produce extends Base
      * 产品详情
      */
     public function produceDetail(){
-        $produce_id = input('produce_id');
+        $ProduceCat = new ProduceCatLogic();
+        $cat_list = $ProduceCat->produce_cat_list(0, 0, false);
 
+        $produce_id = input('produce_id');
+        //echo $produce_id;
+        $produce_info = Db::name('produce')->where("produce_id = $produce_id")->find();
+        $cat_id = $produce_info['cat_id'];
+        $sec_list = [];
+        //echo $cat_id;die;
+        if(!empty($cat_id)){
+            //echo $cat_id;die;
+            $sec_list = $ProduceCat->produce_cat_list($cat_id, 0, false);
+            //$sec_list = M('produce_cat')->where("parent_id = $cat_id")->select();
+        }
+
+        $parent = [];
+        while($cat_id != 0){
+            $info = DB::name('produce_cat')->where("cat_id = $cat_id")->find();
+            $parent[] = $info;
+            $cat_id = $info['parent_id'];
+            //echo $cat_id.'<br>';
+        }
+        $produce_info['content'] = htmlspecialchars_decode($produce_info['content']);
+        $produce_img = [];
+        $produce_img = Db::name('produce_images')->where("produce_id = $produce_id")->select();
+        $this->assign('cat_list',$cat_list);
+        $this->assign('sec_list',$sec_list);
+        $this->assign('produce_img',$produce_img);
+        $this->assign('produce_info',$produce_info);
+        $this->assign('parent',$parent);
+        //print_r($produce_img);die;
+        //Db::name('produce_')
         return $this->fetch();
     }
     /*
