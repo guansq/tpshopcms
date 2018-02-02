@@ -1321,23 +1321,27 @@ span.close,.closer{
   height: 20px;
   background-repeat: no-repeat;
 }
-
-.intro_pd li.shadows{
-  background-color: #000000;
-  opacity: 0.8;
+.intro_pd li{
   position: relative;
-  z-index: 10;
 }
-.intro_pd li > span{
-  display: none;
+.intro_pd li div.shadows{
+  display: block;
+  background-color: #000000;
+  opacity: 0.4;
+  z-index: 99;
+  height:100%;
+  width: 100%;
+  position: absolute;
 }
-.intro_pd li span.span-title{
+
+.intro_pd li div.shadows span{
   position: absolute;
   top:45%;
   width:100%;
   display: inline-block;
   text-align: center;
   font-size: 16px;
+  color: #ffffff;
 }
 .txt_content li{
   width:45%;

@@ -11,12 +11,14 @@
 
 <main id="main01" class="main01 mainP">
    <div class="fixWauto mg_b_20 mg_t_20 pd_t_20">
-      <div id="mainProductMenulist" >
+      <div id="mainProductMenulist">
          <ul class="clearfloat">
             <volist name="cat_list" id="item">
                <eq name="$item[level]" value="0">
-                  <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if> >
-                     <a href="{:url('',array('cat_id'=>$item[cat_id]))}">{$item.name}</a>
+                  <li
+                  <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if>
+                  >
+                  <a href="{:url('',array('cat_id'=>$item[cat_id]))}">{$item.name}</a>
                   </li>
                </eq>
             </volist>
@@ -25,8 +27,10 @@
          <ul class="clearfloat">
             <volist name="cat_list" id="item">
                <eq name="$item[level]" value="1">
-                  <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if> >
-                     <a href="{:url('',array('cat_id'=>$item[cat_id]))}"> {$item.name}</a>
+                  <li
+                  <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if>
+                  >
+                  <a href="{:url('',array('cat_id'=>$item[cat_id]))}"> {$item.name}</a>
                   </li>
                </eq>
             </volist>
@@ -53,12 +57,11 @@
    </div>
    
    <ul class="ffc intro_pd">
-
-      
       <volist name="produce" id="item">
          <li>
+            <div style="display: none"><span>{$item.produce_title}</span></div>
             <a href="{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}">
-               <img src="{$item.produce_cover}" alt=""> <span>{$item.produce_title}</span>
+               <img src="{$item.produce_cover}" alt="">
             </a>
          </li>
       </volist>
@@ -72,11 +75,9 @@
 
 <script type="text/javascript">
   $(".intro_pd li").hover(function () {
-    $(this).addClass('shadows')
-    $(this).find('span').show().addClass('span-title')
+    $(this).find('div').addClass('shadows').show()
   }, function () {
-    $(this).removeClass('shadows')
-    $(this).find('span').hide()
+    $(this).find('div').removeClass('shadows').hide()
   })
 </script>
 </body>
