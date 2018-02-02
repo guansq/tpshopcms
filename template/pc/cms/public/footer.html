@@ -1,8 +1,8 @@
 <footer id="footer" class="footer">
-    <div class="footer-top" style="display: none">
+    <!--<div class="footer-top" style="display: none">
         <div class="content">
             <div class="fl logos">
-                <a href="javascript:void(0);">
+                <a href="/">
                     <span class="up"></span>
                     <span class="hover"></span>
                 </a>
@@ -40,12 +40,12 @@
             </div>
             <div class="clear"></div>
         </div>
-    </div>
+    </div>-->
     
     <header id="header" class="header">
         <div class="content ffc">
             <div class="fl logo">
-                <a href="javascript:void(0);"></a>
+                <a href="/"></a>
             </div>
             <div class="fr disableSelection hoofdmenu">
                 <ul>
@@ -62,12 +62,12 @@
                                             <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
                                                 <eq name="level1.has_children" value="1">
                                                     <li class="secondary-item has-subs">
-                                                        <a href="javascript:void(0);">{$level1.name}</a>
+                                                        <a href="{$level1.url}">{$level1.name}</a>
                                                         <ul class="sub-navs">
                                                             <volist name="menu" id="level2">
                                                                 <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
                                                                     <li class="secondary-item">
-                                                                        <a href="javascript:void(0);">{$level2.name}</a>
+                                                                        <a href="{$level2.url}">{$level2.name}</a>
                                                                     </li>
                                                                 </if>
                                                             </volist>
@@ -78,7 +78,7 @@
                                                     <else/>
                                                     
                                                     <li class="secondary-item">
-                                                        <a href="javascript:void(0);">{$level1.name}</a>
+                                                        <a href="{$level1.url}">{$level1.name}</a>
                                                     </li>
                                                 </eq>
                                             
