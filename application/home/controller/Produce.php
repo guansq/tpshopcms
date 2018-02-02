@@ -56,6 +56,7 @@ class Produce extends Base
      */
     public function produceDetail(){
         $produce_id = input('produce_id');
+
         return $this->fetch();
     }
     /*

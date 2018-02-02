@@ -48,7 +48,7 @@ class Base extends Controller {
        $navLogic = new NavigationLogic();
        $menu = $navLogic->get_all_nav_list(0, 0, false);
        //print_r($menu);
-        $this->assign('menu',$menu);
+       $this->assign('menu',$menu);
        $tpshop_config = $this->get_tpshop_config();
        $this->assign('tpshop_config', $tpshop_config);
        $goods_category_tree = get_goods_category_tree();    
@@ -56,7 +56,9 @@ class Base extends Controller {
        $this->assign('goods_category_tree', $goods_category_tree);                     
        $brand_list = $this->get_brand_list();          
        $this->assign('brand_list', $brand_list);
-       
+        //底部的广告
+        $bottom = Db::name("ad")->where("pid = 52 and enabled = 1")->select();
+        $this->assign('bottom',$bottom);
     }
 
     /*
