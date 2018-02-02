@@ -15,7 +15,6 @@
    <ul class="ffc intro_pd">
       <volist name="produce" id="item">
          <li>
-            <div style="display: none"><span>{$item.produce_title}</span></div>
             <a href="{:url('/home/Produce/produceDetail',array('produce_id'=>$item['produce_id']))}">
                <img src="{$item.produce_cover}" alt="">
                <div style="display: none"><span>{$item.produce_title}</span></div>
