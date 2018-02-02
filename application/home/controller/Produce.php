@@ -39,15 +39,17 @@ class Produce extends Base
                 $produce = Db::name("produce")->field('produce_id,produce_title,produce_cover')
                     ->where("cat_id in ($catinfo) and is_show = 1")->select();
             }
-            //print_r($produce);
+
         }else{
             //得到全部商品
             $produce = Db::name("produce")->field('produce_id,produce_title,produce_cover')
                 ->where("is_show = 1")->select();
         }
+        //print_r($sec_list);
         $this->assign('cat_list',$cat_list);
         $this->assign('sec_list',$sec_list);
         $this->assign('produce',$produce);
+        $this->assign('cat_id',$cat_id);
         //return $this->fetch('index_test');
         return $this->fetch();
     }
@@ -61,7 +63,7 @@ class Produce extends Base
         $produce_id = input('produce_id');
         //echo $produce_id;
         $produce_info = Db::name('produce')->where("produce_id = $produce_id")->find();
-        $cat_id = $produce_info['cat_id'];
+        $cur_id = $cat_id = $produce_info['cat_id'];
         $sec_list = [];
         //echo $cat_id;die;
         if(!empty($cat_id)){
@@ -78,13 +80,16 @@ class Produce extends Base
             //echo $cat_id.'<br>';
         }
         $produce_info['content'] = htmlspecialchars_decode($produce_info['content']);
+        $cat_info = Db::name('produce_cat')->where("cat_id = $cur_id")->find();
         $produce_img = [];
         $produce_img = Db::name('produce_images')->where("produce_id = $produce_id")->select();
+        $this->assign('cat_info',$cat_info);
         $this->assign('cat_list',$cat_list);
         $this->assign('sec_list',$sec_list);
-        $this->assign('produce_img',$produce_img);
+        $this->assign('produce_img',json_encode($produce_img));
         $this->assign('produce_info',$produce_info);
         $this->assign('parent',$parent);
+        $this->assign('cat_id',$cur_id);
         //print_r($produce_img);die;
         //Db::name('produce_')
         return $this->fetch();

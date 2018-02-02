@@ -11,21 +11,22 @@
             <!--<li><a href="#">hgd</a></li>-->
         </ul>
         <ul class="clearfloat">
-            <volist name="cat_list" id="item">
+            <volist name="sec_list" id="item">
                 <eq name="$item[level]" value="1">
-                    <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if> >
+                    <li <if $item[cat_id] eq $cat_id>class="cur"</if> >
                     <a href="{:url('',array('cat_id'=>$item[cat_id]))}"> {$item.name}</a>
                     </li>
                 </eq>
             </volist>
+            <li><a href="#"></a></li>
             <!--<li class="sixth"><a href="#">hgd</a></li>-->
         </ul>
     </div>
     <div id="terugNaarOverzicht">
         <ul class="clearfloat">
-            <volist name="produce" id="item" offset="1" length='8'>
+            <volist name="produce" id="item" offset="0" length='8'>
                 <li>
-                    <a href="{:url('/Produce/detail',array('produce_id'=>$item['produce_id']))}" target="_blank">{$item.produce_title} </a>
+                    <a href="{:url('/home/Produce/produceDetail',array('produce_id'=>$item['produce_id']))}" target="_blank">{$item.produce_title} </a>
                 </li>
             </volist>
         </ul>

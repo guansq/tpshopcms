@@ -10,23 +10,23 @@
 <main id="main01" class="main01">
     <div id="headerImages">
         <div class="content">
-            <span class="streamer"><strong>Kwaliteit én een</strong><br>scherpe prijs</span>
+            <span class="streamer"><strong>{$cat_info.name}</strong><br>{$produce_info.produce_title}</span>
         </div>
         <div id="headerPhoto" class="producten"></div>
         <div class="shadow">
             <div class="title-a">
-                <a href="#">Producten/ </a>
-                <a href="#">Zipper-Walls/ </a>
-                <a href="#">/Curved</a>
+                <volist name="parent" id="item">
+                    <a href="{:url('Produce/index',array('cat_id'=>$item[cat_id]))}">{$item[name]}/ </a>
+                </volist>
+
             </div>
         </div>
     </div>
     <include file="public/produce_nav"/>
     <div class="fixWauto">
 
-
         <div class="selection ffc">
-            <div class="l"><img src="__STATIC__/image/index/zipper_walls.jpg" alt=""></div>
+            <div class="l"><img src="{$produce_info.produce_cover}" alt="{$produce_info.produce_title}"></div>
             <div class="r"></div>
         </div>
 
@@ -75,7 +75,9 @@
 <include file="public/footer"/>
 <!--footer-e-->
 </body>
-
+<script>
+    var tree = {$produce_img};
+</script>
 <script src="__STATIC__/js/carousel.js"></script>
 <script type="text/javascript">
 

@@ -1,12 +1,9 @@
-
-var imgNameArr = [
-  "/template/pc/cms/static/image/1.jpg",
-  '/template/pc/cms/static/image/2.jpg',
-  '/template/pc/cms/static/image/3.jpg',
-  '/template/pc/cms/static/image/4.jpg',
-  '/template/pc/cms/static/image/5.jpg'
-]
-
+console.log(tree);
+var imgNameArr = []
+$.each(tree, function(i, value) {
+    imgNameArr[i] = value['img_url'];
+    //alert("name:" + name + ", value: " + value);
+});
 var selectionW = $('.selection').width()
 var selectionH = $('.selection').height()
 var width = selectionW*0.55;
@@ -112,9 +109,12 @@ function resetImgAndDot() {
 function addDot() {
   $element.append('<ul class="dot"></ul>');
   var html = '';
-  for (var i = 0; i < imgNameArr.length; i++) {
-    html += '<li>' + (i + 1) + '&emsp;&emsp;好地方第三方但是' + '</li>';
-  }
+  $.each(tree, function(i, value) {
+      html += '<li>' + '&emsp;&emsp;' +value['img_desc']+ '</li>';
+      //imgNameArr[i] = value['img_url'];
+      //alert("name:" + name + ", value: " + value);
+  });
+
   $element.children('.dot').html(html);
 }
 
