@@ -1,13 +1,4 @@
 $(function () {
-  // layui.define(['layer', 'code', 'form', 'element', 'util'], function (exports) {
-  //   var $ = layui.jquery, device = layui.device(), form = layui.form();
-  //   exports('index', {});//注意，这里是模块输出的核心，模块名必须和use时的模块名一致
-  // });
-  //
-  // layui.config({
-  //   base: '/res/js/modules/' //你的模块目录
-  // }).use('index'); //加载入口
-  //
   $(".has-sub").mouseover(function () {
     $(this).find(".sub-nav").css({
       "display": "block",
