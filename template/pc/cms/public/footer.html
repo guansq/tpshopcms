@@ -1,5 +1,5 @@
 <footer id="footer" class="footer">
-    <div class="footer-top">
+    <div class="footer-top" style="display: none">
         <div class="content">
             <div class="fl logos">
                 <a href="javascript:void(0);">
@@ -41,6 +41,68 @@
             <div class="clear"></div>
         </div>
     </div>
+    
+    <header id="header" class="header">
+        <div class="content ffc">
+            <div class="fl logo">
+                <a href="javascript:void(0);"></a>
+            </div>
+            <div class="fr disableSelection hoofdmenu">
+                <ul>
+                    <li class="item-f active">
+                        <a href="/">home</a>
+                    </li>
+                    <volist name="menu" id="item">
+                        <eq name="item.level" value="0">
+                            <eq name="item.has_children" value="1">
+                                <li class="item-f has-sub">
+                                    <a href="{$item.url}">{$item.name}</a>
+                                    <ul class="sub-nav">
+                                        <volist name="menu" id="level1">
+                                            <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
+                                                <eq name="level1.has_children" value="1">
+                                                    <li class="secondary-item has-subs">
+                                                        <a href="javascript:void(0);">{$level1.name}</a>
+                                                        <ul class="sub-navs">
+                                                            <volist name="menu" id="level2">
+                                                                <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
+                                                                    <li class="secondary-item">
+                                                                        <a href="javascript:void(0);">{$level2.name}</a>
+                                                                    </li>
+                                                                </if>
+                                                            </volist>
+                                                        </ul>
+                                                    
+                                                    </li>
+                                                    
+                                                    <else/>
+                                                    
+                                                    <li class="secondary-item">
+                                                        <a href="javascript:void(0);">{$level1.name}</a>
+                                                    </li>
+                                                </eq>
+                                            
+                                            </if>
+                                        </volist>
+                                    </ul>
+                                
+                                </li>
+                                <else/>
+                                <li class="item-f">
+                                    <a href="{$item.url}">{$item.name}</a>
+                                </li>
+                            </eq>
+                        
+                        </eq>
+                    </volist>
+                    
+                    <div class="clear"></div>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </header>
+    
     <div class="footer-bottom">
         <div class="content fixWauto">
             <div class="fl footerLeft">
@@ -73,42 +135,13 @@
                     <img src="__STATIC__/image/index/esf.png" alt="">
                 </div>
             </div>
+            
             <ul class="fr footerRight">
-                <li>
-                    <a href="javascript:void(0);">Pop-Ups</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Zipper-Walls</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Roll-Banners</a></li>
-                <li>
-                    <a href="javascript:void(0);">Banner<br>Stands</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Lighting</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Counters</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Flex<br>Tower</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Brochure<br>holders</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Poster<br>holders</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Outdoor</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Flags</a>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Cases</a>
-                </li>
+                <volist name="bottom" id="item">
+                    <li>
+                        <a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq> >{$item.ad_name}</a>
+                    </li>
+                </volist>
             </ul>
             <div class="clear"></div>
         </div>
