@@ -1,12 +1,12 @@
 console.log(tree);
 var imgNameArr = []
-$.each(tree, function(i, value) {
-    imgNameArr[i] = value['img_url'];
-    //alert("name:" + name + ", value: " + value);
+$.each(tree, function (i, value) {
+  imgNameArr[i] = value['img_url'];
+  //alert("name:" + name + ", value: " + value);
 });
 var selectionW = $('.selection').width()
 var selectionH = $('.selection').height()
-var width = selectionW*0.55;
+var width = selectionW * 0.55;
 var height = selectionH;
 // alert(height)
 var time = 3000;
@@ -29,7 +29,7 @@ function adjustImgStyle() {
     width: width,
     height: height,
     overflow: 'hidden',
-    display:'block'
+    display: 'block'
   })
   // alert(height*0.6)
   $element.children('img').css({
@@ -37,7 +37,8 @@ function adjustImgStyle() {
     top: '0',
     left: '0',
     width: width * 0.85,
-    height: height*0.6
+    height: height * 0.6,
+    cursor: 'pointer'
   }).css('left', function (index) {
     // index:当前标签的索引
     return index * width;
@@ -109,12 +110,12 @@ function resetImgAndDot() {
 function addDot() {
   $element.append('<ul class="dot"></ul>');
   var html = '';
-  $.each(tree, function(i, value) {
-      html += '<li>' + '&emsp;&emsp;' +value['img_desc']+ '</li>';
-      //imgNameArr[i] = value['img_url'];
-      //alert("name:" + name + ", value: " + value);
+  $.each(tree, function (i, value) {
+    html += '<li>'+ (i+1) + '&emsp;&emsp;' + value['img_desc'] + '</li>';
+    //imgNameArr[i] = value['img_url'];
+    //alert("name:" + name + ", value: " + value);
   });
-
+  
   $element.children('.dot').html(html);
 }
 
@@ -135,7 +136,8 @@ function adjustDotStyle() {
     color: '#F7750B',
     marginLeft: '0px',
     marginBottom: '10px',
-    fontSize: '16px'
+    fontSize: '16px',
+    cursor: 'pointer'
   }).eq(0).css('color', 'rgb(145, 145, 148)');
   // var pWidth = $element.width();
   // var pHeight = $element.height();
@@ -144,7 +146,7 @@ function adjustDotStyle() {
   $element.children('.dot').css({
     position: 'absolute',
     width: width,
-    top: height*0.6 + 20,
+    top: height * 0.6 + 20,
     paddingLeft: 0
   })
 }
@@ -152,12 +154,13 @@ function adjustDotStyle() {
 // 5.1、添加分页器列表样式
 function adjustListStyle() {
   $element.children('.listimg').children('li').css({
+    cursor: 'pointer',
     listStyle: 'none',
     border: '#f7750b',
     marginLeft: '0px',
     marginBottom: '1px',
-    padding:0,
-    height:(1/imgNameArr.length)*(width*0.6 - 40)
+    padding: 0,
+    height: (1 / imgNameArr.length) * (width * 0.6 - 40)
   }).eq(0).css('border', 'none');
   $element.children('.listimg').css({
     position: 'absolute',
@@ -165,11 +168,11 @@ function adjustListStyle() {
     top: 0,
     right: 0,
     paddingLeft: 0,
-    margin:0
+    margin: 0
   })
   $element.children('.listimg').children('li').children('img').css({
     width: '100%',
-    height:'100%'
+    height: '100%'
   })
 }
 
