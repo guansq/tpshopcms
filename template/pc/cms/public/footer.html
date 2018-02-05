@@ -1,149 +1,155 @@
-<footer id="footer" class="footer">
-    <!--<div class="footer-top" style="display: none">
-        <div class="content">
-            <div class="fl logos">
-                <a href="/">
+<!--<footer id="footer" class="footer">-->
+<!--<div class="footer-top" style="display: none">-->
+<!--<div class="content">-->
+<!--<div class="fl logos">-->
+<!--<a href="/">-->
+<!--<span class="up"></span>-->
+<!--<span class="hover"></span>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="fr disableSelection hoofdmenu">-->
+<!--<ul>-->
+<!--<li class="item-f active">-->
+<!--<a href="javascript:void(0);">home</a>-->
+<!--</li>-->
+<!--<div class="content">-->
+<!--<volist name="menu" id="item">-->
+<!--<eq name="item.level" value="0">-->
+<!--<li class="item-f">-->
+<!--<a href="javascript:void(0);">{$item.name}</a>-->
+<!--</li>-->
+<!--</eq>-->
+<!--</volist>-->
+<!--<div class="clear"></div>-->
+<!--</div>-->
+<!--</ul>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div id="topBtn" class="go-top">-->
+<!--<a class="leesMeerHome" href="javascript:void(0);">-->
+<!--<span class="left">-->
+<!--<span class="text">Go top</span>-->
+<!--<span class="up"></span>-->
+<!--<span class="hover"></span>-->
+<!--</span>-->
+<!--<span class="right">-->
+<!--<span class="icons"></span>-->
+<!--<span class="up"></span>-->
+<!--<span class="hover"></span>-->
+<!--</span>-->
+<!--</a>-->
+<!--</div>-->
+<!--<div class="clear"></div>-->
+<!--</div>-->
+<!--</div>-->
+
+<header id="header" class="header">
+   <div class="content ffc">
+      <div id="topBtn" class="go-top">
+         <a class="leesMeerHome" href="javascript:void(0);">
+                    <span class="left">
+                    <span class="text">Go top</span>
                     <span class="up"></span>
                     <span class="hover"></span>
-                </a>
-            </div>
-            <div class="fr disableSelection hoofdmenu">
-                <ul>
-                    <li class="item-f active">
-                        <a href="javascript:void(0);">home</a>
-                    </li>
-                    <div class="content">
-                        <volist name="menu" id="item">
-                            <eq name="item.level" value="0">
-                                <li class="item-f">
-                                    <a href="javascript:void(0);">{$item.name}</a>
-                                </li>
-                            </eq>
-                        </volist>
-                        <div class="clear"></div>
-                    </div>
-                </ul>
-            </div>
-            <div id="topBtn" class="go-top">
-                <a class="leesMeerHome" href="javascript:void(0);">
-                        <span class="left">
-                            <span class="text">Go top</span>
-                            <span class="up"></span>
-                            <span class="hover"></span>
-                        </span>
-                    <span class="right">
-                            <span class="icons"></span>
-                            <span class="up"></span>
-                            <span class="hover"></span>
-                        </span>
-                </a>
-            </div>
+                    </span>
+            <span class="right">
+                    <span class="icons"></span>
+                    <span class="up"></span>
+                    <span class="hover"></span>
+                  </span>
+         </a>
+      </div>
+      
+      <div class="fr disableSelection hoofdmenu">
+         <ul>
+            <li class="item-f active">
+               <a href="/">home</a>
+            </li>
+            <volist name="menu" id="item">
+               <eq name="item.level" value="0">
+                  <eq name="item.has_children" value="1">
+                     <li class="item-f has-sub">
+                        <a href="{$item.url}">{$item.name}</a>
+                        <ul class="sub-nav">
+                           <volist name="menu" id="level1">
+                              <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
+                                 <eq name="level1.has_children" value="1">
+                                    <li class="secondary-item has-subs">
+                                       <a href="{$level1.url}">{$level1.name}</a>
+                                       <ul class="sub-navs">
+                                          <volist name="menu" id="level2">
+                                             <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
+                                                <li class="secondary-item">
+                                                   <a href="{$level2.url}">{$level2.name}</a>
+                                                </li>
+                                             </if>
+                                          </volist>
+                                       </ul>
+                                    
+                                    </li>
+                                    
+                                    <else/>
+                                    
+                                    <li class="secondary-item">
+                                       <a href="{$level1.url}">{$level1.name}</a>
+                                    </li>
+                                 </eq>
+                              
+                              </if>
+                           </volist>
+                        </ul>
+                     
+                     </li>
+                     <else/>
+                     <li class="item-f">
+                        <a href="{$item.url}">{$item.name}</a>
+                     </li>
+                  </eq>
+               
+               </eq>
+            </volist>
             <div class="clear"></div>
+         </ul>
+      </div>
+      <div class="clear"></div>
+   </div>
+</header>
+
+<div class="footer-bottom">
+   <div class="content fixWauto clearfloat">
+      <div class="fr footerLeft ">
+        <div class="clearfloat ffc_sb">
+           <div class="CUNTRE"><span>CUNTRE</span></div>
+           
+           <div class="contactInfo fl">
+              info@funrundisplay.com<br>
+              Tel:+86(0)512 650 867 27
+           </div>
+           <div class="blank"></div>
+           <div class="contactInfov fr">
+              <a href="javascript:void(0);">1988 Zuanshi Road Weitang,</a><br>
+              <a href="javascript:void(0);"> 215134,Suchou City,China</a><br>
+           </div>
         </div>
-    </div>-->
-    
-    <header id="header" class="header">
-        <div class="content ffc">
-            <div class="fl logo">
-                <a href="/"></a>
-            </div>
-            <div class="fr disableSelection hoofdmenu">
-                <ul>
-                    <li class="item-f active">
-                        <a href="/">home</a>
-                    </li>
-                    <volist name="menu" id="item">
-                        <eq name="item.level" value="0">
-                            <eq name="item.has_children" value="1">
-                                <li class="item-f has-sub">
-                                    <a href="{$item.url}">{$item.name}</a>
-                                    <ul class="sub-nav">
-                                        <volist name="menu" id="level1">
-                                            <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
-                                                <eq name="level1.has_children" value="1">
-                                                    <li class="secondary-item has-subs">
-                                                        <a href="{$level1.url}">{$level1.name}</a>
-                                                        <ul class="sub-navs">
-                                                            <volist name="menu" id="level2">
-                                                                <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
-                                                                    <li class="secondary-item">
-                                                                        <a href="{$level2.url}">{$level2.name}</a>
-                                                                    </li>
-                                                                </if>
-                                                            </volist>
-                                                        </ul>
-                                                    
-                                                    </li>
-                                                    
-                                                    <else/>
-                                                    
-                                                    <li class="secondary-item">
-                                                        <a href="{$level1.url}">{$level1.name}</a>
-                                                    </li>
-                                                </eq>
-                                            
-                                            </if>
-                                        </volist>
-                                    </ul>
-                                
-                                </li>
-                                <else/>
-                                <li class="item-f">
-                                    <a href="{$item.url}">{$item.name}</a>
-                                </li>
-                            </eq>
-                        
-                        </eq>
-                    </volist>
-                    
-                    <div class="clear"></div>
-                </ul>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </header>
-    
-    <div class="footer-bottom">
-        <div class="content fixWauto">
-            <div class="fl footerLeft">
-                <div class="contactInfo">
-                    Platinastraat 34<br>
-                    6031 TW Nederweert<br>
-                    The Netherlands
-                </div>
-                <div class="contactInfo">
-                    <a href="javascript:void(0);">0031 (0)85 06 60 300</a><br><br>
-                    <a href="javascript:void(0);">info@promic.com</a><br>
-                </div>
-                <div class="submenu">
-                    <p><a href="javascript:void(0);">sitemap</a></p>
-                    <p><a href="javascript:void(0);">disclaimer</a></p>
-                    <p><a href="javascript:void(0);">algemene voorwaarden</a></p>
-                </div>
-                <div class="komma">
-                    <div class="komma_logo">
-                        <span class="up"></span>
-                        <span class="hover"></span>
-                    </div>
-                    <a href="javascript:void(0);">
-                        website ontwikkeld door
-                        <br>
-                        Komma Mediadesign
-                    </a>
-                </div>
-                <div class="esf">
-                    <img src="__STATIC__/image/index/esf.png" alt="">
-                </div>
-            </div>
-            
-            <ul class="fr footerRight">
-                <volist name="bottom" id="item">
-                    <li>
-                        <a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq> >{$item.ad_name}</a>
-                    </li>
-                </volist>
-            </ul>
-            <div class="clear"></div>
-        </div>
-    </div>
+        <div class="conBot"><h3>Suchou Funrun Display Equipment CO.,LTD.</h3></div>
+      </div>
+      
+      <!--logo s-->
+      <div class="fr logos">
+         <a href="javascript:void(0);">
+            <img src="__STATIC__/image/logo.png" alt="">
+         </a>
+      </div>
+      <!--logo end-->
+      <ul class="fl footerRight">
+         <volist name="bottom" id="item">
+            <li>
+               <a href="{$item.ad_link}"
+               <eq name="$item[target]" value="1"> target="_blank"</eq>
+               >{$item.ad_name}</a>
+            </li>
+         </volist>
+      </ul>
+      <div class="clear"></div>
+   </div>
+</div>
 </footer>

@@ -66,18 +66,19 @@ body {
 .header {
   /*position: fixed;*/
   width: 100%;
-  height: 81px;
+  height: 41px;
   z-index: 99;
   left: 0;
   top: 0;
-  border-top: 1px solid #565656;
-  background: #000;
+  /*border-top: 1px solid #565656;*/
+  background: rgb(255,255,0);
 }
 
 .content {
   width: 1300px;
   margin: 0 auto;
   height: auto;
+  position: relative;
 }
 
 .logo {
@@ -97,8 +98,8 @@ body {
   cursor: pointer;
   margin:0 2vw;
   position: relative;
-  height: 80px;
-  line-height: 105px;
+  height: 41px;
+  line-height:  41px;
 }
 
 .hoofdmenu .item-f > a {
@@ -110,6 +111,11 @@ body {
   -moz-transition: all .36s;
   -o-transition: all .36s;
   transition: all .36s;
+  background: rgb(0,0,0);
+  display: inline-block;
+  padding:0 30px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
 }
 
 .hoofdmenu .item-f.active > a,
@@ -126,7 +132,7 @@ body {
   width: 120px;
   height: 0;
   border-top: 2px solid #f7750b;
-  background: #333;
+  background: rgb(0,0,0);
   z-index: 1000;
   transition: height .5s, opacity .9s;
   overflow: hidden;
@@ -166,7 +172,7 @@ body {
   top: 0;
   width: 120px;
   height: 0;
-  background: #333;
+  background: rgb(0,0,0);
   overflow: hidden;
   z-index: 1100;
   transition: height .5s, opacity .9s;
@@ -505,10 +511,18 @@ body {
   background-position: -1010px -240px;
 }
 
-.footer-top .logos {
-  position: relative;
-  margin-top: 20px;
+.footer-bottom .logos {
+  width: 20%;
+  height:auto;
+  margin-top: 50px;
+  text-align: center;
 }
+
+.logos img{
+  width: 150px;
+  height:auto;
+}
+
 
 .footer-top .logos span {
   display: inline-block;
@@ -561,20 +575,22 @@ body {
 }
 
 .footerLeft {
-  width: 520px;
+  width: 550px;
+  /*margin-left:50px;*/
+  height: 250px;
 }
 
 .footer-bottom .contactInfo {
-  border-left: 1px solid #919194;
   float: left;
-  margin-right: 35px;
   padding-left: 10px;
   color: #919194;
-  line-height: 16px;
+  line-height: 150%;
   text-transform: uppercase;
-  margin-top: 50px;
-  font-size: 10px;
+  margin-top: 80px;
+  font-size: 16px;
   letter-spacing: 2px;
+  text-transform: capitalize;
+  -webkit-text-transform:capitalize;
 }
 
 .footer-bottom .contactInfo a {
@@ -684,19 +700,24 @@ body {
   width: 140px;
   margin-left: 10px;
   margin-bottom: 10px;
-  height: 60px;
+  height: 35px;
   float: left;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgb(255,255,0);
 }
 
 .footerRight li a {
+  text-align: center;
   display: block;
   font-size: 10px;
   color: #919194;
-  padding-left: 10px;
-  padding-top: 13px;
+  /*padding-left: 10px;*/
+  /*padding-top: 13px;*/
   width: 140px;
-  height: 60px;
-  border: 1px solid #919194;
+  height: 35px;
+  line-height: 35px;
+  /*border: 1px solid #919194;*/
   text-transform: uppercase;
   transition: all .36s;
 }
@@ -713,7 +734,8 @@ body {
   content: "";
   visibility: hidden;
   height: 0;
-  zoom: 1
+  zoom: 1;
+  overflow: hidden;
 }
 
 .fixWauto {
@@ -1150,7 +1172,7 @@ ul.listImg{
 }
 #ctaBlockFull .ctaContent {
   top: 3px;
-  width: 922px;
+  width:1300px;
   height: 90px;
 }
 #ctaBlockFull .shadowRight {
@@ -1372,7 +1394,65 @@ span.close,.closer{
   top:0;
 }
 
+#topBtn{
+  position: absolute;
+  right: 0px;
+  top: -30px;
+}
 
 
+.footerLeft .clearfloat{
+  position: relative;
+  height:70%;
+  width:100%;
+}
+.footerLeft .fl{
+  width:46%;
+}
+.footerLeft .fr{
+  width: 48%;
+}
+.footerLeft .conBot{
+  height: 20%;
+  color: #919194;
+  font-size: 20px;
+}
+.contactInfov{
+  margin-top: 80px;
+}
 
-
+.contactInfov a{
+  font-size: 16px;
+  line-height: 150%;
+  color: #919194; text-transform: capitalize;
+  -webkit-text-transform:capitalize;
+}
+.blank{
+  width: 14px;
+  height: 65px;
+  background: url("../image/index/down.png");
+  margin-top: 70px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.conBot h3{
+  text-transform: capitalize;
+  -webkit-text-transform:capitalize;
+}
+.CUNTRE{
+  text-align: center;
+  height: 40px;
+  margin:20px auto;
+  position: absolute;
+  left:40%;
+}
+.CUNTRE span{
+  color: #333;
+  border-radius:20px;
+  -webkit-border-radius: 20px;
+  background: rgb(255,255,0);
+  display: block;
+  height:40px;
+  line-height: 40px;
+  padding:0 25px;
+}
