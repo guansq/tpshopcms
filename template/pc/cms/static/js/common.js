@@ -47,7 +47,10 @@ $(function () {
   window.onresize = function () {
     var liW = $('.intro_pd li').width();
     $(".intro_pd li").css('height', liW)
-    var h = $(".intro_pd li").css('height', liW)
+    var h = $(".intro_pd li").css('height', liW);
+    //    图片大小
+    var width = $('.bag img').width();
+    $('.bag img').css('height', width)
   }
   window.onresize()
 });
