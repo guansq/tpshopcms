@@ -34,7 +34,8 @@ $(function () {
   })
   
   // go top
-  $('#topBtn').click(function () {
+  $('#topBtn').click(function (event) {
+    console.log(this)
     $('html,body').animate({
       scrollTop: 0
     }, 1000);
@@ -49,12 +50,24 @@ $(function () {
     var h = $(".intro_pd li").css('height', liW)
   }
   window.onresize()
-})
+});
 
+// 回到顶部按钮
+var winH = $(window).height();
 
-
-
-
+window.onscroll = function () {
+  var scrollTop = $(document).scrollTop();
+  var DH = $(document.body).height();
+  var scrollH =  $(document.body).scrollHeight;
+  // console.log(document);
+  // console.log(scrollTop);
+  console.log(scrollH);
+  if(scrollTop > 300){
+     $('.topBtn').addClass('show')
+  }else{
+    $('.topBtn').removeClass('show')
+  }
+};
 
 
 

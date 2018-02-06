@@ -1,4 +1,4 @@
-console.log(tree);
+// console.log(tree);
 var imgNameArr = []
 $.each(tree, function (i, value) {
   imgNameArr[i] = value['img_url'];

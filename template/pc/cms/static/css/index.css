@@ -2,8 +2,8 @@
     index 首页
 */
 html, body {
-  height: 100%;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 * {
@@ -817,6 +817,7 @@ body {
 
 .main01 {
   /*margin-top: 69px;*/
+  position: relative;
 }
 
 .main01 .wrap {
@@ -1394,13 +1395,24 @@ span.close,.closer{
   top:0;
 }
 
-#topBtn{
-  position: absolute;
-  right: 0px;
-  top: -30px;
+.topBtn{
+  width:1300px;
+  height:30px;
+  position: fixed;
+  bottom: 10%;
+  text-align: right;
+  right:10%;
+  display: none;
+  z-index: 999;
 }
-
-
+.topBtn.show{
+  display: block;
+}
+#topBtn{
+  width:108px;
+  height:30px;
+  display:inline-block;
+}
 .footerLeft .clearfloat{
   position: relative;
   height:70%;
@@ -1455,4 +1467,26 @@ span.close,.closer{
   height:40px;
   line-height: 40px;
   padding:0 25px;
+}
+
+.logo_pic {
+  background:url("../image/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index:100;
+  opacity:0.8;
+  height:100%;
+  width:100%;
+  position: absolute;
+  top:0;
+}
+.logo_pic.hide{
+  background:transparent;
+}
+
+.video {
+  width:45%;
+}
+.context{
+  width:45%;
 }

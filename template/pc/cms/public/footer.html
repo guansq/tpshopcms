@@ -41,24 +41,24 @@
 <!--<div class="clear"></div>-->
 <!--</div>-->
 <!--</div>-->
-
+<div class="topBtn">
+   <div id="topBtn" class="go-top">
+      <a class="leesMeerHome" href="javascript:void(0);">
+      <span class="left">
+      <span class="text">Go top</span>
+      <span class="up"></span>
+        <span class="hover"></span>
+      </span>
+         <span class="right">
+        <span class="icons"></span>
+         <span class="up"></span>
+         <span class="hover"></span>
+      </span>
+      </a>
+   </div>
+</div>
 <header id="header" class="header">
    <div class="content ffc">
-      <div id="topBtn" class="go-top">
-         <a class="leesMeerHome" href="javascript:void(0);">
-                    <span class="left">
-                    <span class="text">Go top</span>
-                    <span class="up"></span>
-                    <span class="hover"></span>
-                    </span>
-            <span class="right">
-                    <span class="icons"></span>
-                    <span class="up"></span>
-                    <span class="hover"></span>
-                  </span>
-         </a>
-      </div>
-      
       <div class="fr disableSelection hoofdmenu">
          <ul>
             <li class="item-f active">
@@ -117,20 +117,20 @@
 <div class="footer-bottom">
    <div class="content fixWauto clearfloat">
       <div class="fr footerLeft ">
-        <div class="clearfloat ffc_sb">
-           <div class="CUNTRE"><span>CUNTRE</span></div>
-           
-           <div class="contactInfo fl">
-              info@funrundisplay.com<br>
-              Tel:+86(0)512 650 867 27
-           </div>
-           <div class="blank"></div>
-           <div class="contactInfov fr">
-              <a href="javascript:void(0);">1988 Zuanshi Road Weitang,</a><br>
-              <a href="javascript:void(0);"> 215134,Suchou City,China</a><br>
-           </div>
-        </div>
-        <div class="conBot"><h3>Suchou Funrun Display Equipment CO.,LTD.</h3></div>
+         <div class="clearfloat ffc_sb">
+            <div class="CUNTRE"><span>CUNTRE</span></div>
+            
+            <div class="contactInfo fl">
+               info@funrundisplay.com<br>
+               Tel:+86(0)512 650 867 27
+            </div>
+            <div class="blank"></div>
+            <div class="contactInfov fr">
+               <a href="javascript:void(0);">1988 Zuanshi Road Weitang,</a><br>
+               <a href="javascript:void(0);"> 215134,Suchou City,China</a><br>
+            </div>
+         </div>
+         <div class="conBot"><h3>Suchou Funrun Display Equipment CO.,LTD.</h3></div>
       </div>
       
       <!--logo s-->
@@ -143,9 +143,7 @@
       <ul class="fl footerRight">
          <volist name="bottom" id="item">
             <li>
-               <a href="{$item.ad_link}"
-               <eq name="$item[target]" value="1"> target="_blank"</eq>
-               >{$item.ad_name}</a>
+               <a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq>>{$item.ad_name}</a>
             </li>
          </volist>
       </ul>

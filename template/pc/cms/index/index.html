@@ -7,101 +7,107 @@
 <!--<include file="public/header"/>-->
 <!--header-e-->
 <style>
-    @media screen and (min-width: 1300px) {
-        main, .main01 .wrap{
-            margin:0 auto;
-            margin-top: 20px;
-            width:1300px;
-        }
-        .main01 .wrap .bag{
-            width:25rem;
-            height:25rem;
-        }
-    }
+   @media screen and (min-width: 1300px) {
+      main, .main01 .wrap {
+         margin: 0 auto;
+         margin-top: 20px;
+         width: 1300px;
+      }
+      
+      .main01 .wrap .bag {
+         width: 25rem;
+         height: 25rem;
+      }
+   }
 </style>
 <body>
 
 <main id="main01" class="main01">
-    <div class="wrap ffc">
-        <div class="swiper-container bag">
-            <div class="swiper-wrapper">
-                <volist  name="banner1" id="item">
-                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
-                </volist>
-                <!--<img class="swiper-slide" data-title="这是我的图片标题11" data-title-desc="这是我很长很长的标题描述11" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题22" data-title-desc="这是我很长很长的标题描述22" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
-            </div>
-        </div>
-
-        <div class="swiper-container bag e_top">
-            <div class="com_class">
-                <h3></h3>
-                <p></p>
-            </div>
-        </div>
-
-        <div class="swiper-container bag">
-            <div class="swiper-wrapper">
-                <volist  name="banner2" id="item">
-                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
-                </volist>
-                <!--<img class="swiper-slide" data-title="这是我的图片标题33" data-title-desc="这是我很长很长的标题描述33" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
-                <!--<img class="swiper-slide" data-title="这是我的图片标题44" data-title-desc="这是我很长很长的标题描述44" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
-            </div>
-        </div>
-
-        <div class="swiper-container bag e_center_left">
-            <div class="com_class">
-                <h3></h3>
-                <p></p>
-            </div>
-        </div>
-
-
-        <div class="swiper-container bag">
-            <div class="swiper-wrapper">
-                <volist  name="banner3" id="item">
-                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
-                </volist>
-                <!--<img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题66" data-title-desc="这是我很长很长的标题描述66" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
-            </div>
-        </div>
-
-        <div class="swiper-container bag e_center_right ">
-            <div class="com_class">
-                <h3></h3>
-                <p></p>
-            </div>
-        </div>
-
-        <div class="swiper-container bag">
-            <div class="swiper-wrapper">
-                <volist  name="banner4" id="item">
-                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
-                </volist>
-                <!--<img class="swiper-slide" data-title="这是我的图片标题77" data-title-desc="这是我很长很长的标题描述77" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-                <img class="swiper-slide" data-title="这是我的图片标题88" data-title-desc="这是我很长很长的标题描述88" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
-            </div>
-        </div>
-
-        <div class="swiper-container bag e_bottom ">
-            <div class="com_class">
-                <h3></h3>
-                <p></p>
-            </div>
-        </div>
-
-        <div class="swiper-container bag">
-            <div class="swiper-wrapper">
-                <volist  name="banner5" id="item">
-                    <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
-                </volist>
-                <!--<img class="swiper-slide" data-title="这是我的图片标题99" data-title-desc="这是我很长很长的标题描述99" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
-                <!--<img class="swiper-slide" data-title="这是我的图片标题10" data-title-desc="这是我很长很长的标题描述10" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
-            </div>
-        </div>
-    </div>
+   <div class="wrap ffc">
+      <div class="swiper-container bag">
+         <div class="logo_pic"></div>
+         <div class="swiper-wrapper">
+            <volist name="banner1" id="item">
+               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+            </volist>
+            <!--<img class="swiper-slide" data-title="这是我的图片标题11" data-title-desc="这是我很长很长的标题描述11" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+            <img class="swiper-slide" data-title="这是我的图片标题22" data-title-desc="这是我很长很长的标题描述22" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
+         </div>
+      </div>
+      
+      <div class="swiper-container bag e_top">
+         <div class="com_class">
+            <h3></h3>
+            <p></p>
+         </div>
+      </div>
+      
+      <div class="swiper-container bag">
+         <div class="logo_pic"></div>
+         <div class="swiper-wrapper">
+            <volist name="banner2" id="item">
+               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+            </volist>
+            <!--<img class="swiper-slide" data-title="这是我的图片标题33" data-title-desc="这是我很长很长的标题描述33" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
+            <!--<img class="swiper-slide" data-title="这是我的图片标题44" data-title-desc="这是我很长很长的标题描述44" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
+         </div>
+      </div>
+      
+      <div class="swiper-container bag e_center_left">
+         <div class="com_class">
+            <h3></h3>
+            <p></p>
+         </div>
+      </div>
+      
+      
+      <div class="swiper-container bag">
+         <div class="logo_pic"></div>
+         <div class="swiper-wrapper">
+            <volist name="banner3" id="item">
+               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+            </volist>
+            <!--<img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+            <img class="swiper-slide" data-title="这是我的图片标题66" data-title-desc="这是我很长很长的标题描述66" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
+         </div>
+      </div>
+      
+      <div class="swiper-container bag e_center_right ">
+         <div class="com_class">
+            <h3></h3>
+            <p></p>
+         </div>
+      </div>
+      
+      <div class="swiper-container bag">
+         <div class="logo_pic"></div>
+         <div class="swiper-wrapper">
+            <volist name="banner4" id="item">
+               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+            </volist>
+            <!--<img class="swiper-slide" data-title="这是我的图片标题77" data-title-desc="这是我很长很长的标题描述77" src="__STATIC__/image/index/roll_banners.jpg" alt="">
+            <img class="swiper-slide" data-title="这是我的图片标题88" data-title-desc="这是我很长很长的标题描述88" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
+         </div>
+      </div>
+      
+      <div class="swiper-container bag e_bottom ">
+         <div class="com_class">
+            <h3></h3>
+            <p></p>
+         </div>
+      </div>
+      
+      <div class="swiper-container bag">
+         <div class="logo_pic"></div>
+         <div class="swiper-wrapper">
+            <volist name="banner5" id="item">
+               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+            </volist>
+            <!--<img class="swiper-slide" data-title="这是我的图片标题99" data-title-desc="这是我很长很长的标题描述99" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
+            <!--<img class="swiper-slide" data-title="这是我的图片标题10" data-title-desc="这是我很长很长的标题描述10" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
+         </div>
+      </div>
+   </div>
 </main>
 
 <!--footer-s-->
@@ -110,90 +116,100 @@
 </body>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        Global = {
-            'curindex':0,//当前swiper的索引位置
-            'curclass':''//当前swiper
-        };
-        cur = 0;
-        mySwiper = new Swiper('.swiper-container',{
-            on :{slideChangeTransitionStart: function(){
-                //console.log(cur);
-                //alert(this.realIndex);
-                //console.log(swiper);
-                changSwiper(this,cur);
-                if(cur < 4){
-                    cur = cur + 1;//最多5个div
-                }
-
-                //index = this.activeIndex;
-                //console.log(this[0].slides[0]);
-                //console.log(this.element);
-                //alert(this.activeIndex);
-                //切换结束时，告诉我现在是第几个slide);
-            }},
-            autoplay : false,
-            loop:true,
-            delay:1000
-        });
-        var flag = true
-        $('.swiper-container').mouseenter(function(){
-            flag = !flag
-            //console.log($(this).index())
-            var i = $(this).index()
-//      console.log(this)
-            mySwiper[i].autoplay.start();
-            var img = mySwiper[i].slides[Global.curindex];
-            var title = $(img).attr('data-title');
-            var txt =  $(img).attr('data-title-desc');
-            //var title =  $(this).find('.swiper-wrapper').find('img').attr('data-title');
-            //var txt =  $(this).find('.swiper-wrapper').find('img').attr('data-title-desc');
-            if(i == 0 || i == 2){
-                Global.curclass = '.e_top .com_class';
-                $('.e_top .com_class').show()
-                $('.e_top .com_class').find('h3').html(title)
-                $('.e_top .com_class').find('p').html(txt)
-            }
-            if(i == 6 || i == 8){
-                Global.curclass = '.e_bottom .com_class';
-                $('.e_bottom .com_class').show()
-                $('.e_bottom .com_class').find('h3').html(title)
-                $('.e_bottom .com_class').find('p').html(txt)
-            }
-            if(i == 4){
-
-                if(flag){
-                    Global.curclass = '.e_center_left .com_class';
-                    $('.e_center_left .com_class').show()
-                    $('.e_center_left .com_class').find('h3').html(title)
-                    $('.e_center_left .com_class').find('p').html(txt)
-                } else{
-                    Global.curclass = '.e_center_right .com_class';
-                    $('.e_center_right .com_class').show()
-                    $('.e_center_right .com_class').find('h3').html(title)
-                    $('.e_center_right .com_class').find('p').html(txt)
-
-                }
-            }
-        });
-
-        $('.swiper-container').mouseleave(function(){
-            var i = $(this).index()
-            mySwiper[i].autoplay.stop();
-            $('.com_class').hide()
-        });
-        function changSwiper(swiper,cur){
-            //  var index = swiper.realIndex;
-            var index = swiper.activeIndex;
-            //console.log(index);
-            var img = swiper.slides[index];
-            Global.curindex = index;
-            if(Global.curclass != ''){
-                $(Global.curclass).find('h3').html($(img).attr('data-title'));
-                $(Global.curclass).find('p').html($(img).attr('data-title-desc'))
-            }
+  $(document).ready(function () {
+    Global = {
+      'curindex': 0,//当前swiper的索引位置
+      'curclass': ''//当前swiper
+    };
+    cur = 0;
+    mySwiper = new Swiper('.swiper-container', {
+      on: {
+        slideChangeTransitionStart: function () {
+          //console.log(cur);
+          //alert(this.realIndex);
+          //console.log(swiper);
+          changSwiper(this, cur);
+          if (cur < 4) {
+            cur = cur + 1;//最多5个div
+          }
+          
+          //index = this.activeIndex;
+          //console.log(this[0].slides[0]);
+          //console.log(this.element);
+          //alert(this.activeIndex);
+          //切换结束时，告诉我现在是第几个slide);
         }
-    })
+      },
+      autoplay: false,
+      loop: true,
+      delay: 1000
+    });
+    var flag = true
+    $('.swiper-container').mouseenter(function () {
+      flag = !flag
+      //console.log($(this).index())
+      var i = $(this).index()
+//      console.log(this)
+      mySwiper[i].autoplay.start();
+      var img = mySwiper[i].slides[Global.curindex];
+      var title = $(img).attr('data-title');
+      var txt = $(img).attr('data-title-desc');
+      //var title =  $(this).find('.swiper-wrapper').find('img').attr('data-title');
+      //var txt =  $(this).find('.swiper-wrapper').find('img').attr('data-title-desc');
+      if (i == 0 || i == 2) {
+        Global.curclass = '.e_top .com_class';
+        $('.e_top .com_class').show()
+        $('.e_top .com_class').find('h3').html(title)
+        $('.e_top .com_class').find('p').html(txt)
+      }
+      if (i == 6 || i == 8) {
+        Global.curclass = '.e_bottom .com_class';
+        $('.e_bottom .com_class').show()
+        $('.e_bottom .com_class').find('h3').html(title)
+        $('.e_bottom .com_class').find('p').html(txt)
+      }
+      if (i == 4) {
+        
+        if (flag) {
+          Global.curclass = '.e_center_left .com_class';
+          $('.e_center_left .com_class').show()
+          $('.e_center_left .com_class').find('h3').html(title)
+          $('.e_center_left .com_class').find('p').html(txt)
+        } else {
+          Global.curclass = '.e_center_right .com_class';
+          $('.e_center_right .com_class').show()
+          $('.e_center_right .com_class').find('h3').html(title)
+          $('.e_center_right .com_class').find('p').html(txt)
+          
+        }
+      }
+    });
+    
+    $('.swiper-container').mouseleave(function () {
+      var i = $(this).index()
+      mySwiper[i].autoplay.stop();
+      $('.com_class').hide()
+    });
+    
+    function changSwiper(swiper, cur) {
+      //  var index = swiper.realIndex;
+      var index = swiper.activeIndex;
+      //console.log(index);
+      var img = swiper.slides[index];
+      Global.curindex = index;
+      if (Global.curclass != '') {
+        $(Global.curclass).find('h3').html($(img).attr('data-title'));
+        $(Global.curclass).find('p').html($(img).attr('data-title-desc'))
+      }
+    }
+    
+    $('.logo_pic').mouseenter(function () {
+      $(this).addClass('hide');
+    });
+    $('.logo_pic').mouseleave(function () {
+      $(this).removeClass('hide');
+    });
+  })
 
 </script>
 </html>

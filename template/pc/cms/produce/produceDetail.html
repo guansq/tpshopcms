@@ -4,78 +4,79 @@
 <include file="public/miniheader"/>
 <!--head-e-->
 <style>
-    .specificaties p{
-        float: none;
-    }
+   .specificaties p {
+      float: none;
+   }
 </style>
 <!--header-s-->
 <!--<include file="public/header"/>-->
 <!--header-e-->
 <body>
 <main id="main01" class="main01">
-    <div id="headerImages">
-        <div class="content">
-            <span class="streamer"><strong>{$cat_info.name}</strong><br>{$produce_info.produce_title}</span>
-        </div>
-        <div id="headerPhoto" class="producten"></div>
-        <div class="shadow">
-            <div class="title-a">
-                <volist name="parent" id="item">
-                    <a href="{:url('Produce/index',array('cat_id'=>$item[cat_id]))}">{$item[name]}/ </a>
-                </volist>
-
-            </div>
-        </div>
-    </div>
-    <include file="public/produce_nav"/>
-    <div class="fixWauto">
-
-        <div class="selection ffc">
-            <div class="l"><img src="{$produce_info.produce_cover}" alt="{$produce_info.produce_title}"></div>
-            <div class="r"></div>
-        </div>
-
-        <!--video-->
-        <div class="specificaties Optional_wrap28">
-            <h3>Promic video</h3>
-        </div>
-        <notempty name="$produce_info[produce_video]">
+   <!--<div id="headerImages">-->
+      <!--<div class="content">-->
+         <!--<span class="streamer"><strong>{$cat_info.name}</strong><br>{$produce_info.produce_title}</span>-->
+      <!--</div>-->
+      <!--<div id="headerPhoto" class="producten"></div>-->
+      <!--<div class="shadow">-->
+         <!--<div class="title-a">-->
+            <!--<volist name="parent" id="item">-->
+               <!--<a href="{:url('Produce/index',array('cat_id'=>$item[cat_id]))}">{$item[name]}/ </a>-->
+            <!--</volist>-->
+         <!---->
+         <!--</div>-->
+      <!--</div>-->
+   <!--</div>-->
+   <include file="public/produce_nav"/>
+   <div class="fixWauto">
+      
+      <div class="selection ffc">
+         <div class="l"><img src="{$produce_info.produce_cover}" alt="{$produce_info.produce_title}"></div>
+         <div class="r"></div>
+      </div>
+      
+      <!--video-->
+      <div class="specificaties Optional_wrap28">
+         <h3>Promic video</h3>
+      </div>
+      <div class="ffc_sb">
+         <notempty name="$produce_info[produce_video]">
             <div class="video mg_b_20">
-                <video width="500" height="300" controls="controls">
-                    <source src="{$produce_info.produce_video}" type="video/ogg"/>
-                </video>
+               <video width="500" height="300" controls="controls">
+                  <source src="{$produce_info.produce_video}" type="video/ogg"/>
+               </video>
             </div>
-        </notempty>
-
-        <!-- Product specificaties-->
-        <div class="specificaties Optional_wrap28">
+         </notempty>
+         <!-- Product specificaties-->
+         <div class="specificaties Optional_wrap28 context">
             {$produce_info.content}
-        </div>
-    </div>
-    <!-- Optional -->
-    <div class="fixWauto clearfloat Optional_wrap22">
-        <h3>Optional</h3>
-        <P class="Optional_p">
-            <a class="FD482C" href="">LED</a>&nbsp;OR &nbsp;<a class="FD482C"  href="">HAlOGIN &nbsp;</a> LIGHTING
-        </P>
-    </div>
-    
-    <div id="ctaBlockFull" class="fixWauto ffc">
-        <div class="shadowLeft"></div>
-        <div class="ctaContent">
-            <p>Kwaliteit kan heel betaalbaar zijn. Maak kennis met onze messcherpe<br>
-                prijzen en neem op voor een snelle bestelling.</p>
-            <p class="gegevens">085 06 60 310<br>
-                <a href="mailto:info@promic.com">info@promic.com</a>
-            </p>
-            
-            <a href="#" id="ctaButton" class="ctaButton clearfloat">
-                <span class="left">Contact</span>
-                <span class="right"><i></i></span>
-            </a>
-        </div>
-        <div class="shadowRight"></div>
-    </div>
+         </div>
+      </div>
+   </div>
+   <!-- Optional -->
+   <div class="fixWauto clearfloat Optional_wrap22">
+      <h3>Optional</h3>
+      <P class="Optional_p">
+         <a class="FD482C" href="">LED</a>&nbsp;OR &nbsp;<a class="FD482C" href="">HAlOGIN &nbsp;</a> LIGHTING
+      </P>
+   </div>
+   
+   <div id="ctaBlockFull" class="fixWauto ffc">
+      <div class="shadowLeft"></div>
+      <div class="ctaContent">
+         <p>Kwaliteit kan heel betaalbaar zijn. Maak kennis met onze messcherpe<br>
+            prijzen en neem op voor een snelle bestelling.</p>
+         <p class="gegevens">085 06 60 310<br>
+            <a href="mailto:info@promic.com">info@promic.com</a>
+         </p>
+         
+         <a href="#" id="ctaButton" class="ctaButton clearfloat">
+            <span class="left">Contact</span>
+            <span class="right"><i></i></span>
+         </a>
+      </div>
+      <div class="shadowRight"></div>
+   </div>
 </main>
 <div class="maskDiv" style="display: none"></div>
 
@@ -84,10 +85,7 @@
 <!--footer-e-->
 </body>
 <script>
-    var tree = {$produce_img};
+  var tree = {$produce_img};
 </script>
 <script src="__STATIC__/js/carousel.js"></script>
-<script type="text/javascript">
-
-</script>
 </html>
