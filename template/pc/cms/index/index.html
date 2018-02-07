@@ -158,27 +158,27 @@
       //var txt =  $(this).find('.swiper-wrapper').find('img').attr('data-title-desc');
       if (i == 0 || i == 2) {
         Global.curclass = '.e_top .com_class';
-        $('.e_top .com_class').show()
-        $('.e_top .com_class').find('h3').html(title)
+        $('.e_top .com_class').show();
+        $('.e_top .com_class').find('h3').html(title);
         $('.e_top .com_class').find('p').html(txt)
       }
       if (i == 6 || i == 8) {
         Global.curclass = '.e_bottom .com_class';
-        $('.e_bottom .com_class').show()
-        $('.e_bottom .com_class').find('h3').html(title)
-        $('.e_bottom .com_class').find('p').html(txt)
+        $('.e_bottom .com_class').show();
+        $('.e_bottom .com_class').find('h3').html(title);
+        $('.e_bottom .com_class').find('p').html(txt);
       }
       if (i == 4) {
         
         if (flag) {
           Global.curclass = '.e_center_left .com_class';
-          $('.e_center_left .com_class').show()
-          $('.e_center_left .com_class').find('h3').html(title)
+          $('.e_center_left .com_class').show();
+          $('.e_center_left .com_class').find('h3').html(title);
           $('.e_center_left .com_class').find('p').html(txt)
         } else {
           Global.curclass = '.e_center_right .com_class';
-          $('.e_center_right .com_class').show()
-          $('.e_center_right .com_class').find('h3').html(title)
+          $('.e_center_right .com_class').show();
+          $('.e_center_right .com_class').find('h3').html(title);
           $('.e_center_right .com_class').find('p').html(txt)
           
         }
@@ -186,7 +186,7 @@
     });
     
     $('.swiper-container').mouseleave(function () {
-      var i = $(this).index()
+      var i = $(this).index();
       mySwiper[i].autoplay.stop();
       $('.com_class').hide()
     });

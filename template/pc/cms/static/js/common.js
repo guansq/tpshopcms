@@ -49,10 +49,10 @@ $(function () {
     $(".intro_pd li").css('height', liW)
     var h = $(".intro_pd li").css('height', liW);
     //    图片大小
-    var width = $('.bag img').width();
-    $('.bag img').css('height', width)
+    var width = $('.bag').width();
+    $('.bag').css('height', width);
   }
-  window.onresize()
+  window.onresize();
 });
 
 // 回到顶部按钮
