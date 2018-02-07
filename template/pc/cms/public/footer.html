@@ -57,64 +57,65 @@
       </a>
    </div>
 </div>
-<header id="header" class="header">
-   <div class="content ffc">
-      <div class="fr disableSelection hoofdmenu">
-         <ul>
-            <li class="item-f active">
-               <a href="/">home</a>
-            </li>
-            <volist name="menu" id="item">
-               <eq name="item.level" value="0">
-                  <eq name="item.has_children" value="1">
-                     <li class="item-f has-sub">
-                        <a href="{$item.url}">{$item.name}</a>
-                        <ul class="sub-nav">
-                           <volist name="menu" id="level1">
-                              <if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">
-                                 <eq name="level1.has_children" value="1">
-                                    <li class="secondary-item has-subs">
-                                       <a href="{$level1.url}">{$level1.name}</a>
-                                       <ul class="sub-navs">
-                                          <volist name="menu" id="level2">
-                                             <if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">
-                                                <li class="secondary-item">
-                                                   <a href="{$level2.url}">{$level2.name}</a>
-                                                </li>
-                                             </if>
-                                          </volist>
-                                       </ul>
-                                    
-                                    </li>
-                                    
-                                    <else/>
-                                    
-                                    <li class="secondary-item">
-                                       <a href="{$level1.url}">{$level1.name}</a>
-                                    </li>
-                                 </eq>
-                              
-                              </if>
-                           </volist>
-                        </ul>
-                     
-                     </li>
-                     <else/>
-                     <li class="item-f">
-                        <a href="{$item.url}">{$item.name}</a>
-                     </li>
-                  </eq>
-               
-               </eq>
-            </volist>
-            <div class="clear"></div>
-         </ul>
-      </div>
-      <div class="clear"></div>
-   </div>
-</header>
 
-<div class="footer-bottom">
+<!--<header id="header" class="header">-->
+   <!--<div class="content ffc">-->
+      <!--<div class="fr disableSelection hoofdmenu">-->
+         <!--<ul>-->
+            <!--<li class="item-f active">-->
+               <!--<a href="/">home</a>-->
+            <!--</li>-->
+            <!--<volist name="menu" id="item">-->
+               <!--<eq name="item.level" value="0">-->
+                  <!--<eq name="item.has_children" value="1">-->
+                     <!--<li class="item-f has-sub">-->
+                        <!--<a href="{$item.url}">{$item.name}</a>-->
+                        <!--<ul class="sub-nav">-->
+                           <!--<volist name="menu" id="level1">-->
+                              <!--<if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">-->
+                                 <!--<eq name="level1.has_children" value="1">-->
+                                    <!--<li class="secondary-item has-subs">-->
+                                       <!--<a href="{$level1.url}">{$level1.name}</a>-->
+                                       <!--<ul class="sub-navs">-->
+                                          <!--<volist name="menu" id="level2">-->
+                                             <!--<if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">-->
+                                                <!--<li class="secondary-item">-->
+                                                   <!--<a href="{$level2.url}">{$level2.name}</a>-->
+                                                <!--</li>-->
+                                             <!--</if>-->
+                                          <!--</volist>-->
+                                       <!--</ul>-->
+                                    <!---->
+                                    <!--</li>-->
+                                    <!---->
+                                    <!--<else/>-->
+                                    <!---->
+                                    <!--<li class="secondary-item">-->
+                                       <!--<a href="{$level1.url}">{$level1.name}</a>-->
+                                    <!--</li>-->
+                                 <!--</eq>-->
+                              <!---->
+                              <!--</if>-->
+                           <!--</volist>-->
+                        <!--</ul>-->
+                     <!---->
+                     <!--</li>-->
+                     <!--<else/>-->
+                     <!--<li class="item-f">-->
+                        <!--<a href="{$item.url}">{$item.name}</a>-->
+                     <!--</li>-->
+                  <!--</eq>-->
+               <!---->
+               <!--</eq>-->
+            <!--</volist>-->
+            <!--<div class="clear"></div>-->
+         <!--</ul>-->
+      <!--</div>-->
+      <!--<div class="clear"></div>-->
+   <!--</div>-->
+<!--</header>-->
+
+<div class="footer-bottom" ondragstart="return false">
    <div class="content fixWauto clearfloat">
       <div class="fr footerLeft ">
          <div class="clearfloat ffc_sb">
@@ -140,14 +141,28 @@
          </a>
       </div>
       <!--logo end-->
-      <ul class="fl footerRight">
-         <volist name="bottom" id="item">
-            <li>
-               <a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq>>{$item.ad_name}</a>
-            </li>
-         </volist>
-      </ul>
-      <div class="clear"></div>
+      <!--<ul class="fl footerRight">-->
+      <!--<volist name="bottom" id="item">-->
+      <!--<li>-->
+      <!--<a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq>>{$item.ad_name}</a>-->
+      <!--</li>-->
+      <!--</volist>-->
+      <!--</ul>-->
+      <div class="fl navMenu">
+         <ul class="clearfloat">
+            <li><a href=""> produce</a></li>
+            <li><a href=""></a></li>
+            <li><a href="">service</a></li>
+            <li><a href=""></a></li>
+            <li><a href="">home</a></li>
+            <li><a href=""></a></li>
+            <li><a href="">news</a></li>
+            <li><a href=""></a></li>
+            <li><a href="">cuntre</a></li>
+         </ul>
+      </div>
+
+      <!--<div class="clear"></div>-->
    </div>
 </div>
 </footer>
