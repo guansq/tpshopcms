@@ -239,14 +239,14 @@ body {
   float: left;
   display: block;
   position: relative;
-  height: 40px;
+  height: 30px;
 }
 
 .leesMeerHome .right {
   float: left;
   display: block;
   position: relative;
-  height: 40px;
+  height: 30px;
 }
 
 .leesMeerHome .left .text {
@@ -269,6 +269,7 @@ body {
   width: 10px;
   height: 10px;
   background: url("../image/index/promic_sprite.png") no-repeat;
+  /*background:rgb(255,255,0);*/
   background-position: -590px -40px;
   position: relative;
   z-index: 20;
@@ -281,6 +282,9 @@ body {
   width: 100%;
   height: 100%;
   background: url("../image/index/promic_sprite.png") no-repeat;
+  /*background:rgb(255,255,0);*/
+  /*border-top-left-radius: 5px;*/
+  /*border-top-right-radius: 5px;*/
 }
 
 .leesMeerHome .up {
@@ -825,7 +829,8 @@ body {
 }
 
 .main01 {
-  /*margin-top: 69px;*/
+  margin: 30px auto;
+  margin-bottom: 50px;
   position: relative;
 }
 
@@ -1528,9 +1533,34 @@ span.close,.closer{
   text-decoration: none;
   font-size:16px;
 }
+.navMenu li:nth-child(2n+1):hover{
+  display: inline-block;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all  0.5s;
+  border:1px solid rgb(255,255,0);
+}
 .navMenu li:hover a{
+  display: inline-block;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -o-transition: all  0.5s;
   color:rgb(255,255,0);
+}
+.seeAll{
+  width:80px;
+  height: 30px;
+  position: fixed;
+  background:url("../image/index/seeAll.png") no-repeat;
+  background-size:cover;
+  background-position: 0 -20px;
+  top:50%;
+  left:50%;
+  margin-left:-25px;
+  margin-top:360px;
+  z-index: 10;
+  display: none;
+}
+.seeAll.show{
+  display: block;
 }

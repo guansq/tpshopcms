@@ -19,6 +19,9 @@
          height: 25rem;
       }
    }
+   .footer-bottom{
+      display: none;
+   }
 </style>
 <body>
 
@@ -108,6 +111,7 @@
          </div>
       </div>
    </div>
+   <div class="seeAll"></div>
 </main>
 
 <!--footer-s-->
@@ -210,6 +214,40 @@
       $(this).removeClass('hide');
     });
     
+    
+    var wh = $(window).height();
+    var DH = $(document.body).height();
+//    console.log(DH);
+//    console.log(wh);
+    $('.seeAll').click(function () {
+      seeAll();
+       $('html,body').animate({
+         scrollTop: document.body.clientHeight,
+       },1000);
+//      console.log(hh);
+    })
+    var seeAll = function () {
+      var scrollTop = $(document).scrollTop();
+      var DH = $(document.body).height();
+      var scrollH =  $(document.body).scrollHeight;
+      // console.log(document);
+      // console.log(scrollTop);
+      console.log(scrollH);
+      if(scrollTop > 300){
+        $('.topBtn').addClass('show')
+      }else{
+        $('.topBtn').removeClass('show')
+      }
+      
+      if(scrollTop > 200){
+        $('.seeAll').addClass('show');
+        $('.footer-bottom').show();
+      }else{
+        $('.seeAll').removeClass('show');
+        $('.footer-bottom').hide()
+      }
+    };
+    window.onscroll = seeAll;
   })
 
 </script>
