@@ -535,9 +535,9 @@ class Ueditor extends Base
         $path = htmlspecialchars($dir, ENT_QUOTES);
         //echo $path;die;
         //$realpath = $_SERVER['DOCUMENT_ROOT'].$path;
-        if (!file_exists($path)) {
+        /*if (!file_exists($path)) {
             mkdir($path);
-        }
+        }*/
         //echo $path;die;
         // 获取表单上传文件
         $file = request()->file('file');
