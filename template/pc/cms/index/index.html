@@ -108,6 +108,7 @@
          </div>
       </div>
    </div>
+   <div class="seeAll"></div>
 </main>
 
 <!--footer-s-->
@@ -210,6 +211,26 @@
       $(this).removeClass('hide');
     });
     
+    $('.seeAll').click(function () {
+      console.log(this)
+       $('html,body').animate({
+         scrollTop:  $(document.body).height() - $(window).height(),
+       },1000);
+    });
+    $(window).scroll(function () {
+      var scrollTop = $(document).scrollTop();
+      var DH = $(document.body).height();
+//       console.log(scrollTop);
+//       console.log(DH);
+//       console.log(WH);
+      if(scrollTop > 300){
+        $('.seeAll').addClass('show');
+        $('.topBtn').addClass('show')
+      }else{
+        $('.seeAll').removeClass('show');
+        $('.topBtn').removeClass('show')
+      }
+    })
   })
 
 </script>

@@ -15,7 +15,7 @@ $(function () {
       "overflow": "hidden"
     });
   })
-  
+
   $(".has-subs").mouseover(function () {
     $(this).find(".sub-navs").css({
       "display": "block",
@@ -61,10 +61,8 @@ var winH = $(window).height();
 window.onscroll = function () {
   var scrollTop = $(document).scrollTop();
   var DH = $(document.body).height();
-  var scrollH =  $(document.body).scrollHeight;
-  // console.log(document);
   // console.log(scrollTop);
-  console.log(scrollH);
+  // console.log(winH);
   if(scrollTop > 300){
      $('.topBtn').addClass('show')
   }else{
