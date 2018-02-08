@@ -580,12 +580,11 @@ body {
   user-select: none;
   width: 100%;
   background-color: #383838;
-  padding:25px 0;
+  padding:10px 0;
 }
 
 .footerLeft {
   width: 550px;
-  /*margin-left:50px;*/
   height: 250px;
 }
 
@@ -1417,7 +1416,7 @@ span.close,.closer{
   text-align: right;
   right:10%;
   display: none;
-  z-index: 999;
+  z-index: 900;
 }
 .topBtn.show{
   display: block;
@@ -1558,7 +1557,7 @@ span.close,.closer{
   left:50%;
   margin-left:-25px;
   margin-top:360px;
-  z-index: 10;
+  z-index:999;
   display: none;
 }
 .seeAll.show{
