@@ -137,8 +137,8 @@ $(function() {
 			swf: 'webuploader/Uploader.swf',
 			server: 'fileupload.php',
 			fileNumLimit: 10,
-			fileSizeLimit: 50 * 1024 * 1024,    // 50 M
-			fileSingleSizeLimit: 5 * 1024 * 1024,    // 5 M
+			fileSizeLimit: 500 * 1024 * 1024,    // 50 M
+			fileSingleSizeLimit: 500 * 1024 * 1024,    // 5 M
 			pick: {
 				id: '#filePicker',
 				label: '点击选择图片',
@@ -565,6 +565,11 @@ $(function() {
 			}
 		});
 
+        uploader.on( 'uploadAccept', function( file, response ) {
+            console.log(file);
+            console.log(response);
+        });
+
 		uploader.onError = function( code ) {
 			alert( '提示: ' + code );
 		};
@@ -688,28 +693,28 @@ $(function() {
 		upload : function(opts){
 		
 			this.opts = opts, par = window.parent, type = this.opts.type;
-
+			console.log(type);
 			if(type == 'Images'){
 			
 				this.opts.accept = {
 
 					title : '图片',
 				 
-					extensions : 'gif,jpg,jpeg,bmp,png',
+					extensions : 'gif,jpg,jpeg,bmp,png,mp4',
 				 
 					mimeTypes : 'image/gif,image/jpg,image/jpeg,image/png,image/bmp'
 
 				}
 			
 			}else if(type == 'Flash'){
-
+				//console.log('上传视屏。。。。。。');
 				this.opts.accept = {
 
 					title : '视频',
 				 
-					extensions : 'flash,swf,zip',
+					extensions : 'flash,swf,zip,mp4',
 				 
-					mimeTypes : 'image/*'
+					mimeTypes : 'video/*,audio/*,application/*'
 
 				}
 			

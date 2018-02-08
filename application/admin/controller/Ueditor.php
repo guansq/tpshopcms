@@ -420,7 +420,7 @@ class Ueditor extends Base
         $file = request()->file('file');
 
         if(empty($file))
-            $file = request()->file('upfile');    
+            $file = request()->file('upfile');
         $result = $this->validate(
             ['file' => $file],
             ['file'=>'image|fileSize:40000000|fileExt:jpg,jpeg,gif,png'],
@@ -531,24 +531,19 @@ class Ueditor extends Base
      */
     public function videoFileUp()
     {
-        //
-        //$input_file  ['upfile'] = $info['Filedata'];  一个是上传插件里面来的, 另外一个是 文章编辑器里面来的
-        // 获取表单上传文件
-        //$file = request()->file('Filedata');
-        //$dir = I('dir');
-        $dir = '/public/upload/videos/';
+        $dir = 'public/upload/videos/';
         $path = htmlspecialchars($dir, ENT_QUOTES);
+        //echo $path;die;
+        //$realpath = $_SERVER['DOCUMENT_ROOT'].$path;
         if (!file_exists($path)) {
             mkdir($path);
         }
-
-        //$input_file ['upfile'] = $info['Filedata'];  一个是上传插件里面来的, 另外一个是 文章编辑器里面来的
+        //echo $path;die;
         // 获取表单上传文件
         $file = request()->file('file');
         if (empty($file)) {
             $file = request()->file('upfile');
         }
-
         $result = $this->validate(
             ['file' => $file],
             ['file'=>'fileSize:40000000|fileExt:3gp,mp4,rmvb,mov,avi,m4v'],
@@ -557,15 +552,17 @@ class Ueditor extends Base
         if (true !== $result || empty($file)) {
             $state = "ERROR" . $result;
         } else {
+            //$info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
             $info = $file->rule(function ($file) {
-                return date('YmdHis_').input('Filename'); // 使用自定义的文件保存规则
-            })->move($path);
+                return date('Ymd_').input('name'); // 使用自定义的文件保存规则
+            })->move(ROOT_PATH.$path);
+            //print_r($info);die;
             if ($info) {
                 $state = "SUCCESS";
             } else {
                 $state = "ERROR" . $file->getError();
             }
-            $return_data['url'] = $path.$info->getSaveName();
+            $return_data['url'] = '/public/upload/videos/'.$info->getSaveName();
         }
 
         $return_data['title'] = 'video文件';
