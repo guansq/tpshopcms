@@ -1565,7 +1565,7 @@ span.close,.closer{
   line-height: 30px;
   text-align: center;
   position: absolute;
-  bottom:-220px;
+  bottom:-150px;
   left:45%;
   z-index:999;
   display: none;

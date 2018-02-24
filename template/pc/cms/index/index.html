@@ -223,10 +223,9 @@
 //      console.log(this);
        $('html,body').animate({
          scrollTop:  $(document.body).height() - $(window).height(),
-       },1000);
-       if( $(document.body).height() - $(window).height() === 0){
+       },1000,function () {
          $('.seeAll').removeClass('show')
-       }
+       });
     });
     $(window).scroll(function () {
       var scrollTop = $(document).scrollTop();
@@ -234,7 +233,7 @@
 //       console.log(scrollTop);
 //       console.log(DH);
 //       console.log(WH);
-      if(scrollTop > 300){
+      if(scrollTop > 400){
         $('.seeAll').addClass('show');
         $('.topBtn').addClass('show')
       }else{
