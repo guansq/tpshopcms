@@ -19,6 +19,9 @@
          height: 25rem;
       }
    }
+   #main01{
+      margin-bottom: 250px;
+   }
 </style>
 <body>
 
@@ -108,7 +111,9 @@
          </div>
       </div>
    </div>
-   <div class="seeAll"></div>
+   <div class="seeAll">
+      <!--<span></span>-->
+   </div>
 </main>
 
 <!--footer-s-->
@@ -118,6 +123,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
+    $("html,body").scrollTop(0);
     Global = {
       'curindex': 0,//当前swiper的索引位置
       'curclass': ''//当前swiper
@@ -211,11 +217,16 @@
       $(this).removeClass('hide');
     });
     
+   
+    
     $('.seeAll').click(function () {
-      console.log(this)
+//      console.log(this);
        $('html,body').animate({
          scrollTop:  $(document.body).height() - $(window).height(),
        },1000);
+       if( $(document.body).height() - $(window).height() === 0){
+         $('.seeAll').removeClass('show')
+       }
     });
     $(window).scroll(function () {
       var scrollTop = $(document).scrollTop();
