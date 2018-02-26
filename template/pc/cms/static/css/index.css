@@ -1,9 +1,6 @@
 /*
     index 首页
 */
-html, body {
-  overflow-x: hidden;
-}
 
 * {
   box-sizing: border-box;
@@ -1564,9 +1561,11 @@ span.close,.closer{
   height: 125px;
   line-height: 30px;
   text-align: center;
-  position: absolute;
+  /*position: absolute;*/
   bottom:-150px;
-  left:45%;
+  margin-left:45%;
+  margin-top: 50px;
+  margin-bottom: 150px;
   z-index:999;
   display: none;
   background: url("../image/index/seeAll.png") no-repeat;
