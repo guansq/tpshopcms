@@ -1567,12 +1567,21 @@ span.close,.closer{
   margin-top: 50px;
   margin-bottom: 150px;
   z-index:999;
-  display: none;
-  background: url("../image/index/seeAll.png") no-repeat;
+  /*display: none;*/
   background-size: cover;
+  text-align: center;
 }
+.seeAll span{
+  display: block;
+  width: 60px;
+  height:90px;
+  background: url("../image/index/seeAll.png") no-repeat;
+  background-size: contain;
+}
+
 .seeAll.show{
   display: block;
+  /*background: url("../image/index/seeAll.png") no-repeat;*/
 }
 .seeAll:hover{
   /*background: rgb(255,255,0);*/

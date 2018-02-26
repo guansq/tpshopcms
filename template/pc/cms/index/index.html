@@ -112,7 +112,7 @@
       </div>
    </div>
    <div class="seeAll">
-      <!--<span></span>-->
+      <span></span>
    </div>
 </main>
 
@@ -224,7 +224,7 @@
        $('html,body').animate({
          scrollTop:  $(document.body).height() - $(window).height(),
        },1000,function () {
-         $('.seeAll').removeClass('show')
+         $('.seeAll span').css('display','none');
        });
     });
     $(window).scroll(function () {
@@ -234,10 +234,10 @@
 //       console.log(DH);
 //       console.log(WH);
       if(scrollTop > 400){
-        $('.seeAll').addClass('show');
-        $('.topBtn').addClass('show')
+        $('.seeAll span').show();
+        $('.topBtn').addClass('show');
       }else{
-        $('.seeAll').removeClass('show');
+        $('.seeAll span').hide();
         $('.topBtn').removeClass('show')
       }
     })
