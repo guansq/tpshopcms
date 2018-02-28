@@ -1183,7 +1183,7 @@ ul.listImg{
   height: 90px;
   margin-top: 80px;
   margin-bottom: 40px;
-  background: #F7750B;
+  background: rgb(255,255,0);
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
@@ -1223,16 +1223,17 @@ p {
 }
 
 #ctaBlockFull p {
-  color: #fff;
+  color: #666;
   margin-top: 18px;
   padding-bottom: 0;
 }
 
 #ctaBlockFull a {
   float: right;
-  color: #ffffff;
+  color: #666;
 }
 .ctaButton {
+  color: #ffffff;
   margin-top: 29px;
   float: left;
   display: block;
@@ -1242,10 +1243,11 @@ p {
   -moz-border-radius: 8px;
   background: #5E5D5D;
 }
-a.ctaButton:hover{
-  background-color: #F7750B;
+a.ctaButton:hover .left{
+  color: rgb(255,255,0);
 }
 .ctaButton .left {
+  color: #ffffff;
   float: left;
   display: block;
   position: relative;
@@ -1264,15 +1266,20 @@ a.ctaButton:hover{
   float: left;
   display: block;
   height: 30px;
-  line-height:30px;
+  line-height:28px;
   width:30px;
   padding:0 10px;
+  transform: scale(1,1.5);
+  color: #ffffff;
+}
+a.ctaButton:hover .right{
+  color:rgb(255,255,0);
 }
 .ctaButton .right i{
   width: 10px;
   height: 10px;
   display: inline-block;
-  background-image: url('../image/index/icon_next@2x.png');
+  /*background-image: url('../image/index/icon_next@2x.png');*/
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
