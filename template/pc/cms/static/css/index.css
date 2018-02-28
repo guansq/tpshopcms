@@ -1018,7 +1018,7 @@ body {
   color: #f7750b;
 }
 #mainProductMenulist ul,#terugNaarOverzicht ul{
-  background: #f7750b;
+  background: rgb(255,255,0);
   margin-top:1px;
 }
 #terugNaarOverzicht ul{
@@ -1037,7 +1037,8 @@ body {
 }
 #mainProductMenulist a, #terugNaarOverzicht a {
   display: block;
-  color: #fff;
+  font-weight:600;
+  color: #666;
   text-transform: uppercase;
   font-size: 12px;
   line-height: 12px;
