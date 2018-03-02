@@ -63,7 +63,7 @@ function changeImg() {
         var index = $(this).index();
         $element.children('.dot').children('li')
         .eq(index).css({
-          'color': '#F7750B',
+          'color': '#FFCC00',
           'marginLeft': 40
         })
         .siblings().css({
@@ -73,7 +73,7 @@ function changeImg() {
         
         $element.children('.listimg').children('li')
         .eq(index).css({
-          'border': '1px solid #F7750B',
+          'border': '1px solid #FFCC00',
         })
         .siblings().css({
           'border': 'none',
@@ -98,12 +98,12 @@ function resetImgAndDot() {
   })
   //圆点重置
   $element.children('.dot').children('li')
-  .eq(0).css('color', '#F7750B')
+  .eq(0).css('color', '#FFCC00')
   .siblings().css('color', 'lightgray');
   
   //图片列表重置
   $element.children('.listimg').children('li')
-  .eq(0).css('border', '1px solid #F7750B')
+  .eq(0).css('border', '1px solid #FFCC00')
   .siblings().css('border', 'none');
 }
 
@@ -134,7 +134,7 @@ function addImgList() {
 function adjustDotStyle() {
   $element.children('.dot').children('li').css({
     listStyle: 'none',
-    color: '#F7750B',
+    color: '#FFCC00',
     marginLeft: '0px',
     marginBottom: '10px',
     fontSize: '16px',
@@ -157,7 +157,7 @@ function adjustListStyle() {
   $element.children('.listimg').children('li').css({
     cursor: 'pointer',
     listStyle: 'none',
-    border: '#f7750b',
+    border: '#FFCC00',
     marginLeft: '0px',
     marginBottom: '1px',
     padding: 0,
@@ -182,7 +182,7 @@ function changeDot() {
   $element.children('.dot').children('li')
   .click(function () {
     $(this).css({
-      'color': '#F7750B',
+      'color': '#FFCC00',
       'marginLeft': 40
     })
     .siblings().css({
@@ -198,7 +198,7 @@ function changeDot() {
     
     $element.children('.listimg').children('li')
     .eq(index).css({
-      'border': '1px solid #F7750B',
+      'border': '1px solid #FFCC00',
     })
     .siblings().css({
       'border': 'none',
@@ -215,7 +215,7 @@ function changeImgList() {
   $element.children('.listimg').children('li')
   .click(function () {
     $(this).css({
-      'border': '1px solid #f7750b',
+      'border': '1px solid #FFCC00',
     })
     .siblings().css({
       'border': 'none',
@@ -230,7 +230,7 @@ function changeImgList() {
     
     $element.children('.dot').children('li')
     .eq(index).css({
-      'color': '#F7750B',
+      'color': '#FFCC00',
       'marginLeft': 40
     })
     .siblings().css({
