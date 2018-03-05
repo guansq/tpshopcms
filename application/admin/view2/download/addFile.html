@@ -1,0 +1,46 @@
+<include file="public/layout" />
+
+
+<style type="text/css">
+    html, body {overflow: visible;}
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>下载管理 - 新增文件</h3>
+                <h5>下载文件管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" enctype="multipart/form-data" action="{:U('Download/downHandle')}" id="add_post" method="post" >
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit"><label><em>*</em>下载标题</label></dt>
+                <dd class="opt">
+                    <input type="text" value="" name="title" class="input-txt">
+                    <span class="err" id="err_title"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+
+            <dl class="row">
+                <dt class="tit"><label>文件</label></dt>
+                <dd class="opt">
+                    <input name="file_url" type="file" value="选择上传..." >
+                </dd>
+            </dl>
+
+            <div class="bot"><button type="submit"  class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</button></div>
+        </div>
+        <input type="hidden" name="act" value="add">
+
+    </form>
+</div>
+
+</body>
+</html>
