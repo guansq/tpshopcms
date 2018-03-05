@@ -27,7 +27,7 @@ class Download extends Base
         $data = $request->request();
         $keyword = $data['keyword'];
         $list = [
-            ['id'=>1,'title'=>'下载文件名','file_url'=>'/public/upload/all/file/20180304/39fb97400dcbeb837a9ba74810688077.docx']
+            ['id'=>1,'title'=>'下载文件名','file_url'=>'/public/upload/allfile/20180304/39fb97400dcbeb837a9ba74810688077.docx']
         ];
         $this->ajaxReturn(['status'=>1,'msg'=>'成功','result'=>$list]);
     }
