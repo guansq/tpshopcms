@@ -69,10 +69,10 @@
          <div class="download fr Optional_wrap28">
             <H3>DOWNLOAD</H3>
             <ul class="txt_content print-article download-zero">
-               <div class="password-bounce">
-                  <span>请输入密码</span>
+               <div class="password-bounce clearfloat">
                   <div class="passwordDiv">
-                     <label for="ipt" class="passwordLabel">
+                     <span class="fl">请输入密码</span>
+                     <label for="ipt" class="passwordLabel fr">
                         <ul>
                            <li></li>
                            <li></li>
@@ -85,25 +85,12 @@
                      <input type="password" id="password" name="password" maxlength="6">
                   </div>
                </div>
-               <li>
-                  <span> 内容下载1</span> <span class="downloading"></span>
-               </li>
-               <li>
-                  <span>内容下载2</span> <span class="downloading"></span>
-               </li>
-               <li>
-                  <span>内容下载3</span> <span class="downloading"></span>
-               </li>
-               <li>
-                  <span>内容下载4</span> <span class="downloading"></span>
-               </li>
             </ul>
          </div>
       </div>
    </div>
 </main>
 <div class="maskDiv" style="display: none"></div>
-
 <script type="text/javascript">
   function cover() {
     $('.maskDiv').show()
@@ -231,7 +218,21 @@
     })
   })
 
-
+  
+  $.ajax({
+    async:false,
+    type: "GET",
+    url: "http://45.78.47.112:8800/home/Download/getPwd",//+tab,
+    dataType: "json",
+    success: function (data) {
+      console.log(data)
+      if (data.status == 1){
+          var password  =  data.result
+      }else {
+        alert('请求加载出现问题')
+      }
+    }
+  });
 
   //密码框输入事件
   $('.close').click(function () {
@@ -245,9 +246,11 @@
     for (var i = 0; i < number; i++) {
       if (pw[i]) {
         $(list[i]).text('•');
-        if(pw.length == 6 && i==5){
+        if(pw.length == 6 && i==5 && pw === password ){
           $('.password-bounce').hide();
-          window.location.href = 'http://www.5dgz.com'
+          window.location.href = 'http://{$_SERVER[HTTP_HOST]}/public/upload/all/file/20180304/39fb97400dcbeb837a9ba74810688077.docx'
+        }else if(pw.length == 6 && i==5 && pw != password){
+          alert('密码错误')
         }
       } else {
         $(list[i]).text('');
@@ -260,6 +263,39 @@
     $('#password').focus();
     $('.passwordDiv ul li').text('')
   });
+//获取下载列表
+  $.ajax({
+    type: "GET",
+    url: "http://www.tpshopcms.com/index.php/home/Download/getDownload",
+    dataType: "json",
+    success: function (data) {
+      if (data.status == 1){
+        console.log(data);
+        $.each(data.result ,function (i,item) {
+          var html = '<li>' + '<span>'+ item.title + '</span>' + '<span class="downloading"></span>' + '</li>';
+          $('.download-zero').append(html);
+        } )
+      }else {
+        alert('Ajax Error')
+      }
+    }
+  });
+  
+ var password = ''
+  $.ajax({
+    async:false,
+    type: "GET",
+    url: "http://www.tpshopcms.com/index.php/home/Download/getPwd",//+tab,
+    dataType: "json",
+    success: function (data) {
+      if (data.status == 1){
+        password = data.result
+      }else {
+        alert('请求加载出现问题')
+      }
+    }
+  });
+ 
 </script>
 
 </body>

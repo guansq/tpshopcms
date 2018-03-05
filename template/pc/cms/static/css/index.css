@@ -1672,9 +1672,10 @@ span.close,.closer{
 
 .password-bounce{
   /*display: none;*/
+  margin:10px 0;
   background: #e8e8e8;
-  height: 100px;
-  width: 80%;
+  height: 50px;
+  width: 70%;
   position: absolute;
   z-index: 10;
   color: #333333;
@@ -1683,9 +1684,13 @@ span.close,.closer{
   /*opacity:0.5;*/
 }
 .password-bounce span{
+  display: block;
   z-index: 11;
   color: #333;
   font-size: 16px;
+  height: 40px;
+  line-height: 30px;
+  padding-left: 20px;
 }
 
 /*输入下载密码弹框*/
@@ -1695,7 +1700,7 @@ span.close,.closer{
   border-radius: 0.21rem;
   background: #e8e8e8;
   margin: auto;
-  width: 80%;
+  width: 60%;
   
 }
 
@@ -1726,16 +1731,17 @@ span.close,.closer{
 }
 
 .passwordLabel {
-  height: 60px;
+  height: 50px;
   clear: both;
   margin: .2rem 0;
+  width:60%;
 }
 
 .passwordLabel li {
   float: left;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   border: 1px solid #dedede;
   margin-left: -1px;
