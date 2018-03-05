@@ -71,12 +71,31 @@
             <ul class="txt_content print-article download-zero">
                <div class="password-bounce">
                   <span>请输入密码</span>
+                  <div class="passwordDiv">
+                     <label for="ipt" class="passwordLabel">
+                        <ul>
+                           <li></li>
+                           <li></li>
+                           <li></li>
+                           <li></li>
+                           <li></li>
+                           <li></li>
+                        </ul>
+                     </label>
+                     <input type="password" id="password" name="password" maxlength="6">
+                  </div>
                </div>
                <li>
                   <span> 内容下载1</span> <span class="downloading"></span>
                </li>
                <li>
-                  <span>内容下载12</span> <span class="downloading"></span>
+                  <span>内容下载2</span> <span class="downloading"></span>
+               </li>
+               <li>
+                  <span>内容下载3</span> <span class="downloading"></span>
+               </li>
+               <li>
+                  <span>内容下载4</span> <span class="downloading"></span>
                </li>
             </ul>
          </div>
@@ -208,10 +227,39 @@
     };
     
     $('.downloading').click(function () {
-      $('.password-bounce').show();
+//      $('.password-bounce').show();
     })
   })
 
+
+
+  //密码框输入事件
+  $('.close').click(function () {
+    $('.pay_psw').hide();
+    undercover();
+  })
+  $('.passwordDiv input').on('input', function (e) {
+    var number = 6;
+    var pw = $("input[name = 'password']").val();
+    var list = $('.passwordDiv ul li');
+    for (var i = 0; i < number; i++) {
+      if (pw[i]) {
+        $(list[i]).text('•');
+        if(pw.length == 6 && i==5){
+          $('.password-bounce').hide();
+          window.location.href = 'http://www.5dgz.com'
+        }
+      } else {
+        $(list[i]).text('');
+      };
+    };
+  });
+  //点击密码框清除密码
+  $('.passwordDiv ul').click(function () {
+    $("input[name = 'password']").val('');
+    $('#password').focus();
+    $('.passwordDiv ul li').text('')
+  });
 </script>
 
 </body>

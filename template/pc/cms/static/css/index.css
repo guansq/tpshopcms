@@ -1657,6 +1657,9 @@ span.close,.closer{
   margin-bottom: 10px;
   text-align: left;
 }
+.download-zero .passwordDiv li{
+  background: #e8e8e8;
+}
 .download-zero li span:nth-child(1){
   position: relative;
   top:-5px;
@@ -1666,22 +1669,103 @@ span.close,.closer{
   width: 70%;
   padding-left: 10px;
 }
+
 .password-bounce{
-  display: none;
-  background: #333;
+  /*display: none;*/
+  background: #e8e8e8;
   height: 100px;
   width: 80%;
   position: absolute;
   z-index: 10;
   color: #333333;
-  border-radius: 10px;
+  border-radius: 5px;
   left:10%;
-  opacity:0.5;
+  /*opacity:0.5;*/
+}
+.password-bounce span{
+  z-index: 11;
+  color: #333;
+  font-size: 16px;
 }
 
+/*输入下载密码弹框*/
 
+.pay_psw {
+  padding: 3vw;
+  border-radius: 0.21rem;
+  background: #e8e8e8;
+  margin: auto;
+  width: 80%;
+  
+}
 
+.pay_psw .title {
+  height: 4.0rem;
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 
+.pay_psw .title span:nth-child(1) {
+  width: 60vw;
+  text-align: center;
+  line-height: 0.4rem;
+}
+
+.passwordDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.passwordDiv ul {
+  list-style: none;
+  padding-left: 2rem;
+}
+
+.passwordLabel {
+  height: 60px;
+  clear: both;
+  margin: .2rem 0;
+}
+
+.passwordLabel li {
+  float: left;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border: 1px solid #dedede;
+  margin-left: -1px;
+}
+
+.passwordDiv input {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  border: 0;
+}
+
+.pay_psw .tips {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #999999;
+  width: 80vw;
+}
+
+.pay_psw .tips p {
+  padding: 0 25px;
+}
+
+.pay_psw .tips p span {
+  color: red;
+  display: inline-block;
+}
+/*支付密码框end  */
 
 
 
