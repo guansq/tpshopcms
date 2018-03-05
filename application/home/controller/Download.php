@@ -8,6 +8,7 @@
 namespace app\home\controller;
 
 use think\Db;
+use think\Request;
 
 class Download extends Base
 {
