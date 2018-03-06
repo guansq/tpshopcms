@@ -68,7 +68,7 @@ body {
   left: 0;
   top: 0;
   /*border-top: 1px solid #565656;*/
-  background: rgb(255,255,0);
+  background: #FFCC00;
 }
 
 .content {
@@ -117,7 +117,7 @@ body {
 
 .hoofdmenu .item-f.active > a,
 .hoofdmenu .item-f:hover > a {
-  color: rgb(255,255,0);
+  color: #FFCC00;
 }
 
 .sub-nav {
@@ -128,7 +128,7 @@ body {
   margin-left: -60px;
   width: 120px;
   height: 0;
-  border-top: 2px solid rgb(255,255,0);
+  border-top: 2px solid #FFCC00;
   background: rgb(0,0,0);
   z-index: 1000;
   transition: height .5s, opacity .9s;
@@ -151,14 +151,14 @@ body {
   font-size: 11px;
   text-align: center;
   text-transform: uppercase;
-  border-top: 1px solid rgb(255,255,0);
+  border-top: 1px solid #FFCC00;
   color: #f1f1f1;
   transition: all .36s;
 }
 
 .sub-nav .secondary-item:hover > a,
 .sub-navs .secondary-items:hover a {
-  background:rgb(255,255,0);
+  background:#FFCC00;
   color: #fff;
 }
 
@@ -351,13 +351,13 @@ body {
   width: 100%;
   font-size: 28px;
   line-height: 30px;
-  color: rgb(255,255,0);
+  color: #FFCC00;
   padding-bottom: 45px;
   text-align: left;
 }
 
 .col_f7750b {
-  color: rgb(255,255,0);
+  color: #FFCC00;
 }
 
 .col_000 {
@@ -458,7 +458,7 @@ body {
 }
 
 .contentRight .swiper-btn:hover {
-  background: rgb(255,255,0);
+  background: #FFCC00;
 }
 
 .contentRight .swiper-b-prev {
@@ -577,7 +577,7 @@ body {
 }
 
 .footer .footer-top .hoofdmenu li:hover a {
-  color: rgb(255,255,0);
+  color: #FFCC00;
 }
 
 .footer-bottom {
@@ -720,7 +720,7 @@ body {
   float: left;
   border-radius: 5px;
   -webkit-border-radius: 5px;
-  border: 1px solid rgb(255,255,0);
+  border: 1px solid #FFCC00;
 }
 
 .footerRight li a {
@@ -741,7 +741,7 @@ body {
 .footerRight li:hover a {
   border-radius: 5px;
   -webkit-border-radius: 5px;
-  border: 0.2px solid rgb(255,255,0);
+  border: 0.2px solid #FFCC00;
   color: #fff;
 }
 
@@ -1016,10 +1016,10 @@ body {
 }
 
 .title-a a:hover, .title-a a:nth-child(3) {
-  color: rgb(255,255,0);
+  color: #FFCC00;
 }
 #mainProductMenulist ul,#terugNaarOverzicht ul{
-  background: rgb(255,255,0);
+  background: #FFCC00;
   margin-top:1px;
 }
 #terugNaarOverzicht ul{
@@ -1080,7 +1080,7 @@ ul.listImg{
 }
 
 .swiper-pagination-bullet:hover{
-  border:1px solid rgb(255,255,0);
+  border:1px solid #FFCC00;
 }
 .swiper-pagination-bullet{
   width: 100px;
@@ -1189,7 +1189,7 @@ ul.listImg{
   height: 90px;
   margin-top: 80px;
   margin-bottom: 40px;
-  background: rgb(255,255,0);
+  background: #FFCC00;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
@@ -1250,7 +1250,7 @@ p {
   background: #5E5D5D;
 }
 a.ctaButton:hover .left{
-  color: rgb(255,255,0);
+  color: #FFCC00;
 }
 .ctaButton .left {
   color: #ffffff;
@@ -1279,7 +1279,7 @@ a.ctaButton:hover .left{
   color: #ffffff;
 }
 a.ctaButton:hover .right{
-  color:rgb(255,255,0);
+  color:#FFCC00;
 }
 .ctaButton .right i{
   width: 10px;
@@ -1409,7 +1409,9 @@ span.close,.closer{
   height: 20px;
   background-repeat: no-repeat;
 }
-
+.txt_content {
+  flex-wrap: wrap;
+}
 
 .txt_content li{
   width:45%;
@@ -1501,7 +1503,7 @@ span.close,.closer{
   color: #333;
   border-radius:20px;
   -webkit-border-radius: 20px;
-  background: rgb(255,255,0);
+  background: #FFCC00;
   display: block;
   height:40px;
   line-height: 40px;
@@ -1564,14 +1566,14 @@ span.close,.closer{
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -o-transition: all  0.5s;
-  border:1px solid rgb(255,255,0);
+  border:1px solid #FFCC00;
 }
 .navMenu li:hover a{
   display: inline-block;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -o-transition: all  0.5s;
-  color:rgb(255,255,0);
+  color:#FFCC00;
 }
 .seeAll{
   border-radius: 8px;
@@ -1603,7 +1605,7 @@ span.close,.closer{
   /*background: url("../image/index/seeAll.png") no-repeat;*/
 }
 .seeAll:hover{
-  /*background: rgb(255,255,0);*/
+  /*background: #FFCC00;*/
   color: #ffffff;
   opacity: 1;
 }
