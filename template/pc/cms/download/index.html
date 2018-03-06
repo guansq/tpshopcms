@@ -33,8 +33,9 @@
                      </div>
                   </li>
                </volist>
-
+            
             </ul>
+         
          </div>
          <div class="download fr Optional_wrap28">
             <H3>DOWNLOAD</H3>
@@ -182,61 +183,27 @@
       }
       $(li).find('.NieuwsContentList li').toggle(300);
     };
-<<<<<<< HEAD
-  
-    $('.downloading').click(function () {
-      id = $(this).attr('id');
-      file_url = $(this).attr('file_url')
-      $('.password-bounce').show();
-      $('.passwordDiv input').on('input', function (e) {
-        var number = 6;
-        var pw = $("input[name = 'password']").val();
-        var list = $('.passwordDiv ul li');
-        for (var i = 0; i < number; i++) {
-          if (pw[i]) {
-            $(list[i]).text('•');
-            if(pw.length == 6 && i==5 && pw === password ){
-              $('.password-bounce').hide();
-              window.location.href = 'http://{$_SERVER[HTTP_HOST]}'+ file_url;
-            }else if(pw.length == 6 && i==5 && pw != password){
-              alert('密码错误')
-            }
-          } else {
-            $(list[i]).text('');
-          };
-        };
-      });
-      //点击密码框清除密码
-      $('.passwordDiv ul').click(function () {
-        $("input[name = 'password']").val('');
-        $('#password').focus();
-        $('.passwordDiv ul li').text('')
-      });
-    })
-  
-=======
-
->>>>>>> 89a596f4c1f19db08fd72119917189ced2e4c789
+    
   })
-
+  
   function showurl(id){
-      layer.prompt({ormType: 1, title: '请输入登录密码进行查看'},
-          function(value, index, elem){
-            if(value == password){
-                //alert('密码正确');
-                url = down[id];
-                layer.closeAll();
-                if(url == ''){
-                    alert('没有下载文件');
-                    return;
-                }
-                window.location.href = 'http://{$_SERVER[HTTP_HOST]}'+url;
-
-            }else{
-                layer.closeAll();
-                alert('密码错误');
+    layer.prompt({ormType: 1, title: '请输入登录密码进行查看'},
+        function(value, index, elem){
+          if(value == password){
+            //alert('密码正确');
+            url = down[id];
+            layer.closeAll();
+            if(url == ''){
+              alert('没有下载文件');
+              return;
             }
-          });
+            window.location.href = 'http://{$_SERVER[HTTP_HOST]}'+url;
+            
+          }else{
+            layer.closeAll();
+            alert('密码错误');
+          }
+        });
   }
   
   $.ajax({
@@ -247,21 +214,18 @@
     success: function (data) {
       console.log(data)
       if (data.status == 1){
-          var password  =  data.result
+        var password  =  data.result
       }else {
         alert('请求加载出现问题')
       }
     }
   });
-
+  
   //密码框输入事件
   $('.close').click(function () {
     $('.pay_psw').hide();
     undercover();
   })
-<<<<<<< HEAD
-
-=======
   $('.passwordDiv input').on('input', function (e) {
     var number = 6;
     var pw = $("input[name = 'password']").val();
@@ -287,8 +251,7 @@
     $('.passwordDiv ul li').text('')
   });
   down = [];
->>>>>>> 89a596f4c1f19db08fd72119917189ced2e4c789
-//获取下载列表
+  //获取下载列表
   $.ajax({
     type: "GET",
     url: "http://{$_SERVER[HTTP_HOST]}/index.php/home/Download/getDownload",
@@ -297,26 +260,18 @@
       if (data.status == 1){
         console.log(data);
         $.each(data.result ,function (i,item) {
-<<<<<<< HEAD
-          var html = '<li>' + '<span>'+ item.title + '</span>' + '<span class="downloading"></span>' + '</li>';
-          $('.downloading').attr({
-            'id':item.id,  "file_url" : item.file_url})
-          $('.download-zero').append(html);
-        })
-=======
           var html = '<li>' + '<span>'+ item.title + '</span>' + '<span onclick="showurl('+item.id+')" class="downloading"></span>' + '</li>';
           down[item.id] = item.file_url;
           $('.download-zero').append(html);
         } )
-          console.log(down);
->>>>>>> 89a596f4c1f19db08fd72119917189ced2e4c789
+        console.log(down);
       }else {
         alert('Ajax Error')
       }
     }
   });
   
- password = ''
+  password = ''
   $.ajax({
     async:false,
     type: "GET",
