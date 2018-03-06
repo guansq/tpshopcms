@@ -1,127 +1,16 @@
-<!--<footer id="footer" class="footer">-->
-<!--<div class="footer-top" style="display: none">-->
-<!--<div class="content">-->
-<!--<div class="fl logos">-->
-<!--<a href="/">-->
-<!--<span class="up"></span>-->
-<!--<span class="hover"></span>-->
-<!--</a>-->
-<!--</div>-->
-<!--<div class="fr disableSelection hoofdmenu">-->
-<!--<ul>-->
-<!--<li class="item-f active">-->
-<!--<a href="javascript:void(0);">home</a>-->
-<!--</li>-->
-<!--<div class="content">-->
-<!--<volist name="menu" id="item">-->
-<!--<eq name="item.level" value="0">-->
-<!--<li class="item-f">-->
-<!--<a href="javascript:void(0);">{$item.name}</a>-->
-<!--</li>-->
-<!--</eq>-->
-<!--</volist>-->
-<!--<div class="clear"></div>-->
-<!--</div>-->
-<!--</ul>-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--<div id="topBtn" class="go-top">-->
-<!--<a class="leesMeerHome" href="javascript:void(0);">-->
-<!--<span class="left">-->
-<!--<span class="text">Go top</span>-->
-<!--<span class="up"></span>-->
-<!--<span class="hover"></span>-->
-<!--</span>-->
-<!--<span class="right">-->
-<!--<span class="icons"></span>-->
-<!--<span class="up"></span>-->
-<!--<span class="hover"></span>-->
-<!--</span>-->
-<!--</a>-->
-<!--</div>-->
-<!--<div class="clear"></div>-->
-<!--</div>-->
-<!--</div>-->
+
 <div class="topBtn">
    <div id="topBtn" class="go-top">
       <a class="leesMeerHome" href="javascript:void(0);">
          <span></span>
-      <!--<span class="left">-->
-      <!--<span class="text">Go top</span>-->
-      <!--<span class="up"></span>-->
-        <!--<span class="hover"></span>-->
-      <!--</span>-->
-         <!--<span class="right">-->
-        <!--<span class="icons"></span>-->
-         <!--<span class="up"></span>-->
-         <!--<span class="hover"></span>-->
-      <!--</span>-->
       </a>
    </div>
 </div>
-
-<!--<header id="header" class="header">-->
-   <!--<div class="content ffc">-->
-      <!--<div class="fr disableSelection hoofdmenu">-->
-         <!--<ul>-->
-            <!--<li class="item-f active">-->
-               <!--<a href="/">home</a>-->
-            <!--</li>-->
-            <!--<volist name="menu" id="item">-->
-               <!--<eq name="item.level" value="0">-->
-                  <!--<eq name="item.has_children" value="1">-->
-                     <!--<li class="item-f has-sub">-->
-                        <!--<a href="{$item.url}">{$item.name}</a>-->
-                        <!--<ul class="sub-nav">-->
-                           <!--<volist name="menu" id="level1">-->
-                              <!--<if condition="($level1.level == 1) AND ($level1.parent_id == $item.id) ">-->
-                                 <!--<eq name="level1.has_children" value="1">-->
-                                    <!--<li class="secondary-item has-subs">-->
-                                       <!--<a href="{$level1.url}">{$level1.name}</a>-->
-                                       <!--<ul class="sub-navs">-->
-                                          <!--<volist name="menu" id="level2">-->
-                                             <!--<if condition="($level2.level == 2) AND ($level2.parent_id == $level1.id) ">-->
-                                                <!--<li class="secondary-item">-->
-                                                   <!--<a href="{$level2.url}">{$level2.name}</a>-->
-                                                <!--</li>-->
-                                             <!--</if>-->
-                                          <!--</volist>-->
-                                       <!--</ul>-->
-                                    <!---->
-                                    <!--</li>-->
-                                    <!---->
-                                    <!--<else/>-->
-                                    <!---->
-                                    <!--<li class="secondary-item">-->
-                                       <!--<a href="{$level1.url}">{$level1.name}</a>-->
-                                    <!--</li>-->
-                                 <!--</eq>-->
-                              <!---->
-                              <!--</if>-->
-                           <!--</volist>-->
-                        <!--</ul>-->
-                     <!---->
-                     <!--</li>-->
-                     <!--<else/>-->
-                     <!--<li class="item-f">-->
-                        <!--<a href="{$item.url}">{$item.name}</a>-->
-                     <!--</li>-->
-                  <!--</eq>-->
-               <!---->
-               <!--</eq>-->
-            <!--</volist>-->
-            <!--<div class="clear"></div>-->
-         <!--</ul>-->
-      <!--</div>-->
-      <!--<div class="clear"></div>-->
-   <!--</div>-->
-<!--</header>-->
 
 <div class="footer-bottom" ondragstart="return false">
    <div class="content fixWauto clearfloat">
       <div class="fr footerLeft ">
          <div class="clearfloat ffc_sb">
-            <!--<div class="CUNTRE"><span>CUNTRE</span></div>-->
-            
             <div class="contactInfo fl">
                info@funrundisplay.com<br>
                Tel:+86(0)512 650 867 27
@@ -146,13 +35,6 @@
          </a>
       </div>
       <!--logo end-->
-      <!--<ul class="fl footerRight">-->
-      <!--<volist name="bottom" id="item">-->
-      <!--<li>-->
-      <!--<a href="{$item.ad_link}" <eq name="$item[target]" value="1"> target="_blank"</eq>>{$item.ad_name}</a>-->
-      <!--</li>-->
-      <!--</volist>-->
-      <!--</ul>-->
       <div class="fl navMenu">
          <ul class="clearfloat">
             <li><a href="{:url('/home/produce')}"> produce</a></li>
@@ -166,8 +48,6 @@
             <li><a href="">cuntre</a></li>
          </ul>
       </div>
-
-      <!--<div class="clear"></div>-->
    </div>
 </div>
 </footer>

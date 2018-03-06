@@ -13,55 +13,57 @@
       </div>
       <div id="headerPhoto" class="producten"></div>
       <div class="shadow"></div>
-      <div class="fixWauto downloadDiv clearfloat">
-         <div class="print fl">
-            <h3>{$item.title}</h3>
-            <ul class="txt_content print-article">
-               <volist name="curArticle" id="item">
-                  <li>
-                     <p class="title-p"><span class="src">{$item.publish_time|date="y-m-d",###}</span></p> <span class="close" style="display: none"></span>
-                     <h3 class="tit">{$item.title}</h3>
-                     <notempty name="$item[thumb]">
-                        <p>
-                           <img src="{$item.thumb}" alt="">
-                        </p>
-                     </notempty>
-                     {$item.content}
-                     <div class="less_meer ffc" style="opacity: 1; display: none;">
-                        <span class="left"> less meer</span>
-                        <span class="right">+</span>
-                     </div>
-                  </li>
-               </volist>
-            
-            </ul>
-         
-         </div>
-         <div class="download fr Optional_wrap28">
-            <H3>DOWNLOAD</H3>
-            <ul class="txt_content print-article download-zero">
-               <!--<div class="password-bounce clearfloat">
-                  <div class="passwordDiv">
-                     <span class="fl">请输入密码</span>
-                     <label for="ipt" class="passwordLabel fr">
-                        <ul>
-                           <li></li>
-                           <li></li>
-                           <li></li>
-                           <li></li>
-                           <li></li>
-                           <li></li>
-                        </ul>
-                     </label>
-                     <input type="password" id="password" name="password" maxlength="6">
+   </div>
+   <div class="fixWauto downloadDiv clearfloat">
+      <div class="print fl">
+         <h3>{$item.title}开发你死定了丰盛的</h3>
+         <ul class="txt_content print-article">
+            <volist name="curArticle" id="item">
+               <li>
+                  <p class="title-p"><span class="src">{$item.publish_time|date="y-m-d",###}</span></p> <span class="close" style="display: none"></span>
+                  <h3 class="tit">{$item.title}</h3>
+                  <notempty name="$item[thumb]">
+                     <p>
+                        <img src="{$item.thumb}" alt="">
+                     </p>
+                  </notempty>
+                  {$item.content}
+                  <div class="less_meer ffc" style="opacity: 1; display: none;">
+                     <span class="left"> less meer</span>
+                     <span class="right">+</span>
                   </div>
-               </div>-->
-            </ul>
-         </div>
+               </li>
+            </volist>
+         
+         </ul>
+      
+      </div>
+      <div class="download fr Optional_wrap28">
+         <H3>DOWNLOAD</H3>
+         <ul class="txt_content print-article download-zero">
+            <!--<div class="password-bounce clearfloat">
+               <div class="passwordDiv">
+                  <span class="fl">请输入密码</span>
+                  <label for="ipt" class="passwordLabel fr">
+                     <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                     </ul>
+                  </label>
+                  <input type="password" id="password" name="password" maxlength="6">
+               </div>
+            </div>-->
+         </ul>
       </div>
    </div>
 </main>
 <div class="maskDiv" style="display: none"></div>
+<include file="public/footer"/>
+
 <script type="text/javascript">
   function cover() {
     $('.maskDiv').show()
