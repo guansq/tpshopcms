@@ -66,6 +66,7 @@ class Article extends Base
         if ($article) {
             $parent = D('article_cat')->where("cat_id", $article['cat_id'])->find();
             $this->assign('cat_name', $parent['cat_name']);
+            $article['content'] = htmlspecialchars_decode($article['content']);
             $this->assign('article', $article);
         }
         return $this->fetch();

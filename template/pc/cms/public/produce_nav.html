@@ -4,7 +4,7 @@
             <volist name="cat_list" id="item">
                 <eq name="$item[level]" value="0">
                     <li <if $item[cat_id] eq $Think.get.cat_id>class="cur"</if>>
-                    <a href="{:url('',array('cat_id'=>$item[cat_id]))}">{$item.name}</a>
+                    <a href="{:url('/home/Produce/index',array('cat_id'=>$item[cat_id]))}">{$item.name}</a>
                     </li>
                 </eq>
             </volist>
