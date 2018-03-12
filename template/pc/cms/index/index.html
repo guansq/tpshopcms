@@ -108,7 +108,7 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner5" id="item">
-               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <img class="swiper-slide" style="cursor:pointer" onclick="openurl('{$item.ad_link}')" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
             </volist>
             <!--<img class="swiper-slide" data-title="这是我的图片标题99" data-title-desc="这是我很长很长的标题描述99" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
             <!--<img class="swiper-slide" data-title="这是我的图片标题10" data-title-desc="这是我很长很长的标题描述10" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
@@ -246,6 +246,8 @@
       }
     })
   })
-
+   function openurl(url){
+      window.location.href = url;
+   }
 </script>
 </html>
