@@ -1520,9 +1520,11 @@ span.close,.closer{
   width:100%;
   position: absolute;
   top:0;
+  cursor: pointer;
 }
 .logo_pic.hide{
   background:transparent;
+  z-index: 0;
 }
 
 .video {
@@ -1777,5 +1779,9 @@ span.close,.closer{
 
 
 
+/*首页修改样式续加*/
 
-
+.bag .swiper-slide img{
+  height:100%;
+  width:100%;
+}

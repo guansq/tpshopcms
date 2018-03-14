@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <include file="public/miniheader"/>
-<head>
-    <meta charset="UTF-8">
-    <title>download</title>
-</head>
+<style>
+    @media screen and (min-width: 1300px) {
+        main, .main01 .wrap {
+            margin: 0 auto;
+            margin-top: 20px;
+            width: 1300px;
+        }
+    }
+   .footer-bottom{
+       position: absolute;
+       bottom:0;
+   }
+    .main01 p{
+        font-size: 16px!important;
+    }
+</style>
 <body>
-<main id="main01" class="main01">
+
+<main id="main01" class="main01 mainDetail">
     {$article['content']}
 </main>
-<div class="maskDiv" style="display: none"></div>
-<include file="public/footer"/>
 
+<!--footer-s-->
+<include file="public/footer"/>
+<!--footer-e-->
 </body>
+
 </html>

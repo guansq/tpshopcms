@@ -19,8 +19,8 @@
          height: 25rem;
       }
    }
-   #main01{
-      /*margin-bottom: 250px;*/
+   .swiper-slide{
+      cursor: pointer;
    }
 </style>
 <body>
@@ -72,7 +72,9 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner3" id="item">
-               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a href="{$item.ad_link}" target="_blank">
+                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               </a>
             </volist>
             <!--<img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
             <img class="swiper-slide" data-title="这是我的图片标题66" data-title-desc="这是我很长很长的标题描述66" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
@@ -90,7 +92,9 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner4" id="item">
-               <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a href="{$item.ad_link}" target="_blank">
+                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               </a>
             </volist>
             <!--<img class="swiper-slide" data-title="这是我的图片标题77" data-title-desc="这是我很长很长的标题描述77" src="__STATIC__/image/index/roll_banners.jpg" alt="">
             <img class="swiper-slide" data-title="这是我的图片标题88" data-title-desc="这是我很长很长的标题描述88" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
@@ -108,9 +112,10 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner5" id="item">
-               <img class="swiper-slide" onclick="openurl('{$item.ad_link}')" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a href="{$item.ad_link}" target="_blank">
+                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               </a>
             </volist>
-
          </div>
       </div>
    </div>
@@ -152,7 +157,6 @@
       },
       autoplay: false,
       loop: true,
-      grabCursor: true,
       delay: 1000
     });
     var flag = true
