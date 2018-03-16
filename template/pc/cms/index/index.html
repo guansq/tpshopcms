@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html>
-<!--head-s-->
 <include file="public/miniheader"/>
-<!--head-e-->
-<!--header-s-->
-<!--<include file="public/header"/>-->
-<!--header-e-->
 <style>
    @media screen and (min-width: 1300px) {
       main, .main01 .wrap {
@@ -13,15 +8,10 @@
          margin-top: 20px;
          width: 1300px;
       }
-      
       .main01 .wrap .bag {
          width: 25rem;
          height: 25rem;
       }
-   }
-   
-   .swiper-slide {
-      cursor: pointer;
    }
 </style>
 <body>
@@ -36,8 +26,6 @@
                   <img data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
                </a>
             </volist>
-            <!--<img class="swiper-slide" data-title="这是我的图片标题11" data-title-desc="这是我很长很长的标题描述11" src="__STATIC__/image/index/roll_banners.jpg" alt="">
-            <img class="swiper-slide" data-title="这是我的图片标题22" data-title-desc="这是我很长很长的标题描述22" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
          </div>
       </div>
       
@@ -52,12 +40,10 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner2" id="item">
-               <a href="https://www.baidu.com" target="_blank">
-                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a class="swiper-slide" href="https://www.baidu.com" target="_blank">
+                  <img  data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
                </a>
             </volist>
-            <!--<img class="swiper-slide" data-title="这是我的图片标题33" data-title-desc="这是我很长很长的标题描述33" src="__STATIC__/image/index/roll_banners.jpg" alt="">-->
-            <!--<img class="swiper-slide" data-title="这是我的图片标题44" data-title-desc="这是我很长很长的标题描述44" src="__STATIC__/image/index/zipper_walls.jpg" alt="">-->
          </div>
       </div>
       
@@ -73,8 +59,8 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner3" id="item">
-               <a href="https://www.baidu.com" target="_blank">
-                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a class="swiper-slide" href="https://www.baidu.com" target="_blank">
+                  <img  data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
                </a>
             </volist>
             <!--<img class="swiper-slide" data-title="这是我的图片标题55" data-title-desc="这是我很长很长的标题描述55" src="__STATIC__/image/index/roll_banners.jpg" alt="">
@@ -93,8 +79,8 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner4" id="item">
-               <a href="https://www.baidu.com" target="_blank">
-                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a class="swiper-slide" href="https://www.baidu.com" target="_blank">
+                  <img  data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
                </a>
             </volist>
          </div>
@@ -111,8 +97,8 @@
          <div class="logo_pic"></div>
          <div class="swiper-wrapper">
             <volist name="banner5" id="item">
-               <a href="{$item.ad_link}" target="_blank">
-                  <img class="swiper-slide" data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
+               <a class="swiper-slide" href="{$item.ad_link}" target="_blank">
+                  <img  data-title="{$item.ad_name}" data-title-desc="{$item.ad_desc}" src="{$item.ad_code}" alt="">
                </a>
             </volist>
          </div>
