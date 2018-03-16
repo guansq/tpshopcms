@@ -1520,9 +1520,11 @@ span.close,.closer{
   width:100%;
   position: absolute;
   top:0;
+  right:0;
   cursor: pointer;
 }
 .logo_pic.hide{
+  display: none;
   background:transparent;
   z-index: 0;
 }
