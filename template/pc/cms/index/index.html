@@ -147,8 +147,9 @@
 //      console.log(this)
       mySwiper[i].autoplay.start();
       var img = mySwiper[i].slides[Global.curindex];
-      var title = $(img).attr('data-title');
-      var txt = $(img).attr('data-title-desc');
+      console.log(img)
+      var title = $(img).find('img').attr('data-title');
+      var txt = $(img).find('img').attr('data-title-desc');
       //var title =  $(this).find('.swiper-wrapper').find('img').attr('data-title');
       //var txt =  $(this).find('.swiper-wrapper').find('img').attr('data-title-desc');
       if (i == 0 || i == 2) {
