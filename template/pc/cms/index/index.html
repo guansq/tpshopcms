@@ -193,8 +193,8 @@
       var img = swiper.slides[index];
       Global.curindex = index;
       if (Global.curclass != '') {
-        $(Global.curclass).find('h3').html($(img).attr('data-title'));
-        $(Global.curclass).find('p').html($(img).attr('data-title-desc'))
+        $(Global.curclass).find('h3').html($(img).find('img').attr('data-title'));
+        $(Global.curclass).find('p').html($(img).find('img').attr('data-title-desc'))
       }
     }
     
