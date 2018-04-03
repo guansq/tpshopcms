@@ -16,7 +16,7 @@
    </div>
    <div class="fixWauto downloadDiv clearfloat">
       <div class="print fl">
-         <h3>{$item.title}开发你死定了丰盛的</h3>
+         <h3>{$item.title}</h3>
          <ul class="txt_content print-article">
             <volist name="curArticle" id="item">
                <li>
@@ -34,9 +34,9 @@
                   </div>
                </li>
             </volist>
-         
+
          </ul>
-      
+
       </div>
       <div class="download fr Optional_wrap28">
          <H3>DOWNLOAD</H3>
@@ -68,13 +68,13 @@
   function cover() {
     $('.maskDiv').show()
   }
-  
+
   function undercover() {
     $('.maskDiv').hide()
   }
-  
+
   $(function () {
-    
+
     $('.txt_content li').each(function (i, item) {
       $(item).hover(() => {
 //        console.log(this);
@@ -82,13 +82,13 @@
       }, () => {
         $(item).find('.less_meer').stop().fadeOut(3000);
       });
-      
+
       var pList = $(item).find('p')
 //      console.log(pList);
       for (var i = 3; i < pList.length; i++) {
         $(pList[i]).hide()
       }
-      
+
       $('.less_meer').click(function () {
 //        console.log(this);
         $(this).parent('li').addClass('bounce');
@@ -103,7 +103,7 @@
         }
         cover()
       });
-      
+
       var thishover = $(item)
       $('.close').click(function () {
         $('.bounce').removeClass('bounce');
@@ -120,9 +120,9 @@
           $(thishover).find('.less_meer').stop().fadeOut(300);
         });
       });
-      
+
     });
-    
+
     $('.inli').each(function (i, item) {
       $(item).hover(() => {
             $('.hoverturn').css('color', '#F7750B');
@@ -133,8 +133,8 @@
           }
       )
     })
-    
-    
+
+
     showcontent = (obj) => {
       var li = $(obj).parent('.outli')
 //      console.log($(li))
@@ -151,7 +151,7 @@
         }, () => {
           $(this).find('.see_more').stop().fadeOut(300)
         })
-        
+
         $('.see_more').click(function () {
           $('.closer').show();
           $(this).parent('.inli').addClass('bounce');
@@ -160,7 +160,7 @@
           $(this).siblings('.para').find('p').show();
           cover();
         })
-        
+
         var hover = $(item)
         $('.closer').click(function () {
           $('.closer').hide();
@@ -174,7 +174,7 @@
           })
         })
       })
-      
+
       var i = $(li).find('h3').find('i');
       if (i.hasClass('up')) {
         i.removeClass('up');
@@ -185,11 +185,11 @@
       }
       $(li).find('.NieuwsContentList li').toggle(300);
     };
-    
+
   })
-  
+
   function showurl(id){
-    layer.prompt({ormType: 1, title: '请输入登录密码进行查看'},
+    layer.prompt({ormType: 1, title: 'password',btn:['OK','cancel']},
         function(value, index, elem){
           if(value == password){
             //alert('密码正确');
@@ -200,14 +200,14 @@
               return;
             }
             window.location.href = 'http://{$_SERVER[HTTP_HOST]}'+url;
-            
+
           }else{
             layer.closeAll();
             alert('密码错误');
           }
         });
   }
-  
+
   $.ajax({
     async:false,
     type: "GET",
@@ -222,7 +222,7 @@
       }
     }
   });
-  
+
   //密码框输入事件
   $('.close').click(function () {
     $('.pay_psw').hide();
@@ -272,7 +272,7 @@
       }
     }
   });
-  
+
   password = ''
   $.ajax({
     async:false,
