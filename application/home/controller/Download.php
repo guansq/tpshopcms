@@ -42,7 +42,7 @@ class Download extends Base
 
     public function getPwd(){
         $config_id = 87;
-        $pwd = D('config')->where('id', $config_id)->value('value');
+        $pwd = Db::name('config')->where('id', $config_id)->value('value');
         $this->ajaxReturn(['status'=>1,'msg'=>'成功','result'=>$pwd]);
     }
 
@@ -52,7 +52,7 @@ class Download extends Base
         if (!empty($keyword)) {
             $where['title'] = ['like', "%$keyword%"];
         }
-        $list = D('download')::where($where)->order('sort asc')->select();
+        $list = Db::name('download')->where($where)->order('sort asc')->select();
         /*$list = [
             ['id'=>1,'title'=>'下载文件名','file_url'=>'/public/upload/allfile/20180304/39fb97400dcbeb837a9ba74810688077.docx']
         ];*/
