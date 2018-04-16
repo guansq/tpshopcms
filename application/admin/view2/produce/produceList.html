@@ -51,6 +51,9 @@
                         <th class="sign" axis="col0">
                             <div style="width: 24px;"><i class="ico-check"></i></div>
                         </th>
+                        <th align="left" abbr="produce_id" axis="col3" class="">
+                            <div style="text-align: left; width: 100px;" class="">产品ID</div>
+                        </th>
                         <th align="left" abbr="produce_title" axis="col3" class="">
                             <div style="text-align: left; width: 240px;" class="">产品标题</div>
                         </th>
@@ -64,7 +67,7 @@
                             <div style="text-align: center; width: 160px;" class="">发布时间</div>
                         </th>
                         <th align="center" axis="col1" class="handle">
-                            <div style="text-align: center; width: 150px;">操作</div>
+                            <div style="text-align: center; width: 240px;">操作</div>
                         </th>
                         <th style="width:100%" axis="col7">
                             <div></div>
@@ -93,6 +96,9 @@
                         <tr>
                             <td class="sign">
                                 <div style="width: 24px;"><i class="ico-check"></i></div>
+                            </td>
+                            <td align="left" class="">
+                                <div style="text-align: left; width: 100px;">{$vo.id}</div>
                             </td>
                             <td align="left" class="">
                                 <div style="text-align: left; width: 240px;">{$vo.produce_title|getSubstr=0,33}</div>
