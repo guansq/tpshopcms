@@ -837,6 +837,7 @@ body {
 }
 
 .main01 {
+  overflow: hidden;
   margin: 30px auto;
   margin-bottom: 50px;
   position: relative;
