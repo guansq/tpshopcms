@@ -762,6 +762,7 @@ body {
 .fixWauto {
   width: 1300px;
   margin: 0 auto;
+  margin-top: 30px;
 }
 .mg_lr_20{
   margin:0 20px;
@@ -992,6 +993,7 @@ body {
   background-image: url('../image/6.png');
   background-repeat: no-repeat;
   background-size: cover;
+  margin-bottom:30px;
 }
 #headerImages .shadow {
   width: 100%;
