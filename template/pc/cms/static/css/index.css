@@ -981,14 +981,17 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-repeat: no-repeat;
   background-position: center center;
 }
 .producten{
   background-image: url('../image/7.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .producten01{
   background-image: url('../image/6.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 #headerImages .shadow {
   width: 100%;
@@ -1529,15 +1532,23 @@ span.close,.closer{
 }
 .logo_pic01{
   background:url("../image/1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .logo_pic02{
   background:url("../image/2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .logo_pic03{
   background:url("../image/4.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .logo_pic04{
   background:url("../image/5.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .logo_pic.hide{
   display: none;
