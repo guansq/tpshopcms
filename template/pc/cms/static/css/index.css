@@ -1521,6 +1521,7 @@ span.close,.closer{
 }
 
 .logo_pic {
+  background:url("../image/logo.png");
   background-size: cover;
   background-repeat: no-repeat;
   z-index:100;
