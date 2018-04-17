@@ -36,6 +36,9 @@
                 <th align="center" class="sign" axis="col0">
                   <div style="text-align: center; width: 24px;"><i class="ico-check"></i></div>
                 </th>
+                <th align="center" axis="col2">
+                  <div style="text-align: center; width: 60px;">分类ID</div>
+                </th>
                 <th align="center" class="handle" axis="col1">
                   <div style="text-align: center; width: 150px;">操作</div>
                 </th>
@@ -76,6 +79,12 @@
                 	<img src="/public/static/images/tv-expandable.gif" fieldid="2" status="open" nc_type="flex" onClick="treeClicked(this,{$vo[cat_id]})">                    
                 </div>
               </td>
+            <td class="name">
+              <div style="text-align: left; width: 60px;">
+
+                {$vo.cat_id}
+              </div>
+            </td>
               <td class="handle">
                 <div style="text-align:center;   min-width:150px !important; max-width:inherit !important;">
                   <span class="btn" style="padding-left:<?php echo ($vo[level] * 4); ?>em"><em><i class="fa fa-cog"></i>设置<i class="arrow"></i></em>
@@ -95,7 +104,7 @@
               </td>
               <td class="name">
                 <div style="text-align: left; width: 350px;">
-                  <!--<input type="text" value="{$vo.name}" onblur="changeTableVal('article_cat','cat_id',{$vo.cat_id},'cat_name',this)" <in name="vo.id" value="$article_system_id">readonly="readonly"</in>/>-->
+
                     {$vo.name}
                 </div>
               </td>
