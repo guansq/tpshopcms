@@ -72,10 +72,10 @@
   $(function () {
 
     $('.txt_content li').each(function (i, item) {
-      $(item).hover(() => {
+      $(item).hover(function(){
 //        console.log(this);
         $(item).find('.less_meer').stop().fadeIn(3000);
-      }, () => {
+      }, function(){
         $(item).find('.less_meer').stop().fadeOut(3000);
       });
 
@@ -109,10 +109,10 @@
           $(pList[i]).hide()
         }
         undercover();
-        $(thishover).hover(() => {
+        $(thishover).hover(function(){
 //        console.log(this);
           $(thishover).find('.less_meer').stop().fadeIn(300);
-        }, () => {
+        }, function(){
           $(thishover).find('.less_meer').stop().fadeOut(300);
         });
       });
@@ -120,10 +120,10 @@
     });
 
     $('.inli').each(function (i, item) {
-      $(item).hover(() => {
+      $(item).hover(function(){
             $('.hoverturn').css('color', '#F7750B');
             $('.inli p').css('color', '#000');
-          }, () => {
+          }, function(){
             $('.hoverturn').css('color', '#b6b4b4');
             $('.inli p').css('color', '#b6b4b4');
           }
@@ -131,7 +131,7 @@
     })
 
 
-    showcontent = (obj) => {
+     function showcontent (obj) {
       var li = $(obj).parent('.outli')
 //      console.log($(li))
       $(li).find('.NieuwsContentList li').click(function (e) {
@@ -141,10 +141,10 @@
         $(this).find('.para').find('p:gt(0)').hide();
 
 //        console.log(pArr)
-        $(item).hover(() => {
+        $(item).hover(function(){
 //           console.log(this)
           $(this).find('.see_more').stop().fadeIn(300)
-        }, () => {
+        }, function(){
           $(this).find('.see_more').stop().fadeOut(300)
         })
 
@@ -162,10 +162,10 @@
           $('.closer').hide();
           $(this).parent('.inli').removeClass('bounce');
           undercover();
-          $(hover).hover(() => {
+          $(hover).hover(function(){
             console.log(hover)
             $(hover).find('.see_more').stop().fadeIn(300)
-          }, () => {
+          }, function(){
             $(hover).find('.see_more').stop().fadeOut(300)
           })
         })
