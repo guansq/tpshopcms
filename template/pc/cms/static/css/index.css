@@ -580,7 +580,13 @@ body {
   color: #FFCC00;
 }
 
+ main::after{
+  content:'';
+  display: block;
+  height: 400px;
+}
 .footer-bottom {
+  height: 400px;
   overflow: hidden;
   -moz-user-select: none;
   -webkit-user-select: none;
