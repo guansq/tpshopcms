@@ -26,13 +26,13 @@ class Article extends Base
             $years[$i] = $currentYear - $i;
         }
         array_shift($years);
-        $curArticle = Db::name('article')->where("cat_id != 1 and cat_id != 7 and YEAR(FROM_UNIXTIME(publish_time)) = $currentYear")->select();
+        $curArticle = Db::name('article')->where("cat_id != 1 and cat_id != 6 and cat_id != 7 and YEAR(FROM_UNIXTIME(publish_time)) = $currentYear")->select();
         foreach($curArticle as &$item){
             $item['content'] = htmlspecialchars_decode($item['content']);
         }
         $history = [];
         foreach($years as $val){
-            $info = Db::name('article')->where("cat_id != 1 and cat_id != 7 and YEAR(FROM_UNIXTIME(publish_time)) = $val")->select();
+            $info = Db::name('article')->where("cat_id != 1 and cat_id != 6 and cat_id != 7 and YEAR(FROM_UNIXTIME(publish_time)) = $val")->select();
             foreach($info as &$item){
                 $item['content'] = htmlspecialchars_decode($item['content']);
             }
