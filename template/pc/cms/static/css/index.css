@@ -988,12 +988,12 @@ body {
 .producten{
   background-image: url('../image/7.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 .producten01{
   background-image: url('../image/6.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   margin-bottom:30px;
 }
 #headerImages .shadow {
