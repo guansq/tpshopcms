@@ -1,193 +1,191 @@
 <!DOCTYPE html>
 <html>
-<include file="public/miniheader"/>
+<include file="public/miniheader" />
+
 <body>
-<main id="main01" class="main01">
-   <div id="headerImages">
+  <main id="main01" class="main01">
+    <div id="headerImages">
       <div id="headerPhoto" class="producten01"></div>
-   </div>
-   <div class="fixWauto clearfloat">
+    </div>
+    <div class="fixWauto clearfloat">
       <ul class="txt_content ffc_sb">
-         <volist name="curArticle" id="item">
-            <li>
-               <p class="title-p"><span class="src">{$item.publish_time|date="y-m-d",###}</span></p> <span class="close" style="display: none"></span>
-               <h3 class="tit">{$item.title}</h3>
-               <notempty name="$item[thumb]">
-                  <p>
-                     <img src="{$item.thumb}" alt="">
-                  </p>
-               </notempty>
-               {$item.content}
-               <div class="less_meer ffc" style="display: none">
-                  <span class="left"> less meer</span>
-                  <span class="right">+</span>
-               </div>
-            </li>
-         </volist>
-
+        <volist name="curArticle" id="item">
+          <li>
+            <p class="title-p"><span class="src">{$item.publish_time|date="y-m-d",###}</span></p> <span class="close" style="display: none"></span>
+            <h3 class="tit">{$item.title}</h3>
+            <notempty name="$item[thumb]">
+              <p>
+                <img src="{$item.thumb}" alt="">
+              </p>
+            </notempty>
+            {$item.content}
+            <div class="less_meer ffc" style="display: none">
+              <span class="left"> less meer</span>
+              <span class="right">+</span>
+            </div>
+          </li>
+        </volist>
       </ul>
-   </div>
-   <div class="NieuwsList fixWauto pd_t_20">
+    </div>
+    <div class="NieuwsList fixWauto pd_t_20">
       <ul class="outul">
-         <foreach name="history" item="item" key="k">
-            <li class="pd_b_40 outli">
-               <h3 onclick="showcontent(this)" class="Optional_wrap28 pd_b_40">{$k} <i class="down"></i></h3>
-               <ul class="NieuwsContentList ffc_sb">
-                  <volist name="item" id="info">
-                     <li class="inli">
-                        <span class="closer" style="display: none"></span>
-                        <h5 class="hoverturn">{$info.publish_time|date="y-m-d",###}</h5>
-                        <h3 style="font-size:18px;" class="mg_b_20 hoverturn">{$info.title}</h3>
-                        <div class="mg_b_20 para">
-                        <notempty name="$info[thumb]">
-                           <p>
-                              <img src="{$info.thumb}" alt="">
-                           </p>
-                        </notempty>
-                        {$info.content}
-                        </div>
-                        <div class="see_more ffc" style="display: none">
-                           <span class="left"> less meer</span>
-                           <span class="right">+</span>
-                        </div>
-                     </li>
-                  </volist>
-
-               </ul>
-            </li>
-         </foreach>
-
+        <foreach name="history" item="item" key="k">
+          <li class="pd_b_40 outli">
+            <h3 onclick="showcontent(this)" class="Optional_wrap28 pd_b_40">{$k} <i class="down"></i></h3>
+            <ul class="NieuwsContentList ffc_sb">
+              <volist name="item" id="info">
+                <li class="inli">
+                  <span class="closer" style="display: none"></span>
+                  <h5 class="hoverturn">{$info.publish_time|date="y-m-d",###}</h5>
+                  <h3 style="font-size:18px;" class="mg_b_20 hoverturn">{$info.title}</h3>
+                  <div class="mg_b_20 para">
+                    <notempty name="$info[thumb]">
+                      <p>
+                        <img src="{$info.thumb}" alt="">
+                      </p>
+                    </notempty>
+                    {$info.content}
+                  </div>
+                  <div class="see_more ffc" style="display: none">
+                    <span class="left"> less meer</span>
+                    <span class="right">+</span>
+                  </div>
+                </li>
+              </volist>
+            </ul>
+          </li>
+        </foreach>
       </ul>
-   </div>
-</main>
-<div class="maskDiv" style="display: none"></div>
-<!--footer-s-->
-<include file="public/footer"/>
-<!--footer-e-->
-<script type="text/javascript">
-  function cover() {
-    $('.maskDiv').show()
-  }
-  
-  function undercover() {
-    $('.maskDiv').hide()
-  }
-  
-  $(function () {
-    
-    $('.txt_content li').each(function (i, item) {
-      $(item).hover(function(){
-//        console.log(this);
-        $(item).find('.less_meer').stop().fadeIn(3000);
-      }, function(){
-        $(item).find('.less_meer').stop().fadeOut(3000);
-      });
-      
-      var pList = $(item).find('p')
-//      console.log(pList);
-      for (var i = 3; i < pList.length; i++) {
-        $(pList[i]).hide()
-      }
-      
-      $('.less_meer').click(function () {
-//        console.log(this);
-        $(this).parent('li').addClass('bounce');
-        $('.maskDiv').show();
-        $('.bounce').addClass('bounce');
-        $('.txt_content li').find('.close').show();
-        $('.txt_content li').unbind('mouseenter').unbind('mouseleave');
-        $('.less_meer').hide()
-        for (var i = 0; i < pList.length; i++) {
-//          console.log($(pList[i]))
-          $(pList).show()
-        }
-        cover()
-      });
-      
-      var thishover = $(item)
-      $('.close').click(function () {
-        $('.bounce').removeClass('bounce');
-        $('.maskDiv').hide();
-        $('.txt_content li').find('.close').hide();
+    </div>
+  </main>
+  <div class="maskDiv" style="display: none"></div>
+  <!--footer-s-->
+  <include file="public/footer" />
+  <!--footer-e-->
+  <script type="text/javascript">
+    function cover() {
+      $('.maskDiv').show()
+    }
+
+    function undercover() {
+      $('.maskDiv').hide()
+    }
+
+    // $(function () {
+
+      $('.txt_content li').each(function (i, item) {
+        $(item).hover(function () {
+          //        console.log(this);
+          $(item).find('.less_meer').stop().fadeIn(3000);
+        }, function () {
+          $(item).find('.less_meer').stop().fadeOut(3000);
+        });
+
+        var pList = $(item).find('p')
+        //      console.log(pList);
         for (var i = 3; i < pList.length; i++) {
           $(pList[i]).hide()
         }
-        undercover();
-        $(thishover).hover(function(){
-//        console.log(this);
-          $(thishover).find('.less_meer').stop().fadeIn(300);
-        }, function(){
-          $(thishover).find('.less_meer').stop().fadeOut(300);
-        });
-      });
-      
-    });
-    
-    $('.inli').each(function (i, item) {
-      $(item).hover(function(){
-            $('.hoverturn').css('color', '#F7750B');
-            $('.inli p').css('color', '#000');
-          }, function(){
-            $('.hoverturn').css('color', '#b6b4b4');
-            $('.inli p').css('color', '#b6b4b4');
-          }
-      )
-    })
-    
-    
-    function showcontent (obj) {
-      var li = $(obj).parent('.outli')
-//      console.log($(li))
-      $(li).find('.NieuwsContentList li').click(function (e) {
-        e.stopPropagation();
-      })
-      $(li).find('.NieuwsContentList li').each(function (i, item) {
-        $(this).find('.para').find('p:gt(0)').hide();
 
-//        console.log(pArr)
-        $(item).hover(function(){
-//           console.log(this)
-          $(this).find('.see_more').stop().fadeIn(300)
-        }, function(){
-          $(this).find('.see_more').stop().fadeOut(300)
-        })
-        
-        $('.see_more').click(function () {
-          $('.closer').show();
-          $(this).parent('.inli').addClass('bounce');
-          $('.NieuwsContentList li').unbind('mouseenter').unbind('mouseleave');
-          $(this).hide();
-          $(this).siblings('.para').find('p').show();
-          cover();
-        })
-        
-        var hover = $(item)
-        $('.closer').click(function () {
-          $('.closer').hide();
-          $(this).parent('.inli').removeClass('bounce');
+        $('.less_meer').click(function () {
+          //        console.log(this);
+          $(this).parent('li').addClass('bounce');
+          $('.maskDiv').show();
+          $('.bounce').addClass('bounce');
+          $('.txt_content li').find('.close').show();
+          $('.txt_content li').unbind('mouseenter').unbind('mouseleave');
+          $('.less_meer').hide()
+          for (var i = 0; i < pList.length; i++) {
+            //          console.log($(pList[i]))
+            $(pList).show()
+          }
+          cover()
+        });
+
+        var thishover = $(item)
+        $('.close').click(function () {
+          $('.bounce').removeClass('bounce');
+          $('.maskDiv').hide();
+          $('.txt_content li').find('.close').hide();
+          for (var i = 3; i < pList.length; i++) {
+            $(pList[i]).hide()
+          }
           undercover();
-          $(hover).hover(function(){
-            console.log(hover)
-            $(hover).find('.see_more').stop().fadeIn(300)
-          }, function(){
-            $(hover).find('.see_more').stop().fadeOut(300)
+          $(thishover).hover(function () {
+            //        console.log(this);
+            $(thishover).find('.less_meer').stop().fadeIn(300);
+          }, function () {
+            $(thishover).find('.less_meer').stop().fadeOut(300);
+          });
+        });
+
+      });
+
+      $('.inli').each(function (i, item) {
+        $(item).hover(function () {
+          $('.hoverturn').css('color', '#F7750B');
+          $('.inli p').css('color', '#000');
+        }, function () {
+          $('.hoverturn').css('color', '#b6b4b4');
+          $('.inli p').css('color', '#b6b4b4');
+        }
+        )
+      })
+
+      function showcontent(obj) {
+        var li = $(obj).parent('.outli')
+        //      console.log($(li))
+        $(li).find('.NieuwsContentList li').click(function (e) {
+          e.stopPropagation();
+        })
+        $(li).find('.NieuwsContentList li').each(function (i, item) {
+          $(this).find('.para').find('p:gt(0)').hide();
+
+          //        console.log(pArr)
+          $(item).hover(function () {
+            //           console.log(this)
+            $(this).find('.see_more').stop().fadeIn(300)
+          }, function () {
+            $(this).find('.see_more').stop().fadeOut(300)
+          })
+
+          $('.see_more').click(function () {
+            $('.closer').show();
+            $(this).parent('.inli').addClass('bounce');
+            $('.NieuwsContentList li').unbind('mouseenter').unbind('mouseleave');
+            $(this).hide();
+            $(this).siblings('.para').find('p').show();
+            cover();
+          })
+
+          var hover = $(item)
+          $('.closer').click(function () {
+            $('.closer').hide();
+            $(this).parent('.inli').removeClass('bounce');
+            undercover();
+            $(hover).hover(function () {
+              console.log(hover)
+              $(hover).find('.see_more').stop().fadeIn(300)
+            }, function () {
+              $(hover).find('.see_more').stop().fadeOut(300)
+            })
           })
         })
-      })
-      
-      var i = $(li).find('h3').find('i');
-      if (i.hasClass('up')) {
-        i.removeClass('up');
-        i.addClass('down');
-      } else {
-        i.removeClass('down');
-        i.addClass('up');
-      }
-      $(li).find('.NieuwsContentList li').toggle(300);
-    };
-    
-  })
 
-</script>
+        var i = $(li).find('h3').find('i');
+        if (i.hasClass('up')) {
+          i.removeClass('up');
+          i.addClass('down');
+        } else {
+          i.removeClass('down');
+          i.addClass('up');
+        }
+        $(li).find('.NieuwsContentList li').toggle(300);
+      };
+
+    // })
+
+  </script>
 </body>
+
 </html>
