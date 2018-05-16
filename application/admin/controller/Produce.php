@@ -177,8 +177,15 @@ class Produce extends Base
         } elseif ($data['act'] == 'edit') {
 
             //$r = $model->allowField(true)->isUpdate(true)->save($data, ['id' => $data['produce_id']]);
-            print_r($data);die;
-            $r = D('produce')->where('produce_id=' . $data['produce_id'])->save($data);
+            //print_r($data);die;
+            $r = D('produce')->where('produce_id=' . $data['produce_id'])->save([
+                'cat_id' => $data['cat_id'],
+                'produce_title' => $data['produce_title'],
+                'produce_desc' => $data['produce_desc'],
+                'content' => $data['content'],
+                'produce_cover' => $data['produce_cover'],
+                'produce_video' => $data['produce_video'],
+            ]);
             //print_r($r);die;
             if (!empty($data['img_title'])) {
                 $temp = [];
