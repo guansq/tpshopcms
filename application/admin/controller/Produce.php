@@ -12,7 +12,6 @@ use app\admin\logic\ProduceCatLogic;
 use think\AjaxPage;
 use think\Page;
 use think\Db;
-use app\admin\model\Produce as ProduceData;
 
 class Produce extends Base
 {
@@ -176,10 +175,10 @@ class Produce extends Base
                 }
             }
         } elseif ($data['act'] == 'edit') {
-            //print_r($data);
-            $model = new ProduceData();
-            $r = $model->allowField(true)->isUpdate(true)->save($data, ['id' => $data['produce_id']]);
-            //$r = D('produce')->allowField(true)->isUpdate(true)->where('produce_id=' . $data['produce_id'])->save($data);
+
+            //$r = $model->allowField(true)->isUpdate(true)->save($data, ['id' => $data['produce_id']]);
+            print_r($data);die;
+            $r = D('produce')->where('produce_id=' . $data['produce_id'])->save($data);
             //print_r($r);die;
             if (!empty($data['img_title'])) {
                 $temp = [];
