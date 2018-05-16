@@ -179,10 +179,10 @@ class Produce extends Base
             //$r = $model->allowField(true)->isUpdate(true)->save($data, ['id' => $data['produce_id']]);
             //print_r($data);die;
             $r = D('produce')->where('produce_id=' . $data['produce_id'])->save([
-                'cat_id' => $data['cat_id'],
+                'cat_id'        => $data['cat_id'],
                 'produce_title' => $data['produce_title'],
-                'produce_desc' => $data['produce_desc'],
-                'content' => $data['content'],
+                'produce_desc'  => $data['produce_desc'],
+                'content'       => $data['content'],
                 'produce_cover' => $data['produce_cover'],
                 'produce_video' => $data['produce_video'],
             ]);
@@ -195,7 +195,7 @@ class Produce extends Base
                     $temp['img_sort']   = $key;
                     $temp['img_desc']   = $val;
                     if (isset($data['img_id'][$key])) {
-                        D('produce_images')->where('produce_id', $data['img_id'][$key])->update($temp);
+                        D('produce_images')->where('img_id', $data['img_id'][$key])->update($temp);
                     } else {
                         D('produce_images')->add($temp);
                     }
