@@ -583,7 +583,7 @@ body {
  main::after{
   content:'';
   display: block;
-  height: 400px;
+  /*height: 400px;*/
 }
 .footer-bottom {
   height: 400px;
