@@ -63,7 +63,7 @@ class Controller
         $this->assign('action',ACTION_NAME);
         $this->assign('template_now_time', time());//模板现在时间
         
-        if(MODULE_NAME == 'home'  && CONTROLLER_NAME == 'Index' && ACTION_NAME == 'index' && true == isMobile())
+        /*if(MODULE_NAME == 'home'  && CONTROLLER_NAME == 'Index' && ACTION_NAME == 'index' && true == isMobile())
         {
             cookie('is_mobile','1',3600);
             header("Location: ".U('Mobile/Index/index'));
@@ -72,7 +72,7 @@ class Controller
         else
         {
             cookie('is_mobile','0',3600);
-        }
+        }*/
          
          
          
