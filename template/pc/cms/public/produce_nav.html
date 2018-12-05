@@ -24,7 +24,7 @@
     </div>
     <div id="terugNaarOverzicht">
         <ul class="clearfloat">
-            <volist name="produce" id="item" offset="0" length='8'>
+            <volist name="produce" id="item" >
                 <li>
                     <a href="{:url('/home/Produce/produceDetail',array('produce_id'=>$item['produce_id']))}" target="_blank">{$item.produce_title} </a>
                 </li>

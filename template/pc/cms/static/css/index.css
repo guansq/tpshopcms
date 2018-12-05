@@ -934,30 +934,35 @@ body {
 @media screen and (max-width: 495px) {
   .intro_pd li {
     width: 100%;
+    border:1px solid #FFCC00;
   }
 }
 
 @media screen and (min-width: 496px) {
   .intro_pd li {
     width: 50%;
+    border:1px solid #FFCC00;
   }
 }
 
 @media screen and (min-width: 781px) {
   .intro_pd li {
     width: 30%;
+    border:1px solid #FFCC00;
   }
 }
 
 @media screen and (min-width: 1041px) {
   .intro_pd li {
     width: 25%;
+    border:1px solid #FFCC00;
   }
 }
 
 @media screen and (min-width: 1201px) {
   .intro_pd li {
     width: 20%;
+    border:1px solid #FFCC00;
   }
 }
 
@@ -1528,7 +1533,7 @@ span.close,.closer{
 }
 
 .logo_pic {
-  background:url("../image/logo.png");
+  background:url("../image/bg11.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   z-index:100;
